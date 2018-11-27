@@ -9,8 +9,10 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import vue.VueEtudiant;
+import vue.VueImportation;
 
 public class ControleurImportationListe extends JButton implements ActionListener{
+	VueImportation vi;
 	JFileChooser explorateur;
 	VueEtudiant vueEtu;
 	
@@ -31,6 +33,7 @@ public class ControleurImportationListe extends JButton implements ActionListene
 		int returnVal = chooser.showOpenDialog(getParent());
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			vueEtu.setTextChemin(chooser.getSelectedFile().getName());  
+			this.vi= new VueImportation(vueEtu);
 			
 
 		}
