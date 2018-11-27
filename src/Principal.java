@@ -1,4 +1,5 @@
 import vue.BarreOutils;
+import vue.VueEtudiant;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +26,8 @@ public class Principal {
         //Barre d'outil
         BarreOutils barreOutils = new BarreOutils();
         JFrame fenetre = new JFrame("EtuPlacement");
-
+        
+        fenetre.add(new VueEtudiant());
         fenetre.setJMenuBar(barreOutils);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setSize(new Dimension(400,400));
