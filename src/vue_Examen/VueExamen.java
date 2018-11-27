@@ -15,6 +15,8 @@ import controleur_Examen.ControleurExamen;
 import vue.BarreOutils;
 
 public class VueExamen extends JPanel{
+	
+	ControleurExamen controleur_Exam = new ControleurExamen();
 	/**
 	 * Les JPanel "jp1" contiennent les JPanel "jp2" qui contiennent les "jp3"
 	 */
@@ -69,6 +71,13 @@ public class VueExamen extends JPanel{
 		jp3_nomExamen.add(jl_nom);
 		jp3_matiereExamen.add(jl_matiere);
 		jp3_dateExamen.add(jl_date);
+		
+		/**
+		 * ajout de JTextfield du controleur "controleur_Exam" sur "jp3"
+		 */
+		jp3_nomExamen.add(controleur_Exam.getJtf_nom());
+		jp3_matiereExamen.add(controleur_Exam.getJtf_matiere());
+		jp3_dateExamen.add(controleur_Exam.getJtf_Date());
 
 		/**
 		 * ajout de "jp3" aux "jp2"
@@ -105,7 +114,7 @@ public class VueExamen extends JPanel{
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setSize(new Dimension(400,400));
+		fenetre.setSize(new Dimension(700,600));
 		
 		VueExamen vueExam = new VueExamen();
 		vueExam.setSize(new Dimension(100, 100));
