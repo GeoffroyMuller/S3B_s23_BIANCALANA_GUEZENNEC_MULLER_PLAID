@@ -27,13 +27,19 @@ public class VueExamen extends JPanel{
 	private JPanel jp2_contrainte = new JPanel();  		//JPanel 2 contient la partie de gestion des contraintes pour un Examen
 	
 	private JPanel jp3_nomExamen = new JPanel();			//JPanel 3 contient le Nom de l'Examen
-	private JPanel jp3_dateExamen = new JPanel();			//JPanel 3 contient la Date de l'Examen
 	private JPanel jp3_matiereExamen = new JPanel();		//JPanel 3 contient la Matiere de l'Examen
+	private JPanel jp3_dateExamen = new JPanel();			//JPanel 3 contient la Date de l'Examen
+
+	private JLabel jl_nom = new JLabel("Nom");							//JLabel Nom
+	private JLabel jl_date = new JLabel("Date");						//JLabel Date
+	private JLabel jl_matiere = new JLabel("Matiere");					//JLabel Matiere
+	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 	//JLabel Groupe Participant
+	private JLabel jl_sallePriori =new JLabel("Salle par priorité");	//JLabel Salle par priorité
+	private JLabel jl_contrainte =new JLabel("Contrainte");				//JLabel Contrainte
 	
-	private JLabel jl_nom = new JLabel("Nom");				//JLabel Nom
-	private JLabel jl_date = new JLabel("Date");			//JLabel Date
-	private JLabel jl_matiere = new JLabel("Matiere");		//JLabel Matiere
-	
+	/**
+	 * Constructeur principale
+	 */
 	public VueExamen() {
 		
 		this.setBackground(Color.black);
@@ -41,28 +47,47 @@ public class VueExamen extends JPanel{
 		jp1_creation.setBackground(Color.darkGray);
 		jp1_affichListEtu.setBackground(Color.darkGray);
 		
-		jp2_infoExamen.setBackground(Color.blue);
+		jp2_infoExamen.setBackground(Color.magenta);
 		jp2_grpParticip.setBackground(Color.red);
-		jp2_sallePriori.setBackground(Color.blue);
+		jp2_sallePriori.setBackground(Color.magenta);
 		jp2_contrainte.setBackground(Color.red);
 		
 		jp3_nomExamen.setBackground(Color.green);
-		jp3_dateExamen.setBackground(Color.green);
 		jp3_matiereExamen.setBackground(Color.green);
+		jp3_dateExamen.setBackground(Color.green);
 		
+		/**
+		 * ajout de label aux "jp2"
+		 */
+		jp2_grpParticip.add(jl_grpParticip);
+		jp2_sallePriori.add(jl_sallePriori);
+		jp2_contrainte.add(jl_contrainte);
+		
+		/**
+		 * ajout de label aux "jp3"
+		 */
 		jp3_nomExamen.add(jl_nom);
-		jp3_dateExamen.add(jl_date);
 		jp3_matiereExamen.add(jl_matiere);
-		
+		jp3_dateExamen.add(jl_date);
+
+		/**
+		 * ajout de "jp3" aux "jp2"
+		 */
 		jp2_infoExamen.add(jp3_nomExamen);
-		jp2_infoExamen.add(jp3_dateExamen);
 		jp2_infoExamen.add(jp3_matiereExamen);
-		
+		jp2_infoExamen.add(jp3_dateExamen);
+
+		/**
+		 * ajout de "jp2" aux "jp1"
+		 */
 		jp1_creation.add(jp2_infoExamen);
 		jp1_creation.add(jp2_grpParticip);
 		jp1_creation.add(jp2_sallePriori);
 		jp1_creation.add(jp2_contrainte);
 		
+		/**
+		 * ajout de "jps" aux "this"
+		 */
 		this.add(jp1_creation);
 		this.add(jp1_affichListEtu);
 	}
@@ -71,6 +96,11 @@ public class VueExamen extends JPanel{
 		super.paintComponent(g);
 
 	}
+	
+	/**
+	 * methode main de test interne a VueExamen
+	 * @param arg
+	 */
 	public static void main(String arg[]) {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
