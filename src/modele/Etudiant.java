@@ -7,9 +7,14 @@ import java.util.Comparator;
  * The Class Etudiant.
  */
 public class Etudiant {
-
+	
+	/** The id etudiant. */
+	private static int idEtudiant=0;
 	/** The nom. */
 	private String nom;
+	
+	/** The id. */
+	private int id;
 	
 	/** The prenom. */
 	private String prenom;
@@ -34,13 +39,6 @@ public class Etudiant {
 	 */
 	public Etudiant() {
 		// TODO Auto-generated constructor stub
-		this.nom="";
-		this.prenom="";
-		this.groupe="";
-		this.email="";
-		this.prendreEnCompteDansLePlacement=true;
-		this.tiersTemps=false;
-		this.handicap=false;
 	}
 	
 	/**
@@ -58,6 +56,8 @@ public class Etudiant {
 		this.prendreEnCompteDansLePlacement=true;
 		this.tiersTemps=false;
 		this.handicap=false;
+		this.idEtudiant++;
+		this.id=this.idEtudiant;
 	}
 	
 	/** The Comparator nom. */
@@ -77,6 +77,16 @@ public class Etudiant {
             return e1.getPrenom().compareTo(e2.getPrenom());
         }
     };
+    
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
 
 	/**
 	 * Gets the nom.
