@@ -17,7 +17,7 @@ public class ControleurImportationListe extends JButton implements ActionListene
 	VueEtudiant vueEtu;
 	
 	public ControleurImportationListe(VueEtudiant ve) {
-		this.setText("Importer une liste d'étudiant");
+		this.setText("Importer une liste d'Etudiant");
 		this.addActionListener(this);
 		this.vueEtu = ve;
 		// TODO Auto-generated constructor stub
