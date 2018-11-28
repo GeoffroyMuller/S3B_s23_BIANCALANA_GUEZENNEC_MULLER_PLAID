@@ -10,7 +10,7 @@ import java.util.Collections;
 public class Groupe {
 	
 	/** The groupe. */
-	private String groupe;
+	private String nom;
 	
 	/** The liste etudiants. */
 	private ArrayList<Etudiant> listeEtudiants;
@@ -25,10 +25,10 @@ public class Groupe {
 	/**
 	 * Instantiates a new groupe.
 	 *
-	 * @param groupe the groupe
+	 * @param pnom the pnom
 	 */
-	public Groupe(String groupe) {
-		this.groupe=groupe;
+	public Groupe(String pnom) {
+		this.nom=pnom;
 		this.listeEtudiants=new ArrayList<Etudiant>();
 	}
 	
@@ -39,8 +39,11 @@ public class Groupe {
 	 */
 	public void ajouterEtudiant(Etudiant etudiant) {
 		boolean a=true;
+		if(!etudiant.getGroupe().equals(this.nom)) {
+			a=false;
+		}
 		for(Etudiant e : this.listeEtudiants) {
-			if(e==etudiant) {
+			if(e.getId()==etudiant.getId()) {
 				a=false;
 			}
 		}
@@ -56,7 +59,7 @@ public class Groupe {
 	 */
 	public void supprimmerEtudiant(Etudiant etudiant) {
 		for(int i = 0 ; i < this.listeEtudiants.size(); i++) {
-			if(this.listeEtudiants.get(i)==etudiant) {
+			if(this.listeEtudiants.get(i).getId()==etudiant.getId()) {
 				this.listeEtudiants.remove(i);
 			}
 		}
@@ -82,16 +85,16 @@ public class Groupe {
 	 * @return the groupe
 	 */
 	public String getGroupe() {
-		return groupe;
+		return nom;
 	}
 
 	/**
 	 * Sets the groupe.
 	 *
-	 * @param groupe the groupe to set
+	 * @param nom the new groupe
 	 */
-	public void setGroupe(String groupe) {
-		this.groupe = groupe;
+	public void setGroupe(String nom) {
+		this.nom = nom;
 	}
 
 	/**
