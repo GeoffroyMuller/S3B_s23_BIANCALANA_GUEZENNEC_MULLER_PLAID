@@ -44,6 +44,9 @@ public class VueExamen extends JPanel{
 	 */
 	public VueExamen() {
 		
+		/**
+		 * ajout de couleur de font au JPanel
+		 */
 		this.setBackground(Color.black);
 		
 		jp1_creation.setBackground(Color.darkGray);
