@@ -41,6 +41,8 @@ public class VueExamen extends JPanel{
 	private JPanel jp4_nomExamen = new JPanel();			//JPanel 4 contient le Nom de l'Examen
 	private JPanel jp4_matiereExamen = new JPanel();		//JPanel 4 contient la Matiere de l'Examen
 	private JPanel jp4_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
+	
+	private Listeur listeur;
 
 	private JLabel jl_nom = new JLabel("Nom");							//JLabel Nom
 	private JLabel jl_date = new JLabel("Date");						//JLabel Date
@@ -55,7 +57,8 @@ public class VueExamen extends JPanel{
 	 */
 	public VueExamen() {
 		examen = new Examen();
-		this.setBackground(Color.black);
+		listeur = new Listeur(examen.getListecateg());
+		this.setBackground(Color.darkGray);
 		creerZoneCreation();
 		creerZoneAffichageEtu();
 	}
@@ -75,22 +78,24 @@ public class VueExamen extends JPanel{
 		jp4_matiereExamen.setBackground(Color.green);
 		jp4_dateExamen.setBackground(Color.green);
 		
-		jp2_creation.setBackground(Color.darkGray);
-		//ajout de label aux "jp3"
+		jp2_creation.setBackground(Color.black);
+
+		//ajout de label aux "jp4"
 		jp4_grpParticip.add(jl_grpParticip);
 		jp4_sallePriori.add(jl_sallePriori);
 		jp4_contrainte.add(jl_contrainte);
+
+		jp4_nomExamen.add(jl_nom);
+		jp4_matiereExamen.add(jl_matiere);
+		jp4_dateExamen.add(jl_date);
 		
 		//ajout de JTextfield du controleur "controleur_Exam" sur "jp4"
 		jp4_nomExamen.add(controleur_Exam.getJtf_nom());
 		jp4_matiereExamen.add(controleur_Exam.getJtf_matiere());
 		jp4_dateExamen.add(controleur_Exam.getJtf_Date());
 		
-		//ajout de label aux "jp4"
-		jp4_nomExamen.add(jl_nom);
-		jp4_matiereExamen.add(jl_matiere);
-		jp4_dateExamen.add(jl_date);
-
+		//ajout sur "jp4"
+		jp4_grpParticip.add(listeur);
 		
 		//ajout de "jp4" aux "jp3"
 		jp3_infoExamen.add(jp4_nomExamen);
@@ -170,7 +175,7 @@ public class VueExamen extends JPanel{
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setSize(new Dimension(700,600));
+		fenetre.setSize(new Dimension(800,600));
 		
 		VueExamen vueExam = new VueExamen();
 		vueExam.setSize(new Dimension(100, 100));

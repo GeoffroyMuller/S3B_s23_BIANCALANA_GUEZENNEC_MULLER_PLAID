@@ -31,17 +31,30 @@ public class Listeur extends JPanel{
 	private void creeraffichage() {
 		
 		jp1_listeprincipale.setBackground(Color.gray);
-		jp1_grpSelection.setBackground(Color.red);
+		jp1_grpSelection.setBackground(Color.blue);
 		jpp_principale.setBackground(Color.black);
 		
 		//pour chaque categorie un jpanel est creer puis placer dans l'affichage
-		for (Categorie categorie : listecategorie) {
+		try {
+			for (Categorie categorie : listecategorie) {
+				JPanel jp = new JPanel();
+				jp.setPreferredSize(new Dimension(200, 25));
+				JLabel jl = new JLabel(categorie.getNom());
+				jp.add(jl);
+				jp.setBackground(Color.red);
+				jp1_listeprincipale.add(jp);
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
 			JPanel jp = new JPanel();
-			JLabel jl = new JLabel(categorie.getNom());
+			jp.setPreferredSize(new Dimension(200, 25));
+			JLabel jl = new JLabel("Aucune Catégorie");
 			jp.add(jl);
-			jp.setBackground(Color.magenta);
+			jp.setBackground(Color.red);
 			jp1_listeprincipale.add(jp);
+			System.out.println("Aucune Catégorie");
 		}
+
 		
 		scrollpane = new JScrollPane(jp1_listeprincipale);
 		jpp_principale.add(scrollpane, BorderLayout.NORTH);

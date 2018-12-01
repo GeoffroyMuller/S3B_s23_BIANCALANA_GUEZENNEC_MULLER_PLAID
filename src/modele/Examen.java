@@ -10,10 +10,27 @@ public class Examen {
 	private ArrayList<Categorie> listecateg;
 	
 	
+	
+	public String getNom() {
+		return nom;
+	}
+	public String getMatiere() {
+		return matiere;
+	}
+	public String getDate() {
+		return date;
+	}
+	public ArrayList<Categorie> getListecateg() {
+		return listecateg;
+	}
+	
+	
 	//Groupe Participant
 	
 	//Salle par Priorité
 	
 	//Contrainte
+	
+	
 	
 }
