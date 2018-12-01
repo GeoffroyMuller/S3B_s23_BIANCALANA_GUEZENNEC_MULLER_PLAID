@@ -15,11 +15,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
 import controleur_Examen.ControleurExamen;
+import modele.Examen;
 import vue.BarreOutils;
 
 public class VueExamen extends JPanel{
 	
-	ControleurExamen controleur_Exam = new ControleurExamen();
+	private Examen examen;
+	private ControleurExamen controleur_Exam = new ControleurExamen();
 	
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
@@ -32,7 +34,6 @@ public class VueExamen extends JPanel{
 	
 	private JPanel jp3_infoExamen = new JPanel();		//JPanel 3 contient les JPanel de Nom, Date et de Matiere d'un Examen
 	private JPanel jp3_centrecreation = new JPanel(new BorderLayout()); //JPanel 3 contient les JPanel de grpParticip, sallePriori, contrainte
-	private JButton jb_creerExam = new JButton("Créer l'Examen");
 	
 	private JPanel jp4_grpParticip = new JPanel();		//JPanel 3 contient la partie de gestion des groupes pour un Examen
 	private JPanel jp4_sallePriori = new JPanel();		//JPanel 3 contient la partie de gestion des salles utiliser pour un Examen
@@ -53,6 +54,7 @@ public class VueExamen extends JPanel{
 	 * Constructeur principale
 	 */
 	public VueExamen() {
+		examen = new Examen();
 		this.setBackground(Color.black);
 		creerZoneCreation();
 		creerZoneAffichageEtu();
@@ -101,7 +103,7 @@ public class VueExamen extends JPanel{
 		//ajout de "jp3" aux "jp2"
 		jp2_creation.add(jp3_infoExamen, BorderLayout.NORTH);
 		jp2_creation.add(jp3_centrecreation, BorderLayout.CENTER);
-		jp2_creation.add(jb_creerExam, BorderLayout.SOUTH);
+		jp2_creation.add(controleur_Exam.getJb_creerExam(), BorderLayout.SOUTH);
 		
 		//ajout de "jp2" aux "jpp"
 	    jpp_creation_marge.add(jp2_creation,BorderLayout.CENTER);
