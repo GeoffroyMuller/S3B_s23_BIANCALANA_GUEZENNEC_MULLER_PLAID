@@ -57,7 +57,7 @@ public class VueExamen extends JPanel{
 	 */
 	public VueExamen() {
 		examen = new Examen();
-		listeur = new Listeur(examen.getListecateg(), true);
+		listeur = new Listeur(examen.getListecateg(), controleur_Exam);
 		this.setBackground(Color.darkGray);
 		creerZoneCreation();
 		creerZoneAffichageEtu();
