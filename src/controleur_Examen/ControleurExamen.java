@@ -22,9 +22,9 @@ public class ControleurExamen {
 		/**
 		 * dimensionne les JTextFields 
 		 */
-		jtf_nom.setPreferredSize(new Dimension(100, 100));
-		jtf_matiere.setPreferredSize(new Dimension(100, 100));
-		jtf_date.setPreferredSize(new Dimension(100, 100));
+		jtf_nom.setPreferredSize(new Dimension(100, 50));
+		jtf_matiere.setPreferredSize(new Dimension(100, 50));
+		jtf_date.setPreferredSize(new Dimension(100, 50));
 
 		/**
 		 * ajout d'ActionListener sur les JTextFields
