@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -12,19 +13,20 @@ public class ControleurExamen {
 	private JTextField jtf_nom;		//JTextField : gere le nom de l'examen
 	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
 	private JTextField jtf_date;	//JTextField : gere la date de l'examen
-
+	private JButton jb_creerExam;	//JButton : creer un Examen
 	
 	public ControleurExamen() {
 		jtf_nom = new JTextField();
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
+		jb_creerExam = new JButton("Créer l'Examen");
 		
 		/**
 		 * dimensionne les JTextFields 
 		 */
-		jtf_nom.setPreferredSize(new Dimension(100, 100));
-		jtf_matiere.setPreferredSize(new Dimension(100, 100));
-		jtf_date.setPreferredSize(new Dimension(100, 100));
+		jtf_nom.setPreferredSize(new Dimension(150, 30));
+		jtf_matiere.setPreferredSize(new Dimension(150, 30));
+		jtf_date.setPreferredSize(new Dimension(150, 30));
 
 		/**
 		 * ajout d'ActionListener sur les JTextFields
@@ -53,6 +55,14 @@ public class ControleurExamen {
 				System.out.println("CtrlExam_jtf_Date: "+((JTextField)e.getSource()).getText());
 			}
 		});
+		jb_creerExam.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Examen creer");
+			}
+		});
 		
 		
 	}
@@ -70,6 +80,11 @@ public class ControleurExamen {
 
 	public JTextField getJtf_Date() {
 		return jtf_date;
+	}
+
+
+	public JButton getJb_creerExam() {
+		return jb_creerExam;
 	}
 	
 	
