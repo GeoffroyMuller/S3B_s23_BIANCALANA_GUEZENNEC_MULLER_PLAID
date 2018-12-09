@@ -1,4 +1,4 @@
-package vue_Examen;
+package composante_graphique;
 
 import java.awt.BorderLayout;
 import java.awt.Checkbox;
