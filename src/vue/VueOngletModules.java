@@ -20,7 +20,7 @@ public class VueOngletModules extends JPanel {
         this.setLayout(null);
         this.onglets.add("Examen",new VueExamen());
         this.onglets.add("Etudiants",moduleEtudiant);
-        this.onglets.add("Salles",test);
+        this.onglets.add("Salles",new VueSalle());
         this.onglets.setBounds(0,0,800,1000);
         this.onglets.setToolTipTextAt(0,"Module permettant la gestion de liste");
         this.add(this.onglets);

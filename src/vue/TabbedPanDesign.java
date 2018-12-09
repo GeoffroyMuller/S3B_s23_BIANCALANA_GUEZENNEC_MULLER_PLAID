@@ -24,7 +24,7 @@ public class TabbedPanDesign extends BasicTabbedPaneUI {
         g.setColor(new Color(249, 250, 255));
         g.fillRect(x, y, w, h);
         if(isSelected) {
-            g.setColor(new Color(196, 197, 198));
+            g.setColor(new Color(238, 239, 239));
             g.fillRect(x, y, w, h+1);
         }
     }
