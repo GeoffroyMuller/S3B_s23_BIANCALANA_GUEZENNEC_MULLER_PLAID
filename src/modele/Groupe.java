@@ -8,30 +8,23 @@ import java.util.Collections;
  * The Class Groupe.
  */
 public class Groupe {
-	
+
 	/** The groupe. */
 	private String nom;
-	
+
 	/** The liste etudiants. */
 	private ArrayList<Etudiant> listeEtudiants;
-	
-	/**
-	 * Instantiates a new groupe.
-	 */
-	public Groupe() {
-		// TODO Auto-generated constructor stub
-	}
-	
+
 	/**
 	 * Instantiates a new groupe.
 	 *
-	 * @param pnom the pnom
+	 * @param nom the nom
 	 */
-	public Groupe(String pnom) {
-		this.nom=pnom;
+	public Groupe(String nom) {
+		this.nom=nom;
 		this.listeEtudiants=new ArrayList<Etudiant>();
 	}
-	
+
 	/**
 	 * Ajouter etudiant.
 	 *
@@ -39,9 +32,6 @@ public class Groupe {
 	 */
 	public void ajouterEtudiant(Etudiant etudiant) {
 		boolean a=true;
-		if(!etudiant.getGroupe().equals(this.nom)) {
-			a=false;
-		}
 		for(Etudiant e : this.listeEtudiants) {
 			if(e.getId()==etudiant.getId()) {
 				a=false;
@@ -51,7 +41,7 @@ public class Groupe {
 			this.listeEtudiants.add(etudiant);
 		}
 	}
-	
+
 	/**
 	 * Supprimmer etudiant.
 	 *
@@ -64,14 +54,14 @@ public class Groupe {
 			}
 		}
 	}
-	
+
 	/**
 	 * Trie par nom.
 	 */
 	public void trieParNom(){
 		Collections.sort(this.listeEtudiants, Etudiant.ComparatorNom);
 	}
-	
+
 	/**
 	 * Trie par prenom.
 	 */
@@ -114,5 +104,5 @@ public class Groupe {
 	public void setListeEtudiants(ArrayList<Etudiant> listeEtudiants) {
 		this.listeEtudiants = listeEtudiants;
 	}
-	
+
 }
