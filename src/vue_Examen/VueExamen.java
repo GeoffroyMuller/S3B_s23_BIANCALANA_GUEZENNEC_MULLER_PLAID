@@ -2,19 +2,26 @@ package vue_Examen;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Label;
+import java.awt.LayoutManager;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
-import composante_graphique.Listeur;
+import composante_graphique.ListeurCategorie;
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
 import vue.BarreOutils;
@@ -27,6 +34,8 @@ public class VueExamen extends JPanel{
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
 	 */
+	private JPanel jp_all = new JPanel(new BorderLayout());	//JPanel qui contient tous les autre JPanel
+	
 	private JPanel jpp_creation_marge = new JPanel(new BorderLayout());				//JPanel principal contient les JPanel qui concerne la creation d'un Examen et contour
 	private JPanel jpp_affichListEtu_marge = new JPanel(new BorderLayout());		//JPanel principal contient le JPanel de liste d'etudiant et contour
 
@@ -43,7 +52,19 @@ public class VueExamen extends JPanel{
 	private JPanel jp4_matiereExamen = new JPanel();		//JPanel 4 contient la Matiere de l'Examen
 	private JPanel jp4_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
 	
-	private Listeur listeur;
+	private JPanel contour_creation_South = new JPanel();
+	private JPanel contour_creation_North = new JPanel();
+	private JPanel contour_creation_East = new JPanel();
+	private JPanel contour_creation_West = new JPanel();
+    
+	private JPanel contour_affichContour_South = new JPanel();
+	private JPanel contour_affichContour_North = new JPanel();
+	private JPanel contour_affichContour_East = new JPanel();
+	private JPanel contour_affichContour_West = new JPanel();
+	
+	private JPanel jp_boutton = new JPanel();		//JPanel contient le boutton de creation d'examen
+	
+	private ListeurCategorie listeur;
 
 	private JLabel jl_nom = new JLabel("Nom");							//JLabel Nom
 	private JLabel jl_date = new JLabel("Date");						//JLabel Date
@@ -52,40 +73,39 @@ public class VueExamen extends JPanel{
 	private JLabel jl_sallePriori = new JLabel("Salle par priorité");	//JLabel Salle par priorité
 	private JLabel jl_contrainte = new JLabel("Contrainte");				//JLabel Contrainte
 	
-
+	
+	private JButton jb_creerExam = controleur_Exam.getJb_creerExam();
+	
 	/**
 	 * Constructeur principale
 	 */
 	public VueExamen() {
 		examen = new Examen();
-		listeur = new Listeur(examen.getListecateg(), controleur_Exam);
-		this.setBackground(Color.darkGray);
+		listeur = new ListeurCategorie(examen.getListecateg(), controleur_Exam);
+		this.setBackground(new Color(38, 38, 38));
+		jp_all.setBackground(Color.BLACK);
 		creerZoneCreation();
 		creerZoneAffichageEtu();
+		couleurJpp_marge(new Color(38, 38, 38));
 	}
 	
 	/**
 	 * Créer La zone de creation d' Examen
 	 */
 	private void creerZoneCreation() {
-		
+		couleurDansJp2_creation(new Color(38, 38, 38));
+		creerBordureCreation(Color.white);
+		ajouterJLabel(Color.WHITE);
+
 		//ajout de couleur de font au JPanel
-		jp3_infoExamen.setBackground(Color.magenta);
-		jp4_grpParticip.setBackground(Color.red);
-		jp4_sallePriori.setBackground(Color.magenta);
-		jp4_contrainte.setBackground(Color.red);
 		
 		jp4_nomExamen.setBackground(Color.green);
 		jp4_matiereExamen.setBackground(Color.green);
 		jp4_dateExamen.setBackground(Color.green);
 		
 		jp2_creation.setBackground(Color.black);
-
+		
 		//ajout de label aux "jp4"
-		jp4_grpParticip.add(jl_grpParticip);
-		jp4_sallePriori.add(jl_sallePriori);
-		jp4_contrainte.add(jl_contrainte);
-
 		jp4_nomExamen.add(jl_nom);
 		jp4_matiereExamen.add(jl_matiere);
 		jp4_dateExamen.add(jl_date);
@@ -109,24 +129,27 @@ public class VueExamen extends JPanel{
 		//ajout de "jp3" aux "jp2"
 		jp2_creation.add(jp3_infoExamen, BorderLayout.NORTH);
 		jp2_creation.add(jp3_centrecreation, BorderLayout.CENTER);
-		jp2_creation.add(controleur_Exam.getJb_creerExam(), BorderLayout.SOUTH);
+		
+		//ajout boutton
+		jb_creerExam.setPreferredSize(new Dimension(200, 30));
+		jp_boutton.add(jb_creerExam);
+		jp_boutton.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+		jp2_creation.add(jp_boutton, BorderLayout.SOUTH);
 		
 		//ajout de "jp2" aux "jpp"
 	    jpp_creation_marge.add(jp2_creation,BorderLayout.CENTER);
 	    
 		//contoure de jp2
-	    JPanel contour_creation_South = new JPanel();
-	    JPanel contour_creation_North = new JPanel();
-	    JPanel contour_creation_East = new JPanel();
-	    JPanel contour_creation_West = new JPanel();
-	    
 	    jpp_creation_marge.add(contour_creation_South, BorderLayout.SOUTH);
 	    jpp_creation_marge.add(contour_creation_North, BorderLayout.NORTH);
 	    jpp_creation_marge.add(contour_creation_East, BorderLayout.EAST);
 	    jpp_creation_marge.add(contour_creation_West, BorderLayout.WEST);
 		
-		//ajout de "jp1" aux "this"
-		this.add(jpp_creation_marge);
+
+		//ajout de "jpp" aux "jp_all"
+		this.jp_all.add(jpp_creation_marge, BorderLayout.CENTER);
+		
+		this.add(jp_all);
 	}
 	
 	/**
@@ -134,30 +157,88 @@ public class VueExamen extends JPanel{
 	 */
 	private void creerZoneAffichageEtu() {
 		
-		jpp_affichListEtu_marge.setPreferredSize(new Dimension(100, 150));
 		//ajout de couleur de font au JPanel
 		jpp_affichListEtu_marge.setBackground(Color.darkGray);
-		jp2_affichListEtu.setBackground(Color.blue);
+		jp2_affichListEtu.setBackground(Color.white);
 
 		//ajout de "jp2" aux "jp1"
 		jpp_affichListEtu_marge.add(jp2_affichListEtu, BorderLayout.CENTER);
-		
+
 		//contoure de jp2
-		JPanel contour_affichContour_South = new JPanel();
-		JPanel contour_affichContour_North = new JPanel();
-		JPanel contour_affichContour_East = new JPanel();
-		JPanel contour_affichContour_West = new JPanel();
-		
 		jpp_affichListEtu_marge.add(contour_affichContour_South,BorderLayout.SOUTH);
 		jpp_affichListEtu_marge.add(contour_affichContour_North,BorderLayout.NORTH);
 		jpp_affichListEtu_marge.add(contour_affichContour_East,BorderLayout.EAST);
 		jpp_affichListEtu_marge.add(contour_affichContour_West,BorderLayout.WEST);
-	
+		
 		// ajout de "jps" aux "this"
-		this.add(jpp_affichListEtu_marge);
+		this.jp_all.add(jpp_affichListEtu_marge, BorderLayout.EAST);
+		
+		this.add(jp_all);
+	}
+	/**
+	 * Met la couleur passer en parametre sur les JPanel jpp_[...]_marge et du jpanel jp_boutton
+	 */
+	private void couleurJpp_marge(Color colorp) {
+		contour_creation_South.setBackground(colorp);
+		contour_creation_North.setBackground(colorp);
+		contour_creation_East.setBackground(colorp);
+		contour_creation_West.setBackground(colorp);
+	    
+		contour_affichContour_South.setBackground(colorp); 
+		contour_affichContour_North.setBackground(colorp);
+		contour_affichContour_East.setBackground(colorp); 
+		contour_affichContour_West.setBackground(colorp);
+		
+		jp_boutton.setBackground(colorp);
+	}
+	/**
+	 * Met la couleur passer en parametre sur les JPanel correspondant contenu dans le JPanel Jp2_creation
+	 * @param color_jp3_information_p
+	 * @param color_jp4_grpPartici_p
+	 * @param color_jp4_sallePriori_p
+	 * @param color_jp4_contrainte_p
+	 */
+	private void couleurDansJp2_creation(Color color_jp3_information_p, Color color_jp4_grpPartici_p, Color color_jp4_sallePriori_p, Color color_jp4_contrainte_p) {
+		jp3_infoExamen.setBackground(color_jp3_information_p);
+		jp4_grpParticip.setBackground(color_jp4_grpPartici_p);
+		jp4_sallePriori.setBackground(color_jp4_sallePriori_p);
+		jp4_contrainte.setBackground(color_jp4_contrainte_p);
+	}
+	/**
+	 * Met la couleur passer en parametre sur les JPanel contenu dans le JPanel Jp2_creation
+	 */
+	private void couleurDansJp2_creation(Color colorp) {
+		jp3_infoExamen.setBackground(colorp);
+		jp4_grpParticip.setBackground(colorp);
+		jp4_sallePriori.setBackground(colorp);
+		jp4_contrainte.setBackground(colorp);
+	}
+	/**
+	 * ajoute les JLabel avec la couleur passer en parametre
+	 * @param colorp
+	 */
+	private void ajouterJLabel(Color colorp) {
+		jp4_grpParticip.add(jl_grpParticip);
+		jp4_sallePriori.add(jl_sallePriori);
+		jp4_contrainte.add(jl_contrainte);
+		jl_grpParticip.setForeground(colorp);
+		jl_sallePriori.setForeground(colorp);
+		jl_contrainte.setForeground(colorp);
+	}
+	/**
+	 * Creer les Bordures avec la couleur passer en parametre
+	 */
+	private void creerBordureCreation(Color colorp) {
+		
+		jp3_infoExamen.setBorder(BorderFactory.createMatteBorder(3, 3, 0, 3, colorp));
+		jp4_grpParticip.setBorder(BorderFactory.createMatteBorder(3, 3, 0, 3, colorp));
+		jp4_sallePriori.setBorder(BorderFactory.createMatteBorder(3, 3, 0, 3, colorp));
+		jp4_contrainte.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, colorp));
+		
 	}
 	
 	
+
 	
 	
 	
@@ -165,7 +246,12 @@ public class VueExamen extends JPanel{
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
+		jp_all.setPreferredSize(new Dimension(this.getWidth()-100, this.getHeight()-10));
+		
+		contour_affichContour_North.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
+		contour_affichContour_South.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/7));
+		contour_affichContour_East.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
+		contour_affichContour_West.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
 	}
 	
 	/**

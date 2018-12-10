@@ -15,7 +15,7 @@ import controleur_Examen.ControleurExamen;
 import modele.Categorie;
 import modele.Groupe;
 
-public class Listeur extends JPanel{
+public class ListeurCategorie extends JPanel{
 	
 	private ControleurExamen ctrlexam;
 	private ArrayList<Categorie> listecategorie;
@@ -26,12 +26,12 @@ public class Listeur extends JPanel{
 	JPanel jp1_listeprincipale = new JPanel();	//contient l'ensemble des lists d' etudiant
 	JPanel jp1_grpSelection = new JPanel();
 	
-	public Listeur(ArrayList<Categorie> listep) {
+	public ListeurCategorie(ArrayList<Categorie> listep) {
 		listecategorie = listep;
 		creeraffichage();
 
 	}
-	public Listeur(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
+	public ListeurCategorie(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
 		activCheckbox = true;
 		ctrlexam = ctrlexamp;
 		listecategorie = listep;
@@ -98,7 +98,7 @@ public class Listeur extends JPanel{
 		Categorie c2 = new Categorie("Année 2", new ArrayList<Groupe>());	
 		listcateg.add(c1);
 		listcateg.add(c2);
-		Listeur listeur = new Listeur(listcateg);
+		ListeurCategorie listeur = new ListeurCategorie(listcateg);
 		fenetre.add(listeur);
 		
 		fenetre.setVisible(true);
