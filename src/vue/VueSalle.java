@@ -1,5 +1,6 @@
 package vue;
 
+import controleur.ControleurBoutonsPartieSalle;
 import modele.Etudiant;
 
 import javax.swing.*;
@@ -10,9 +11,12 @@ import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
 public class VueSalle extends JPanel {
+    private JScrollPane containerDeLaListeJScroll;
+    private JPanel contenantPartieGauche;
 
     public VueSalle(){
         this.setLayout(new BorderLayout());
+
         //Jpanel contenant le JLabel
         JPanel conteneurHaut = new JPanel();
         JLabel labelGestionDeSalle = new JLabel("Gestion de salle");
@@ -31,16 +35,22 @@ public class VueSalle extends JPanel {
 
         //Composant de la visualisation des listes des groupes
         JList<Etudiant> listeDesSalles = new JList<Etudiant>();
-        JScrollPane containerDeLaListeJScroll = new JScrollPane(listeDesSalles);
-        containerDeLaListeJScroll.setBorder(new EmptyBorder(0,0,20,0));
+        this.containerDeLaListeJScroll = new JScrollPane(listeDesSalles);
+        containerDeLaListeJScroll.setBorder(new EmptyBorder(0,0,0,0));
+
+        //Controlleur boutons "Ajouter" et "Supprimer"
 
         //Ajout dans un conteneur
-        JPanel contenantPartieGauche = new JPanel();
+        contenantPartieGauche = new JPanel();
         //contenantPartieGauche.setBorder(new EmptyBorder(0,20,0,0));
         contenantPartieGauche.setLayout(new BorderLayout());
+        contenantPartieGauche.setPreferredSize(new Dimension(300,this.getHeight()));
         contenantPartieGauche.add(labelDeLaListe,BorderLayout.NORTH);
         contenantPartieGauche.add(containerDeLaListeJScroll,BorderLayout.CENTER);
 
+        //Creation du controleur
+        ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle();
+        contenantPartieGauche.add(boutons,BorderLayout.SOUTH);
 
         contenantPartieGauche.setBorder(new EmptyBorder(20,20,0,0));
 
@@ -49,6 +59,12 @@ public class VueSalle extends JPanel {
         conteneurHaut.add(labelGestionDeSalle);
         this.add(conteneurHaut,BorderLayout.NORTH);
         this.add(contenantPartieGauche, BorderLayout.WEST);
+    }
+
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/3, this.getParent().getHeight()));
     }
 
 }
