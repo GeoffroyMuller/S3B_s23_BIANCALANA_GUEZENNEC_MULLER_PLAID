@@ -1,5 +1,6 @@
 package modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -7,7 +8,7 @@ import java.util.Collections;
 /**
  * The Class Groupe.
  */
-public class Groupe {
+public class Groupe implements Serializable{
 
 	/** The groupe. */
 	private String nom;

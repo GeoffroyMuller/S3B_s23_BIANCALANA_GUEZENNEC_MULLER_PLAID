@@ -1,12 +1,13 @@
 package modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Categorie.
  */
-public class Categorie {
+public class Categorie implements Serializable{
 
 	/** The nom. */
 	private String nom;
