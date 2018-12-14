@@ -20,7 +20,7 @@ public class ControleurImportationListe extends JButton implements ActionListene
 		this.setText("Importer une liste d'Etudiant");
 		this.addActionListener(this);
 		this.vueEtu = ve;
-		this.setSize(this.vueEtu.getWidth()/3, this.vueEtu.getHeight()/3);
+		//this.setSize(this.vueEtu.getWidth()/3, this.vueEtu.getHeight()/3);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,6 +35,7 @@ public class ControleurImportationListe extends JButton implements ActionListene
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			vueEtu.setTextChemin(chooser.getSelectedFile().getName());  
 			this.vi= new VueImportation(vueEtu);
+			vi.settextPath(chooser.getSelectedFile().getPath());
 			
 
 		}

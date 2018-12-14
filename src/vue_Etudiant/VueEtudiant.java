@@ -4,6 +4,7 @@ import controleur.*;
 import controleur_Etudiant.ControleurImportationListe;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,6 +16,7 @@ import java.util.Observer;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 import com.sun.javafx.geom.transform.NoninvertibleTransformException;
 import com.sun.org.apache.bcel.internal.generic.NEW;
@@ -28,22 +30,34 @@ public class VueEtudiant extends JPanel implements Observer{
 	
 	
 	public VueEtudiant() {
+		this.setLayout(new BorderLayout());
 		topBarre = new JPanel();
 		topBarre.setLayout(new GridLayout(1,3));
 		this.setBackground(Color.YELLOW);
+		topBarre.setBackground(Color.green);
+
 		
 		listeActuelle = new ArrayList<Groupe>();
 		bouttonImport = new ControleurImportationListe(this);
+		System.out.println("oooooooooooooooooooooo"+topBarre.getHeight()/5);
+		bouttonImport.setBorder(new EmptyBorder(topBarre.getHeight()/5,topBarre.getWidth()/20 ,topBarre.getHeight()/5, topBarre.getWidth()/20));
 		cheminFichier = new JTextField(" ");
 		
 		//this.bouttonImport.setPreferredSize(new Dimension(this.getWidth(),this.getHeight()));
 		System.out.println("construct avant setpref");
 		System.out.println(this.bouttonImport.getSize());
 		
+		topBarre.setSize(new Dimension(this.getWidth(), this.getHeight()/8));
+		//this.bouttonImport.setSize(new Dimension(topBarre.getWidth()/3,topBarre.getHeight()));
+		
 		topBarre.add(bouttonImport);
 		topBarre.add(cheminFichier);
 		topBarre.add(new JComboBox<>());
+		
 		this.add(topBarre,BorderLayout.NORTH);
+		bouttonImport.setBorder(new EmptyBorder(topBarre.getHeight()/5,topBarre.getWidth()/20 ,topBarre.getHeight()/5, topBarre.getWidth()/20));
+		System.out.println("ppppppppppppppppppppp"+topBarre.getHeight()/5);
+		
 	}
 
 	public ArrayList<Groupe> getListeActuelle() {
@@ -75,10 +89,15 @@ public class VueEtudiant extends JPanel implements Observer{
 	}
 	
 	public void redim() {
-		//this.bouttonImport.setSize(bouttonImport.getParent().getSize());
+		
+		this.bouttonImport.setBackground(Color.red);
 		System.out.println("redim");
+		topBarre.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/10));
+		
 		System.out.println(this.getSize());
 		System.out.println(this.bouttonImport.getParent().getSize());
+		
+		System.out.println(this.bouttonImport.getSize());
 	}
 
 

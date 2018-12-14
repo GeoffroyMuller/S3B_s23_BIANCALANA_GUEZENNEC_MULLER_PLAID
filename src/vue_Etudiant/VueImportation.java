@@ -22,16 +22,18 @@ public class VueImportation extends JFrame{
 		WidthDispo = this.getWidth();
 		HeightDispo = this.getHeight();
 		
+		cheminFichier = new JTextField(" ");
 		
         cci = new ControleurConfirmerImportation(ve,this);
         
         
         JPanel p = new JPanel();
-        
+        this.setLayout(new BorderLayout());
         p.add(cci);
-        this.add(p);
+        this.add(p,BorderLayout.SOUTH);
+        this.add(cheminFichier,BorderLayout.NORTH);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(new Dimension(400,400));
+        this.setSize(new Dimension(600,600));
         this.setVisible(true);
 		
 	}
@@ -45,6 +47,10 @@ public class VueImportation extends JFrame{
 		
 	
 		
+	}
+	
+	public void settextPath(String s) {
+		this.cheminFichier.setText(s);
 	}
 	
 	

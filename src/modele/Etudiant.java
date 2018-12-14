@@ -1,5 +1,6 @@
 package modele;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 // TODO: Auto-generated Javadoc
@@ -7,40 +8,24 @@ import java.util.Comparator;
  * The Class Etudiant.
  */
 public class Etudiant {
-	
+
 	/** The id etudiant. */
 	private static int idEtudiant=0;
 	/** The nom. */
 	private String nom;
-	
+
 	/** The id. */
 	private int id;
-	
+
 	/** The prenom. */
 	private String prenom;
-	
-	/** The groupe. */
-	private String groupe;
-	
+
 	/** The email. */
 	private String email;
-	
-	/** The prendre en compte dans le placement. */
-	private boolean prendreEnCompteDansLePlacement;
-	
-	/** The tiersTemps. */
-	private boolean tiersTemps;
-	
-	/** The handicap. */
-	private boolean handicap;
-	
-	/**
-	 * Instantiates a new etudiant.
-	 */
-	public Etudiant() {
-		// TODO Auto-generated constructor stub
-	}
-	
+
+	/** The list particularite. */
+	private ArrayList<Particularite> listParticularite;
+
 	/**
 	 * Instantiates a new etudiant.
 	 *
@@ -51,33 +36,31 @@ public class Etudiant {
 	public Etudiant(String nom, String prenom, String groupe) {
 		this.nom=nom;
 		this.prenom=prenom;
-		this.groupe=groupe;
 		this.email="";
-		this.prendreEnCompteDansLePlacement=true;
-		this.tiersTemps=false;
-		this.handicap=false;
+		this.listParticularite= new ArrayList<Particularite>();
+		this.listParticularite.add(new Particularite());
 		this.idEtudiant++;
 		this.id=this.idEtudiant;
 	}
-	
+
 	/** The Comparator nom. */
 	public static Comparator<Etudiant> ComparatorNom = new Comparator<Etudiant>() {
-	      
-        @Override
-        public int compare(Etudiant e1, Etudiant e2) {
-            return e1.getNom().compareTo(e2.getNom());
-        }
-    };
-    
-    /** The Comparator prenom. */
-    public static Comparator<Etudiant> ComparatorPrenom = new Comparator<Etudiant>() {
-	      
-        @Override
-        public int compare(Etudiant e1, Etudiant e2) {
-            return e1.getPrenom().compareTo(e2.getPrenom());
-        }
-    };
-    
+
+		@Override
+		public int compare(Etudiant e1, Etudiant e2) {
+			return e1.getNom().compareTo(e2.getNom());
+		}
+	};
+
+	/** The Comparator prenom. */
+	public static Comparator<Etudiant> ComparatorPrenom = new Comparator<Etudiant>() {
+
+		@Override
+		public int compare(Etudiant e1, Etudiant e2) {
+			return e1.getPrenom().compareTo(e2.getPrenom());
+		}
+	};
+
 	/**
 	 * Gets the id.
 	 *
@@ -125,24 +108,6 @@ public class Etudiant {
 	}
 
 	/**
-	 * Gets the groupe.
-	 *
-	 * @return the groupe
-	 */
-	public String getGroupe() {
-		return groupe;
-	}
-
-	/**
-	 * Sets the groupe.
-	 *
-	 * @param groupe the groupe to set
-	 */
-	public void setGroupe(String groupe) {
-		this.groupe = groupe;
-	}
-
-	/**
 	 * Gets the email.
 	 *
 	 * @return the email
@@ -160,58 +125,23 @@ public class Etudiant {
 		this.email = email;
 	}
 
-	/**
-	 * Checks if is prendre en compte dans le placement.
-	 *
-	 * @return the prendreEnCompteDansLePlacement
-	 */
-	public boolean isPrendreEnCompteDansLePlacement() {
-		return prendreEnCompteDansLePlacement;
-	}
 
 	/**
-	 * Sets the prendre en compte dans le placement.
+	 * Gets the list particularite.
 	 *
-	 * @param prendreEnCompteDansLePlacement the prendreEnCompteDansLePlacement to set
+	 * @return the listParticularite
 	 */
-	public void setPrendreEnCompteDansLePlacement(boolean prendreEnCompteDansLePlacement) {
-		this.prendreEnCompteDansLePlacement = prendreEnCompteDansLePlacement;
+	public ArrayList<Particularite> getListParticularite() {
+		return listParticularite;
 	}
+
 
 	/**
-	 * Checks if is tiers temps.
+	 * Sets the list particularite.
 	 *
-	 * @return the tiersTemps
+	 * @param listParticularite the listParticularite to set
 	 */
-	public boolean isTiersTemps() {
-		return tiersTemps;
+	public void setListParticularite(ArrayList<Particularite> listParticularite) {
+		this.listParticularite = listParticularite;
 	}
-
-	/**
-	 * Sets the tiers temps.
-	 *
-	 * @param tiersTemps the tiersTemps to set
-	 */
-	public void setTiersTemps(boolean tiersTemps) {
-		this.tiersTemps = tiersTemps;
-	}
-
-	/**
-	 * Checks if is handicap.
-	 *
-	 * @return the handicap
-	 */
-	public boolean isHandicap() {
-		return handicap;
-	}
-
-	/**
-	 * Sets the handicap.
-	 *
-	 * @param handicap the handicap to set
-	 */
-	public void setHandicap(boolean handicap) {
-		this.handicap = handicap;
-	}
-
 }
