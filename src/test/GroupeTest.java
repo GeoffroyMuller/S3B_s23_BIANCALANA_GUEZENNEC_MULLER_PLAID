@@ -97,7 +97,10 @@ public class GroupeTest {
 		a.trieParPrenom();
 		assertEquals("On devrai avoir e1 en premier",e1,this.a.getListeEtudiants().get(0));
 	}
-	
+
+	/**
+	 * Etudiant dedans.
+	 */
 	@Test
 	public void etudiantDedans() {
 		a.ajouterEtudiant(e3);

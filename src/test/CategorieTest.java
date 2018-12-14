@@ -10,6 +10,10 @@ import modele.Categorie;
 import modele.Etudiant;
 import modele.Groupe;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CategorieTest.
+ */
 public class CategorieTest {
 
 	/** The e 1. */
@@ -26,15 +30,21 @@ public class CategorieTest {
 
 	/** The a. */
 	private Groupe g1;
-	
+
 	/** The b. */
 	private Groupe g2;
-	
+
 	/** The gc. */
 	private Groupe g3;
-	
+
+	/** The c 1. */
 	private Categorie c1;
-	
+
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		e1=new Etudiant("Plaid","Justin");
@@ -52,6 +62,9 @@ public class CategorieTest {
 		c1=new Categorie("cat");
 	}
 
+	/**
+	 * Test ajouter groupe.
+	 */
 	@Test
 	public void testAjouterGroupe() {
 		c1.ajouterGroupe(g1);
