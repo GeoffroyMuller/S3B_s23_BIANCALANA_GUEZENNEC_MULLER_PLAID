@@ -3,6 +3,9 @@ package vue;
 import vue_Examen.VueExamen;
 
 import javax.swing.*;
+
+import vue_Etudiant.VueEtudiant;
+
 import java.awt.*;
 
 public class VueOngletModules extends JPanel {
@@ -20,6 +23,7 @@ public class VueOngletModules extends JPanel {
         this.setLayout(null);
         this.onglets.add("Examen",new VueExamen());
         this.onglets.add("Etudiants",moduleEtudiant);
+
         this.onglets.add("Salles",test);
         this.onglets.setBounds(0,0,800,1000);
         this.onglets.setToolTipTextAt(0,"Module permettant la gestion de liste");

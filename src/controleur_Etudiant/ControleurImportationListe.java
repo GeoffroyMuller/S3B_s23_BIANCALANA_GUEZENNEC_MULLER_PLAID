@@ -1,4 +1,4 @@
-package controleur;
+package controleur_Etudiant;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,8 +8,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import vue.VueEtudiant;
-import vue.VueImportation;
+import vue_Etudiant.VueEtudiant;
+import vue_Etudiant.VueImportation;
 
 public class ControleurImportationListe extends JButton implements ActionListener{
 	VueImportation vi;
@@ -20,6 +20,7 @@ public class ControleurImportationListe extends JButton implements ActionListene
 		this.setText("Importer une liste d'Etudiant");
 		this.addActionListener(this);
 		this.vueEtu = ve;
+		this.setSize(this.vueEtu.getWidth()/3, this.vueEtu.getHeight()/3);
 		// TODO Auto-generated constructor stub
 	}
 

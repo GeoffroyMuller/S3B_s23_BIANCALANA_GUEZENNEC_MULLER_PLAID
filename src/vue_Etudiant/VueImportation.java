@@ -1,28 +1,49 @@
-package vue;
+package vue_Etudiant;
 
-import java.awt.Dimension;
+import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import controleur.ControleurConfirmerImportation;
+import controleur_Etudiant.ControleurConfirmerImportation;
 
 public class VueImportation extends JFrame{
 	
 	ControleurConfirmerImportation cci;
 	JTextField cheminFichier;
+	JTextField nomListe ;
+	int WidthDispo;
+	int HeightDispo;
+	
 	
 	public VueImportation(VueEtudiant ve) {
 		this.setTitle("Option d'importation");
+		WidthDispo = this.getWidth();
+		HeightDispo = this.getHeight();
+		
 		
         cci = new ControleurConfirmerImportation(ve,this);
+        
+        
         JPanel p = new JPanel();
+        
         p.add(cci);
         this.add(p);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(new Dimension(400,400));
         this.setVisible(true);
+		
+	}
+	
+	@Override
+	public void update(Graphics g) {
+		super.update(g);
+		
+		WidthDispo = this.getWidth();
+		HeightDispo = this.getHeight();
+		
+	
 		
 	}
 	

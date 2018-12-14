@@ -1,4 +1,4 @@
-package controleur;
+package controleur_Etudiant;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import modele.*;
-import vue.VueEtudiant;
-import vue.VueImportation;
+import vue_Etudiant.VueEtudiant;
+import vue_Etudiant.VueImportation;
 
 public class ControleurConfirmerImportation extends JButton implements ActionListener{
 

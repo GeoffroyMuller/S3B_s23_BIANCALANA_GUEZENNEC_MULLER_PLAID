@@ -1,6 +1,7 @@
 import vue.BarreOutils;
 import vue.VueOngletModules;
-import vue.VueEtudiant;
+import vue_Etudiant.VueEtudiant;
+
 import javax.swing.*;
 import java.awt.*;
 
