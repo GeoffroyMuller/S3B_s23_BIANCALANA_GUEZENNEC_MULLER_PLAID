@@ -105,4 +105,19 @@ public class Groupe {
 		this.listeEtudiants = listeEtudiants;
 	}
 
+	/**
+	 * Etudiant dedans.
+	 *
+	 * @param etudiant the etudiant
+	 * @return true, if successful
+	 */
+	public boolean etudiantDedans(Etudiant etudiant) {
+		boolean res=false;
+		for(Etudiant e : this.listeEtudiants) {
+			if(etudiant.getId()==e.getId()) {
+				res=true;
+			}
+		}
+		return res;
+	}
 }

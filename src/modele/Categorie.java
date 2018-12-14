@@ -49,11 +49,19 @@ public class Categorie {
 	 */
 	public void ajouterGroupe(Groupe groupe) {
 		boolean a=true;
-		for(Groupe e : this.listeGroupe) {
-			if(e.getGroupe()==groupe.getGroupe()) {
+		//verifie si le groupe n'est pas dedans
+		for(Groupe g : this.listeGroupe) {
+			if(g.getGroupe()==groupe.getGroupe()) {
 				a=false;
 			}
+			//parcours des etudiant dans les liste
+			for(Etudiant e : g.getListeEtudiants()) {
+				if(groupe.etudiantDedans(e)) {
+					a=false;
+				}
+			}
 		}
+
 		if(a) {
 			this.listeGroupe.add(groupe);
 		}
