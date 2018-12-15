@@ -8,29 +8,27 @@ import org.junit.Test;
 import modele.Etudiant;
 import modele.Groupe;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class GroupeTest.
  */
 public class GroupeTest {
-	
+
 	/** The e 1. */
 	private Etudiant e1;
-	
+
 	/** The e 2. */
 	private Etudiant e2;
-	
+
 	/** The e 3. */
 	private Etudiant e3;
-	
+
 	/** The e 4. */
 	private Etudiant e4;
-	
-	/** The e 5. */
-	private Etudiant e5;
-	
+
 	/** The a. */
 	private Groupe a;
-	
+
 	/**
 	 * Sets the up.
 	 *
@@ -38,10 +36,10 @@ public class GroupeTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		e1=new Etudiant("Plaid","Justin","A");
-		e2=new Etudiant("Muller","Geoffroy","B");
-		e3=new Etudiant("Guezennec","Lucas","A");
-		e4=new Etudiant("Biancalana","Théo","A");
+		e1=new Etudiant("Plaid","Justin");
+		e2=new Etudiant("Muller","Geoffroy");
+		e3=new Etudiant("Guezennec","Lucas");
+		e4=new Etudiant("Biancalana","Théo");
 		a=new Groupe("A");
 	}
 
@@ -60,7 +58,7 @@ public class GroupeTest {
 	public void testAjouterEtudiant() {
 		a.ajouterEtudiant(e2);
 		a.ajouterEtudiant(e1);
-		assertEquals("On devrai avoir l'etudiant e1 seulement ajouter",e1,this.a.getListeEtudiants().get(0));
+		assertEquals("On devrai avoir l'etudiant e1 seulement ajouter",e1,this.a.getListeEtudiants().get(1));
 	}
 
 	/**
@@ -68,6 +66,8 @@ public class GroupeTest {
 	 */
 	@Test
 	public void testSupprimmerEtudiant() {
+		a.ajouterEtudiant(e2);
+		a.ajouterEtudiant(e1);
 		a.ajouterEtudiant(e3);
 		a.supprimmerEtudiant(e1);
 		a.supprimmerEtudiant(e2);
@@ -96,6 +96,17 @@ public class GroupeTest {
 		a.ajouterEtudiant(e1);
 		a.trieParPrenom();
 		assertEquals("On devrai avoir e1 en premier",e1,this.a.getListeEtudiants().get(0));
+	}
+
+	/**
+	 * Etudiant dedans.
+	 */
+	@Test
+	public void etudiantDedans() {
+		a.ajouterEtudiant(e3);
+		a.ajouterEtudiant(e4);
+		a.ajouterEtudiant(e1);
+		assertEquals("il devrais etre dedans",true,this.a.etudiantDedans(e1));
 	}
 
 }

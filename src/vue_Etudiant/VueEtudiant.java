@@ -6,9 +6,12 @@ import controleur_Etudiant.ControleurImportationListe;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -16,10 +19,15 @@ import java.util.Observer;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import com.sun.javafx.geom.transform.NoninvertibleTransformException;
 import com.sun.org.apache.bcel.internal.generic.NEW;
+
+import composante_graphique.DifListeurCatégorie;
+import composante_graphique.DifListeurCatégorie;
+import composante_graphique.ListeurCategorie;
 
 public class VueEtudiant extends JPanel implements Observer{
 	ControleurImportationListe bouttonImport ;
@@ -58,6 +66,9 @@ public class VueEtudiant extends JPanel implements Observer{
 		bouttonImport.setBorder(new EmptyBorder(topBarre.getHeight()/5,topBarre.getWidth()/20 ,topBarre.getHeight()/5, topBarre.getWidth()/20));
 		System.out.println("ppppppppppppppppppppp"+topBarre.getHeight()/5);
 		
+		DifListeurCatégorie	dls = new DifListeurCatégorie();
+		dls.setBackground(Color.PINK);
+		this.add(dls, BorderLayout.CENTER);
 	}
 
 	public ArrayList<Groupe> getListeActuelle() {
@@ -92,7 +103,7 @@ public class VueEtudiant extends JPanel implements Observer{
 		
 		this.bouttonImport.setBackground(Color.red);
 		System.out.println("redim");
-		topBarre.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/10));
+		//topBarre.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/10));
 		
 		System.out.println(this.getSize());
 		System.out.println(this.bouttonImport.getParent().getSize());

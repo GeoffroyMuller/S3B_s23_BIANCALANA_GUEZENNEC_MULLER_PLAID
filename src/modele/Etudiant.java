@@ -1,5 +1,6 @@
 package modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -7,7 +8,7 @@ import java.util.Comparator;
 /**
  * The Class Etudiant.
  */
-public class Etudiant {
+public class Etudiant implements Serializable{
 
 	/** The id etudiant. */
 	private static int idEtudiant=0;
@@ -31,9 +32,8 @@ public class Etudiant {
 	 *
 	 * @param nom the nom
 	 * @param prenom the prenom
-	 * @param groupe the groupe
 	 */
-	public Etudiant(String nom, String prenom, String groupe) {
+	public Etudiant(String nom, String prenom) {
 		this.nom=nom;
 		this.prenom=prenom;
 		this.email="";

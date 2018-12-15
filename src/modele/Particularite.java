@@ -1,6 +1,8 @@
 package modele;
 
-public class Particularite {
+import java.io.Serializable;
+
+public class Particularite implements Serializable{
 
 	private String nom;
 	private boolean prendreEnCompteDansPlacement;
