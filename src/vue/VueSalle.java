@@ -1,22 +1,36 @@
 package vue;
 
 import controleur.ControleurBoutonsPartieSalle;
-import controleur.ControleurCaseSalle;
+import controleur.ControleurModuleSalle.ControleurCaseSalle;
+import controleur.ControleurModuleSalle.ControleurRadioBoutons;
 import modele.Etudiant;
+import vue.ComposantVueSalle.Indicateur;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.plaf.basic.BasicBorders;
 import java.awt.*;
 
+/**
+ * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
+ */
 public class VueSalle extends JPanel {
     private JScrollPane containerDeLaListeJScroll;
     private JPanel contenantPartieGauche;
     private JPanel contenantMilieu;
 
+    /**
+     * Définition de la largeur par défaut d'une salle dans la visualisation
+     */
+    public static int DEFAULT_SIZE_ROOM_WIDTH = 10;
+    /**
+     * Définition de la hauteur par défaut d'une salle dans la visualisation
+     */
+    public static int DEFAULT_SIZE_ROOM_HEIGHT = 10;
+
+    /**
+     * Constructeur de la vue salle, construit également les controleurs necessaires (ControleurCaseSalle et ControleurRadioBoutons)
+     */
     public VueSalle(){
         this.setLayout(new BorderLayout());
 
@@ -52,7 +66,8 @@ public class VueSalle extends JPanel {
         ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle();
 
         //Partie visualisation de la liste (Partie du milieux)
-        JScrollPane visualisationSalle = new JScrollPane(this.construireSalle(10,10));
+        JScrollPane visualisationSalle = new JScrollPane(this.construireSalle(DEFAULT_SIZE_ROOM_WIDTH,DEFAULT_SIZE_ROOM_HEIGHT));
+        visualisationSalle.setPreferredSize(new Dimension(400,400));
             //Mise en place du controlleur
         this.contenantMilieu = new JPanel();
         this.contenantMilieu.setLayout(new GridBagLayout());
@@ -86,6 +101,30 @@ public class VueSalle extends JPanel {
         gbc.weighty = 1;
         this.contenantMilieu.add(visualisationSalle, gbc);
 
+        //Partie selection (Partie de droite)
+            //Composant Indications
+        JPanel indications = new Indicateur();
+        indications.setPreferredSize(new Dimension(300,600));
+            //Composant Edition
+        JPanel editionPan = new JPanel();
+        editionPan.setLayout(new BorderLayout());
+        JLabel edition = new JLabel("Edition",SwingConstants.CENTER);
+        edition = this.applicationStylePolice(edition);
+
+        //Boutons radio
+        ControleurRadioBoutons editionBoutons = new ControleurRadioBoutons();
+        JPanel partieEdition = new JPanel();
+
+        partieEdition.setLayout(new BorderLayout());
+        partieEdition.add(editionBoutons,BorderLayout.WEST);
+        partieEdition.add(new Indicateur(), BorderLayout.CENTER);
+
+        editionPan.add(edition, BorderLayout.NORTH);
+        editionPan.add(partieEdition, BorderLayout.CENTER);
+        editionPan.setPreferredSize(new Dimension(300,600));
+        editionPan.setBorder(new EmptyBorder(20,10,0,0));
+
+
 
 
 
@@ -97,6 +136,7 @@ public class VueSalle extends JPanel {
         this.add(conteneurHaut,BorderLayout.NORTH);
         this.add(this.contenantMilieu, BorderLayout.CENTER);
         this.add(contenantPartieGauche, BorderLayout.WEST);
+        this.add(editionPan,BorderLayout.EAST);
     }
 
     @Override
@@ -105,15 +145,39 @@ public class VueSalle extends JPanel {
         this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/3, this.getParent().getHeight()));
     }
 
-    public JPanel construireSalle(int x, int y){
+    /**
+     * Construit la visualisation d'une salle
+     * @param x
+     *      entier précisant la largeur de la salle
+     * @param y
+     *      entier précisant la hauteur de la salle
+     * @return
+     *      JPanel contenant la représentation de la salle
+     */
+    private JPanel construireSalle(int x, int y){
         JPanel contenant = new JPanel();
+        contenant.setPreferredSize(new Dimension((x*ControleurCaseSalle.WIDTH),(y*ControleurCaseSalle.HEIGHT)));
         contenant.setLayout(new GridLayout(x,y));
-        for(int i = 0; i < 10;i++){
-            for(int j = 0; j < 10;j++){
+        for(int i = 0; i < x;i++){
+            for(int j = 0; j < y;j++){
                 contenant.add(new ControleurCaseSalle(new Color(0)));
             }
         }
         return contenant;
+    }
+
+    /**
+     * Applique les styles de polices aux labels
+     * @param label
+     * @return
+     */
+    private JLabel applicationStylePolice(JLabel label){
+        label.setFont(new Font("Serial",Font.PLAIN,14));
+        label.setBorder(BorderFactory.createLineBorder(new Color(0),1));
+        label.setOpaque(true);
+        label.setBackground(new Color(0x656565));
+        label.setForeground(new Color(0xFAFFF1));
+        return label;
     }
 
 }
