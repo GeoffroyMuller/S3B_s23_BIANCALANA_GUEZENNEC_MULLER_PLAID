@@ -33,7 +33,7 @@ public class PanelDev_Afficheur extends JPanel{
 		g.setColor(Color.GREEN);
 		for(String string : listaffiche) {
 			g.drawString(string, 2, compte);
-			compte+=10;
+			compte+=12;
 		}
 		suppliste();
 	}

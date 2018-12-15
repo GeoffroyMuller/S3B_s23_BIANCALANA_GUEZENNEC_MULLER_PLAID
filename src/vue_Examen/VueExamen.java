@@ -275,7 +275,7 @@ public class VueExamen extends JPanel{
 		contour_affichContour_West.setPreferredSize(new Dimension(50, 40));
 		
 		contour_creation_West.setPreferredSize(new Dimension(70, 0));
-		jp2_affichListEtu.setPreferredSize(new Dimension(w/4, h));
+		jp2_affichListEtu.setPreferredSize(new Dimension(this.getWidth()/4, h));
 	}
 	
 	
@@ -283,6 +283,7 @@ public class VueExamen extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		paneldev.ajouterInfo("THIS w: "+getWidth()+" h: "+this.getHeight());
+		paneldev.ajouterInfo("jp2_affichlistEtu w: "+jp2_affichListEtu.getWidth()+" h: "+jp2_affichListEtu.getHeight());
 	}
 	
 	
