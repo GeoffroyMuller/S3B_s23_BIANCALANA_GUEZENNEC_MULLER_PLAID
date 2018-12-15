@@ -31,6 +31,8 @@ public class VueExamen extends JPanel{
 	private Examen examen;
 	private ControleurExamen controleur_Exam = new ControleurExamen();
 
+	private int width_this;
+	private int height_this;
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
 	 */
@@ -62,7 +64,7 @@ public class VueExamen extends JPanel{
 	private JPanel contour_affichContour_East = new JPanel();
 	private JPanel contour_affichContour_West = new JPanel();
 
-	private JPanel jp_boutton = new JPanel();		//JPanel contient le boutton de creation d'examen
+	private JPanel jp_boutton = new JPanel(new BorderLayout());		//JPanel contient le boutton de creation d'examen
 
 	private ListeurCategorie listeur;
 
@@ -81,26 +83,26 @@ public class VueExamen extends JPanel{
 	 * Constructeur principale
 	 */
 	public VueExamen() {
-		
-		definirTailleDur();
-		System.out.println("eeeeeeeeeeee"+this.getWidth()+" eeee"+this.getHeight());
+		//this.setPreferredSize(new Dimension(1500, 800));
 		examen = new Examen();
 		listeur = new ListeurCategorie(examen.getListecateg(), controleur_Exam);
 		this.setBackground(new Color(138, 138, 138));
 		jp_all.setBackground(Color.BLACK);
 		creerZoneCreation();
 		creerZoneAffichageEtu();
-		couleurJpp_marge(new Color(38, 38, 38));
-		
+		couleurJpp_marge(new Color(138, 138, 138));
+		this.add(jp_all);
+
 	}
+	
 
 	/**
 	 * Créer La zone de creation d' Examen
 	 */
 	private void creerZoneCreation() {
-		couleurDansJp2_creation(new Color(38, 38, 38));
-		creerBordureCreation(Color.white);
-		ajouterJLabel(Color.WHITE);
+		couleurDansJp2_creation(new Color(138, 138, 138));
+		creerBordureCreation(Color.BLACK);
+		ajouterJLabel(Color.BLACK);
 
 		//ajout de couleur de font au JPanel
 
@@ -137,8 +139,8 @@ public class VueExamen extends JPanel{
 
 		//ajout boutton
 		jb_creerExam.setPreferredSize(new Dimension(200, 30));
-		jp_boutton.add(jb_creerExam);
-		jp_boutton.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+		jp_boutton.add(jb_creerExam, BorderLayout.WEST);
+		jp_boutton.setBorder(BorderFactory.createEmptyBorder(5, 2, 0, 0));
 		jp2_creation.add(jp_boutton, BorderLayout.SOUTH);
 
 		//ajout de "jp2" aux "jpp"
@@ -153,9 +155,11 @@ public class VueExamen extends JPanel{
 
 		//ajout de "jpp" aux "jp_all"
 		this.jp_all.add(jpp_creation_marge, BorderLayout.CENTER);
-
-		this.add(jp_all);
 	}
+	
+	
+	
+	
 
 	/**
 	 * Créer La zone d'Affichage d'Etudiant
@@ -165,21 +169,35 @@ public class VueExamen extends JPanel{
 		//ajout de couleur de font au JPanel
 		jpp_affichListEtu_marge.setBackground(Color.darkGray);
 		jp2_affichListEtu.setBackground(Color.white);
-
+		
+		//jp2_affichListEtu.setPreferredSize(new Dimension(200, 200));
 		//ajout de "jp2" aux "jp1"
 		jpp_affichListEtu_marge.add(jp2_affichListEtu, BorderLayout.CENTER);
 
+		
 		//contoure de jp2
 		jpp_affichListEtu_marge.add(contour_affichContour_South,BorderLayout.SOUTH);
 		jpp_affichListEtu_marge.add(contour_affichContour_North,BorderLayout.NORTH);
 		jpp_affichListEtu_marge.add(contour_affichContour_East,BorderLayout.EAST);
 		jpp_affichListEtu_marge.add(contour_affichContour_West,BorderLayout.WEST);
-
+		
+		jp2_affichListEtu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+		
 		// ajout de "jps" aux "this"
 		this.jp_all.add(jpp_affichListEtu_marge, BorderLayout.EAST);
 
-		this.add(jp_all);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Met la couleur passer en parametre sur les JPanel jpp_[...]_marge et du jpanel jp_boutton
 	 */
@@ -235,49 +253,79 @@ public class VueExamen extends JPanel{
 	 */
 	private void creerBordureCreation(Color colorp) {
 
-		jp3_infoExamen.setBorder(BorderFactory.createMatteBorder(3, 3, 0, 3, colorp));
-		jp4_grpParticip.setBorder(BorderFactory.createMatteBorder(3, 3, 0, 3, colorp));
-		jp4_sallePriori.setBorder(BorderFactory.createMatteBorder(3, 3, 0, 3, colorp));
-		jp4_contrainte.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, colorp));
+		jp3_infoExamen.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, colorp));
+		jp4_grpParticip.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, colorp));
+		jp4_sallePriori.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, colorp));
+		jp4_contrainte.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, colorp));
 
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * Definie la taille de jp_all et des contour de jp2_affichListEtu
 	 */
 	private void definirTaille() {
-		jp_all.setPreferredSize(new Dimension(this.getWidth()-100, this.getHeight()-10));
+		int ww = this.getWidth()-100;
+		int hh = this.getHeight()-10;
+		jp_all.setPreferredSize(new Dimension(ww, hh));
 
 		contour_affichContour_North.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
 		contour_affichContour_South.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/7));
 		contour_affichContour_East.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
 		contour_affichContour_West.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
-
+		//jp2_affichListEtu.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
 	}
-	private void definirTailleDur() {
-		this.setPreferredSize(new Dimension(1050, 600));
-		jp_all.setPreferredSize(new Dimension(950,600));
+	
 
-		contour_affichContour_North.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
+
+
+	
+	public void setTailleGeneral(int w, int h) {
+		this.setPreferredSize(new Dimension(w, h));
+		jp_all.setPreferredSize(new Dimension(w-100, h-40));
+		/*contour_affichContour_North.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
 		contour_affichContour_South.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/7));
 		contour_affichContour_East.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
 		contour_affichContour_West.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
+		*/
+		contour_affichContour_North.setPreferredSize(new Dimension(100, 40));
+		contour_affichContour_South.setPreferredSize(new Dimension(100, 80));
+		contour_affichContour_East.setPreferredSize(new Dimension(w/200, 50));
+		contour_affichContour_West.setPreferredSize(new Dimension(50, 50));
+		jp2_affichListEtu.setPreferredSize(new Dimension(w/5, h));
 	}
-
-
+	
+	
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("this w: "+this.getWidth()+" h: "+this.getHeight());
-		System.out.println("jp_all w: "+jp_all.getWidth()+" h: "+jp_all.getHeight());
-		System.out.println("=======");
-		definirTaille();
+		System.out.println("THIS w: "+this.getWidth()+" h: "+this.getHeight());
+		System.out.println("ALL w: "+this.jp_all.getWidth()+" h: "+this.jp_all.getHeight());
+		System.out.println("AFFLISTEETU w: "+this.jp2_affichListEtu.getWidth()+" h: "+this.jp2_affichListEtu.getHeight());
+	//	definirTaille();
 	}
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * methode main de test interne a VueExamen
 	 * @param arg
 	 */
-	public static void main(String arg[]) {
+/*	public static void main(String arg[]) {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -289,6 +337,6 @@ public class VueExamen extends JPanel{
 		fenetre.pack();
 		fenetre.setVisible(true);
 
-	}
+	}*/
 }
 
