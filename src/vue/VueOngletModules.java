@@ -38,7 +38,7 @@ public class VueOngletModules extends JPanel {
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		moduleExamen.setTailleGeneral(this.getParent().getWidth(),this.getParent().getHeight());
+		moduleExamen.definirTaille(this.getParent().getWidth(),this.getParent().getHeight());
 		this.onglets.setBounds(0,0,this.getParent().getWidth(),this.getParent().getHeight());
 	}
 }

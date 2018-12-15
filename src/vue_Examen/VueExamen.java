@@ -22,6 +22,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import composante_graphique.ListeurCategorie;
+import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
 import vue.BarreOutils;
@@ -78,7 +79,7 @@ public class VueExamen extends JPanel{
 
 	private JButton jb_creerExam = controleur_Exam.getJb_creerExam();
 
-
+	private PanelDev_Afficheur paneldev = new PanelDev_Afficheur();
 	/**
 	 * Constructeur principale
 	 */
@@ -92,7 +93,6 @@ public class VueExamen extends JPanel{
 		creerZoneAffichageEtu();
 		couleurJpp_marge(new Color(138, 138, 138));
 		this.add(jp_all);
-
 	}
 	
 
@@ -100,7 +100,7 @@ public class VueExamen extends JPanel{
 	 * Créer La zone de creation d' Examen
 	 */
 	private void creerZoneCreation() {
-		couleurDansJp2_creation(new Color(138, 138, 138));
+		couleurDansJp2_creation(new Color(238, 238, 238));
 		creerBordureCreation(Color.BLACK);
 		ajouterJLabel(Color.BLACK);
 
@@ -151,7 +151,8 @@ public class VueExamen extends JPanel{
 		jpp_creation_marge.add(contour_creation_North, BorderLayout.NORTH);
 		jpp_creation_marge.add(contour_creation_East, BorderLayout.EAST);
 		jpp_creation_marge.add(contour_creation_West, BorderLayout.WEST);
-
+		
+		jp4_contrainte.add(paneldev);
 
 		//ajout de "jpp" aux "jp_all"
 		this.jp_all.add(jpp_creation_marge, BorderLayout.CENTER);
@@ -262,56 +263,27 @@ public class VueExamen extends JPanel{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
-	 * Definie la taille de jp_all et des contour de jp2_affichListEtu
+	 * Definie et adapte la taille General
 	 */
-	private void definirTaille() {
-		int ww = this.getWidth()-100;
-		int hh = this.getHeight()-10;
-		jp_all.setPreferredSize(new Dimension(ww, hh));
-
-		contour_affichContour_North.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
-		contour_affichContour_South.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/7));
-		contour_affichContour_East.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
-		contour_affichContour_West.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
-		//jp2_affichListEtu.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
-	}
-	
-
-
-
-	
-	public void setTailleGeneral(int w, int h) {
+	public void definirTaille(int w, int h) {
 		this.setPreferredSize(new Dimension(w, h));
 		jp_all.setPreferredSize(new Dimension(w-100, h-40));
-		/*contour_affichContour_North.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
-		contour_affichContour_South.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/7));
-		contour_affichContour_East.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
-		contour_affichContour_West.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
-		*/
 		contour_affichContour_North.setPreferredSize(new Dimension(100, 40));
 		contour_affichContour_South.setPreferredSize(new Dimension(100, 80));
-		contour_affichContour_East.setPreferredSize(new Dimension(w/200, 50));
-		contour_affichContour_West.setPreferredSize(new Dimension(50, 50));
-		jp2_affichListEtu.setPreferredSize(new Dimension(w/5, h));
+		contour_affichContour_East.setPreferredSize(new Dimension(w/200, 40));
+		contour_affichContour_West.setPreferredSize(new Dimension(50, 40));
+		
+		contour_creation_West.setPreferredSize(new Dimension(70, 0));
+		jp2_affichListEtu.setPreferredSize(new Dimension(this.getWidth()/4, h));
 	}
 	
 	
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("THIS w: "+this.getWidth()+" h: "+this.getHeight());
-		System.out.println("ALL w: "+this.jp_all.getWidth()+" h: "+this.jp_all.getHeight());
-		System.out.println("AFFLISTEETU w: "+this.jp2_affichListEtu.getWidth()+" h: "+this.jp2_affichListEtu.getHeight());
-	//	definirTaille();
+		paneldev.ajouterInfo("THIS w: "+getWidth()+" h: "+this.getHeight());
+		paneldev.ajouterInfo("jp2_affichlistEtu w: "+jp2_affichListEtu.getWidth()+" h: "+jp2_affichListEtu.getHeight());
 	}
 	
 	

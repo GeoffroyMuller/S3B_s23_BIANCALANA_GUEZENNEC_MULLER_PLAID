@@ -51,7 +51,7 @@ public class ListeurCategorie extends JPanel{
 		try {
 			for (Categorie categorie : listecategorie) {
 				jp = new JPanel(new BorderLayout());
-				jp.setPreferredSize(new Dimension(325, 25));
+				jp.setPreferredSize(new Dimension(325, 20));
 				JLabel jl = new JLabel(" "+categorie.getNom()+" ");
 				JLabel jl_grpselect = new JLabel("              0/"+categorie.getListegroupe().size()+" Groupe selectionner");
 				jp.add(jl, BorderLayout.WEST);
