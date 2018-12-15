@@ -83,8 +83,7 @@ public class VueExamen extends JPanel{
 	 * Constructeur principale
 	 */
 	public VueExamen() {
-		this.setPreferredSize(new Dimension(1500, 800));
-		System.out.println("eeeeeeeeeeee"+this.getWidth()+" eeee"+this.getHeight());
+		//this.setPreferredSize(new Dimension(1500, 800));
 		examen = new Examen();
 		listeur = new ListeurCategorie(examen.getListecateg(), controleur_Exam);
 		this.setBackground(new Color(138, 138, 138));
@@ -306,37 +305,33 @@ public class VueExamen extends JPanel{
 		//jp2_affichListEtu.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
 	}
 	
-	
-	/*private void definirTailleDur() {
-		this.setPreferredSize(new Dimension(1050, 600));
-		jp_all.setPreferredSize(new Dimension(950,600));
 
-		contour_affichContour_North.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
+
+
+	
+	public void setTailleGeneral(int w, int h) {
+		this.setPreferredSize(new Dimension(w, h));
+		jp_all.setPreferredSize(new Dimension(w-100, h-10));
+		/*contour_affichContour_North.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
 		contour_affichContour_South.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/7));
 		contour_affichContour_East.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
 		contour_affichContour_West.setPreferredSize(new Dimension(jp_all.getWidth()/30, jp_all.getHeight()/3));
-		jp2_affichListEtu.setPreferredSize(new Dimension(jp_all.getWidth()/3, jp_all.getHeight()/15));
-		System.out.println("AFLISTEETU: w: "+jp2_affichListEtu.getWidth()+" h: "+jp2_affichListEtu.getHeight());
-	}*/
-
-
-	
-	
-	
-	
-	
-	
+		*/
+		contour_affichContour_North.setPreferredSize(new Dimension(100, 100));
+		contour_affichContour_South.setPreferredSize(new Dimension(100, 100));
+		contour_affichContour_East.setPreferredSize(new Dimension(100, 100));
+		contour_affichContour_West.setPreferredSize(new Dimension(100, 100));
+		
+	}
 	
 	
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		this.setPreferredSize(new Dimension(1050, 600));
-		jp_all.setPreferredSize(new Dimension(950,600));
 		System.out.println("THIS w: "+this.getWidth()+" h: "+this.getHeight());
 		System.out.println("ALL w: "+this.jp_all.getWidth()+" h: "+this.jp_all.getHeight());
 		System.out.println("AFFLISTEETU w: "+this.jp2_affichListEtu.getWidth()+" h: "+this.jp2_affichListEtu.getHeight());
-		definirTaille();
+	//	definirTaille();
 	}
 	
 	
