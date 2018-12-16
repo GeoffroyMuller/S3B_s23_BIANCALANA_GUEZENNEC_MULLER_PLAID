@@ -15,6 +15,7 @@ public class CatégorieExtension extends JList<Categorie>{
 	
 	public CatégorieExtension(DefaultListModel<Categorie> dlmc ) {
 		super(dlmc);
+		
 	}
 	
 	
