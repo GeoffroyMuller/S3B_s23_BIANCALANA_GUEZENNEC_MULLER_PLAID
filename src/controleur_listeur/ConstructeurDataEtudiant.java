@@ -1,13 +1,13 @@
-package controleur_composante_graphique;
+package controleur_listeur;
 
 import java.util.ArrayList;
 
 import modele.*;
 
-public class constructeurDataEtudiant {
+public class ConstructeurDataEtudiant {
 	ArrayList<Etudiant> le ;
 	
-	public constructeurDataEtudiant(ArrayList<Etudiant> ple) {
+	public ConstructeurDataEtudiant(ArrayList<Etudiant> ple) {
 		le=ple;
 	}
 	

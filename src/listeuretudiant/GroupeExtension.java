@@ -1,4 +1,4 @@
-package composante_graphique;
+package listeuretudiant;
 
 import javax.swing.JList;
 

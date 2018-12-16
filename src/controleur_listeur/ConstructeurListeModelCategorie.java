@@ -1,4 +1,4 @@
-package controleur_composante_graphique;
+package controleur_listeur;
 
 import java.util.ArrayList;
 

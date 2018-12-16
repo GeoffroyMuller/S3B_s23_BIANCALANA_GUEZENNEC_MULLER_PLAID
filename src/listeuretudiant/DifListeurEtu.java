@@ -1,26 +1,27 @@
-package composante_graphique;
+package listeuretudiant;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
-import controleur_composante_graphique.ConstructeurListeModelCategorie;
-import controleur_composante_graphique.constructeurDataEtudiant;
+import controleur_listeur.ConstructeurListeModelCategorie;
+import controleur_listeur.ConstructeurDataEtudiant;
 import modele.*;
 
-public class DifListeurCatégorie extends JSplitPane{
+public class DifListeurEtu extends JSplitPane{
 	
 	private ArrayList<Etudiant> listeEtu;
 	private JScrollPane jspLeft;
 	private JScrollPane jspRight;
 	private ConstructeurListeModelCategorie constructeurLMC;
-	private constructeurDataEtudiant constructeurDATACOL;
+	private ConstructeurDataEtudiant constructeurDATACOL;
 	
 
 	
-		public DifListeurCatégorie() {
+		public DifListeurEtu() {
 			//Donnée temporaire ppour la démo
 			//Il faudra utiliser le listeur des sauvegardes de catégorie après
 			ArrayList<Categorie> lc = new ArrayList<>();
@@ -38,13 +39,16 @@ public class DifListeurCatégorie extends JSplitPane{
 			//---------------
 			
 			constructeurLMC = new ConstructeurListeModelCategorie(lc);
-			constructeurDATACOL = new constructeurDataEtudiant(le);
+			constructeurDATACOL = new ConstructeurDataEtudiant(le);
 			
 			jspLeft = new JScrollPane(new CatégorieExtension(constructeurLMC.genererModelCatégorie()));
 			
+			
 			jspRight = new JScrollPane(new JTable(constructeurDATACOL.genererDataLigneEtu(), constructeurDATACOL.GenereColonneEtu()));			
-			this.setLeftComponent(jspLeft);
+			this.setLeftComponent(new PanelGauche(jspLeft));
+			jspLeft.setMinimumSize(new Dimension(250, 500));
 			this.setRightComponent(jspRight);
+			
 		}
 		
 		
