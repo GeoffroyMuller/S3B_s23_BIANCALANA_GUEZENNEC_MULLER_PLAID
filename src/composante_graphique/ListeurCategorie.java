@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -80,7 +81,9 @@ public class ListeurCategorie extends JPanel{
 		this.add(jpp_principale);
 	}
 	
-	
+	public void paintComponent(Graphics g) {
+		g.fillRect(10, 10, 10, 10);
+	}
 	
 	
 	/**

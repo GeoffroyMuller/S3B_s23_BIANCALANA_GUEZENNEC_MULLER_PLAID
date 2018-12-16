@@ -275,7 +275,7 @@ public class VueExamen extends JPanel{
 		jp_all.setPreferredSize(new Dimension(w-100, h-40));
 
 		int width = w/4;
-		//jp2_affichListEtu.setPreferredSize(new Dimension(width, h));
+		jp2_affichListEtu.setPreferredSize(new Dimension(width, h));
 		contour_affichContour_North.setPreferredSize(new Dimension(100, 40));
 		contour_affichContour_South.setPreferredSize(new Dimension(100, 80));
 		contour_affichContour_East.setPreferredSize(new Dimension(30, 40));
