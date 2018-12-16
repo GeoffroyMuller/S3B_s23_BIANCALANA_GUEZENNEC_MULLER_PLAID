@@ -3,12 +3,14 @@ package modele;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+import java.util.Objects;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Groupe.
  */
-public class Groupe implements Serializable{
+public class Groupe implements Serializable, Comparable<Groupe> {
 
 	/** The groupe. */
 	private String nom;
@@ -120,5 +122,32 @@ public class Groupe implements Serializable{
 			}
 		}
 		return res;
+	}
+
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == null || getClass() != o.getClass()) return false;
+		Groupe groupe = (Groupe) o;
+		if (this == o) return true;
+		return nom.equals(groupe.nom);
+	}
+
+	@Override
+	public int hashCode() {
+		return nom.hashCode();
+	}
+
+	@Override
+	public int compareTo(Groupe o) {
+		return (this.nom.compareTo(o.getNom()));
 	}
 }
