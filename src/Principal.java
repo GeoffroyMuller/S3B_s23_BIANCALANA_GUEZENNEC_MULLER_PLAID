@@ -34,8 +34,8 @@ public class Principal {
         fenetre.getContentPane().add(onglets,BorderLayout.CENTER);
         fenetre.setJMenuBar(barreOutils);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setMinimumSize(new Dimension(1070,550));
-        fenetre.setSize(new Dimension(1070,900));
+        fenetre.setMinimumSize(new Dimension(1060,550));
+        fenetre.setSize(new Dimension(1060,900));
         fenetre.setVisible(true);
     }
 }

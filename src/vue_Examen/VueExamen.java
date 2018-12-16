@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -32,13 +33,12 @@ public class VueExamen extends JPanel{
 	private Examen examen;
 	private ControleurExamen controleur_Exam = new ControleurExamen();
 
-	private int width_this;
-	private int height_this;
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
 	 */
-	private JPanel jp_all = new JPanel(new BorderLayout());	//JPanel qui contient tous les autre JPanel
-
+	private JPanel jp_all = new JPanel(new GridBagLayout());	//JPanel qui contient tous les autre JPanel
+	
+	private GridBagConstraints gbc = new GridBagConstraints();
 	private JPanel jpp_creation_marge = new JPanel(new BorderLayout());				//JPanel principal contient les JPanel qui concerne la creation d'un Examen et contour
 	private JPanel jpp_affichListEtu_marge = new JPanel(new BorderLayout());		//JPanel principal contient le JPanel de liste d'etudiant et contour
 
@@ -85,14 +85,18 @@ public class VueExamen extends JPanel{
 	 */
 	public VueExamen() {
 		//this.setPreferredSize(new Dimension(1500, 800));
+		
 		examen = new Examen();
 		listeur = new ListeurCategorie(examen.getListecateg(), controleur_Exam);
 		this.setBackground(new Color(138, 138, 138));
-		jp_all.setBackground(Color.BLACK);
+		jp_all.setBackground(new Color(138, 138, 138));
 		creerZoneCreation();
 		creerZoneAffichageEtu();
 		couleurJpp_marge(new Color(138, 138, 138));
+		placerElementPrincipaux();
 		this.add(jp_all);
+		//a changer
+		definirTaille(1000, 300);
 	}
 	
 
@@ -155,7 +159,7 @@ public class VueExamen extends JPanel{
 		jp4_contrainte.add(paneldev);
 
 		//ajout de "jpp" aux "jp_all"
-		this.jp_all.add(jpp_creation_marge, BorderLayout.CENTER);
+		this.jp_all.add(jpp_creation_marge);
 	}
 	
 	
@@ -185,8 +189,8 @@ public class VueExamen extends JPanel{
 		jp2_affichListEtu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 		
 		// ajout de "jps" aux "this"
-		this.jp_all.add(jpp_affichListEtu_marge, BorderLayout.EAST);
-
+		this.jp_all.add(jpp_affichListEtu_marge);
+		
 	}
 	
 	
@@ -269,13 +273,32 @@ public class VueExamen extends JPanel{
 	public void definirTaille(int w, int h) {
 		this.setPreferredSize(new Dimension(w, h));
 		jp_all.setPreferredSize(new Dimension(w-100, h-40));
+
+		int width = w/4;
+		//jp2_affichListEtu.setPreferredSize(new Dimension(width, h));
 		contour_affichContour_North.setPreferredSize(new Dimension(100, 40));
 		contour_affichContour_South.setPreferredSize(new Dimension(100, 80));
-		contour_affichContour_East.setPreferredSize(new Dimension(w/200, 40));
-		contour_affichContour_West.setPreferredSize(new Dimension(50, 40));
+		contour_affichContour_East.setPreferredSize(new Dimension(30, 40));
+		contour_affichContour_West.setPreferredSize(new Dimension(30, 40));
 		
-		contour_creation_West.setPreferredSize(new Dimension(70, 0));
-		jp2_affichListEtu.setPreferredSize(new Dimension(this.getWidth()/4, h));
+		contour_creation_West.setPreferredSize(new Dimension(40, 0));
+		
+	}
+	
+	public void placerElementPrincipaux() {
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.4;
+		gbc.weighty = 2;
+		jp_all.add(jpp_creation_marge, gbc);
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.3;
+		gbc.weighty = 1;
+		jp2_affichListEtu.setPreferredSize(new Dimension(100, 200));
+		jp_all.add(jpp_affichListEtu_marge, gbc);
 	}
 	
 	
@@ -284,6 +307,7 @@ public class VueExamen extends JPanel{
 		super.paintComponent(g);
 		paneldev.ajouterInfo("THIS w: "+getWidth()+" h: "+this.getHeight());
 		paneldev.ajouterInfo("jp2_affichlistEtu w: "+jp2_affichListEtu.getWidth()+" h: "+jp2_affichListEtu.getHeight());
+	
 	}
 	
 	
