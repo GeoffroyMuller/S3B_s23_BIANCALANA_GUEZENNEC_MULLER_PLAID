@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+
 
 import controleur_listeur.ConstructeurListeModelCategorie;
 import controleur_listeur.ConstructeurDataEtudiant;
@@ -25,6 +25,8 @@ public class DifListeurEtu extends JSplitPane{
 	private JScrollPane jspRight;
 	private ConstructeurListeModelCategorie constructeurLMC;
 	private ConstructeurDataEtudiant constructeurDATACOL;
+	AfficheurTree afftree;
+	JTable tabledata;
 
 
 
@@ -74,7 +76,7 @@ public class DifListeurEtu extends JSplitPane{
 
 		//---------------
 
-		constructeurLMC = new ConstructeurListeModelCategorie(lc);
+		//constructeurLMC = new ConstructeurListeModelCategorie(lc);
 		
 		/**
 		ArrayList<Groupe> lgtest = new ArrayList<Groupe>() ;
@@ -90,15 +92,26 @@ public class DifListeurEtu extends JSplitPane{
 		
 		
 		
+		afftree = new AfficheurTree(lc,this);
+		jspLeft = new JScrollPane( afftree);
 
-		jspLeft = new JScrollPane( new AfficheurTree(lc));
-
-
-		jspRight = new JScrollPane(new JTable(constructeurDATACOL.genererDataLigneEtu(), constructeurDATACOL.GenereColonneEtu()));			
+		tabledata = new JTable(constructeurDATACOL.genererDataLigneEtu(),constructeurDATACOL.GenereColonneEtu());
+		jspRight = new JScrollPane(tabledata);			
 		this.setLeftComponent(new PanelGauche(jspLeft));
 		jspLeft.setMinimumSize(new Dimension(250, 500));
 		this.setRightComponent(jspRight);
+		this.setDividerSize(100);
 
+	}
+	
+	public void majData(ArrayList<Groupe> plg) {
+		constructeurDATACOL=new ConstructeurDataEtudiant(plg);
+		
+		tabledata=new JTable(constructeurDATACOL.genererDataLigneEtu(),constructeurDATACOL.GenereColonneEtu());
+		jspRight = new JScrollPane(tabledata);
+		this.setRightComponent(jspRight);
+		this.revalidate();
+	
 	}
 
 	public ArrayList<Groupe> selectAll(ArrayList<Categorie> lc){

@@ -29,7 +29,7 @@ public class PanelListeurEtu extends JPanel{
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(0,10,20,0);
+        gbc.insets = new Insets(0,50,20,50);
         
         this.add(dls,gbc);
 		
