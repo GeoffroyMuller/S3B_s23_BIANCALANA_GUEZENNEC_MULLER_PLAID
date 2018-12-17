@@ -1,35 +1,62 @@
 package modele;
 
-import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GestionnaireFichier implements Serializable{
 
-	Object o;
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GestionnaireFichier.
+ */
+public class GestionnaireFichier{
 
-	public GestionnaireFichier() {
 
-	}
-
+	/**
+	 * Sauvegarde.
+	 *
+	 * @param categorie the categorie
+	 */
 	public static void sauvegarde(Categorie categorie) {
-
+		//Le nom du fichier qui sera sauvegarder et le nom de la categorie
+		String nomFichier=categorie.getNom();
+		//L'emplacement ou se situe les sauvegardes
+		String emplacement = "./Save/Categorie/";
+		File fi = new File(emplacement,"index");
+		ArrayList<String> index;
+		boolean trouve=false;
+		//verification si il y a deja un index
+		if(fi.exists()) {
+			//on le recuperer
+			index = GestionnaireFichier.recuperationIndex(emplacement);
+			//verification si la categorie et pas deja sauvegarder
+			for(int i=0;i<index.size();i++)
+			{
+				if(index.get(i).equals(nomFichier))
+				{
+					trouve = true;
+				}
+			}
+		}
+		else {
+			index = new ArrayList<String>();
+		}
+		if(!trouve) {
+			index.add(nomFichier);
+		}
+		GestionnaireFichier.ecritureIndex(emplacement,index);
 		try {
-			FileOutputStream fileOut = new FileOutputStream("test");
+			File fichier = new File("./Save/Categorie/",nomFichier);
+			FileOutputStream fileOut = new FileOutputStream(fichier);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 			out.writeObject(categorie);
 			out.close();
 			fileOut.close();
-			System.out.println("Sauvegarde terminée avec succès...\n");
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -37,15 +64,18 @@ public class GestionnaireFichier implements Serializable{
 		}
 	}
 
-
-	public static Categorie lireSauvegarde() {
-
-
+	/**
+	 * Lire sauvegarde categorie.
+	 *
+	 * @param nomFichier the nom fichier
+	 * @return the categorie
+	 */
+	public static Categorie lireSauvegardeCategorie(String nomFichier) {
 		//lecture
 		Categorie categorie;
 		try {
-			System.out.println("Lecture en cours...\n");
-			FileInputStream fileIn = new FileInputStream("test");
+			File fichier = new File("./Save/Categorie/",nomFichier);
+			FileInputStream fileIn = new FileInputStream(fichier);
 			ObjectInputStream ois = new ObjectInputStream(fileIn);
 			categorie = (Categorie) ois.readObject();
 			ois.close();
@@ -61,6 +91,69 @@ public class GestionnaireFichier implements Serializable{
 		return null;
 	}
 
+	/**
+	 * Recuperation index categorie.
+	 *
+	 * @param emplacement the emplacement
+	 * @return the array list
+	 */
+	public static ArrayList<String> recuperationIndex(String emplacement) {
+		try {
+			//lecture de l'index
+			File fichier = new File(emplacement,"index");
+			FileInputStream fileIn = new FileInputStream(fichier);
+			ObjectInputStream ois = new ObjectInputStream(fileIn);
+			ArrayList<String> Index = (ArrayList<String>) ois.readObject();
+			ois.close();
+			fileIn.close();
+			return Index;
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * Ecriture index categorie.
+	 *
+	 * @param emplacement the emplacement
+	 * @param nvIndex the nv index
+	 */
+	public static void ecritureIndex(String emplacement,ArrayList<String> nvIndex) {
+		try {
+			//ecriture de l index
+			File fichier = new File(emplacement,"index");
+			FileOutputStream fileOut = new FileOutputStream(fichier);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			out.writeObject(nvIndex);
+			out.close();
+			fileOut.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static ArrayList<Categorie> recuperationTouteCategorie(){
+		ArrayList<String> index = GestionnaireFichier.recuperationIndex("./Save/Categorie/");
+		ArrayList<Categorie> listCat = new ArrayList<Categorie>();
+		for(int i=0;i<index.size();i++) {
+			listCat.add(GestionnaireFichier.lireSauvegardeCategorie(index.get(i)));
+		}
+		return listCat;
+	}
+
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	//test
 	public static void main (String [] args) {
 		Etudiant e1=new Etudiant("Plaid","Justin");
@@ -77,8 +170,17 @@ public class GestionnaireFichier implements Serializable{
 		c1.ajouterGroupe(g1);
 		c1.ajouterGroupe(g2);
 		GestionnaireFichier.sauvegarde(c1);
-		Categorie c2=GestionnaireFichier.lireSauvegarde();
+		Categorie c2=GestionnaireFichier.lireSauvegardeCategorie("cat");
 		System.out.println("Lire les données:");
 		System.out.println(c2.getListegroupe().get(0).getListeEtudiants().get(0).getNom());
+		ArrayList<String> index = GestionnaireFichier.recuperationIndex("./Save/Categorie/");
+		for(int i=0;i<index.size();i++) {
+			System.out.println(index.get(i));
+		}
+		System.out.println("toute les cat");
+		ArrayList<Categorie> listCat = GestionnaireFichier.recuperationTouteCategorie();
+		for(int i=0;i<listCat.size();i++) {
+			System.out.println(listCat.get(i).getNom());
+		}
 	}
 }

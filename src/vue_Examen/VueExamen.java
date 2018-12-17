@@ -55,6 +55,8 @@ public class VueExamen extends JPanel{
 	private JPanel jp4_matiereExamen = new JPanel();		//JPanel 4 contient la Matiere de l'Examen
 	private JPanel jp4_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
 
+	
+	
 	private JPanel contour_creation_South = new JPanel();
 	private JPanel contour_creation_North = new JPanel();
 	private JPanel contour_creation_East = new JPanel();
@@ -110,11 +112,11 @@ public class VueExamen extends JPanel{
 
 		//ajout de couleur de font au JPanel
 
-		jp4_nomExamen.setBackground(Color.green);
-		jp4_matiereExamen.setBackground(Color.green);
-		jp4_dateExamen.setBackground(Color.green);
+		//jp4_nomExamen.setBackground(Color.green);
+		//jp4_matiereExamen.setBackground(Color.green);
+		//jp4_dateExamen.setBackground(Color.green);
 
-		jp2_creation.setBackground(Color.black);
+		//jp2_creation.setBackground(Color.black);
 
 		//ajout de label aux "jp4"
 		jp4_nomExamen.add(jl_nom);
@@ -156,7 +158,7 @@ public class VueExamen extends JPanel{
 		jpp_creation_marge.add(contour_creation_East, BorderLayout.EAST);
 		jpp_creation_marge.add(contour_creation_West, BorderLayout.WEST);
 		
-		jp4_contrainte.add(paneldev);
+		
 
 		//ajout de "jpp" aux "jp_all"
 		this.jp_all.add(jpp_creation_marge);
@@ -191,6 +193,7 @@ public class VueExamen extends JPanel{
 		// ajout de "jps" aux "this"
 		this.jp_all.add(jpp_affichListEtu_marge);
 		
+		jp2_affichListEtu.add(paneldev);
 	}
 	
 	

@@ -20,7 +20,7 @@ public class ListeurCategorie extends JPanel{
 	
 	private ControleurExamen ctrlexam;
 	private ArrayList<Categorie> listecategorie;
-	private boolean activCheckbox = false;	//true : active les checkbox
+	private boolean activCheckbox = true;	//true : active les checkbox
 	
 	JPanel jpp_principale = new JPanel(new BorderLayout());	//JPanel pricipale
 	JScrollPane scrollpane;						//contient le panel listprincipale
