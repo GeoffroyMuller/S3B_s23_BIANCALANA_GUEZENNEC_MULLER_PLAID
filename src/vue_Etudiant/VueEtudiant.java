@@ -57,11 +57,11 @@ public class VueEtudiant extends JPanel implements Observer{
         gbc.weightx = 1;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.insets = new Insets(20,10,20,0);
+        gbc.insets = new Insets(20,10,10,0);
 		
 		
 		
-		
+		topBarre.setBackground(Color.orange);
 		topBarre.add(bouttonImport,gbc);
 		
 		
@@ -85,7 +85,7 @@ public class VueEtudiant extends JPanel implements Observer{
         gbc.weightx = 1;
         gbc.weighty = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(20,10,20,0);
+        gbc.insets = new Insets(0,10,0,0);
 		
 		this.add(topBarre,gbc);
 		
@@ -119,7 +119,6 @@ public class VueEtudiant extends JPanel implements Observer{
 	@Override
 	public void paintComponent(Graphics g){
 	
-		this.redim();
 		super.paintComponent(g);
 		
 	}
@@ -131,17 +130,6 @@ public class VueEtudiant extends JPanel implements Observer{
 		
 	}
 	
-	public void redim() {
-		
-		this.bouttonImport.setBackground(Color.red);
-		System.out.println("redim");
-		//topBarre.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/10));
-		
-		System.out.println(this.getSize());
-		System.out.println(this.bouttonImport.getParent().getSize());
-		
-		System.out.println(this.bouttonImport.getSize());
-	}
 
 
 }

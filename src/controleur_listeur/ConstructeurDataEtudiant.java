@@ -5,18 +5,28 @@ import java.util.ArrayList;
 import modele.*;
 
 public class ConstructeurDataEtudiant {
-	ArrayList<Etudiant> le ;
+	private ArrayList<Groupe> lg ;
 	
-	public ConstructeurDataEtudiant(ArrayList<Etudiant> ple) {
-		le=ple;
+	public ConstructeurDataEtudiant(ArrayList<Groupe> plg) {
+		lg=plg;
 	}
 	
 	public String[][] genererDataLigneEtu(){
-		String[][] data = new String[100000][3];
-		for (int i = 0; i < le.size(); i++) {
-			data[i][0]=le.get(i).getNom();
-			data[i][1]=le.get(i).getPrenom();
-			data[i][2]=le.get(i).getEmail();
+		String[][] data = new String[100000][4];
+		int row;
+		row=0;
+		for (int i = 0; i < lg.size(); i++) {
+			ArrayList<Etudiant> le = lg.get(i).getListeEtudiants(); 
+			System.out.println("fffff"+i);
+			for (int j = 0; j < le.size(); j++) {
+				data[row][0]=le.get(j).getNom();
+				data[row][1]=le.get(j).getPrenom();
+				data[row][2]=lg.get(i).getNom();
+				System.out.println(i);
+				data[row][3]=le.get(j).getEmail();
+				row++;
+			}
+
 		}
 		
 		return data;
@@ -24,7 +34,7 @@ public class ConstructeurDataEtudiant {
 	}
 	
 	public String[] GenereColonneEtu() {
-		String[] colo = new String[] {"Nom","Prenom","Email"};
+		String[] colo = new String[] {"Nom","Prenom","Groupe","Email"};
 		return colo;
 	}
 

@@ -144,4 +144,12 @@ public class Etudiant implements Serializable{
 	public void setListParticularite(ArrayList<Particularite> listParticularite) {
 		this.listParticularite = listParticularite;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Etudiant [nom=" + nom + ", id=" + id + ", prenom=" + prenom + ", email=" + email + "]";
+	}
+	
+	
 }
