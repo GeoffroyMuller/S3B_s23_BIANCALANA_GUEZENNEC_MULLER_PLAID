@@ -12,7 +12,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
 import controleur_listeur.ConstructeurListeModelCategorie;
 import controleur_listeur.ConstructeurDataEtudiant;

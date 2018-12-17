@@ -15,7 +15,7 @@ import java.awt.*;
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
 public class VueSalle extends JPanel {
-    private JScrollPane containerDeLaListeJScroll;
+    private JScrollPane containerDeLaListeJScroll, visualisationSalle;
     private JPanel contenantPartieGauche;
     private JPanel contenantMilieu;
 
@@ -66,8 +66,8 @@ public class VueSalle extends JPanel {
         ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle();
 
         //Partie visualisation de la liste (Partie du milieux)
-        JScrollPane visualisationSalle = new JScrollPane(this.construireSalle(DEFAULT_SIZE_ROOM_WIDTH,DEFAULT_SIZE_ROOM_HEIGHT));
-        visualisationSalle.setPreferredSize(new Dimension(400,400));
+        this.visualisationSalle = new JScrollPane(this.construireSalle(DEFAULT_SIZE_ROOM_WIDTH,DEFAULT_SIZE_ROOM_HEIGHT));
+        this.visualisationSalle.setPreferredSize(new Dimension(400,400));
             //Mise en place du controlleur
         this.contenantMilieu = new JPanel();
         this.contenantMilieu.setLayout(new GridBagLayout());
@@ -143,6 +143,7 @@ public class VueSalle extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/3, this.getParent().getHeight()));
+        this.visualisationSalle.setPreferredSize(new Dimension(this.getParent().getWidth()/3,this.getParent().getWidth()/3));
     }
 
     /**
