@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 public class VueContrainte extends JPanel{
 
@@ -31,13 +33,14 @@ public class VueContrainte extends JPanel{
 	}
 	
 	public void creerZoneContrainte() {
-		jp_emplacement.setBorder(BorderFactory.createTitledBorder("Emplacement"));
-		jp_grpEtudiant.setBorder(BorderFactory.createTitledBorder("Groupe Etudiant"));
+		Border bordurecolor = new LineBorder(Color.BLACK);
+		jp_emplacement.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Emplacement"));
+		jp_grpEtudiant.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Groupe Etudiant"));
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+		gbc.weightx = 0.2;
 		gbc.weighty = 0.2;
 		this.add(jl_containte, gbc);
 		gbc.gridx = 1;
@@ -69,7 +72,7 @@ public class VueContrainte extends JPanel{
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setMinimumSize(new Dimension(900,200));
+		fenetre.setMinimumSize(new Dimension(500,100));
 
 		VueContrainte vuec = new VueContrainte();
 		fenetre.add(vuec);
