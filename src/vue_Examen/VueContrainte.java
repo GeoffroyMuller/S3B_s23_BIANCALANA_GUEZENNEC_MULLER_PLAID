@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,25 +18,31 @@ import javax.swing.border.LineBorder;
 public class VueContrainte extends JPanel{
 
 	private JLabel jl_containte;
-	private JPanel jp_emplacement;
+	private JPanel jp_espacement;
 	private JPanel jp_grpEtudiant;
 	private GridBagConstraints gbc;
-	
+	private JComboBox jcb_espacement;
+	private String[] tab_espacement = {"0", "1", "2", "3", "4", "5"};;
 	
 	public VueContrainte() {
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
 		jl_containte = new JLabel("Contrainte");
-		jp_emplacement = new JPanel();
+		jp_espacement = new JPanel();
 		jp_grpEtudiant = new JPanel();
-		jp_emplacement.setPreferredSize(new Dimension(100, 100));
+		
+		jcb_espacement = new JComboBox(tab_espacement);
+		
+		jp_espacement.setPreferredSize(new Dimension(100, 100));
 		creerZoneContrainte();
 	}
 	
 	public void creerZoneContrainte() {
 		Border bordurecolor = new LineBorder(Color.BLACK);
-		jp_emplacement.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Emplacement"));
+		jp_espacement.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Espacement"));
 		jp_grpEtudiant.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Groupe Etudiant"));
+		
+		jp_espacement.add(jcb_espacement);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -46,9 +53,9 @@ public class VueContrainte extends JPanel{
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+		gbc.weightx = 0.154;
 		gbc.weighty = 0.2;
-		this.add(jp_emplacement, gbc);
+		this.add(jp_espacement, gbc);
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;

@@ -50,7 +50,7 @@ public class VueExamen extends JPanel{
 
 	private JPanel jp4_grpParticip = new JPanel();		//JPanel 3 contient la partie de gestion des groupes pour un Examen
 	private JPanel jp4_sallePriori = new JPanel();		//JPanel 3 contient la partie de gestion des salles utiliser pour un Examen
-	private JPanel jp4_contrainte = new JPanel();  		//JPanel 3 contient la partie de gestion des contraintes pour un Examen
+	private JPanel jp4_contrainte = new VueContrainte();  		//JPanel 3 contient la partie de gestion des contraintes pour un Examen
 	private JPanel jp4_nomExamen = new JPanel();			//JPanel 4 contient le Nom de l'Examen
 	private JPanel jp4_matiereExamen = new JPanel();		//JPanel 4 contient la Matiere de l'Examen
 	private JPanel jp4_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
@@ -76,7 +76,6 @@ public class VueExamen extends JPanel{
 	private JLabel jl_matiere = new JLabel("Matiere");					//JLabel Matiere
 	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 	//JLabel Groupe Participant
 	private JLabel jl_sallePriori = new JLabel("Salle par priorité");	//JLabel Salle par priorité
-	private JLabel jl_contrainte = new JLabel("Contrainte");				//JLabel Contrainte
 
 
 	private JButton jb_creerExam = controleur_Exam.getJb_creerExam();
@@ -251,10 +250,9 @@ public class VueExamen extends JPanel{
 	private void ajouterJLabel(Color colorp) {
 		jp4_grpParticip.add(jl_grpParticip);
 		jp4_sallePriori.add(jl_sallePriori);
-		jp4_contrainte.add(jl_contrainte);
 		jl_grpParticip.setForeground(colorp);
 		jl_sallePriori.setForeground(colorp);
-		jl_contrainte.setForeground(colorp);
+
 	}
 	/**
 	 * Creer les Bordures avec la couleur passer en parametre
