@@ -48,7 +48,7 @@ public class VueExamen extends JPanel{
 	private JPanel jp3_infoExamen = new JPanel();		//JPanel 3 contient les JPanel de Nom, Date et de Matiere d'un Examen
 	private JPanel jp3_centrecreation = new JPanel(new BorderLayout()); //JPanel 3 contient les JPanel de grpParticip, sallePriori, contrainte
 
-	private JPanel jp4_grpParticip = new JPanel();		//JPanel 3 contient la partie de gestion des groupes pour un Examen
+	private JPanel jp4_grpParticip = new VueGroupeParticipant();		//JPanel 3 contient la partie de gestion des groupes pour un Examen
 	private JPanel jp4_sallePriori = new JPanel();		//JPanel 3 contient la partie de gestion des salles utiliser pour un Examen
 	private JPanel jp4_contrainte = new VueContrainte();  		//JPanel 3 contient la partie de gestion des contraintes pour un Examen
 	private JPanel jp4_nomExamen = new JPanel();			//JPanel 4 contient le Nom de l'Examen
@@ -69,12 +69,12 @@ public class VueExamen extends JPanel{
 
 	private JPanel jp_boutton = new JPanel(new BorderLayout());		//JPanel contient le boutton de creation d'examen
 
-	private ListeurCategorie listeur;
+	//private ListeurCategorie listeur;
 
 	private JLabel jl_nom = new JLabel("Nom");							//JLabel Nom
 	private JLabel jl_date = new JLabel("Date");						//JLabel Date
 	private JLabel jl_matiere = new JLabel("Matiere");					//JLabel Matiere
-	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 	//JLabel Groupe Participant
+	//private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 	//JLabel Groupe Participant
 	private JLabel jl_sallePriori = new JLabel("Salle par priorité");	//JLabel Salle par priorité
 
 
@@ -88,7 +88,7 @@ public class VueExamen extends JPanel{
 		//this.setPreferredSize(new Dimension(1500, 800));
 		
 		examen = new Examen();
-		listeur = new ListeurCategorie(examen.getListecateg(), controleur_Exam);
+		//listeur = new ListeurCategorie(examen.getListecateg(), controleur_Exam);
 		this.setBackground(new Color(138, 138, 138));
 		jp_all.setBackground(new Color(138, 138, 138));
 		creerZoneCreation();
@@ -128,7 +128,7 @@ public class VueExamen extends JPanel{
 		jp4_dateExamen.add(controleur_Exam.getJtf_Date());
 
 		//ajout sur "jp4"
-		jp4_grpParticip.add(listeur);
+		//jp4_grpParticip.add(listeur);
 
 		//ajout de "jp4" aux "jp3"
 		jp3_infoExamen.add(jp4_nomExamen);
@@ -248,9 +248,9 @@ public class VueExamen extends JPanel{
 	 * @param colorp
 	 */
 	private void ajouterJLabel(Color colorp) {
-		jp4_grpParticip.add(jl_grpParticip);
+		//jp4_grpParticip.add(jl_grpParticip);
 		jp4_sallePriori.add(jl_sallePriori);
-		jl_grpParticip.setForeground(colorp);
+		//jl_grpParticip.setForeground(colorp);
 		jl_sallePriori.setForeground(colorp);
 
 	}

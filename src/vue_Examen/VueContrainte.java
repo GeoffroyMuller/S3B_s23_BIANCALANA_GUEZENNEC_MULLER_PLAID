@@ -37,6 +37,9 @@ public class VueContrainte extends JPanel{
 		creerZoneContrainte();
 	}
 	
+	/**
+	 * permet de creer le JPanel de gestion de contrainte 
+	 */
 	public void creerZoneContrainte() {
 		Border bordurecolor = new LineBorder(Color.BLACK);
 		jp_espacement.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Espacement"));
@@ -72,7 +75,6 @@ public class VueContrainte extends JPanel{
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("THIS Contrainte w "+this.getWidth()+" h "+this.getHeight());
 	}
 	
 	public static void main(String arg[]) {
