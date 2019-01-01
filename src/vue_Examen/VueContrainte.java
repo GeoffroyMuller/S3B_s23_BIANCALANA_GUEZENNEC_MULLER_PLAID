@@ -33,7 +33,7 @@ public class VueContrainte extends JPanel{
 		
 		jcb_espacement = new JComboBox(tab_espacement);
 		
-		jp_espacement.setPreferredSize(new Dimension(100, 100));
+		jp_espacement.setPreferredSize(new Dimension(100, 60));
 		creerZoneContrainte();
 	}
 	
@@ -51,19 +51,19 @@ public class VueContrainte extends JPanel{
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.2;
-		gbc.weighty = 0.2;
+		gbc.weighty = 0.1;
 		this.add(jl_containte, gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.154;
-		gbc.weighty = 0.2;
+		gbc.weighty = 0.1;
 		this.add(jp_espacement, gbc);
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1;
-		gbc.weighty = 0.2;
+		gbc.weighty = 0.1;
 		this.add(jp_grpEtudiant, gbc);
 		
 		
