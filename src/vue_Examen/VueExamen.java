@@ -43,7 +43,7 @@ public class VueExamen extends JPanel{
 	private JPanel jpp_affichListEtu_marge = new JPanel(new BorderLayout());		//JPanel principal contient le JPanel de liste d'etudiant et contour
 
 	private JPanel jp2_affichListEtu = new JPanel();	//JPanel 2 contient la Liste les Etudiants participant a l'Examen
-	private JPanel jp2_creation = new VueCreation();			//JPanel 2 contient les JPanel qui concerne la creation d'un Examen
+	private JPanel jp2_creation;			//JPanel 2 contient les JPanel qui concerne la creation d'un Examen
 	
 	
 	private JPanel contour_creation_South = new JPanel();
@@ -66,6 +66,7 @@ public class VueExamen extends JPanel{
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
 		examen = new Examen();
+		jp2_creation = new VueCreation(controleur_Exam, examen);	
 		this.setBackground(new Color(138, 138, 138));
 		jp_all.setBackground(new Color(138, 138, 138));
 		creerZoneCreation();
@@ -73,7 +74,6 @@ public class VueExamen extends JPanel{
 		couleurJpp_marge(new Color(138, 138, 138));
 		placerElementPrincipaux();
 		this.add(jp_all);
-		//a changer
 		definirTaille(1000, 300);
 	}
 	
@@ -154,7 +154,6 @@ public class VueExamen extends JPanel{
 		contour_affichContour_East.setBackground(colorp); 
 		contour_affichContour_West.setBackground(colorp);
 
-		//jp_boutton.setBackground(colorp);
 	}
 
 

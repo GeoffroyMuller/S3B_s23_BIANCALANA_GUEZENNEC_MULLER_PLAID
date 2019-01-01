@@ -7,8 +7,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controleur_Examen.ControleurExamen;
+import modele.Examen;
 
 public class VueInfoExamen extends JPanel{
+	private Examen examen;
 	private ControleurExamen controleur_Exam;
 	
 	private JLabel jl_nom = new JLabel("Nom");							//JLabel Nom
@@ -19,12 +21,13 @@ public class VueInfoExamen extends JPanel{
 	private JPanel jp_matiereExamen = new JPanel();		//JPanel 4 contient la Matiere de l'Examen
 	private JPanel jp_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
 	
-	public VueInfoExamen(ControleurExamen ctrlexamp) {
+	public VueInfoExamen(ControleurExamen ctrlexamp, Examen examenp) {
+		examen = examenp;
 		controleur_Exam = ctrlexamp;                                     
 		creerZoneInfo();
 	}
 	
-	public void creerZoneInfo() {
+	private void creerZoneInfo() {
 		jp_nomExamen.add(jl_nom);
 		jp_matiereExamen.add(jl_matiere);
 		jp_dateExamen.add(jl_date);
@@ -45,7 +48,7 @@ public class VueInfoExamen extends JPanel{
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setMinimumSize(new Dimension(500,100));
 
-		VueInfoExamen vuec = new VueInfoExamen(new ControleurExamen());
+		VueInfoExamen vuec = new VueInfoExamen(new ControleurExamen(), new Examen());
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 

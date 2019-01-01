@@ -15,16 +15,20 @@ import modele.Examen;
 
 public class VueGroupeParticipant extends JPanel{
 	private Examen examen;
-	private ControleurExamen controleur_Exam = new ControleurExamen();
+	private ControleurExamen controleur_Exam;
+	
 	private ListeurCategorie listeur;
 	private GridBagConstraints gbc;
 	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 
 	
-	public VueGroupeParticipant() {
+	public VueGroupeParticipant(ControleurExamen ctrlexamp, Examen examenp) {
+		examen = examenp;
+		controleur_Exam = ctrlexamp;
+		
+	
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
-		examen = new Examen();
-		listeur = new ListeurCategorie(examen.getListecateg(), controleur_Exam);
+		listeur = new ListeurCategorie(examenp.getListecateg(), ctrlexamp);
 		creerZoneGroupeParticipant();
 	}
 	
@@ -56,7 +60,7 @@ public class VueGroupeParticipant extends JPanel{
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setMinimumSize(new Dimension(500,100));
 
-		VueGroupeParticipant vuec = new VueGroupeParticipant();
+		VueGroupeParticipant vuec = new VueGroupeParticipant(new ControleurExamen(), new Examen());
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 

@@ -15,16 +15,21 @@ import modele.Examen;
 
 public class VueCreation extends JPanel{
 	private Examen examen;
-	private ControleurExamen controleur_Exam = new ControleurExamen();
+	private ControleurExamen controleur_Exam;
+	
 	private GridBagConstraints gbc = new GridBagConstraints();
 	
-	private VueInfoExamen vue_infoExam = new VueInfoExamen(controleur_Exam);
-	private VueGroupeParticipant vue_grpParticip = new VueGroupeParticipant();
+	private VueInfoExamen vue_infoExam;
+	private VueGroupeParticipant vue_grpParticip;
 	private VueSallePriorite vue_sallePrio = new VueSallePriorite();
 	private VueContrainte vue_contrainte = new VueContrainte();
 	private JPanel jp_bouttonexam = new JPanel(new BorderLayout());
 	
-	public VueCreation() {
+	public VueCreation(ControleurExamen ctrlexamp, Examen examenp) {
+		examen = examenp;
+		controleur_Exam = ctrlexamp;
+		vue_infoExam = new VueInfoExamen(controleur_Exam, examen);
+		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, examen);
 		this.setBackground(Color.red);
 		creerZoneCreation();
 	}
@@ -84,7 +89,7 @@ public class VueCreation extends JPanel{
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setMinimumSize(new Dimension(500,100));
 
-		VueCreation vuec = new VueCreation();
+		VueCreation vuec = new VueCreation(new ControleurExamen(), new Examen());
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 
