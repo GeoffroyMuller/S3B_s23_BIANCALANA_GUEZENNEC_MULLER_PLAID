@@ -21,11 +21,13 @@ public class PanelListeur extends JPanel{
 	private Listeur listeur; //listeur qui contient this
 
 	private boolean activer;
+	JPanel jp;
 	private JPanel jp_all;
 	private JPanel jp_categorie;
 	private MouseListener ml;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Categorie categorie;	//categorie correspondant a this
+
 
 	public PanelListeur(Categorie categ, Listeur listeur) {
 		jp_all = new JPanel();
@@ -42,6 +44,7 @@ public class PanelListeur extends JPanel{
 		gbc.weightx = 0.2;
 		gbc.weighty = 0;
 		jp_all.add(jp_categorie, gbc);
+
 		this.add(jp_all, gbc);
 		ml = new MouseListener() {
 
@@ -61,12 +64,15 @@ public class PanelListeur extends JPanel{
 
 				if(activer) {
 					activer = false;
+
 					System.out.println(" >> desactiver");
 					jp_categorie.setBackground(Color.WHITE);
+					repaint();
 				}else {
 					activer = true;
+					repaint();
 					System.out.println(" >> activer");
-					int i = 1;
+					/*int i = 1;
 					ArrayList<Groupe> listegroupe = categorie.getListegroupe();
 					jp_categorie.setBackground(Color.GRAY);
 					JPanel jp;
@@ -79,11 +85,10 @@ public class PanelListeur extends JPanel{
 						gbc.fill = GridBagConstraints.BOTH;
 						gbc.weightx = 0;
 						gbc.weighty = 0;
-						System.out.println("ee");
 						jp_all.add(jp, gbc);
 
 						i++;
-					}
+					}*/
 
 				}
 			}
@@ -106,18 +111,42 @@ public class PanelListeur extends JPanel{
 
 			}
 		};
-		
+
 		jp_categorie.addMouseListener(this.ml);
 
 
 	}
 
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*10), (int)(Math.random()*50)));
 		g.fillRect(0, 10, 10, 10);
-		System.out.println("rr");
+
+		if(activer) {
+			System.out.println(" re");
+			jp_all.setVisible(false);
+			int i = 1;
+			ArrayList<Groupe> listegroupe = categorie.getListegroupe();
+			jp_categorie.setBackground(Color.GRAY);
+
+			for (Groupe groupe : listegroupe) {
+				jp = new JPanel();
+				jp.add(new JLabel(groupe.getNom()));
+
+				gbc.gridx = 0;
+				gbc.gridy = i;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.weightx = 0;
+				gbc.weighty = 0;
+				jp_all.add(jp, gbc);
+
+				jp_all.setVisible(true);
+				System.out.println("eeeee");
+				i++;
+			}
+		}
+
 	}
 
 }

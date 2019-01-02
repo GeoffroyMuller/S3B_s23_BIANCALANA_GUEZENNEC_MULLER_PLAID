@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import composante_graphique.Listeur;
 import composante_graphique.ListeurCategorie;
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
@@ -17,7 +18,7 @@ public class VueGroupeParticipant extends JPanel{
 	private Examen examen;
 	private ControleurExamen controleur_Exam;
 	
-	private ListeurCategorie listeur;
+	private Listeur listeur;
 	private GridBagConstraints gbc;
 	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 
 	
@@ -28,7 +29,7 @@ public class VueGroupeParticipant extends JPanel{
 	
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
-		listeur = new ListeurCategorie(examenp.getListecateg(), ctrlexamp);
+		listeur = new Listeur(examenp.getListecateg());
 		creerZoneGroupeParticipant();
 	}
 	
