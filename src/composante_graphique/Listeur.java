@@ -22,15 +22,15 @@ import modele.Groupe;
 public class Listeur extends JPanel{
 	
 	private JScrollPane scrollpane;
+	private JPanel jp_all;
 	private PanelListeur pl_courant;
 	private ArrayList<Categorie> listecategorie;
 	private ArrayList<PanelListeur> liste_panelListeur;
 	private GridBagConstraints gbc = new GridBagConstraints();
 
 	public Listeur(ArrayList<Categorie> listep) {
-		scrollpane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		this.add(scrollpane);
-		
+		jp_all = new JPanel();
+		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		liste_panelListeur = new ArrayList<PanelListeur>();
 		this.setBackground(Color.GRAY);
 		if(listep == null) {
@@ -39,12 +39,14 @@ public class Listeur extends JPanel{
 			listecategorie = listep;
 		}
 		this.setLayout(new GridBagLayout());
+		jp_all.setLayout(new GridBagLayout());
 		
 		for (Categorie categorie : listecategorie) {
 			pl_courant = new PanelListeur(categorie, this);
 			liste_panelListeur.add(pl_courant);
 		}
 		creerZoneListeur();
+		this.add(scrollpane);
 	}
 
 	private void creerZoneListeur() {
@@ -60,7 +62,7 @@ public class Listeur extends JPanel{
 			gbc.weightx = 1;
 			gbc.weighty = 0;
 			System.out.println("pas de categorie");
-			this.add(pl_courant, gbc);
+			jp_all.add(pl_courant, gbc);
 		}else {
 			for (PanelListeur pl : liste_panelListeur) {
 
@@ -70,7 +72,7 @@ public class Listeur extends JPanel{
 				gbc.weightx = 1;
 				gbc.weighty = 0;
 
-				this.add(pl, gbc);
+				jp_all.add(pl, gbc);
 				i++;
 			}
 		}
@@ -112,6 +114,15 @@ public class Listeur extends JPanel{
 		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
 		gl1.add(new Groupe("groupe1 A"));
 		gl1.add(new Groupe("groupe1 B"));
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		
 		gl2.add(new Groupe("groupe2 A"));
 		gl2.add(new Groupe("groupe2 B"));
 		Categorie c1 = new Categorie("Année 1", gl1);

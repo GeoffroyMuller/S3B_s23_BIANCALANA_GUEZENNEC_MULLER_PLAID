@@ -140,7 +140,7 @@ public class PanelListeur extends JPanel{
 		super.paintComponent(g);
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*10), (int)(Math.random()*50)));
 		g.fillRect(0, 10, 10, 10);
-		jp_categorie.setPreferredSize(new Dimension(500, 30));
+		jp_categorie.setPreferredSize(new Dimension(400, 30));
 		jp_all.setVisible(false);
 
 		jp_all.setVisible(true);
