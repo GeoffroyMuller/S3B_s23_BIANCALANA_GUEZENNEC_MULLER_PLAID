@@ -13,17 +13,24 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 import modele.Categorie;
 import modele.Groupe;
 
 public class Listeur extends JPanel{
+	
+	private JScrollPane scrollpane;
 	private PanelListeur pl_courant;
 	private ArrayList<Categorie> listecategorie;
 	private ArrayList<PanelListeur> liste_panelListeur;
 	private GridBagConstraints gbc = new GridBagConstraints();
 
 	public Listeur(ArrayList<Categorie> listep) {
+		scrollpane = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		this.add(scrollpane);
+		
 		liste_panelListeur = new ArrayList<PanelListeur>();
 		this.setBackground(Color.GRAY);
 		if(listep == null) {
