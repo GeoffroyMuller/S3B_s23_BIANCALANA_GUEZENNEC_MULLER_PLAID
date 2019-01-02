@@ -19,8 +19,7 @@ public class VueImportation extends JFrame{
 	
 	public VueImportation(VueEtudiant ve) {
 		this.setTitle("Option d'importation");
-		WidthDispo = this.getWidth();
-		HeightDispo = this.getHeight();
+
 		
 		cheminFichier = new JTextField(" ");
 		
@@ -28,10 +27,27 @@ public class VueImportation extends JFrame{
         
         
         JPanel p = new JPanel();
-        this.setLayout(new BorderLayout());
-        p.add(cci);
-        this.add(p,BorderLayout.SOUTH);
-        this.add(cheminFichier,BorderLayout.NORTH);
+        this.setLayout(new GridBagLayout());
+        
+		
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = gbc.gridy = 0;
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.anchor=GridBagConstraints.PAGE_START;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0,10,0,0);
+        
+        this.add(cheminFichier,gbc);
+        
+        
+        
+        
+        
+        gbc.gridy=2;
+        this.add(cci,gbc);
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(new Dimension(600,600));
         this.setVisible(true);

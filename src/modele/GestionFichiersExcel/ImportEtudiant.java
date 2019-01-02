@@ -33,7 +33,7 @@ public class ImportEtudiant {
             Workbook workbook = WorkbookFactory.create(fichier);
             Sheet feuille = workbook.getSheet(nomDeLaFeuille);
             this.nomDesColonnes = new String[feuille.getRow(0).getLastCellNum()];
-            //On récupére l'en-tête du fichier excel (la premiére ligne)
+            //On recupere l'en-tete du fichier excel (la premiére ligne)
             this.getPremiereLigne(feuille);
             //On récupére le contenu de la feuille et on ajoute les groupes et les étudiants trouves
             this.getContenu(feuille);

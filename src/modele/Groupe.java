@@ -150,4 +150,9 @@ public class Groupe implements Serializable, Comparable<Groupe> {
 	public int compareTo(Groupe o) {
 		return (this.nom.compareTo(o.getNom()));
 	}
+	
+	
+	public String toString() {
+		return this.getNom();
+	}
 }
