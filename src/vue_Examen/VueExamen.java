@@ -22,7 +22,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import composante_graphique.ListeurCategorie;
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
 import modele.Examen;

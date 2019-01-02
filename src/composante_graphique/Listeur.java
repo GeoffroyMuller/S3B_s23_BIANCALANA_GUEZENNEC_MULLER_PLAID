@@ -18,49 +18,49 @@ import modele.Categorie;
 import modele.Groupe;
 
 public class Listeur extends JPanel{
-
+	private PanelListeur pl_courant;
 	private ArrayList<Categorie> listecategorie;
+	private ArrayList<PanelListeur> liste_panelListeur;
 	private GridBagConstraints gbc = new GridBagConstraints();
 
 	public Listeur(ArrayList<Categorie> listep) {
-
+		liste_panelListeur = new ArrayList<PanelListeur>();
+		this.setBackground(Color.GRAY);
 		if(listep == null) {
 			listecategorie = new ArrayList<Categorie>();
 		}else {
 			listecategorie = listep;
 		}
 		this.setLayout(new GridBagLayout());
+		
+		for (Categorie categorie : listecategorie) {
+			pl_courant = new PanelListeur(categorie, this);
+			liste_panelListeur.add(pl_courant);
+		}
 		creerZoneListeur();
 	}
 
 	private void creerZoneListeur() {
-		PanelListeur pl;
+		
 		int i = 0;
 
 		if((listecategorie == null)||(listecategorie.size()==0)) {
-			pl = new PanelListeur(new Categorie("Pas de categorie"), this);
-			pl.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+			pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this);
+			pl_courant.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 			gbc.gridx = 0;
 			gbc.gridy = i;
 			gbc.fill = GridBagConstraints.BOTH;
-			gbc.weightx = 0;
+			gbc.weightx = 1;
 			gbc.weighty = 0;
 			System.out.println("pas de categorie");
-			this.add(pl, gbc);
+			this.add(pl_courant, gbc);
 		}else {
-			for (Categorie categorie : listecategorie) {
-				pl = new PanelListeur(categorie, this);
-
-				if(listecategorie.size()-1==i) {
-					pl.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-				}else {
-					pl.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, Color.black));
-				}
+			for (PanelListeur pl : liste_panelListeur) {
 
 				gbc.gridx = 0;
 				gbc.gridy = i;
 				gbc.fill = GridBagConstraints.BOTH;
-				gbc.weightx = 0;
+				gbc.weightx = 1;
 				gbc.weighty = 0;
 
 				this.add(pl, gbc);
@@ -75,6 +75,7 @@ public class Listeur extends JPanel{
 		super.paintComponent(g);
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
 		g.fillRect(0, 10, 10, 10);
+		
 	}
 
 
@@ -101,18 +102,18 @@ public class Listeur extends JPanel{
 
 		ArrayList<Categorie> listcateg = new ArrayList<>();
 		ArrayList<Groupe> gl1 = new ArrayList<Groupe>();
-		//ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
+		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
 		gl1.add(new Groupe("groupe1 A"));
 		gl1.add(new Groupe("groupe1 B"));
-		//gl2.add(new Groupe("groupe2 A"));
-		//gl2.add(new Groupe("groupe2 B"));
+		gl2.add(new Groupe("groupe2 A"));
+		gl2.add(new Groupe("groupe2 B"));
 		Categorie c1 = new Categorie("Année 1", gl1);
-		Categorie c2 = new Categorie("Année 2");	
+		Categorie c2 = new Categorie("Année 2", gl2);	
 		listcateg.add(c1);
 		listcateg.add(c2);
 		Listeur listeur = new Listeur(listcateg);
 		fenetre.add(listeur);
-
+		fenetre.pack();
 		fenetre.setVisible(true);
 
 	}
