@@ -53,6 +53,7 @@ public class VueGroupeParticipant extends JPanel{
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		listeur.definirTaille(this.getWidth(), this.getHeight());
 	}
 	
 	public static void main(String arg[]) {

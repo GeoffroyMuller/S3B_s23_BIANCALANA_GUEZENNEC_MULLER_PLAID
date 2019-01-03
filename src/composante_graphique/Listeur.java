@@ -98,6 +98,12 @@ public class Listeur extends JPanel{
 		}
 
 	}
+	/**
+	 * Definie et adapte la taille General
+	 */
+	public void definirTaille(int w, int h) {
+		scrollpane.setPreferredSize(new Dimension(w, h));
+	}
 
 
 	public void paintComponent(Graphics g) {

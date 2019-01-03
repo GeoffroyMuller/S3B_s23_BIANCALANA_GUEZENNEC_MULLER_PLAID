@@ -32,6 +32,9 @@ public class Examen {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	public void setListecateg(ArrayList<Categorie> listecateg) {
+		this.listecateg = listecateg;
+	}
 	
 	
 	
