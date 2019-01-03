@@ -108,6 +108,7 @@ public class PanelListeur extends JPanel{
 						i++;
 					}
 					repaint();
+					listeur.repaint();
 				}
 			}
 
@@ -144,8 +145,6 @@ public class PanelListeur extends JPanel{
 		jp_all.setVisible(false);
 
 		jp_all.setVisible(true);
-
-
 	}
 
 }

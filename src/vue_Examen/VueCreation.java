@@ -51,14 +51,14 @@ public class VueCreation extends JPanel{
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.2;
-		gbc.weighty = 0.5;
+		gbc.weightx = 0;
+		gbc.weighty = 0.1;
 		this.add(vue_grpParticip, gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 3;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.2;
-		gbc.weighty = 0.5;
+		gbc.weighty = 0.3;
 		this.add(vue_sallePrio, gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 4;

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -30,9 +31,11 @@ public class Listeur extends JPanel{
 
 	public Listeur(ArrayList<Categorie> listep) {
 		jp_all = new JPanel();
+		jp_all.setBackground(Color.darkGray);
 		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		//scrollpane.setBackground(Color.BLUE);
 		liste_panelListeur = new ArrayList<PanelListeur>();
-		this.setBackground(Color.GRAY);
+		//this.setBackground(Color.blue);
 		if(listep == null) {
 			listecategorie = new ArrayList<Categorie>();
 		}else {
@@ -46,7 +49,16 @@ public class Listeur extends JPanel{
 			liste_panelListeur.add(pl_courant);
 		}
 		creerZoneListeur();
-		this.add(scrollpane);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(15, 50, 15, 50);
+		gbc.weightx = 1;
+		gbc.weighty = 0.5;
+		scrollpane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+		
+		this.add(scrollpane, gbc);
 	}
 
 	private void creerZoneListeur() {
@@ -55,20 +67,28 @@ public class Listeur extends JPanel{
 
 		if((listecategorie == null)||(listecategorie.size()==0)) {
 			pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this);
-			pl_courant.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-			gbc.gridx = 0;
-			gbc.gridy = i;
+			pl_courant.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
+			
+			
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
+			gbc.gridx = 0;
+			gbc.gridy = 0;
+			//gbc.ipady = gbc.anchor = GridBagConstraints.NORTH;
+			gbc.insets = new Insets( 0, 0, 0, 0);
 			System.out.println("pas de categorie");
 			jp_all.add(pl_courant, gbc);
+			gbc.weighty = 2;
+			gbc.gridy = 1;
+			jp_all.add(new JPanel(), gbc);
 		}else {
 			for (PanelListeur pl : liste_panelListeur) {
 
 				gbc.gridx = 0;
 				gbc.gridy = i;
 				gbc.fill = GridBagConstraints.BOTH;
+				gbc.insets = new Insets(0, 0, 0, 0);
 				gbc.weightx = 1;
 				gbc.weighty = 0;
 
@@ -84,17 +104,9 @@ public class Listeur extends JPanel{
 		super.paintComponent(g);
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
 		g.fillRect(0, 10, 10, 10);
-		
+		//scrollpane.setPreferredSize(new Dimension(this.getWidth()-20, this.getHeight()-20));
 	}
 
-
-
-
-
-
-	public void refresh() {
-		repaint();
-	}
 
 
 
