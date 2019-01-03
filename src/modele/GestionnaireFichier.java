@@ -166,6 +166,11 @@ public class GestionnaireFichier{
 		g1.ajouterEtudiant(e2);
 		g2.ajouterEtudiant(e3);
 		g2.ajouterEtudiant(e4);
+		for(int i=0;i<100000;i++) {
+			Etudiant e5=new Etudiant("Biancalana","Théo"+i);
+			g2.ajouterEtudiant(e5);
+		}
+		System.out.println("la");
 		Categorie c1=new Categorie("cat");
 		c1.ajouterGroupe(g1);
 		c1.ajouterGroupe(g2);
