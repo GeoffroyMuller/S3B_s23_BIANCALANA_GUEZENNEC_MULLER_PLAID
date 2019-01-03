@@ -11,14 +11,48 @@ import java.util.ArrayList;
 public class Particularite {
 
 	private String nom;
-	private boolean prendreEnComptePlacement;
+	private int prendreEnComptePlacement; //boolean 0 ou 1 BIT dans Sql
 	private int idParticularite;
 
 
-	public Particularite(String nom, boolean prendreEnComptePlacement) {
+	public Particularite(String nom, int prendreEnComptePlacement) {
 		this.idParticularite=-1;
 		this.nom=nom;
-		this.prendreEnComptePlacement=prendreEnComptePlacement;
+		if((prendreEnComptePlacement==0) || (prendreEnComptePlacement==1)) {
+			this.prendreEnComptePlacement=prendreEnComptePlacement;
+		}
+		else {
+			this.prendreEnComptePlacement=0;
+		}
+	}
+
+
+	/**
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+
+	/**
+	 * @param prendreEnComptePlacement the prendreEnComptePlacement to set
+	 */
+	public void setPrendreEnComptePlacement(int prendreEnComptePlacement) {
+		if((prendreEnComptePlacement==0) || (prendreEnComptePlacement==1)) {
+			this.prendreEnComptePlacement=prendreEnComptePlacement;
+		}
+		else {
+			this.prendreEnComptePlacement=0;
+		}
+	}
+
+
+	/**
+	 * @param idParticularite the idParticularite to set
+	 */
+	public void setIdParticularite(int idParticularite) {
+		this.idParticularite = idParticularite;
 	}
 
 
@@ -33,7 +67,7 @@ public class Particularite {
 	/**
 	 * @return the prendreEnComptePlacement
 	 */
-	public boolean isPrendreEnComptePlacement() {
+	public int getPrendreEnComptePlacement() {
 		return prendreEnComptePlacement;
 	}
 
@@ -46,10 +80,15 @@ public class Particularite {
 	}
 
 
-	private Particularite(String nom, boolean prendreEnComptePlacement, int idParticularite) {
+	private Particularite(String nom, int prendreEnComptePlacement, int idParticularite) {
 		this.idParticularite=idParticularite;
 		this.nom=nom;
-		this.prendreEnComptePlacement=prendreEnComptePlacement;
+		if((prendreEnComptePlacement==0) || (prendreEnComptePlacement==1)) {
+			this.prendreEnComptePlacement=prendreEnComptePlacement;
+		}
+		else {
+			this.prendreEnComptePlacement=0;
+		}
 	}
 
 
@@ -58,7 +97,7 @@ public class Particularite {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`particularite` "
 					+ "( `idParticularite` INT(11) NOT NULL AUTO_INCREMENT "
-					+ ", `nom` VARCHAR(40) NOT NULL , `PrendreEnComptePlacement` BIT NOT NULL , "
+					+ ", `nom` VARCHAR(40) NOT NULL , `PrendreEnComptePlacement` INT(1) NOT NULL , "
 					+ "PRIMARY KEY (`idParticularite`)) ENGINE = InnoDB";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -95,7 +134,7 @@ public class Particularite {
 		Particularite res = null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
-			boolean resPrendreEnComptePlacement = rs.getBoolean("PRENDREENCOMPTEPLACEMENT");
+			int resPrendreEnComptePlacement = rs.getInt("PRENDREENCOMPTEPLACEMENT");
 			res = new Particularite(resNom, resPrendreEnComptePlacement, id);
 		}
 		return res;
