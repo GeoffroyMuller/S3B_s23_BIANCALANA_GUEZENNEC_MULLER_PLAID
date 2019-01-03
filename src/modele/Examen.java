@@ -23,6 +23,16 @@ public class Examen {
 	public ArrayList<Categorie> getListecateg() {
 		return listecateg;
 	}
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	public void setMatiere(String matiere) {
+		this.matiere = matiere;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
 	
 	
 	//Groupe Participant
