@@ -114,7 +114,7 @@ public class Particularite {
 	 * @param prendreEnComptePlacement the prendre en compte placement
 	 * @param idParticularite the id particularite
 	 */
-	private Particularite(String nom, int prendreEnComptePlacement, int idParticularite) {
+	public Particularite(String nom, int prendreEnComptePlacement, int idParticularite) {
 		this.idParticularite=idParticularite;
 		this.nom=nom;
 		if((prendreEnComptePlacement==0) || (prendreEnComptePlacement==1)) {

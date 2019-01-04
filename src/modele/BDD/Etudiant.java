@@ -86,7 +86,7 @@ public class Etudiant implements Comparable<Etudiant> {
 	 * @param prenom the prenom
 	 * @param idEtu the id etu
 	 */
-	private Etudiant(String nom, String prenom, int idEtu) {
+	public Etudiant(String nom, String prenom, int idEtu) {
 		this.prenom=prenom;
 		this.nom=nom;
 		this.idEtu=idEtu;

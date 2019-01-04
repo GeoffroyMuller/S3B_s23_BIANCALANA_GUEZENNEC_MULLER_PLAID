@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import modele.Particularite;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -51,7 +53,7 @@ public class ParticulariteEtudiant {
 		}
 	}
 	
-	public static ArrayList<Integer> listParticularitePourEtudiant(int id) throws SQLException {
+	public static ArrayList<Integer> listParticularitePourEtudiantId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdEtudiant ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -68,7 +70,29 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
-	public static ArrayList<Integer> listEtudiantPourParticularite(int id) throws SQLException {
+	public static ArrayList<Particularite> listParticularitePourEtudiant(ArrayList<Integer> list) throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		ArrayList<Particularite> res = null;
+		for(int i = 0 ; i < list.size(); i++) {
+			String SQLPrep = "SELECT * FROM Particularite WHERE IdParticularite ='"+list.get(i)+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resPrendreEnComptePlacement = rs.getInt("PRENDREENCOMPTEPLACEMENT");
+				int resId = rs.getInt("idParticularite");
+				res.add(new Particularite(resNom, resPrendreEnComptePlacement,resId));
+			}
+		}
+		return res;
+	}
+	
+	
+	
+	public static ArrayList<Integer> listEtudiantPourParticulariteId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdParticularite ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -81,6 +105,26 @@ public class ParticulariteEtudiant {
 		while (rs.next()) {
 			res.add(rs.getInt("idEtudiant"));
 			i++;
+		}
+		return res;
+	}
+	
+	public static ArrayList<Etudiant> listEtudiantPourParticularite(ArrayList<Integer> list) throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		ArrayList<Etudiant> res = null;
+		for(int i = 0 ; i < list.size(); i++) {
+			String SQLPrep = "SELECT * FROM Etudiant WHERE IdEtudiant ='"+list.get(i)+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				String resPrenom = rs.getString("prenom");
+				int resId = rs.getInt("idEtudiant");
+				res.add(new Etudiant(resNom, resPrenom, resId));
+			}
 		}
 		return res;
 	}
