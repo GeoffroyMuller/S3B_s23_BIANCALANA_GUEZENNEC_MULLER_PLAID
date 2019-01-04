@@ -92,6 +92,23 @@ public class Groupe {
 		return res;
 	}
 
+	public static ArrayList<Groupe> listGroupe() throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM GROUPE;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Groupe> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resId = rs.getInt("idGroupe");
+			res.add(new Groupe(resNom, resId));
+		}
+		return res;
+	}
+	
 	/**
 	 * Delete.
 	 */

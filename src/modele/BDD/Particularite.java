@@ -140,6 +140,25 @@ public class Particularite {
 		return res;
 	}
 
+	
+	public static ArrayList<Particularite> listParticularite() throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM Particularite;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Particularite> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resPrendreEnComptePlacement = rs.getInt("PRENDREENCOMPTEPLACEMENT");
+			int resId = rs.getInt("idparticularite");
+			res.add(new Particularite(resNom, resPrendreEnComptePlacement, resId));
+		}
+		return res;
+	}
+	
 	/**
 	 * Delete.
 	 */

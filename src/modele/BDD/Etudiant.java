@@ -108,6 +108,24 @@ public class Etudiant {
 		}
 		return res;
 	}
+	
+	public static ArrayList<Etudiant> listEtudiant() throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM ETUDIANT;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Etudiant> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			String resPrenom = rs.getString("prenom");
+			int resId = rs.getInt("idEtu");
+			res.add(new Etudiant(resNom, resPrenom, resId));
+		}
+		return res;
+	}
 
 	/**
 	 * Delete.

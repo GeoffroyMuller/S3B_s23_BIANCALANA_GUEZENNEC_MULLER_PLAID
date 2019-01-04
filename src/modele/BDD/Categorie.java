@@ -109,6 +109,23 @@ public class Categorie {
 		}
 		return res;
 	}
+	
+	public static ArrayList<Categorie> listCategorie() throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM CATEGORIE;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Categorie> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resId = rs.getInt("idCategorie");
+			res.add(new Categorie(resNom,resId));
+		}
+		return res;
+	}
 
 	/**
 	 * Delete.
