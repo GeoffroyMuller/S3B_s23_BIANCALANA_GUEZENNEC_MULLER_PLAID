@@ -8,13 +8,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Particularite.
+ */
 public class Particularite {
 
+	/** The nom. */
 	private String nom;
+	
+	/** The prendre en compte placement. */
 	private int prendreEnComptePlacement; //boolean 0 ou 1 BIT dans Sql
+	
+	/** The id particularite. */
 	private int idParticularite;
 
 
+	/**
+	 * Instantiates a new particularite.
+	 *
+	 * @param nom the nom
+	 * @param prendreEnComptePlacement the prendre en compte placement
+	 */
 	public Particularite(String nom, int prendreEnComptePlacement) {
 		this.idParticularite=-1;
 		this.nom=nom;
@@ -28,6 +43,8 @@ public class Particularite {
 
 
 	/**
+	 * Sets the nom.
+	 *
 	 * @param nom the nom to set
 	 */
 	public void setNom(String nom) {
@@ -36,6 +53,8 @@ public class Particularite {
 
 
 	/**
+	 * Sets the prendre en compte placement.
+	 *
 	 * @param prendreEnComptePlacement the prendreEnComptePlacement to set
 	 */
 	public void setPrendreEnComptePlacement(int prendreEnComptePlacement) {
@@ -49,6 +68,8 @@ public class Particularite {
 
 
 	/**
+	 * Sets the id particularite.
+	 *
 	 * @param idParticularite the idParticularite to set
 	 */
 	public void setIdParticularite(int idParticularite) {
@@ -57,6 +78,8 @@ public class Particularite {
 
 
 	/**
+	 * Gets the nom.
+	 *
 	 * @return the nom
 	 */
 	public String getNom() {
@@ -65,6 +88,8 @@ public class Particularite {
 
 
 	/**
+	 * Gets the prendre en compte placement.
+	 *
 	 * @return the prendreEnComptePlacement
 	 */
 	public int getPrendreEnComptePlacement() {
@@ -73,6 +98,8 @@ public class Particularite {
 
 
 	/**
+	 * Gets the id particularite.
+	 *
 	 * @return the idParticularite
 	 */
 	public int getIdParticularite() {
@@ -80,6 +107,13 @@ public class Particularite {
 	}
 
 
+	/**
+	 * Instantiates a new particularite.
+	 *
+	 * @param nom the nom
+	 * @param prendreEnComptePlacement the prendre en compte placement
+	 * @param idParticularite the id particularite
+	 */
 	private Particularite(String nom, int prendreEnComptePlacement, int idParticularite) {
 		this.idParticularite=idParticularite;
 		this.nom=nom;
@@ -92,6 +126,9 @@ public class Particularite {
 	}
 
 
+	/**
+	 * Creates the table.
+	 */
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -107,6 +144,9 @@ public class Particularite {
 		}
 	}
 
+	/**
+	 * Delete table.
+	 */
 	public static void deleteTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -123,6 +163,13 @@ public class Particularite {
 	}
 
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the particularite
+	 * @throws SQLException the SQL exception
+	 */
 	public static Particularite findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Particularite WHERE IDPARTICULARITE ='"+id+"';";
@@ -141,6 +188,12 @@ public class Particularite {
 	}
 
 	
+	/**
+	 * List particularite.
+	 *
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public static ArrayList<Particularite> listParticularite() throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Particularite;";

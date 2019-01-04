@@ -8,12 +8,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Salle.
+ */
 public class Salle {
 
+	/** The nom. */
 	private String nom;
+	
+	/** The id salle. */
 	private int idSalle;
 
 
+	/**
+	 * Instantiates a new salle.
+	 *
+	 * @param nom the nom
+	 */
 	public Salle(String nom) {
 		this.idSalle=-1;
 		this.nom=nom;
@@ -23,6 +35,8 @@ public class Salle {
 	
 
 	/**
+	 * Gets the nom.
+	 *
 	 * @return the nom
 	 */
 	public String getNom() {
@@ -32,6 +46,8 @@ public class Salle {
 
 
 	/**
+	 * Gets the id salle.
+	 *
 	 * @return the idSalle
 	 */
 	public int getIdSalle() {
@@ -40,12 +56,21 @@ public class Salle {
 
 
 
+	/**
+	 * Instantiates a new salle.
+	 *
+	 * @param nom the nom
+	 * @param idSalle the id salle
+	 */
 	private Salle(String nom, int idSalle) {
 		this.nom=nom;
 		this.idSalle=idSalle;
 	}
 
 
+	/**
+	 * Creates the table.
+	 */
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -60,6 +85,9 @@ public class Salle {
 		}
 	}
 
+	/**
+	 * Delete table.
+	 */
 	public static void deleteTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -76,6 +104,13 @@ public class Salle {
 	}
 
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the salle
+	 * @throws SQLException the SQL exception
+	 */
 	public static Salle findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Salle WHERE IDSalle ='"+id+"';";
@@ -92,6 +127,13 @@ public class Salle {
 		return res;
 	}
 	
+	/**
+	 * List salle.
+	 *
+	 * @param id the id
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public static ArrayList<Salle> listSalle(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Salle;";

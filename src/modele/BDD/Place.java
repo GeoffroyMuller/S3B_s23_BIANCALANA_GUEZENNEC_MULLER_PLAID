@@ -272,6 +272,13 @@ public class Place {
 		return res;
 	}
 	
+	/**
+	 * List place.
+	 *
+	 * @param id the id
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public static ArrayList<Place> listPlace(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Place;";

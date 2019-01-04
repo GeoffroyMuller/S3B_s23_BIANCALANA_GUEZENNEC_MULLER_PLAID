@@ -8,8 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ParticulariteEtudiant.
+ */
 public class ParticulariteEtudiant {
 
+	/**
+	 * Creates the table.
+	 */
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -26,6 +33,9 @@ public class ParticulariteEtudiant {
 		}
 	}
 
+	/**
+	 * Delete table.
+	 */
 	public static void deleteTable(){
 		try {
 			Connection connect=DBConnection.getConnection();

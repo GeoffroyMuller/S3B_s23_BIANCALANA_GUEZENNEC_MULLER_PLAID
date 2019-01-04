@@ -9,8 +9,17 @@ import com.mysql.jdbc.Connection;
 
 import modele.BDD.DBConnection;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DBConnectionTest.
+ */
 class DBConnectionTest {
 
+	/**
+	 * Test get connection.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@Test
 	void testGetConnection() throws SQLException {
 		java.sql.Connection connect =(Connection) DBConnection.getConnection();
@@ -18,6 +27,11 @@ class DBConnectionTest {
 		Assert.assertEquals("la connection n'est pas la meme", connect, connect1);
 	}
 
+	/**
+	 * Test set nom DB.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@Test
 	void testSetNomDB() throws SQLException {
 		java.sql.Connection connect =(Connection) DBConnection.getConnection();
