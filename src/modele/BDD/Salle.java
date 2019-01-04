@@ -25,6 +25,14 @@ public class Salle {
 	protected int nbCaseLargeur;
 	protected int nbCaseHauteur;
 
+	public Place[][] getPlaces() {
+		return places;
+	}
+
+	public void setPlaces(Place[][] places) {
+		this.places = places;
+	}
+
 	protected Place[][] places;
 
 	/**
@@ -267,6 +275,21 @@ public class Salle {
 		return new SalleIterateur(i,j);
 	}
 
+	public int getNbCaseLargeur() {
+		return nbCaseLargeur;
+	}
+
+	public void setNbCaseLargeur(int nbCaseLargeur) {
+		this.nbCaseLargeur = nbCaseLargeur;
+	}
+
+	public int getNbCaseHauteur() {
+		return nbCaseHauteur;
+	}
+
+	public void setNbCaseHauteur(int nbCaseHauteur) {
+		this.nbCaseHauteur = nbCaseHauteur;
+	}
 
 
 	public class SalleIterateur implements Iterateur {

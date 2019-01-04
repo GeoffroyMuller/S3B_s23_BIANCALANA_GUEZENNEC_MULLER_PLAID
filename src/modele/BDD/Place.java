@@ -204,6 +204,18 @@ public class Place {
 		this.idSalle=idSalle;
 	}
 
+	/**
+	 *  Instancie un objet place avec seulement les coordonnées
+	 * @param i
+	 * @param j
+	 */
+	public Place (int i, int j) {
+		this.j=j;
+		this.i=i;
+	}
+
+
+
 
 	/**
 	 * Creates the table.
