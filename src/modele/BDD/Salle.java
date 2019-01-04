@@ -147,6 +147,26 @@ public class Salle {
 		return res;
 	}
 	
+	public static ArrayList<Salle> findByNom(String nom) throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM Salle WHERE nom ='"+nom+"';";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Salle> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
+			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
+			int resId = rs.getInt("IdSalle");
+			
+			res.add(new Salle(resNom,resId,resNbCaseHauteur,resNbCaseLargeur));
+		}
+		return res;
+	}
+	
 	/**
 	 * List salle.
 	 *
