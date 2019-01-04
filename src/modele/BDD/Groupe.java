@@ -62,7 +62,7 @@ public class Groupe {
 	 * @param nom the nom
 	 * @param idGroupe the id groupe
 	 */
-	private Groupe(String nom, int idGroupe) {
+	public Groupe(String nom, int idGroupe) {
 		this.nom=nom;
 		this.idGroupe=idGroupe;
 	}

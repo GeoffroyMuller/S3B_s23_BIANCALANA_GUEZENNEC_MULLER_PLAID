@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-
 // TODO: Auto-generated Javadoc
 /**
  * The Class ParticulariteEtudiant.
@@ -69,7 +68,8 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
-	public static ArrayList<Particularite> listParticularitePourEtudiant(ArrayList<Integer> list) throws SQLException {
+	public static ArrayList<Particularite> listParticularitePourEtudiant(int id) throws SQLException {
+		ArrayList<Integer> list = ParticulariteEtudiant.listParticularitePourEtudiantId(id);
 		Connection connect=DBConnection.getConnection();
 		ArrayList<Particularite> res = null;
 		for(int i = 0 ; i < list.size(); i++) {
@@ -108,7 +108,8 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
-	public static ArrayList<Etudiant> listEtudiantPourParticularite(ArrayList<Integer> list) throws SQLException {
+	public static ArrayList<Etudiant> listEtudiantPourParticularite(int id) throws SQLException {
+		ArrayList<Integer> list = ParticulariteEtudiant.listEtudiantPourParticulariteId(id);
 		Connection connect=DBConnection.getConnection();
 		ArrayList<Etudiant> res = null;
 		for(int i = 0 ; i < list.size(); i++) {
