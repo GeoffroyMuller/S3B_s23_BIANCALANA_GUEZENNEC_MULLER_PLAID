@@ -49,7 +49,12 @@ public class Place {
 		this.nom=nom;
 		this.typeSalle=typeSalle;
 		this.idSalle=idSalle;
-		this.disponnible=disponnible;
+		if(disponnible==0||disponnible==1) {
+			this.disponnible=disponnible;
+		}
+		else {
+			this.disponnible=0;
+		}
 		this.j=j;
 		this.i=i;
 	}
@@ -203,7 +208,12 @@ public class Place {
 		this.nom=nom;
 		this.j=j;
 		this.i=i;
-		this.disponnible=disponnible;
+		if(disponnible==0||disponnible==1) {
+			this.disponnible=disponnible;
+		}
+		else {
+			this.disponnible=0;
+		}
 		this.idPlace=idPlace;
 		this.idSalle=idSalle;
 	}
