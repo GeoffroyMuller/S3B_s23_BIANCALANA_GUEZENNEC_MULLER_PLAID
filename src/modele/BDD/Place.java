@@ -309,4 +309,12 @@ public class Place {
 		}
 	}
 
+	public Place[][] tableauPlace(int idsalle) throws SQLException{
+		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
+		Place res[][] = null;
+		for(int i=0; i<temp.size(); i++) {
+			res[temp.get(i).getI()][temp.get(i).getJ()] = temp.get(i);
+		}
+		return res;
+	}
 }
