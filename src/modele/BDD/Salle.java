@@ -136,7 +136,7 @@ public class Salle {
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Salle> listSalle(int id) throws SQLException {
+	public static ArrayList<Salle> listSalle() throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Salle;";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
