@@ -8,16 +8,40 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Place.
+ */
 public class Place {
 
+	/** The nom. */
 	private String nom;
+	
+	/** The type salle. */
 	private String typeSalle;
+	
+	/** The id salle. */
 	private int idSalle;
+	
+	/** The id place. */
 	private int idPlace;
+	
+	/** The j. */
 	private int j;
+	
+	/** The i. */
 	private int i;
 
 
+	/**
+	 * Instantiates a new place.
+	 *
+	 * @param nom the nom
+	 * @param typeSalle the type salle
+	 * @param i the i
+	 * @param j the j
+	 * @param idSalle the id salle
+	 */
 	public Place(String nom, String typeSalle, int i, int j, int idSalle) {
 		this.idPlace=-1;
 		this.nom=nom;
@@ -30,6 +54,8 @@ public class Place {
 	
 
 	/**
+	 * Gets the nom.
+	 *
 	 * @return the nom
 	 */
 	public String getNom() {
@@ -39,6 +65,8 @@ public class Place {
 
 
 	/**
+	 * Sets the nom.
+	 *
 	 * @param nom the nom to set
 	 */
 	public void setNom(String nom) {
@@ -48,6 +76,8 @@ public class Place {
 
 
 	/**
+	 * Gets the type salle.
+	 *
 	 * @return the typeSalle
 	 */
 	public String getTypeSalle() {
@@ -57,6 +87,8 @@ public class Place {
 
 
 	/**
+	 * Sets the type salle.
+	 *
 	 * @param typeSalle the typeSalle to set
 	 */
 	public void setTypeSalle(String typeSalle) {
@@ -66,6 +98,8 @@ public class Place {
 
 
 	/**
+	 * Gets the id salle.
+	 *
 	 * @return the idSalle
 	 */
 	public int getIdSalle() {
@@ -75,6 +109,8 @@ public class Place {
 
 
 	/**
+	 * Sets the id salle.
+	 *
 	 * @param idSalle the idSalle to set
 	 */
 	public void setIdSalle(int idSalle) {
@@ -84,6 +120,8 @@ public class Place {
 
 
 	/**
+	 * Gets the id place.
+	 *
 	 * @return the idPlace
 	 */
 	public int getIdPlace() {
@@ -93,6 +131,8 @@ public class Place {
 
 
 	/**
+	 * Sets the id place.
+	 *
 	 * @param idPlace the idPlace to set
 	 */
 	public void setIdPlace(int idPlace) {
@@ -102,6 +142,8 @@ public class Place {
 
 
 	/**
+	 * Gets the j.
+	 *
 	 * @return the j
 	 */
 	public int getJ() {
@@ -111,6 +153,8 @@ public class Place {
 
 
 	/**
+	 * Sets the j.
+	 *
 	 * @param j the j to set
 	 */
 	public void setJ(int j) {
@@ -120,6 +164,8 @@ public class Place {
 
 
 	/**
+	 * Gets the i.
+	 *
 	 * @return the i
 	 */
 	public int getI() {
@@ -129,6 +175,8 @@ public class Place {
 
 
 	/**
+	 * Sets the i.
+	 *
 	 * @param i the i to set
 	 */
 	public void setI(int i) {
@@ -137,6 +185,16 @@ public class Place {
 
 
 
+	/**
+	 * Instantiates a new place.
+	 *
+	 * @param nom the nom
+	 * @param typeSalle the type salle
+	 * @param idSalle the id salle
+	 * @param i the i
+	 * @param j the j
+	 * @param idPlace the id place
+	 */
 	private Place(String nom, String typeSalle, int idSalle,int i, int j, int idPlace) {
 		this.typeSalle=typeSalle;
 		this.nom=nom;
@@ -147,6 +205,9 @@ public class Place {
 	}
 
 
+	/**
+	 * Creates the table.
+	 */
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -165,6 +226,9 @@ public class Place {
 		}
 	}
 
+	/**
+	 * Delete table.
+	 */
 	public static void deleteTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -181,6 +245,13 @@ public class Place {
 	}
 
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the place
+	 * @throws SQLException the SQL exception
+	 */
 	public static Place findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Place WHERE IDPlace ='"+id+"';";
@@ -201,6 +272,41 @@ public class Place {
 		return res;
 	}
 	
+	/**
+	 * List place.
+	 *
+	 * @param id the id
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
+	public static ArrayList<Place> listPlace(int id) throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM Place;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Place> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			String resTypeSalle = rs.getString("typeSalle");
+			int resI= rs.getInt("i");
+			int resJ = rs.getInt("j");
+			int resIdSalle = rs.getInt("idSalle");
+			int resId = rs.getInt("idPlace");
+			res.add(new Place(resNom, resTypeSalle, resIdSalle,resI, resJ, resId));
+		}
+		return res;
+	}
+	
+	/**
+	 * Find by id salle.
+	 *
+	 * @param id the id
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public static ArrayList<Place> findByIdSalle(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Place WHERE IDSalle ='"+id+"';";
@@ -239,6 +345,8 @@ public class Place {
 
 	/**
 	 * DeleteSalle.
+	 *
+	 * @param id the id
 	 */
 	public void deleteSalle(int id){
 		try {
@@ -309,4 +417,19 @@ public class Place {
 		}
 	}
 
+	/**
+	 * Tableau place.
+	 *
+	 * @param idsalle the idsalle
+	 * @return the place[][]
+	 * @throws SQLException the SQL exception
+	 */
+	public Place[][] tableauPlace(int idsalle) throws SQLException{
+		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
+		Place res[][] = null;
+		for(int i=0; i<temp.size(); i++) {
+			res[temp.get(i).getI()][temp.get(i).getJ()] = temp.get(i);
+		}
+		return res;
+	}
 }

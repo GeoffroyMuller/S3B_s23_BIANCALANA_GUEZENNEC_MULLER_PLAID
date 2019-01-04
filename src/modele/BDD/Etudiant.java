@@ -8,14 +8,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Etudiant.
+ */
 public class Etudiant {
 
+	/** The nom. */
 	private String nom;
+	
+	/** The prenom. */
 	private String prenom;
+	
+	/** The email. */
 	private String email;
+	
+	/** The id etu. */
 	private int idEtu;
 
 
+	/**
+	 * Instantiates a new etudiant.
+	 *
+	 * @param nom the nom
+	 * @param prenom the prenom
+	 */
 	public Etudiant(String nom, String prenom) {
 		this.idEtu=-1;
 		this.nom=nom;
@@ -23,6 +40,8 @@ public class Etudiant {
 	}
 
 	/**
+	 * Gets the nom.
+	 *
 	 * @return the nom
 	 */
 	public String getNom() {
@@ -31,6 +50,8 @@ public class Etudiant {
 
 
 	/**
+	 * Gets the prenom.
+	 *
 	 * @return the prenom
 	 */
 	public String getPrenom() {
@@ -39,6 +60,8 @@ public class Etudiant {
 
 
 	/**
+	 * Gets the email.
+	 *
 	 * @return the email
 	 */
 	public String getEmail() {
@@ -47,6 +70,8 @@ public class Etudiant {
 
 
 	/**
+	 * Gets the id etu.
+	 *
 	 * @return the idEtu
 	 */
 	public int getIdEtu() {
@@ -54,6 +79,13 @@ public class Etudiant {
 	}
 
 
+	/**
+	 * Instantiates a new etudiant.
+	 *
+	 * @param nom the nom
+	 * @param prenom the prenom
+	 * @param idEtu the id etu
+	 */
 	private Etudiant(String nom, String prenom, int idEtu) {
 		this.prenom=prenom;
 		this.nom=nom;
@@ -61,6 +93,9 @@ public class Etudiant {
 	}
 
 
+	/**
+	 * Creates the table.
+	 */
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -76,6 +111,9 @@ public class Etudiant {
 		}
 	}
 
+	/**
+	 * Delete table.
+	 */
 	public static void deleteTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -92,6 +130,13 @@ public class Etudiant {
 	}
 
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the etudiant
+	 * @throws SQLException the SQL exception
+	 */
 	public static Etudiant findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM ETUDIANT WHERE IDETU ='"+id+"';";
@@ -105,6 +150,30 @@ public class Etudiant {
 			String resNom = rs.getString("nom");
 			String resPrenom = rs.getString("prenom");
 			res = new Etudiant(resNom, resPrenom, id);
+		}
+		return res;
+	}
+	
+	/**
+	 * List etudiant.
+	 *
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
+	public static ArrayList<Etudiant> listEtudiant() throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM ETUDIANT;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Etudiant> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			String resPrenom = rs.getString("prenom");
+			int resId = rs.getInt("idEtu");
+			res.add(new Etudiant(resNom, resPrenom, resId));
 		}
 		return res;
 	}

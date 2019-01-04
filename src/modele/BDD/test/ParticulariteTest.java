@@ -11,8 +11,17 @@ import org.junit.Test;
 
 import modele.BDD.Particularite;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ParticulariteTest.
+ */
 public class ParticulariteTest {
 
+	/**
+	 * Sets the up.
+	 *
+	 * @throws Exception the exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		Particularite.createTable();
@@ -26,11 +35,19 @@ public class ParticulariteTest {
 		p4.save();
 	}
 
+	/**
+	 * Tear down.
+	 *
+	 * @throws Exception the exception
+	 */
 	@After
 	public void tearDown() throws Exception {
 		Particularite.deleteTable();
 	}
 
+	/**
+	 * Test particularite.
+	 */
 	@Test
 	public void testParticularite() {
 		Particularite p = new Particularite(null, 0);
@@ -40,6 +57,11 @@ public class ParticulariteTest {
 		Assert.assertEquals("l'objet doit etre 0", p.getPrendreEnComptePlacement(), 0);
 	}
 
+	/**
+	 * Test find by id.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@Test
 	public void testFindById() throws SQLException {
 		Particularite pres = Particularite.findById(1);
@@ -49,6 +71,11 @@ public class ParticulariteTest {
 	}
 
 
+	/**
+	 * Test save.
+	 *
+	 * @throws SQLException the SQL exception
+	 */
 	@Test
 	public void testSave() throws SQLException {
 		Particularite pres = Particularite.findById(1);

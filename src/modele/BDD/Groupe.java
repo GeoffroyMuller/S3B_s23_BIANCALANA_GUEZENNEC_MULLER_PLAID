@@ -8,12 +8,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Groupe.
+ */
 public class Groupe {
 
+	/** The nom. */
 	private String nom;
+	
+	/** The id groupe. */
 	private int idGroupe;
 
 
+	/**
+	 * Instantiates a new groupe.
+	 *
+	 * @param nom the nom
+	 */
 	public Groupe(String nom) {
 		this.idGroupe=-1;
 		this.nom=nom;
@@ -23,6 +35,8 @@ public class Groupe {
 	
 
 	/**
+	 * Gets the nom.
+	 *
 	 * @return the nom
 	 */
 	public String getNom() {
@@ -32,6 +46,8 @@ public class Groupe {
 
 
 	/**
+	 * Gets the id groupe.
+	 *
 	 * @return the idGroupe
 	 */
 	public int getIdGroupe() {
@@ -40,12 +56,21 @@ public class Groupe {
 
 
 
+	/**
+	 * Instantiates a new groupe.
+	 *
+	 * @param nom the nom
+	 * @param idGroupe the id groupe
+	 */
 	private Groupe(String nom, int idGroupe) {
 		this.nom=nom;
 		this.idGroupe=idGroupe;
 	}
 
 
+	/**
+	 * Creates the table.
+	 */
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -60,6 +85,9 @@ public class Groupe {
 		}
 	}
 
+	/**
+	 * Delete table.
+	 */
 	public static void deleteTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -76,6 +104,13 @@ public class Groupe {
 	}
 
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the groupe
+	 * @throws SQLException the SQL exception
+	 */
 	public static Groupe findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM GROUPE WHERE IDGROUPE ='"+id+"';";
@@ -92,6 +127,29 @@ public class Groupe {
 		return res;
 	}
 
+	/**
+	 * List groupe.
+	 *
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
+	public static ArrayList<Groupe> listGroupe() throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM GROUPE;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Groupe> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resId = rs.getInt("idGroupe");
+			res.add(new Groupe(resNom, resId));
+		}
+		return res;
+	}
+	
 	/**
 	 * Delete.
 	 */

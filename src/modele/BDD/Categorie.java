@@ -8,12 +8,24 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Categorie.
+ */
 public class Categorie {
 
+	/** The nom. */
 	private String nom;
+	
+	/** The id categorie. */
 	private int idCategorie;
 
 
+	/**
+	 * Instantiates a new categorie.
+	 *
+	 * @param nom the nom
+	 */
 	public Categorie(String nom) {
 		this.idCategorie=-1;
 		this.nom=nom;
@@ -23,6 +35,8 @@ public class Categorie {
 	
 
 	/**
+	 * Sets the nom.
+	 *
 	 * @param nom the nom to set
 	 */
 	public void setNom(String nom) {
@@ -32,6 +46,8 @@ public class Categorie {
 
 
 	/**
+	 * Sets the id categorie.
+	 *
 	 * @param idCategorie the idCategorie to set
 	 */
 	public void setIdCategorie(int idCategorie) {
@@ -41,6 +57,8 @@ public class Categorie {
 
 
 	/**
+	 * Gets the nom.
+	 *
 	 * @return the nom
 	 */
 	public String getNom() {
@@ -50,6 +68,8 @@ public class Categorie {
 
 
 	/**
+	 * Gets the id categorie.
+	 *
 	 * @return the idGroupe
 	 */
 	public int getIdCategorie() {
@@ -58,12 +78,21 @@ public class Categorie {
 
 
 
+	/**
+	 * Instantiates a new categorie.
+	 *
+	 * @param nom the nom
+	 * @param idCategorie the id categorie
+	 */
 	private Categorie(String nom, int idCategorie) {
 		this.nom=nom;
 		this.idCategorie=idCategorie;
 	}
 
 
+	/**
+	 * Creates the table.
+	 */
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -78,6 +107,9 @@ public class Categorie {
 		}
 	}
 
+	/**
+	 * Delete table.
+	 */
 	public static void deleteTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -94,6 +126,13 @@ public class Categorie {
 	}
 
 
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the categorie
+	 * @throws SQLException the SQL exception
+	 */
 	public static Categorie findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM CATEGORIE WHERE IDCATEGORIE ='"+id+"';";
@@ -106,6 +145,29 @@ public class Categorie {
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			res = new Categorie(resNom,id);
+		}
+		return res;
+	}
+	
+	/**
+	 * List categorie.
+	 *
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
+	public static ArrayList<Categorie> listCategorie() throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM CATEGORIE;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Categorie> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resId = rs.getInt("idCategorie");
+			res.add(new Categorie(resNom,resId));
 		}
 		return res;
 	}
