@@ -22,15 +22,19 @@ public class Salle {
 	/** The id salle. */
 	private int idSalle;
 
+	private int nbCaseLargeur;
+	private int nbCaseHauteur;
 
 	/**
 	 * Instantiates a new salle.
 	 *
 	 * @param nom the nom
 	 */
-	public Salle(String nom) {
+	public Salle(String nom, int nbCaseHauteur, int nbCaseLargeur) {
 		this.idSalle=-1;
 		this.nom=nom;
+		this.nbCaseHauteur=nbCaseHauteur;
+		this.nbCaseLargeur=nbCaseLargeur;
 
 	}
 
@@ -64,9 +68,11 @@ public class Salle {
 	 * @param nom the nom
 	 * @param idSalle the id salle
 	 */
-	private Salle(String nom, int idSalle) {
+	private Salle(String nom, int idSalle, int nbCaseHauteur, int nbCaseLargeur) {
 		this.nom=nom;
 		this.idSalle=idSalle;
+		this.nbCaseHauteur=nbCaseHauteur;
+		this.nbCaseLargeur=nbCaseLargeur;
 	}
 
 
@@ -77,7 +83,8 @@ public class Salle {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Salle` "
-					+ "( `idSalle` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL, "
+					+ "( `idSalle` INT(11) NOT NULL AUTO_INCREMENT , `nbCaseHauteur` INT(11) NOT NULL,"
+					+ " `nbCaseLargeur` INT(11) NOT NULL, `nom` VARCHAR(40) NOT NULL, "
 					+ "PRIMARY KEY (`idSalle`)) ENGINE = InnoDB";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -124,7 +131,10 @@ public class Salle {
 		Salle res = null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
-			res = new Salle(resNom,id);
+			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
+			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
+			
+			res = new Salle(resNom,id,resNbCaseHauteur,resNbCaseLargeur);
 		}
 		return res;
 	}
@@ -148,7 +158,9 @@ public class Salle {
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resId = rs.getInt("idSalle");
-			res.add(new Salle(resNom,resId));
+			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
+			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
+			res.add(new Salle(resNom,resId,resNbCaseHauteur,resNbCaseLargeur));
 		}
 		return res;
 	}
@@ -192,7 +204,7 @@ public class Salle {
 					"('"+this.nom+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
-			String SQLPrep = "SELECT * FROM Salle WHERE NOM ='"+this.nom+"';";
+			String SQLPrep = "SELECT * FROM Salle WHERE NOM ='"+this.nom+"' AND NbCaseHauteur ='"+this.nbCaseHauteur+"' AND NbCaseLargeur ='"+this.nbCaseLargeur+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
 			ResultSet rs = prep1.getResultSet();
@@ -214,7 +226,7 @@ public class Salle {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Salle " + 
-					"SET NOM = '"+this.nom+"'"+ 
+					"SET NOM = '"+this.nom+"', NbCaseHauteur = '"+this.nbCaseHauteur+"', NbCaseLargeur = '"+this.nbCaseLargeur+"'"+ 
 					"WHERE IDSalle ='"+this.idSalle+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();

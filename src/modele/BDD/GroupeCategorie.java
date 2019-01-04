@@ -51,7 +51,7 @@ public class GroupeCategorie {
 		}
 	}
 	
-	public static int[] listGroupePourCategorie(int id) throws SQLException {
+	public static ArrayList<Integer> listGroupePourCategorie(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM GroupeCategorie WHERE IdGroupe ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -59,16 +59,16 @@ public class GroupeCategorie {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		int[] res = null;
+		ArrayList<Integer> res = null;
 		int i=0;
 		while (rs.next()) {
-			res[i]=rs.getInt("idCategorie");
+			res.add(rs.getInt("idCategorie"));
 			i++;
 		}
 		return res;
 	}
 	
-	public static int[] listCategoriePourGroupe(int id) throws SQLException {
+	public static ArrayList<Integer> listCategoriePourGroupe(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM GroupeCategorie WHERE IdCategorie ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -76,10 +76,10 @@ public class GroupeCategorie {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		int[] res = null;
+		ArrayList<Integer> res = null;
 		int i=0;
 		while (rs.next()) {
-			res[i]=rs.getInt("idGroupe");
+			res.add(rs.getInt("idGroupe"));
 			i++;
 		}
 		return res;
