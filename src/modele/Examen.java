@@ -72,6 +72,7 @@ public class Examen {
 
 
 
+
         for(modele.BDD.Etudiant etu : groupe.etudiants){
             this.etudiants.put(etu,groupe.nom);
         }
@@ -132,7 +133,7 @@ public class Examen {
 
             ArrayList<Particularite> particularites = new ArrayList<Particularite>();
             try {
-                ArrayList<Particularite> particularites = ParticulariteEtudiant.listParticularitePourEtudiant(listeEtu.get(0).getIdEtu());
+                particularites = ParticulariteEtudiant.listParticularitePourEtudiant(listeEtu.get(0).getIdEtu());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -144,6 +145,7 @@ public class Examen {
             }
 
             //On vérifie si la place est disponible (chaise cassé,allée...) et qu'aucun n'autre étudiant n'a été placé dessus
+
             if(((modele.BDD.Place)iterateurSalle.actual()).estDisponible && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
 
                 //On regarde si il y a un conflit de groupe avec les places adjacentes, de plus si on à déja testé tout les étudiants alors l'étudiant
@@ -325,8 +327,9 @@ public class Examen {
         ArrayList<modele.BDD.Etudiant> res = etu;
         for(modele.BDD.Etudiant etudiant : res){
 
+            ArrayList<Particularite> particularites = new ArrayList<Particularite>();
             try {
-                ArrayList<Particularite> particularites = ParticulariteEtudiant.listParticularitePourEtudiant(etudiant.getIdEtu());
+                particularites = ParticulariteEtudiant.listParticularitePourEtudiant(etudiant.getIdEtu());
             } catch (SQLException e) {
                 e.printStackTrace();
             }
