@@ -51,7 +51,7 @@ public class EtudiantGroupe {
 		}
 	}
 	
-	public static ArrayList<Integer> listEtudiantPourGroupe(int id) throws SQLException {
+	public static ArrayList<Integer> listEtudiantPourGroupeId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdEtudiant ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -68,7 +68,28 @@ public class EtudiantGroupe {
 		return res;
 	}
 	
-	public static ArrayList<Integer> listGroupePourEtudiant(int id) throws SQLException {
+	public static ArrayList<Etudiant> listEtudiantPourGroupe(int id) throws SQLException {
+		ArrayList<Integer> list = EtudiantGroupe.listEtudiantPourGroupeId(id);
+		Connection connect=DBConnection.getConnection();
+		ArrayList<Etudiant> res = null;
+		for(int i = 0 ; i < list.size(); i++) {
+			String SQLPrep = "SELECT * FROM Etudiant WHERE IdEtudiant ='"+list.get(i)+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				String resPrenom = rs.getString("prenom");
+				int resId = rs.getInt("idEtudiant");
+				res.add(new Etudiant(resNom, resPrenom, resId));
+			}
+		}
+		return res;
+	}
+	
+	public static ArrayList<Integer> listGroupePourEtudiantId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdGroupe ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -81,6 +102,26 @@ public class EtudiantGroupe {
 		while (rs.next()) {
 			res.add(rs.getInt("idEtudiant"));
 			i++;
+		}
+		return res;
+	}
+	
+	public static ArrayList<Groupe> listGroupePourEtudiant(int id) throws SQLException {
+		ArrayList<Integer> list = EtudiantGroupe.listGroupePourEtudiantId(id);
+		Connection connect=DBConnection.getConnection();
+		ArrayList<Groupe> res = null;
+		for(int i = 0 ; i < list.size(); i++) {
+			String SQLPrep = "SELECT * FROM Groupe WHERE IdGroupe ='"+list.get(i)+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resId = rs.getInt("idGroupe");
+				res.add(new Groupe(resNom, resId));
+			}
 		}
 		return res;
 	}
