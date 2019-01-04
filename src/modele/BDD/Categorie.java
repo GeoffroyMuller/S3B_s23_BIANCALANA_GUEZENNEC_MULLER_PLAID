@@ -23,6 +23,24 @@ public class Categorie {
 	
 
 	/**
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+
+
+	/**
+	 * @param idCategorie the idCategorie to set
+	 */
+	public void setIdCategorie(int idCategorie) {
+		this.idCategorie = idCategorie;
+	}
+
+
+
+	/**
 	 * @return the nom
 	 */
 	public String getNom() {

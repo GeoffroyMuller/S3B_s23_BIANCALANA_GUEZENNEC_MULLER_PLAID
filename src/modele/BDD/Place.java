@@ -118,6 +118,24 @@ public class Place {
 		}
 		return res;
 	}
+	
+	public static ArrayList<Place> findByIdSalle(int id) throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM Place WHERE IDSalle ='"+id+"';";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Place> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			String resTypeSalle = rs.getString("typeSalle");
+			int resIdSalle = rs.getInt("idSalle");
+			res.add(new Place(resNom, resTypeSalle, resIdSalle, id));
+		}
+		return res;
+	}
 
 	/**
 	 * Delete.
