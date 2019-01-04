@@ -271,11 +271,13 @@ public class Place {
 	private void saveNew() {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO Place (`NOM`, `TypeSalle`, `idSalle`) VALUES" + 
-					"('"+this.nom+"', '"+this.typeSalle+"', '"+this.idSalle+"')";
+			String SQLPrep0 = "INSERT INTO Place (`NOM`, `TypeSalle`, `i`, `j`, `idSalle`) VALUES" + 
+					"('"+this.nom+"', '"+this.typeSalle+"', '"+this.i+"', '"+this.j+"', '"+this.idSalle+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
-			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND typeSalle ='"+this.typeSalle+"' AND idSalle ='"+this.idSalle+"';";
+			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND typeSalle ="
+					+ "'"+this.typeSalle+"' AND i ='"+this.i+"' AND j ="
+							+ "'"+this.j+"' AND idSalle ='"+this.idSalle+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
 			ResultSet rs = prep1.getResultSet();
@@ -297,7 +299,7 @@ public class Place {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Place " + 
-					"SET NOM = '"+this.nom+"', typeSalle = '"+this.typeSalle+"', idSalle = '"+this.idSalle+"'" + 
+					"SET NOM = '"+this.nom+"', typeSalle = '"+this.typeSalle+"', i = '"+this.i+"', j = '"+this.j+"', idSalle = '"+this.idSalle+"'" + 
 					"WHERE IDPlace ='"+this.idPlace+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
