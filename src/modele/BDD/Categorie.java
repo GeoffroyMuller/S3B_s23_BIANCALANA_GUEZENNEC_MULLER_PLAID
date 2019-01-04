@@ -84,7 +84,7 @@ public class Categorie {
 	 * @param nom the nom
 	 * @param idCategorie the id categorie
 	 */
-	private Categorie(String nom, int idCategorie) {
+	public Categorie(String nom, int idCategorie) {
 		this.nom=nom;
 		this.idCategorie=idCategorie;
 	}

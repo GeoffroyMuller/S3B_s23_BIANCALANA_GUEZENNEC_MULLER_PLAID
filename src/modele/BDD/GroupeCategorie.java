@@ -51,7 +51,7 @@ public class GroupeCategorie {
 		}
 	}
 	
-	public static ArrayList<Integer> listGroupePourCategorie(int id) throws SQLException {
+	public static ArrayList<Integer> listGroupePourCategorieid(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM GroupeCategorie WHERE IdGroupe ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -68,7 +68,27 @@ public class GroupeCategorie {
 		return res;
 	}
 	
-	public static ArrayList<Integer> listCategoriePourGroupe(int id) throws SQLException {
+	public static ArrayList<Groupe> listGroupePourCategorie(int id) throws SQLException {
+		ArrayList<Integer> list = GroupeCategorie.listGroupePourCategorieid(id);
+		Connection connect=DBConnection.getConnection();
+		ArrayList<Groupe> res = null;
+		for(int i = 0 ; i < list.size(); i++) {
+			String SQLPrep = "SELECT * FROM Groupe WHERE IdGroupe ='"+list.get(i)+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resId = rs.getInt("idGroupe");
+				res.add(new Groupe(resNom,resId));
+			}
+		}
+		return res;
+	}
+	
+	public static ArrayList<Integer> listCategoriePourGroupeId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM GroupeCategorie WHERE IdCategorie ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -81,6 +101,26 @@ public class GroupeCategorie {
 		while (rs.next()) {
 			res.add(rs.getInt("idGroupe"));
 			i++;
+		}
+		return res;
+	}
+	
+	public static ArrayList<Categorie> listCategoriePourGroupe(int id) throws SQLException {
+		ArrayList<Integer> list = GroupeCategorie.listCategoriePourGroupeId(id);
+		Connection connect=DBConnection.getConnection();
+		ArrayList<Categorie> res = null;
+		for(int i = 0 ; i < list.size(); i++) {
+			String SQLPrep = "SELECT * FROM Categorie WHERE IdCategorie ='"+list.get(i)+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resId = rs.getInt("idCategorie");
+				res.add(new Categorie(resNom,resId));
+			}
 		}
 		return res;
 	}
