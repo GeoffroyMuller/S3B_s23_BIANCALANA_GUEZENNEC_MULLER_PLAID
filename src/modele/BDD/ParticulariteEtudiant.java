@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import modele.Particularite;
 
 
 // TODO: Auto-generated Javadoc
