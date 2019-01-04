@@ -279,7 +279,7 @@ public class Place {
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Place> listPlace(int id) throws SQLException {
+	public static ArrayList<Place> listPlace() throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Place;";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -426,7 +426,17 @@ public class Place {
 	 */
 	public Place[][] tableauPlace(int idsalle) throws SQLException{
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
-		Place res[][] = null;
+		int imax = 0;
+		int jmax = 0;
+		for(int i=0; i<temp.size(); i++) {
+			if(imax<temp.get(i).getI()) {
+				imax=temp.get(i).getI();
+			}
+			if(jmax<temp.get(i).getJ()) {
+				jmax=temp.get(i).getJ();
+			}
+		}
+		Place res[][] = new Place[imax][jmax];
 		for(int i=0; i<temp.size(); i++) {
 			res[temp.get(i).getI()][temp.get(i).getJ()] = temp.get(i);
 		}

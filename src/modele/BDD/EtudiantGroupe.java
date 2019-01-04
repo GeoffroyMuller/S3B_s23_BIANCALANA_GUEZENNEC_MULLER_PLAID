@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * The Class ParticulariteEtudiant.
  */
-public class ParticulariteEtudiant {
+public class EtudiantGroupe {
 
 	/**
 	 * Creates the table.
@@ -20,11 +20,11 @@ public class ParticulariteEtudiant {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`particulariteEtudiant` "
-					+ "( `idParticularite` INT(11) NOT NULL , `idEtu` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idParticularite`,`idEtu`), "
-					+ "FOREIGN KEY (idParticularite) REFERENCES particularite (idParticularite), "
-					+ "FOREIGN KEY (idEtu) REFERENCES Etudiant (idEtu)) ENGINE = InnoDB";
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`EtudiantGroupe` "
+					+ "( `idEtu` INT(11) NOT NULL , `idGroupe` INT(11) NOT NULL , "
+					+ "PRIMARY KEY (`idEtu`,`idGroupe`), "
+					+ "FOREIGN KEY (idEtu) REFERENCES Etudiant (idEtu), "
+					+ "FOREIGN KEY (idGroupe) REFERENCES Groupe (idGroupe)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -40,7 +40,7 @@ public class ParticulariteEtudiant {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE particulariteEtudiant";
+			String SQLPrep1 = "DROP TABLE EtudiantGroupe";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -51,9 +51,9 @@ public class ParticulariteEtudiant {
 		}
 	}
 	
-	public static int[] listParticularitePourEtudiant(int id) throws SQLException {
+	public static int[] listEtudiantPourGroupe(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdEtudiant ='"+id+"';";
+		String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdEtudiant ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 		prep1.execute();
 		ResultSet rs = prep1.getResultSet();
@@ -70,7 +70,7 @@ public class ParticulariteEtudiant {
 	
 	public static int[] listEtudiantPourParticularite(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdParticularite ='"+id+"';";
+		String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdGroupe ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 		prep1.execute();
 		ResultSet rs = prep1.getResultSet();
