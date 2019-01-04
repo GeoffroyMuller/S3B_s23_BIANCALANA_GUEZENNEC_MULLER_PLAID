@@ -10,6 +10,10 @@ import javax.swing.JTextField;
 
 public class ControleurExamen {
 
+	private String exam_nom;
+	private String exam_matiere;
+	private String exam_date;
+	
 	private JTextField jtf_nom;		//JTextField : gere le nom de l'examen
 	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
 	private JTextField jtf_date;	//JTextField : gere la date de l'examen
@@ -36,6 +40,7 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				exam_nom = ""+((JTextField)e.getSource()).getText();
 				System.out.println("CtrlExam_jtf_Nom: "+((JTextField)e.getSource()).getText());
 			}
 		});
@@ -44,6 +49,7 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				exam_matiere = ""+((JTextField)e.getSource()).getText();
 				System.out.println("CtrlExam_jtf_Matiere: "+((JTextField)e.getSource()).getText());
 			}
 		});
@@ -52,6 +58,7 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				exam_date = ""+((JTextField)e.getSource()).getText();
 				System.out.println("CtrlExam_jtf_Date: "+((JTextField)e.getSource()).getText());
 			}
 		});
@@ -60,7 +67,12 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("Examen creer");
+				
+				System.out.println("===Examen creer===");
+				System.out.println(">CtrlExam_jtf_Nom: "+jtf_nom.getText());
+				System.out.println(">CtrlExam_jtf_Matiere: "+jtf_matiere.getText());
+				System.out.println(">CtrlExam_jtf_Date: "+jtf_date.getText());
+				System.out.println("==================");
 			}
 		});
 		

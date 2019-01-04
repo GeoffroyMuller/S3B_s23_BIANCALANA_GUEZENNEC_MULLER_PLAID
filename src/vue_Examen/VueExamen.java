@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Label;
 import java.awt.LayoutManager;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,7 +25,9 @@ import javax.swing.border.TitledBorder;
 
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
+import modele.Categorie;
 import modele.Examen;
+import modele.Groupe;
 import vue.BarreOutils;
 
 public class VueExamen extends JPanel{
@@ -65,6 +68,7 @@ public class VueExamen extends JPanel{
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
 		examen = new Examen();
+		testlisteur();
 		jp2_creation = new VueCreation(controleur_Exam, examen);	
 		this.setBackground(new Color(138, 138, 138));
 		jp_all.setBackground(new Color(138, 138, 138));
@@ -74,6 +78,30 @@ public class VueExamen extends JPanel{
 		placerElementPrincipaux();
 		this.add(jp_all);
 		definirTaille(1000, 300);
+	}
+	
+	private void testlisteur() {
+		ArrayList<Categorie> listcateg = new ArrayList<>();
+		ArrayList<Groupe> gl1 = new ArrayList<Groupe>();
+		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		gl1.add(new Groupe("groupe1 A"));
+		gl1.add(new Groupe("groupe1 B"));
+		
+		gl2.add(new Groupe("groupe2 A"));
+		gl2.add(new Groupe("groupe2 B"));
+		Categorie c1 = new Categorie("Année 1", gl1);
+		Categorie c2 = new Categorie("Année 2", gl2);	
+		listcateg.add(c1);
+		listcateg.add(c2);
+		examen.setListecateg(listcateg);
 	}
 	
 
