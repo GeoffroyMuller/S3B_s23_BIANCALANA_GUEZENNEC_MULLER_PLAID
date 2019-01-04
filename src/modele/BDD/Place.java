@@ -31,6 +31,8 @@ public class Place {
 	
 	/** The i. */
 	private int i;
+	
+	private int disponnible;
 
 
 	/**
@@ -42,11 +44,17 @@ public class Place {
 	 * @param j the j
 	 * @param idSalle the id salle
 	 */
-	public Place(String nom, String typeSalle, int i, int j, int idSalle) {
+	public Place(String nom, String typeSalle, int i, int j, int disponnible, int idSalle) {
 		this.idPlace=-1;
 		this.nom=nom;
 		this.typeSalle=typeSalle;
 		this.idSalle=idSalle;
+		if(disponnible==0||disponnible==1) {
+			this.disponnible=disponnible;
+		}
+		else {
+			this.disponnible=0;
+		}
 		this.j=j;
 		this.i=i;
 	}
@@ -195,11 +203,17 @@ public class Place {
 	 * @param j the j
 	 * @param idPlace the id place
 	 */
-	private Place(String nom, String typeSalle, int idSalle,int i, int j, int idPlace) {
+	private Place(String nom, String typeSalle, int idSalle,int i, int j,int disponnible, int idPlace) {
 		this.typeSalle=typeSalle;
 		this.nom=nom;
 		this.j=j;
 		this.i=i;
+		if(disponnible==0||disponnible==1) {
+			this.disponnible=disponnible;
+		}
+		else {
+			this.disponnible=0;
+		}
 		this.idPlace=idPlace;
 		this.idSalle=idSalle;
 	}
@@ -225,7 +239,7 @@ public class Place {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Place` "
 					+ "( `idPlace` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL,"
-					+ " `typePlace` VARCHAR(40) NOT NULL,`i` INT(11) NOT NULL,"
+					+ " `typePlace` VARCHAR(40) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,"
 					+ "`j` INT(11) NOT NULL,"
 					+ " `idSalle` INT(11) NOT NULL, "
 					+ "PRIMARY KEY (`idPlace`), "
@@ -279,7 +293,8 @@ public class Place {
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resIdSalle = rs.getInt("idSalle");
-			res = new Place(resNom, resTypeSalle, resIdSalle,resI, resJ, id);
+			int resDisponnible = rs.getInt("disponnible");
+			res = new Place(resNom, resTypeSalle, resIdSalle,resI, resJ, resDisponnible, id);
 		}
 		return res;
 	}
@@ -306,7 +321,8 @@ public class Place {
 			int resJ = rs.getInt("j");
 			int resIdSalle = rs.getInt("idSalle");
 			int resId = rs.getInt("idPlace");
-			res.add(new Place(resNom, resTypeSalle, resIdSalle,resI, resJ, resId));
+			int resDisponnible = rs.getInt("disponnible");
+			res.add(new Place(resNom, resTypeSalle, resIdSalle,resI, resJ, resDisponnible, resId));
 		}
 		return res;
 	}
@@ -333,7 +349,8 @@ public class Place {
 			int resIdSalle = rs.getInt("idSalle");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
-			res.add(new Place(resNom, resTypeSalle, resIdSalle, resI, resJ, id));
+			int resDisponnible = rs.getInt("disponnible");
+			res.add(new Place(resNom, resTypeSalle, resIdSalle, resI, resJ, resDisponnible, id));
 		}
 		return res;
 	}
@@ -390,12 +407,12 @@ public class Place {
 	private void saveNew() {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO Place (`NOM`, `TypeSalle`, `i`, `j`, `idSalle`) VALUES" + 
-					"('"+this.nom+"', '"+this.typeSalle+"', '"+this.i+"', '"+this.j+"', '"+this.idSalle+"')";
+			String SQLPrep0 = "INSERT INTO Place (`NOM`, `TypeSalle`, `i`, `j`, `disponnible`, `idSalle`) VALUES" + 
+					"('"+this.nom+"', '"+this.typeSalle+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND typeSalle ="
-					+ "'"+this.typeSalle+"' AND i ='"+this.i+"' AND j ="
+					+ "'"+this.typeSalle+"' AND i ='"+this.i+"' AND Disponnible ='"+this.disponnible+"' AND j ="
 							+ "'"+this.j+"' AND idSalle ='"+this.idSalle+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
@@ -418,7 +435,7 @@ public class Place {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Place " + 
-					"SET NOM = '"+this.nom+"', typeSalle = '"+this.typeSalle+"', i = '"+this.i+"', j = '"+this.j+"', idSalle = '"+this.idSalle+"'" + 
+					"SET NOM = '"+this.nom+"', typeSalle = '"+this.typeSalle+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"'" + 
 					"WHERE IDPlace ='"+this.idPlace+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
