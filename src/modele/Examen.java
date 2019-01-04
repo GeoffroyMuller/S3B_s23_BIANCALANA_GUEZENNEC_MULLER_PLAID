@@ -1,15 +1,16 @@
 package modele;
 
+import modele.BDD.EtudiantGroupe;
+import modele.BDD.Particularite;
+import modele.BDD.ParticulariteEtudiant;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Set;
+import java.sql.SQLException;
+import java.util.*;
 
 public class Examen {
 	
@@ -25,7 +26,7 @@ public class Examen {
     /**
      * Tout les étudiants qui ont été sélectionné
      */
-    public HashMap<Etudiant,String> etudiants;
+    public HashMap<modele.BDD.Etudiant,String> etudiants;
 
     /**
      * Toutes les salles sélectionné trié par ordre de priorité
@@ -43,7 +44,7 @@ public class Examen {
      */
     public Examen(){
         this.placement = new HashMap<Salle,HashMap<Place,Etudiant>>();
-        this.etudiants = new HashMap<Etudiant,String>();
+        this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
         this.salles = new ArrayList<>();
         this.pas = 1;
     }
@@ -65,6 +66,9 @@ public class Examen {
         /**
          * TO DO RECUPERE LES ETUDIANTS AVEC LA METHODE
          */
+
+
+
         for(Etudiant etu : groupe.etudiants){
             this.etudiants.put(etu,groupe.nom);
         }
@@ -98,7 +102,7 @@ public class Examen {
      */
     public void placerEleve(){
         //On récupére d'abord tout les éléve dans une seule et même liste
-        ArrayList<Etudiant> listeEtu = new ArrayList<Etudiant>(this.etudiants.keySet());
+        ArrayList<modele.BDD.Etudiant> listeEtu = new ArrayList<modele.BDD.Etudiant>(this.etudiants.keySet());
         //On filtre les étudiant particulier qui ne sont pas à placer
         listeEtu= this.filtrerEleveParticulier(listeEtu);
 
@@ -124,6 +128,8 @@ public class Examen {
             Random r = new Random();
             int nbAlea = r.nextInt((listeEtu.size()-1) + 1);
             //On prend le premier étudiant de la liste (celui-ci change dés qu'un étudiant est placé)
+
+
             if(!(listeEtu.get(0).particularite.size()>0)){
                 etudiantTeste = listeEtu.get(nbAlea);
             }else{
@@ -214,8 +220,8 @@ public class Examen {
      * @param place
      * @return
      */
-    private boolean verifierPlacement(Salle salle, Etudiant etu, Place place){
-        Iterateur iterateurSalle = salle.getIterateur(place.i,place.j);
+    private boolean verifierPlacement(modele.BDD.Salle salle, Etudiant etu, modele.BDD.Place place){
+        Iterateur iterateurSalle = salle.getIterateur(place.getI(),place.getJ());
         Place placeTestee;
 
         //On test toutes les places autour de l'étudiant
@@ -270,7 +276,7 @@ public class Examen {
      * @param salle
      * @return
      */
-    private boolean testerPlace(Place place, Etudiant etu, Salle salle){
+    private boolean testerPlace(modele.BDD.Place place, modele.BDD.Etudiant etu, modele.BDD.Salle salle){
         if(place.isDisponnible()){
             //On vérifie si il y a un étudiant placer à la place donné en paramétre
             Etudiant etudiantOccupantLaPlace = this.placement.get(salle).get(place);
@@ -308,10 +314,17 @@ public class Examen {
      * @param etu
      * @return
      */
-    public ArrayList<Etudiant> filtrerEleveParticulier(ArrayList<Etudiant> etu){
-        ArrayList<Etudiant> res = etu;
-        for(Etudiant etudiant : res){
-            if(etudiant.particularite.size()>0){
+    public ArrayList<modele.BDD.Etudiant> filtrerEleveParticulier(ArrayList<modele.BDD.Etudiant> etu){
+        ArrayList<modele.BDD.Etudiant> res = etu;
+        for(modele.BDD.Etudiant etudiant : res){
+
+            try {
+                ArrayList<Particularite> particularites = ParticulariteEtudiant.listParticularitePourEtudiant(etudiant.getIdEtu());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            if(particularites.size()>0){
                 if(!(etudiant.verifierPriseEnCompte())){
                     res.remove(etudiant);
                 }

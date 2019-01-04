@@ -275,7 +275,6 @@ public class Place {
 	/**
 	 * List place.
 	 *
-	 * @param id the id
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
@@ -431,6 +430,7 @@ public class Place {
 	public int nbCaseLongueur(int idsalle) throws SQLException{
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
 		int imax = 0;
+
 		for(int i=0; i<temp.size(); i++) {
 			if(imax<temp.get(i).getI()) {
 				imax=temp.get(i).getI();
@@ -446,7 +446,7 @@ public class Place {
 	 * @return the place[][]
 	 * @throws SQLException the SQL exception
 	 */
-	public Place[][] tableauPlace(int idsalle) throws SQLException{
+	public static Place[][] tableauPlace(int idsalle) throws SQLException{
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
 		int imax = 0;
 		int jmax = 0;

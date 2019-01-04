@@ -22,8 +22,10 @@ public class Salle {
 	/** The id salle. */
 	private int idSalle;
 
-	private int nbCaseLargeur;
-	private int nbCaseHauteur;
+	protected int nbCaseLargeur;
+	protected int nbCaseHauteur;
+
+	protected Place[][] places;
 
 	/**
 	 * Instantiates a new salle.
@@ -73,6 +75,12 @@ public class Salle {
 		this.idSalle=idSalle;
 		this.nbCaseHauteur=nbCaseHauteur;
 		this.nbCaseLargeur=nbCaseLargeur;
+
+		try {
+			this.places = Place.tableauPlace(idSalle);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -142,7 +150,6 @@ public class Salle {
 	/**
 	 * List salle.
 	 *
-	 * @param id the id
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
@@ -236,6 +243,10 @@ public class Salle {
 		}
 	}
 
+	public Iterateur getIterateur(int i, int j){
+		return new SalleIterateur(i,j);
+	}
+
 
 
 	public class SalleIterateur implements Iterateur {
@@ -314,7 +325,6 @@ public class Salle {
 			}else{
 				this.j++;
 			}
-
 
 			return places[this.i][this.j];
 		}
