@@ -416,6 +416,28 @@ public class Place {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
 	}
+	
+	public int nbCaseHauteur(int idsalle) throws SQLException{
+		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
+		int jmax = 0;
+		for(int i=0; i<temp.size(); i++) {
+			if(jmax<temp.get(i).getJ()) {
+				jmax=temp.get(i).getJ();
+			}
+		}
+		return jmax;
+	}
+	
+	public int nbCaseLongueur(int idsalle) throws SQLException{
+		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
+		int imax = 0;
+		for(int i=0; i<temp.size(); i++) {
+			if(imax<temp.get(i).getI()) {
+				imax=temp.get(i).getI();
+			}
+		}
+		return imax;
+	}
 
 	/**
 	 * Tableau place.
