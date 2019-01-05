@@ -20,6 +20,7 @@ public class Categorie {
 	/** The id categorie. */
 	private int idCategorie;
 
+	private ArrayList<Groupe> listGroupe;
 
 	/**
 	 * Instantiates a new categorie.
@@ -30,7 +31,12 @@ public class Categorie {
 		this.idCategorie=-1;
 		this.nom=nom;
 	}
-
+	
+	public Categorie(String nom, ArrayList<Groupe> listGroupe) {
+		this.idCategorie=-1;
+		this.nom=nom;
+		this.listGroupe=listGroupe;
+	}
 	
 
 	/**
