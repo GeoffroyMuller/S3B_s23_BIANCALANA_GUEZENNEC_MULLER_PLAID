@@ -14,6 +14,8 @@ import java.util.ArrayList;
  */
 public class Categorie {
 
+	private static ArrayList<Categorie> ListeCateg = new ArrayList<>();
+	
 	/** The nom. */
 	private String nom;
 	
@@ -30,14 +32,31 @@ public class Categorie {
 	public Categorie(String nom) {
 		this.idCategorie=-1;
 		this.nom=nom;
+		Categorie.ListeCateg.add(this);
 	}
 	
 	public Categorie(String nom, ArrayList<Groupe> listGroupe) {
 		this.idCategorie=-1;
 		this.nom=nom;
 		this.listGroupe=listGroupe;
+		Categorie.ListeCateg.add(this);
 	}
 	
+	
+	
+
+	
+	public static void setListeCateg(ArrayList<Categorie> listeCateg) {
+		ListeCateg = listeCateg;
+	}
+
+	public static ArrayList<Categorie> getListeCateg() {
+		return ListeCateg;
+	}
+
+	public ArrayList<Groupe> getListGroupe() {
+		return listGroupe;
+	}
 
 	/**
 	 * Sets the nom.

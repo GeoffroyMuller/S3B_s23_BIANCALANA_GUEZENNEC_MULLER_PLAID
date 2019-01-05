@@ -31,7 +31,15 @@ public class Place {
 	
 	/** The i. */
 	private int i;
-	
+
+	public int getDisponnible() {
+		return disponnible;
+	}
+
+	public void setDisponnible(int disponnible) {
+		this.disponnible = disponnible;
+	}
+
 	private int disponnible;
 
 
@@ -39,7 +47,6 @@ public class Place {
 	 * Instantiates a new place.
 	 *
 	 * @param nom the nom
-	 * @param typeSalle the type salle
 	 * @param i the i
 	 * @param j the j
 	 * @param idSalle the id salle
@@ -58,6 +65,19 @@ public class Place {
 		this.j=j;
 		this.i=i;
 	}
+
+
+	public Place(String nom,int i, int j, int idSalle) {
+		this.idPlace=-1;
+		this.nom=nom;
+		this.idTypePlace=1;
+		this.idSalle=idSalle;
+		this.disponnible=1;
+		this.j=j;
+		this.i=i;
+	}
+
+
 
 	
 
@@ -97,7 +117,6 @@ public class Place {
 	/**
 	 * Sets the type salle.
 	 *
-	 * @param typeSalle the typeSalle to set
 	 */
 	public void setTypePlace(int idTypePlace) {
 		this.idTypePlace = idTypePlace;
@@ -197,7 +216,6 @@ public class Place {
 	 * Instantiates a new place.
 	 *
 	 * @param nom the nom
-	 * @param typeSalle the type salle
 	 * @param idSalle the id salle
 	 * @param i the i
 	 * @param j the j
@@ -290,7 +308,6 @@ public class Place {
 	/**
 	 * List place.
 	 *
-	 * @param id the id
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
@@ -302,7 +319,7 @@ public class Place {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Place> res = null;
+		ArrayList<Place> res = new ArrayList<Place>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resIdTypePlace = rs.getInt("idTypePlace");
@@ -331,7 +348,7 @@ public class Place {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Place> res = null;
+		ArrayList<Place> res = new ArrayList<Place>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resIdTypePlace = rs.getInt("idTypePlace");
@@ -463,22 +480,35 @@ public class Place {
 	 * @return the place[][]
 	 * @throws SQLException the SQL exception
 	 */
-	public Place[][] tableauPlace(int idsalle) throws SQLException{
+	public static Place[][] tableauPlace(int idsalle) throws SQLException{
+
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
-		int imax = 0;
-		int jmax = 0;
-		for(int i=0; i<temp.size(); i++) {
-			if(imax<temp.get(i).getI()) {
-				imax=temp.get(i).getI();
-			}
-			if(jmax<temp.get(i).getJ()) {
-				jmax=temp.get(i).getJ();
-			}
-		}
+		Salle salle = Salle.findById(idsalle);
+		int imax = salle.getNbCaseHauteur();
+		int jmax = salle.getNbCaseLargeur();
+
 		Place res[][] = new Place[imax][jmax];
 		for(int i=0; i<temp.size(); i++) {
 			res[temp.get(i).getI()][temp.get(i).getJ()] = temp.get(i);
 		}
 		return res;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Place place = (Place) o;
+
+		if (i != place.i) return false;
+		return j == place.j;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = i;
+		result = 31 * result + j;
+		return result;
 	}
 }

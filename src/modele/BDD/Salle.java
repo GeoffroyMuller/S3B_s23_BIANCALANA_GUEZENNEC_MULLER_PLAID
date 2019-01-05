@@ -84,7 +84,16 @@ public class Salle {
 		this.nbCaseHauteur=nbCaseHauteur;
 		this.nbCaseLargeur=nbCaseLargeur;
 
+		/*try {
+			this.places = Place.tableauPlace(idSalle);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}*/
+	}
+
+	public void getTableauPlaces(int idSalle){
 		try {
+			this.places = new Place[this.nbCaseHauteur][this.nbCaseLargeur];
 			this.places = Place.tableauPlace(idSalle);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -271,8 +280,8 @@ public class Salle {
 		}
 	}
 
-	public Iterateur getIterateur(int i, int j){
-		return new SalleIterateur(i,j);
+	public Iterateur getIterateur(int i, int j, Salle salle){
+		return new SalleIterateur(i,j, salle);
 	}
 
 	public int getNbCaseLargeur() {
@@ -296,14 +305,18 @@ public class Salle {
 
 		protected int i,j;
 
+		private Salle salle;
+
 		/**
 		 * Coordonnées lors de la création de l'itérateur afin de pouvoir y retourner si besoin
 		 */
 		protected int firstI, firstJ;
 
-		public SalleIterateur(int i, int j){
+		public SalleIterateur(int i, int j, Salle salle){
 			this.firstI = this.i = i;
 			this.firstJ = this.j = j;
+			this.salle = salle;
+			//this.salle.getTableauPlaces(this.salle.idSalle);
 		}
 
 
@@ -441,7 +454,8 @@ public class Salle {
 
 		@Override
 		public Object actual() {
-			return places[i][j];
+
+			return salle.getPlaces()[i][j];
 		}
 
 		@Override

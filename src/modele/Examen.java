@@ -15,6 +15,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.sql.SQLException;
 import java.util.*;
 
+import modele.BDD.Categorie;
+
 public class Examen {
 	
 	private String nom;
@@ -29,12 +31,12 @@ public class Examen {
     /**
      * Tout les étudiants qui ont été sélectionné
      */
-    public HashMap<modele.BDD.Etudiant,String> etudiants;
+    public HashMap<Etudiant,String> etudiants;
 
     /**
      * Toutes les salles sélectionné trié par ordre de priorité
      */
-    public ArrayList<modele.BDD.Salle> salles;
+    public ArrayList<Salle> salles;
 
     /**
      * Distancce entre chaque etudiant
@@ -48,7 +50,7 @@ public class Examen {
     public Examen(){
         this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
         this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
-        this.salles = new ArrayList<>();
+        this.salles = new ArrayList<Salle>();
         this.pas = 1;
     }
 
@@ -69,7 +71,7 @@ public class Examen {
 
         ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
         try {
-            etudiants = EtudiantGroupe.listEtudiantPourGroupe(groupe.getIdGroupe());
+            etudiants = EtudiantGroupe.recupererEtudiantDansGroupe(groupe.getIdGroupe());
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -94,6 +96,7 @@ public class Examen {
             resultat = this.verifierSolution();
             nbTentative++;
             if(nbTentative== 20000){
+                System.out.println("TENTNATIVE");
                 margeErreur++;
                 nbTentative = 0;
             }
@@ -106,7 +109,7 @@ public class Examen {
      */
     public void placerEleve(){
         //On récupére d'abord tout les éléve dans une seule et même liste
-        ArrayList<modele.BDD.Etudiant> listeEtu = new ArrayList<modele.BDD.Etudiant>(this.etudiants.keySet());
+        ArrayList<modele.BDD.Etudiant> listeEtu = new ArrayList<Etudiant>(this.etudiants.keySet());
         //On filtre les étudiant particulier qui ne sont pas à placer
         listeEtu= this.filtrerEleveParticulier(listeEtu);
 
@@ -125,7 +128,7 @@ public class Examen {
         modele.BDD.Etudiant etudiantTeste=null;
         modele.BDD.Salle salle = salles.get(iterateurChangementSalle);
 
-        Iterateur iterateurSalle = salle.getIterateur(i,j);
+        Iterateur iterateurSalle = salle.getIterateur(i,j,salle);
 
         //Tant qu'il y a des Etudiant non place
         while(listeEtu.size()!=0){
@@ -147,8 +150,9 @@ public class Examen {
             }
 
             //On vérifie si la place est disponible (chaise cassé,allée...) et qu'aucun n'autre étudiant n'a été placé dessus
+            Place placeActuelle = (Place)iterateurSalle.actual();
 
-            if(((modele.BDD.Place)iterateurSalle.actual()).getDisponnible()==1 && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
+            if(placeActuelle.getDisponnible()==1 && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
 
                 //On regarde si il y a un conflit de groupe avec les places adjacentes, de plus si on à déja testé tout les étudiants alors l'étudiant
                 // sera placé même si un membre du même groupe est adjacent à lui
@@ -171,7 +175,7 @@ public class Examen {
 
                         iterateurChangementSalle++;
                         salle =salles.get(iterateurChangementSalle);
-                        iterateurSalle = salle.getIterateur(i,j);
+                        iterateurSalle = salle.getIterateur(i,j,salle);
                     }
 
                 }else{
@@ -213,7 +217,7 @@ public class Examen {
                 }
 
                 for(int i = 0; i < tabValeurJ.length;i++){
-                    modele.BDD.Place placeTestee = new Place(p.getI(),tabValeurJ[i]);
+                    modele.BDD.Place placeTestee = new Place(p.getI()+""+tabValeurJ[i],p.getI(),tabValeurJ[i],salle.getIdSalle());
                     if(!(testerPlace(placeTestee,etudiant,salle))){
                         resultat++;
                     }
@@ -232,7 +236,7 @@ public class Examen {
      * @return
      */
     private boolean verifierPlacement(modele.BDD.Salle salle, modele.BDD.Etudiant etu, modele.BDD.Place place){
-        Iterateur iterateurSalle = salle.getIterateur(place.getI(),place.getJ());
+        Iterateur iterateurSalle = salle.getIterateur(place.getI(),place.getJ(),salle);
         modele.BDD.Place placeTestee;
 
         //On test toutes les places autour de l'étudiant

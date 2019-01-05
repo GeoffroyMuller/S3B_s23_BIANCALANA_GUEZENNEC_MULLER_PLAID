@@ -232,4 +232,28 @@ public class TypePlace {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
 	}
+
+	public int getIdTypePlace() {
+		return idTypePlace;
+	}
+
+	public void setIdTypePlace(int idTypePlace) {
+		this.idTypePlace = idTypePlace;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public int getDisponnible() {
+		return disponnible;
+	}
+
+	public void setDisponnible(int disponnible) {
+		this.disponnible = disponnible;
+	}
 }
