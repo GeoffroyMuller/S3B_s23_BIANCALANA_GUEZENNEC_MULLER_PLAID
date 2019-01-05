@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 
-import modele.Categorie;
+import modele.BDD.Categorie;
+
 
 public class ConstructeurListeModelCategorie {
 	private ArrayList<Categorie> lc;

@@ -1,4 +1,4 @@
-package vue_Examen;
+/*package vue_Examen;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,6 +25,12 @@ import javax.swing.border.TitledBorder;
 
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
+<<<<<<< HEAD
+=======
+import modele.BDD.Categorie;
+import modele.BDD.Groupe;
+import modele.Categorie;
+>>>>>>> 1cfa027caf68cf0a75dfe5ce394544adb5c5b279
 import modele.Examen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
@@ -38,7 +44,7 @@ public class VueExamen extends JPanel{
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
 	 */
-	private JPanel jp_all = new JPanel(new GridBagLayout());	//JPanel qui contient tous les autre JPanel
+	/*private JPanel jp_all = new JPanel(new GridBagLayout());	//JPanel qui contient tous les autre JPanel
 	
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private JPanel jpp_creation_marge = new JPanel(new BorderLayout());				//JPanel principal contient les JPanel qui concerne la creation d'un Examen et contour
@@ -64,7 +70,7 @@ public class VueExamen extends JPanel{
 	/**
 	 * Constructeur principale
 	 */
-	public VueExamen() {
+	/*public VueExamen() {
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
 		examen = new Examen();
@@ -108,7 +114,7 @@ public class VueExamen extends JPanel{
 	/**
 	 * Créer La zone de creation d' Examen
 	 */
-	private void creerZoneCreation() {
+	/*private void creerZoneCreation() {
 
 		//ajout de "jp2" aux "jpp"
 		jpp_creation_marge.add(jp2_creation,BorderLayout.CENTER);
@@ -132,7 +138,7 @@ public class VueExamen extends JPanel{
 	/**
 	 * Créer La zone d'Affichage d'Etudiant
 	 */
-	private void creerZoneAffichageEtu() {
+	/*private void creerZoneAffichageEtu() {
 
 		//ajout de couleur de font au JPanel
 		jpp_affichListEtu_marge.setBackground(Color.darkGray);
@@ -170,7 +176,7 @@ public class VueExamen extends JPanel{
 	/**
 	 * Met la couleur passer en parametre sur les JPanel jpp_[...]_marge et du jpanel jp_boutton
 	 */
-	private void couleurJpp_marge(Color colorp) {
+	/*private void couleurJpp_marge(Color colorp) {
 		contour_creation_South.setBackground(colorp);
 		contour_creation_North.setBackground(colorp);
 		contour_creation_East.setBackground(colorp);
@@ -190,7 +196,7 @@ public class VueExamen extends JPanel{
 	/**
 	 * Definie et adapte la taille General
 	 */
-	public void definirTaille(int w, int h) {
+	/*public void definirTaille(int w, int h) {
 		this.setPreferredSize(new Dimension(w, h));
 		jp_all.setPreferredSize(new Dimension(w-100, h-40));
 
@@ -230,5 +236,5 @@ public class VueExamen extends JPanel{
 		paneldev.ajouterInfo("> mettre a This w: 1138 pour minimal");
 	}
 	
-}
+}*/
 

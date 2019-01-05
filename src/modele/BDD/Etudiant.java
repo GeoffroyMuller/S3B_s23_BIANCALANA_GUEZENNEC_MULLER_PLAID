@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * The Class Etudiant.
  */
-public class Etudiant {
+public class Etudiant implements Comparable<Etudiant> {
 
 	/** The nom. */
 	private String nom;
@@ -25,6 +25,8 @@ public class Etudiant {
 	
 	/** The id etu. */
 	private int idEtu;
+	
+	private ArrayList<Particularite> listParticularite;
 
 
 	/**
@@ -37,6 +39,13 @@ public class Etudiant {
 		this.idEtu=-1;
 		this.nom=nom;
 		this.prenom=prenom;
+	}
+	
+	public Etudiant(String nom, String prenom, ArrayList<Particularite> listParticularite) {
+		this.idEtu=-1;
+		this.nom=nom;
+		this.prenom=prenom;
+		this.listParticularite=listParticularite;
 	}
 
 	/**
@@ -248,5 +257,56 @@ public class Etudiant {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
 	}
+
+
+	/**
+	 * Méthode indiquant si un Etudiant doit être pris en compte
+	 * @return
+	 */
+	public boolean verifierPriseEnCompte(){
+		boolean res = true;
+
+		ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+		try {
+			particularites = ParticulariteEtudiant.listParticularitePourEtudiant(this.idEtu);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		for(Particularite particularite : particularites){
+			if(!(particularite.getPrendreEnComptePlacement()==1)){
+				res=false;
+				break;
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * Compare les étudiant en fonction de leurs particularités
+	 * @param o
+	 * @return
+	 */
+	@Override
+	public int compareTo(Etudiant o) {
+		ArrayList<Particularite> particularites = null;
+		ArrayList<Particularite> particularitesCompare = null;
+		try {
+			particularites = ParticulariteEtudiant.listParticularitePourEtudiant(this.idEtu);
+			particularitesCompare = ParticulariteEtudiant.listParticularitePourEtudiant(o.getIdEtu());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+
+		if(particularites.size()>particularitesCompare.size()){
+			return -1;
+		}else if(particularites.size()==particularitesCompare.size()){
+			return 0;
+		}
+		return 1;
+	}
+	
+	public ArrayList<>
 
 }

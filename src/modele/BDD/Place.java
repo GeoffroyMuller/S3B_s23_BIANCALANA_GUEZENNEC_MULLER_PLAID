@@ -17,8 +17,8 @@ public class Place {
 	/** The nom. */
 	private String nom;
 	
-	/** The type salle. */
-	private int idTypeSalle;
+	/** The type Place. */
+	private int idTypePlace;
 	
 	/** The id salle. */
 	private int idSalle;
@@ -44,10 +44,10 @@ public class Place {
 	 * @param j the j
 	 * @param idSalle the id salle
 	 */
-	public Place(String nom, int IdTypeSalle, int i, int j, int disponnible, int idSalle) {
+	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle) {
 		this.idPlace=-1;
 		this.nom=nom;
-		this.idTypeSalle=idTypeSalle;
+		this.idTypePlace=idTypePlace;
 		this.idSalle=idSalle;
 		if(disponnible==0||disponnible==1) {
 			this.disponnible=disponnible;
@@ -88,8 +88,8 @@ public class Place {
 	 *
 	 * @return the typeSalle
 	 */
-	public int getIdTypeSalle() {
-		return idTypeSalle;
+	public int getIdTypePlace() {
+		return idTypePlace;
 	}
 
 
@@ -99,8 +99,8 @@ public class Place {
 	 *
 	 * @param typeSalle the typeSalle to set
 	 */
-	public void setTypeSalle(int idTypeSalle) {
-		this.idTypeSalle = idTypeSalle;
+	public void setTypePlace(int idTypePlace) {
+		this.idTypePlace = idTypePlace;
 	}
 
 
@@ -203,8 +203,8 @@ public class Place {
 	 * @param j the j
 	 * @param idPlace the id place
 	 */
-	private Place(String nom, int idTypeSalle, int idSalle,int i, int j,int disponnible, int idPlace) {
-		this.idTypeSalle=idTypeSalle;
+	private Place(String nom, int idTypePlace, int idSalle,int i, int j,int disponnible, int idPlace) {
+		this.idTypePlace=idTypePlace;
 		this.nom=nom;
 		this.j=j;
 		this.i=i;
@@ -231,8 +231,7 @@ public class Place {
 					+ "`j` INT(11) NOT NULL,"
 					+ " `idSalle` INT(11) NOT NULL, "
 					+ "PRIMARY KEY (`idPlace`), "
-					+ "FOREIGN KEY (idSalle) REFERENCES Salle (idSalle)), "
-					+ "FOREIGN KEY (idTypePlace) REFERENCES TypeSalle (idTypeSalle)) ENGINE = InnoDB";
+					+ ") ENGINE = InnoDB";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -278,12 +277,12 @@ public class Place {
 		Place res = null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
-			int resIdTypeSalle = rs.getInt("IdTypeSalle");
+			int resIdTypePlace = rs.getInt("IdTypePlace");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resIdSalle = rs.getInt("idSalle");
 			int resDisponnible = rs.getInt("disponnible");
-			res = new Place(resNom, resIdTypeSalle, resIdSalle,resI, resJ, resDisponnible, id);
+			res = new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, id);
 		}
 		return res;
 	}
@@ -306,13 +305,13 @@ public class Place {
 		ArrayList<Place> res = null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
-			int resIdTypeSalle = rs.getInt("idTypeSalle");
+			int resIdTypePlace = rs.getInt("idTypePlace");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resIdSalle = rs.getInt("idSalle");
 			int resId = rs.getInt("idPlace");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resIdTypeSalle, resIdSalle,resI, resJ, resDisponnible, resId));
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, resId));
 		}
 		return res;
 	}
@@ -335,12 +334,12 @@ public class Place {
 		ArrayList<Place> res = null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
-			int resIdTypeSalle = rs.getInt("idTypeSalle");
+			int resIdTypePlace = rs.getInt("idTypePlace");
 			int resIdSalle = rs.getInt("idSalle");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resIdTypeSalle, resIdSalle, resI, resJ, resDisponnible, id));
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, id));
 		}
 		return res;
 	}
@@ -397,12 +396,12 @@ public class Place {
 	private void saveNew() {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO Place (`NOM`, `IdTypeSalle`, `i`, `j`, `disponnible`, `idSalle`) VALUES" + 
-					"('"+this.nom+"', '"+this.idTypeSalle+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"')";
+			String SQLPrep0 = "INSERT INTO Place (`NOM`, `IdTypePlace`, `i`, `j`, `disponnible`, `idSalle`) VALUES" + 
+					"('"+this.nom+"', '"+this.idTypePlace+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
-			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND IdtypeSalle ="
-					+ "'"+this.idTypeSalle+"' AND i ='"+this.i+"' AND Disponnible ='"+this.disponnible+"' AND j ="
+			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND IdtypePlace ="
+					+ "'"+this.idTypePlace+"' AND i ='"+this.i+"' AND Disponnible ='"+this.disponnible+"' AND j ="
 							+ "'"+this.j+"' AND idSalle ='"+this.idSalle+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
@@ -425,7 +424,7 @@ public class Place {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Place " + 
-					"SET NOM = '"+this.nom+"', IdTypeSalle = '"+this.idTypeSalle+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"'" + 
+					"SET NOM = '"+this.nom+"', IdTypePlace = '"+this.idTypePlace+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"'" + 
 					"WHERE IDPlace ='"+this.idPlace+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();

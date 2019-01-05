@@ -1,6 +1,8 @@
 package modele.BDD;
 
 
+import modele.Iterateur;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,8 +22,18 @@ public class Salle {
 	/** The id salle. */
 	private int idSalle;
 
-	private int nbCaseLargeur;
-	private int nbCaseHauteur;
+	protected int nbCaseLargeur;
+	protected int nbCaseHauteur;
+
+	public Place[][] getPlaces() {
+		return places;
+	}
+
+	public void setPlaces(Place[][] places) {
+		this.places = places;
+	}
+
+	protected Place[][] places;
 
 	/**
 	 * Instantiates a new salle.
@@ -71,6 +83,12 @@ public class Salle {
 		this.idSalle=idSalle;
 		this.nbCaseHauteur=nbCaseHauteur;
 		this.nbCaseLargeur=nbCaseLargeur;
+
+		try {
+			this.places = Place.tableauPlace(idSalle);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -160,7 +178,6 @@ public class Salle {
 	/**
 	 * List salle.
 	 *
-	 * @param id the id
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
@@ -251,6 +268,196 @@ public class Salle {
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
+		}
+	}
+
+	public Iterateur getIterateur(int i, int j){
+		return new SalleIterateur(i,j);
+	}
+
+	public int getNbCaseLargeur() {
+		return nbCaseLargeur;
+	}
+
+	public void setNbCaseLargeur(int nbCaseLargeur) {
+		this.nbCaseLargeur = nbCaseLargeur;
+	}
+
+	public int getNbCaseHauteur() {
+		return nbCaseHauteur;
+	}
+
+	public void setNbCaseHauteur(int nbCaseHauteur) {
+		this.nbCaseHauteur = nbCaseHauteur;
+	}
+
+
+	public class SalleIterateur implements Iterateur {
+
+		protected int i,j;
+
+		/**
+		 * Coordonnées lors de la création de l'itérateur afin de pouvoir y retourner si besoin
+		 */
+		protected int firstI, firstJ;
+
+		public SalleIterateur(int i, int j){
+			this.firstI = this.i = i;
+			this.firstJ = this.j = j;
+		}
+
+
+		@Override
+		public boolean hasNext() {
+			if(i==nbCaseHauteur-1 && j==nbCaseLargeur-1){
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public boolean hasPrevious() {
+			if(i==0 && j==0){
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public boolean hasNext(int pas) {
+			if(j+pas>nbCaseLargeur-1){
+				if(i==nbCaseHauteur-1){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		@Override
+		public boolean hasPrevious(int pas) {
+			if(j-pas<0){
+				if(i==0){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		@Override
+		public boolean hasUp() {
+			if(!(this.i == 0)){
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public boolean hasDown() {
+			if(!(this.i == nbCaseHauteur-1)){
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public Object next() {
+
+			if(j==nbCaseLargeur-1){
+				this.i++;
+				this.j=0;
+			}else{
+				this.j++;
+			}
+
+			return places[this.i][this.j];
+		}
+
+		@Override
+		public Object previous() {
+			if(j==0){
+				this.i--;
+				this.j=nbCaseLargeur-1;
+			}else{
+				this.j--;
+			}
+
+
+			return places[this.i][this.j];
+		}
+
+		@Override
+		public Object next(int pas) {
+			Place place=null;
+			if(j==nbCaseLargeur-1 || j+pas>nbCaseLargeur-1){
+				this.i++;
+				this.j=0;
+				place = places[this.i][this.j];
+			}else{
+				this.j=this.j+pas;
+				place = places[this.i][this.j];
+
+				//On vérifie que la place n'est pas une allee ou une place cassé
+				//Si la place n'est pas disponible alors on avance d'une case
+				if(!(places[this.i][this.j].getDisponnible()==1)){
+					place = (Place)this.next();
+				}
+			}
+
+
+			return place;
+		}
+
+		@Override
+		public Object previous(int pas) {
+			Place place=null;
+			if(j==0 || j-pas<0){
+				this.i--;
+				this.j=nbCaseLargeur-1;
+				place = places[this.i][this.j];
+			}else{
+				this.j=this.j-pas;
+				place = places[this.i][this.j];
+
+				//On vérifie que la place n'est pas une allee ou une place cassé
+				//Si la place n'est pas disponible alors on recule d'une case
+				if(!(places[this.i][this.j].getDisponnible()==1)){
+					place = (Place)this.previous();
+				}
+			}
+			return place;
+		}
+
+		@Override
+		public Object up() {
+			this.i--;
+			return places[i][j];
+		}
+
+		@Override
+		public Object down() {
+			this.i++;
+			return places[i][j];
+		}
+
+		@Override
+		public Object actual() {
+			return places[i][j];
+		}
+
+		@Override
+		public void reset() {
+			this.i = this.firstI;
+			this.j = this.firstJ;
+		}
+
+		@Override
+		public int getCoordI() {
+			return this.i;
+		}
+
+		@Override
+		public int getCoordY() {
+			return this.j;
 		}
 	}
 

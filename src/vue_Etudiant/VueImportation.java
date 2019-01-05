@@ -1,4 +1,4 @@
-package vue_Etudiant;
+/*package vue_Etudiant;
 
 import java.awt.*;
 
@@ -71,4 +71,4 @@ public class VueImportation extends JFrame{
 	
 	
 
-}
+}*/

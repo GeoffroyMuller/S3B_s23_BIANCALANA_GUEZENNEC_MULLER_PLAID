@@ -9,13 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import composante_graphique.Listeur;
+//import composante_graphique.Listeur;
 
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
 
 public class VueGroupeParticipant extends JPanel{
-	private Examen examen;
+	/*private Examen examen;
 	private ControleurExamen controleur_Exam;
 	
 	private Listeur listeur;
@@ -66,5 +66,5 @@ public class VueGroupeParticipant extends JPanel{
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 
-	}
+	}*/
 }
