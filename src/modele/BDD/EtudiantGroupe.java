@@ -53,7 +53,7 @@ public class EtudiantGroupe {
 	
 	public static ArrayList<Integer> listEtudiantPourGroupeId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdEtudiant ='"+id+"';";
+		String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdEtu ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 		prep1.execute();
 		ResultSet rs = prep1.getResultSet();
@@ -73,7 +73,7 @@ public class EtudiantGroupe {
 		Connection connect=DBConnection.getConnection();
 		ArrayList<Etudiant> res = null;
 		for(int i = 0 ; i < list.size(); i++) {
-			String SQLPrep = "SELECT * FROM Etudiant WHERE IdEtudiant ='"+list.get(i)+"';";
+			String SQLPrep = "SELECT * FROM Etudiant WHERE IdEtu ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
 			ResultSet rs = prep1.getResultSet();
@@ -82,7 +82,7 @@ public class EtudiantGroupe {
 			while (rs.next()) {
 				String resNom = rs.getString("nom");
 				String resPrenom = rs.getString("prenom");
-				int resId = rs.getInt("idEtudiant");
+				int resId = rs.getInt("idEtu");
 				res.add(new Etudiant(resNom, resPrenom, resId));
 			}
 		}
@@ -100,7 +100,7 @@ public class EtudiantGroupe {
 		ArrayList<Integer> res = null;
 		int i=0;
 		while (rs.next()) {
-			res.add(rs.getInt("idEtudiant"));
+			res.add(rs.getInt("idEtu"));
 			i++;
 		}
 		return res;
@@ -126,11 +126,11 @@ public class EtudiantGroupe {
 		return res;
 	}
 	
-	public static void New(int idEtudiant, int idGroupe) {
+	public static void New(int idEtu, int idGroupe) {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO EtudiantGroupe (`IdEtudiant`, `IdGroupe`) VALUES" + 
-					"('"+idEtudiant+"', '"+idGroupe+"')";
+			String SQLPrep0 = "INSERT INTO EtudiantGroupe (`IdEtu`, `IdGroupe`) VALUES" + 
+					"('"+idEtu+"', '"+idGroupe+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -139,10 +139,10 @@ public class EtudiantGroupe {
 		}
 	}
 	
-	public static void delete(int idEtudiant, int idGroupe){
+	public static void delete(int idEtu, int idGroupe){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "DELETE FROM EtudiantGroupe WHERE IdEtudiant='"+idEtudiant+"' AND idGroupe ='"+idGroupe+"';";
+			String SQLPrep0 = "DELETE FROM EtudiantGroupe WHERE IdEtu='"+idEtu+"' AND idGroupe ='"+idGroupe+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
