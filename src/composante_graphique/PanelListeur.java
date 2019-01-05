@@ -54,7 +54,7 @@ public class PanelListeur extends JPanel{
 		jp_all.add(jp_categorie, gbc);
 
 		JPanel jpp;
-		ArrayList<Groupe> listegroupe = categ.getListegroupe();
+		ArrayList<Groupe> listegroupe = categ.getListGroupe();
 		System.out.println("nombre de categorie::"+listegroupe.size());
 		for (Groupe groupe : listegroupe) {
 			jpp = new JPanel();

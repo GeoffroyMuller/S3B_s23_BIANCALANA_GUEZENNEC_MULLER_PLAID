@@ -38,6 +38,13 @@ public class Categorie {
 		this.listGroupe=listGroupe;
 	}
 	
+	
+	
+
+	
+	public ArrayList<Groupe> getListGroupe() {
+		return listGroupe;
+	}
 
 	/**
 	 * Sets the nom.
