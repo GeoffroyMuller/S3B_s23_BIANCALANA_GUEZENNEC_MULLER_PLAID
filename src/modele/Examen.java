@@ -66,15 +66,17 @@ public class Examen {
      * @param groupe
      */
     public void ajouterGroupe(Groupe groupe){
-        /**
-         * TO DO RECUPERE LES ETUDIANTS AVEC LA METHODE
-         */
+
+        ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
+        try {
+            etudiants = EtudiantGroupe.listEtudiantPourGroupe(groupe.getIdGroupe());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
-
-
-        for(modele.BDD.Etudiant etu : groupe.etudiants){
-            this.etudiants.put(etu,groupe.nom);
+        for(modele.BDD.Etudiant etu : etudiants){
+            this.etudiants.put(etu,groupe.getNom());
         }
     }
 
@@ -146,7 +148,7 @@ public class Examen {
 
             //On vérifie si la place est disponible (chaise cassé,allée...) et qu'aucun n'autre étudiant n'a été placé dessus
 
-            if(((modele.BDD.Place)iterateurSalle.actual()).estDisponible && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
+            if(((modele.BDD.Place)iterateurSalle.actual()).getDisponnible()==1 && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
 
                 //On regarde si il y a un conflit de groupe avec les places adjacentes, de plus si on à déja testé tout les étudiants alors l'étudiant
                 // sera placé même si un membre du même groupe est adjacent à lui
@@ -286,7 +288,7 @@ public class Examen {
      * @return
      */
     private boolean testerPlace(modele.BDD.Place place, modele.BDD.Etudiant etu, modele.BDD.Salle salle){
-        if(place.isDisponnible()){
+        if(place.getDisponnible() == 1){
             //On vérifie si il y a un étudiant placer à la place donné en paramétre
             modele.BDD.Etudiant etudiantOccupantLaPlace = this.placement.get(salle).get(place);
             //Si il y a un étudiant placer

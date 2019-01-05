@@ -257,8 +257,9 @@ public class Etudiant implements Comparable<Etudiant> {
 	public boolean verifierPriseEnCompte(){
 		boolean res = true;
 
+		ArrayList<Particularite> particularites = new ArrayList<Particularite>();
 		try {
-			ArrayList<Particularite> particularites = ParticulariteEtudiant.listParticularitePourEtudiant(this.idEtu);
+			particularites = ParticulariteEtudiant.listParticularitePourEtudiant(this.idEtu);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -278,8 +279,15 @@ public class Etudiant implements Comparable<Etudiant> {
 	 */
 	@Override
 	public int compareTo(Etudiant o) {
-		ArrayList<Particularite> particularites = ParticulariteEtudiant.listParticularitePourEtudiant(this.idEtu);
-		ArrayList<Particularite> particularitesCompare = ParticulariteEtudiant.listParticularitePourEtudiant(o.getIdEtu());
+		ArrayList<Particularite> particularites = null;
+		ArrayList<Particularite> particularitesCompare = null;
+		try {
+			particularites = ParticulariteEtudiant.listParticularitePourEtudiant(this.idEtu);
+			particularitesCompare = ParticulariteEtudiant.listParticularitePourEtudiant(o.getIdEtu());
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 
 		if(particularites.size()>particularitesCompare.size()){

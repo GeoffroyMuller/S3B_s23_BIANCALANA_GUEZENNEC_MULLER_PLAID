@@ -398,7 +398,7 @@ public class Salle {
 
 				//On vérifie que la place n'est pas une allee ou une place cassé
 				//Si la place n'est pas disponible alors on avance d'une case
-				if(!(places[this.i][this.j].estDisponible)){
+				if(!(places[this.i][this.j].getDisponnible()==1)){
 					place = (Place)this.next();
 				}
 			}
@@ -420,7 +420,7 @@ public class Salle {
 
 				//On vérifie que la place n'est pas une allee ou une place cassé
 				//Si la place n'est pas disponible alors on recule d'une case
-				if(!(places[this.i][this.j].estDisponible)){
+				if(!(places[this.i][this.j].getDisponnible()==1)){
 					place = (Place)this.previous();
 				}
 			}

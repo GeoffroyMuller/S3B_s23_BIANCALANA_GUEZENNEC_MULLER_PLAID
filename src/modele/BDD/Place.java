@@ -31,7 +31,11 @@ public class Place {
 	
 	/** The i. */
 	private int i;
-	
+
+	/**
+	 *  1 == estDisponible
+	 *  0 == n'est pas disponible
+	 */
 	private int disponnible;
 
 
@@ -57,6 +61,15 @@ public class Place {
 		}
 		this.j=j;
 		this.i=i;
+	}
+
+
+	public int getDisponnible() {
+		return disponnible;
+	}
+
+	public void setDisponnible(int disponnible) {
+		this.disponnible = disponnible;
 	}
 
 	
@@ -223,9 +236,11 @@ public class Place {
 	 * @param i
 	 * @param j
 	 */
-	public Place (int i, int j) {
+	public Place (String nom,int i, int j,int idSalle) {
 		this.j=j;
 		this.i=i;
+		this.disponnible = 1;
+		this.nom = nom;
 	}
 
 
