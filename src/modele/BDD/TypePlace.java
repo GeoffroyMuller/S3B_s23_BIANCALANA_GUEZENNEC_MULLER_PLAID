@@ -15,17 +15,35 @@ import java.util.ArrayList;
 public class TypePlace {
 
 	
+	/** The id type place. */
 	private int idTypePlace;
+	
+	/** The nom. */
 	private String nom;
+	
+	/** The disponnible. */
 	private int disponnible;
 	
 	
+	/**
+	 * Instantiates a new type place.
+	 *
+	 * @param nom the nom
+	 * @param disponnible the disponnible
+	 */
 	public TypePlace(String nom, int disponnible) {
 		this.disponnible=disponnible;
 		this.idTypePlace=-1;
 		this.nom=nom;
 	}
 	
+	/**
+	 * Instantiates a new type place.
+	 *
+	 * @param nom the nom
+	 * @param idTypePlace the id type place
+	 * @param disponnible the disponnible
+	 */
 	public TypePlace(String nom, int idTypePlace, int disponnible) {
 		this.disponnible=disponnible;
 		this.idTypePlace=idTypePlace;
@@ -94,6 +112,13 @@ public class TypePlace {
 		return res;
 	}
 	
+	/**
+	 * Find by nom.
+	 *
+	 * @param nom the nom
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public static ArrayList<TypePlace> findByNom(String nom) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM TypePlace WHERE nom ='"+nom+"';";
@@ -116,11 +141,10 @@ public class TypePlace {
 	/**
 	 * List salle.
 	 *
-	 * @param id the id
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<TypePlace> listSalle() throws SQLException {
+	public static ArrayList<TypePlace> listTypePlace() throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM TypePlace;";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
