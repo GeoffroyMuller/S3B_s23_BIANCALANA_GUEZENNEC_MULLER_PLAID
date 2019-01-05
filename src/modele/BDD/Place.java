@@ -17,8 +17,8 @@ public class Place {
 	/** The nom. */
 	private String nom;
 	
-	/** The type salle. */
-	private String typeSalle;
+	/** The type Place. */
+	private int idTypePlace;
 	
 	/** The id salle. */
 	private int idSalle;
@@ -48,10 +48,10 @@ public class Place {
 	 * @param j the j
 	 * @param idSalle the id salle
 	 */
-	public Place(String nom, String typeSalle, int i, int j, int disponnible, int idSalle) {
+	public Place(String nom, int IdTypePlace, int i, int j, int disponnible, int idSalle) {
 		this.idPlace=-1;
 		this.nom=nom;
-		this.typeSalle=typeSalle;
+		this.idTypePlace=idTypePlace;
 		this.idSalle=idSalle;
 		if(disponnible==0||disponnible==1) {
 			this.disponnible=disponnible;
@@ -101,8 +101,8 @@ public class Place {
 	 *
 	 * @return the typeSalle
 	 */
-	public String getTypeSalle() {
-		return typeSalle;
+	public int getIdTypePlace() {
+		return idTypePlace;
 	}
 
 
@@ -112,8 +112,8 @@ public class Place {
 	 *
 	 * @param typeSalle the typeSalle to set
 	 */
-	public void setTypeSalle(String typeSalle) {
-		this.typeSalle = typeSalle;
+	public void setTypePlace(int idTypePlace) {
+		this.idTypePlace = idTypePlace;
 	}
 
 
@@ -216,8 +216,8 @@ public class Place {
 	 * @param j the j
 	 * @param idPlace the id place
 	 */
-	private Place(String nom, String typeSalle, int idSalle,int i, int j,int disponnible, int idPlace) {
-		this.typeSalle=typeSalle;
+	private Place(String nom, int idTypePlace, int idSalle,int i, int j,int disponnible, int idPlace) {
+		this.idTypePlace=idTypePlace;
 		this.nom=nom;
 		this.j=j;
 		this.i=i;
@@ -261,11 +261,12 @@ public class Place {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Place` "
 					+ "( `idPlace` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL,"
-					+ " `typePlace` VARCHAR(40) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,"
+					+ " `IdTypePlace` INT(1) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,"
 					+ "`j` INT(11) NOT NULL,"
 					+ " `idSalle` INT(11) NOT NULL, "
 					+ "PRIMARY KEY (`idPlace`), "
-					+ "FOREIGN KEY (idSalle) REFERENCES Salle (idSalle)) ENGINE = InnoDB";
+					+ "FOREIGN KEY (idSalle) REFERENCES Salle (idSalle)), "
+					+ "FOREIGN KEY (idTypePlace) REFERENCES TypePlace (idTypePlace)) ENGINE = InnoDB";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -311,12 +312,12 @@ public class Place {
 		Place res = null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
-			String resTypeSalle = rs.getString("typeSalle");
+			int resIdTypePlace = rs.getInt("IdTypePlace");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resIdSalle = rs.getInt("idSalle");
 			int resDisponnible = rs.getInt("disponnible");
-			res = new Place(resNom, resTypeSalle, resIdSalle,resI, resJ, resDisponnible, id);
+			res = new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, id);
 		}
 		return res;
 	}
@@ -338,13 +339,13 @@ public class Place {
 		ArrayList<Place> res = null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
-			String resTypeSalle = rs.getString("typeSalle");
+			int resIdTypePlace = rs.getInt("idTypePlace");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resIdSalle = rs.getInt("idSalle");
 			int resId = rs.getInt("idPlace");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resTypeSalle, resIdSalle,resI, resJ, resDisponnible, resId));
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, resId));
 		}
 		return res;
 	}
@@ -367,12 +368,12 @@ public class Place {
 		ArrayList<Place> res = null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
-			String resTypeSalle = rs.getString("typeSalle");
+			int resIdTypePlace = rs.getInt("idTypePlace");
 			int resIdSalle = rs.getInt("idSalle");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resTypeSalle, resIdSalle, resI, resJ, resDisponnible, id));
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, id));
 		}
 		return res;
 	}
@@ -429,12 +430,12 @@ public class Place {
 	private void saveNew() {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO Place (`NOM`, `TypeSalle`, `i`, `j`, `disponnible`, `idSalle`) VALUES" + 
-					"('"+this.nom+"', '"+this.typeSalle+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"')";
+			String SQLPrep0 = "INSERT INTO Place (`NOM`, `IdTypePlace`, `i`, `j`, `disponnible`, `idSalle`) VALUES" + 
+					"('"+this.nom+"', '"+this.idTypePlace+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
-			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND typeSalle ="
-					+ "'"+this.typeSalle+"' AND i ='"+this.i+"' AND Disponnible ='"+this.disponnible+"' AND j ="
+			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND IdtypePlace ="
+					+ "'"+this.idTypePlace+"' AND i ='"+this.i+"' AND Disponnible ='"+this.disponnible+"' AND j ="
 							+ "'"+this.j+"' AND idSalle ='"+this.idSalle+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
@@ -457,7 +458,7 @@ public class Place {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Place " + 
-					"SET NOM = '"+this.nom+"', typeSalle = '"+this.typeSalle+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"'" + 
+					"SET NOM = '"+this.nom+"', IdTypePlace = '"+this.idTypePlace+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"'" + 
 					"WHERE IDPlace ='"+this.idPlace+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
