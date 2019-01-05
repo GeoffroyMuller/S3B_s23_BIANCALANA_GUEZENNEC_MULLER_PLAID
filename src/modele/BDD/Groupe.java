@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.mysql.fabric.xmlrpc.base.Array;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -19,7 +21,8 @@ public class Groupe {
 	
 	/** The id groupe. */
 	private int idGroupe;
-
+	
+	private ArrayList<Etudiant> listEtudiant;
 
 	/**
 	 * Instantiates a new groupe.
@@ -29,10 +32,13 @@ public class Groupe {
 	public Groupe(String nom) {
 		this.idGroupe=-1;
 		this.nom=nom;
-
 	}
 
-	
+	public Groupe(String nom, ArrayList<Etudiant> listEtudiant) {
+		this.idGroupe=-1;
+		this.nom=nom;
+		this.listEtudiant=listEtudiant;
+	}
 
 	/**
 	 * Gets the nom.

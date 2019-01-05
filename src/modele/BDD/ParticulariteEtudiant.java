@@ -130,7 +130,7 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
-	public static void New(int idParticularite, int idEtudiant) {
+	public static void Ajouter(int idParticularite, int idEtudiant) {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "INSERT INTO ParticulariteEtudiant (`IdParticularite`, `IdEtudiant`) VALUES" + 
