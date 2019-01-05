@@ -25,9 +25,9 @@ import javax.swing.border.TitledBorder;
 
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
-import modele.Categorie;
 import modele.Examen;
-import modele.Groupe;
+import modele.BDD.Categorie;
+import modele.BDD.Groupe;
 import vue.BarreOutils;
 
 public class VueExamen extends JPanel{

@@ -2,6 +2,8 @@ package modele;
 
 import java.util.ArrayList;
 
+import modele.BDD.Categorie;
+
 public class Examen {
 	
 	private String nom;

@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import modele.Categorie;
-import modele.Groupe;
+import modele.BDD.Categorie;
+import modele.BDD.Groupe;
 
 public class Listeur extends JPanel{
 	

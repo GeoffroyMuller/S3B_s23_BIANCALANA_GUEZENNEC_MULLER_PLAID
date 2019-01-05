@@ -18,8 +18,8 @@ import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import com.sun.xml.internal.ws.api.Component;
 
-import modele.Categorie;
-import modele.Groupe;
+import modele.BDD.Categorie;
+import modele.BDD.Groupe;
 
 public class PanelListeur extends JPanel{
 
