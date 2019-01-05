@@ -53,13 +53,13 @@ public class ParticulariteEtudiant {
 	
 	public static ArrayList<Integer> listParticularitePourEtudiantId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdEtudiant ='"+id+"';";
+		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdEtu ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 		prep1.execute();
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Integer> res = null;
+		ArrayList<Integer> res = new ArrayList<Integer>();
 		int i=0;
 		while (rs.next()) {
 			res.add(rs.getInt("idParticularite"));
@@ -71,7 +71,8 @@ public class ParticulariteEtudiant {
 	public static ArrayList<Particularite> listParticularitePourEtudiant(int id) throws SQLException {
 		ArrayList<Integer> list = ParticulariteEtudiant.listParticularitePourEtudiantId(id);
 		Connection connect=DBConnection.getConnection();
-		ArrayList<Particularite> res = null;
+		ArrayList<Particularite> res = new ArrayList<Particularite>();
+
 		for(int i = 0 ; i < list.size(); i++) {
 			String SQLPrep = "SELECT * FROM Particularite WHERE IdParticularite ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -113,7 +114,7 @@ public class ParticulariteEtudiant {
 		Connection connect=DBConnection.getConnection();
 		ArrayList<Etudiant> res = null;
 		for(int i = 0 ; i < list.size(); i++) {
-			String SQLPrep = "SELECT * FROM Etudiant WHERE IdEtudiant ='"+list.get(i)+"';";
+			String SQLPrep = "SELECT * FROM Etudiant WHERE IdEtu ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
 			ResultSet rs = prep1.getResultSet();
