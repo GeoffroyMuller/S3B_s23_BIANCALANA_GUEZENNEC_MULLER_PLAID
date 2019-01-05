@@ -31,11 +31,7 @@ public class Place {
 	
 	/** The i. */
 	private int i;
-
-	/**
-	 *  1 == estDisponible
-	 *  0 == n'est pas disponible
-	 */
+	
 	private int disponnible;
 
 
@@ -61,15 +57,6 @@ public class Place {
 		}
 		this.j=j;
 		this.i=i;
-	}
-
-
-	public int getDisponnible() {
-		return disponnible;
-	}
-
-	public void setDisponnible(int disponnible) {
-		this.disponnible = disponnible;
 	}
 
 	
@@ -231,27 +218,6 @@ public class Place {
 		this.idSalle=idSalle;
 	}
 
-	/**
-	 *  Instancie un objet place avec seulement les coordonnées
-	 * @param i
-	 * @param j
-	 */
-	public Place (String nom,int i, int j,int idSalle) {
-		this.j=j;
-		this.i=i;
-		this.disponnible = 1;
-		this.nom = nom;
-	}
-
-	public Place (int i, int j) {
-		this.j=j;
-		this.i=i;
-		this.disponnible = 1;
-		this.nom = nom;
-	}
-
-
-
 
 	/**
 	 * Creates the table.
@@ -325,6 +291,7 @@ public class Place {
 	/**
 	 * List place.
 	 *
+	 * @param id the id
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
@@ -482,7 +449,6 @@ public class Place {
 	public int nbCaseLongueur(int idsalle) throws SQLException{
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
 		int imax = 0;
-
 		for(int i=0; i<temp.size(); i++) {
 			if(imax<temp.get(i).getI()) {
 				imax=temp.get(i).getI();
@@ -498,7 +464,7 @@ public class Place {
 	 * @return the place[][]
 	 * @throws SQLException the SQL exception
 	 */
-	public static Place[][] tableauPlace(int idsalle) throws SQLException{
+	public Place[][] tableauPlace(int idsalle) throws SQLException{
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
 		int imax = 0;
 		int jmax = 0;
