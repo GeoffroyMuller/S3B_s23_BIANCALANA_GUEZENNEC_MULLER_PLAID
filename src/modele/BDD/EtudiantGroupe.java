@@ -70,6 +70,13 @@ public class EtudiantGroupe {
 	}
 
 
+	/**
+	 * Méthode permettant de recuperer tout les étudiant d'un groupe donnée
+	 * @param id
+	 * 		id du groupe
+	 * @return
+	 * @throws SQLException
+	 */
 	public static ArrayList<Etudiant> recupererEtudiantDansGroupe(int id) throws SQLException{
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 

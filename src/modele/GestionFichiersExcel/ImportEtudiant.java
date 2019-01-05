@@ -139,9 +139,14 @@ public class ImportEtudiant {
         return nomDesColonnes;
     }
 
+
+
     public void setNomDesColonnes(String[] nomDesColonnes) {
         this.nomDesColonnes = nomDesColonnes;
     }
+
+
+
 
     public ArrayList<Groupe> getGroupeTrouveDansLeDernierFichier() {
         return groupeTrouveDansLeDernierFichier;
