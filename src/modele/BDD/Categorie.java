@@ -59,6 +59,10 @@ public class Categorie {
 	}
 
 
+	/**
+	 * Méthode permettant de récupérer les groupes appartenant à la catégorie courante
+	 * @return
+	 */
 	public ArrayList<Groupe> getListGroupe(){
 		ArrayList<Groupe> res = new ArrayList<Groupe>();
 
@@ -91,7 +95,7 @@ public class Categorie {
 		}
 		return res;
 	}
-	
+
 
 	/**
 	 * Sets the nom.
