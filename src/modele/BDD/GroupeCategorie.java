@@ -49,7 +49,9 @@ public class GroupeCategorie {
 			System.out.println(e.getMessage()+" DeleteTable "+e.getErrorCode()+e.toString());
 		}
 	}
-	
+
+
+
 	public static ArrayList<Integer> listGroupePourCategorieid(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM GroupeCategorie WHERE IdGroupe ='"+id+"';";

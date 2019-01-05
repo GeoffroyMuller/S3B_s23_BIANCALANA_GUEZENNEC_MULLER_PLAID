@@ -1,4 +1,4 @@
-package vue_Etudiant;
+/*package vue_Etudiant;
 import modele.*;
 import controleur.*;
 import controleur_Etudiant.ControleurImportationListe;
@@ -133,4 +133,4 @@ public class VueEtudiant extends JPanel implements Observer{
 	
 
 
-}
+}*/

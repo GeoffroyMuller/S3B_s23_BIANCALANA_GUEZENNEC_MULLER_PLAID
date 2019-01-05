@@ -3,7 +3,7 @@ package vue;
 import controleur.ControleurBoutonsPartieSalle;
 import controleur.ControleurModuleSalle.ControleurCaseSalle;
 import controleur.ControleurModuleSalle.ControleurRadioBoutons;
-import modele.Etudiant;
+import modele.BDD.Etudiant;
 import vue.ComposantVueSalle.Indicateur;
 
 import javax.swing.*;

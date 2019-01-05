@@ -1,10 +1,10 @@
-package controleur_listeur;
-
+/*package controleur_listeur;
+/*
 import java.util.ArrayList;
 
 import modele.*;
 import modele.BDD.Etudiant;
-import modele.BDD.Groupe;
+import modele.BDD.Groupe;/*
 
 public class ConstructeurDataEtudiant {
 	private ArrayList<Groupe> lg ;
@@ -40,4 +40,4 @@ public class ConstructeurDataEtudiant {
 		return colo;
 	}
 
-}
+}*/

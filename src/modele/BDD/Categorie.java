@@ -41,8 +41,12 @@ public class Categorie {
 		this.listGroupe=listGroupe;
 		Categorie.ListeCateg.add(this);
 	}
-	
-	
+
+
+
+
+
+
 	
 
 	
@@ -54,9 +58,40 @@ public class Categorie {
 		return ListeCateg;
 	}
 
-	public ArrayList<Groupe> getListGroupe() {
-		return listGroupe;
+
+	public ArrayList<Groupe> getListGroupe(){
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
+
+
+		Connection connect= null;
+		try {
+			connect = DBConnection.getConnection();
+			PreparedStatement prep1 = connect.prepareStatement("SELECT * FROM groupecategorie WHERE idCategorie ="+this.idCategorie);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+
+
+			PreparedStatement prep2 = connect.prepareStatement("SELECT * FROM groupe WHERE idGroupe = ?");
+
+			while (rs.next()){
+				int groupeID = rs.getInt("idGroupe");
+				prep2.setInt(1,groupeID);
+
+				prep2.execute();
+				ResultSet rs2 = prep2.getResultSet();
+
+				while(rs2.next()){
+					Groupe groupe = new Groupe(rs2.getString("nom"),groupeID);
+					res.add(groupe);
+				}
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
+	
 
 	/**
 	 * Sets the nom.
