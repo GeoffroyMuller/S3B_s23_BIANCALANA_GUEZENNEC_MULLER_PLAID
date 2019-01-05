@@ -14,6 +14,24 @@ import java.util.ArrayList;
  */
 public class TypePlace {
 
+	
+	private int idTypePlace;
+	private String nom;
+	private int disponnible;
+	
+	
+	public TypePlace(String nom, int disponnible) {
+		this.disponnible=disponnible;
+		this.idTypePlace=-1;
+		this.nom=nom;
+	}
+	
+	public TypePlace(String nom, int idTypePlace, int disponnible) {
+		this.disponnible=disponnible;
+		this.idTypePlace=idTypePlace;
+		this.nom=nom;
+	}
+
 	/**
 	 * Creates the table.
 	 */
@@ -50,41 +68,144 @@ public class TypePlace {
 		}
 	}
 	
-	public static ArrayList<Integer> listParticularitePourEtudiantId(int id) throws SQLException {
+	
+	/**
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the salle
+	 * @throws SQLException the SQL exception
+	 */
+	public static TypePlace findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdEtudiant ='"+id+"';";
+		String SQLPrep = "SELECT * FROM TypePlace WHERE IDTypePlace ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 		prep1.execute();
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Integer> res = null;
-		int i=0;
+		TypePlace res = null;
 		while (rs.next()) {
-			res.add(rs.getInt("idParticularite"));
-			i++;
+			String resNom = rs.getString("nom");
+			int resDisponnible = rs.getInt("Disponnible");
+			
+			res = new TypePlace(resNom,id,resDisponnible);
 		}
 		return res;
 	}
 	
-	public static ArrayList<Particularite> listParticularitePourEtudiant(int id) throws SQLException {
-		ArrayList<Integer> list = TypePlace.listParticularitePourEtudiantId(id);
+	public static ArrayList<TypePlace> findByNom(String nom) throws SQLException {
 		Connection connect=DBConnection.getConnection();
-		ArrayList<Particularite> res = null;
-		for(int i = 0 ; i < list.size(); i++) {
-			String SQLPrep = "SELECT * FROM Particularite WHERE IdParticularite ='"+list.get(i)+"';";
+		String SQLPrep = "SELECT * FROM TypePlace WHERE nom ='"+nom+"';";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<TypePlace> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resDisponnible = rs.getInt("Disponnible");
+			int resId = rs.getInt("idTypePlace");
+			
+			res.add(new TypePlace(resNom,resId,resDisponnible));
+		}
+		return res;
+	}
+	
+	/**
+	 * List salle.
+	 *
+	 * @param id the id
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
+	public static ArrayList<TypePlace> listSalle() throws SQLException {
+		Connection connect=DBConnection.getConnection();
+		String SQLPrep = "SELECT * FROM TypePlace;";
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<TypePlace> res = null;
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resId = rs.getInt("idTypePlace");
+			int resDisponnible = rs.getInt("Disponnible");
+			res.add(new TypePlace(resNom,resId,resDisponnible));;
+		}
+		return res;
+	}
+
+	/**
+	 * Delete.
+	 */
+	public void delete(){
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "DELETE FROM TypePlace WHERE idTypePlace ='"+this.idTypePlace+"';";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+			this.idTypePlace=-1;
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+" Delete "+e.getErrorCode()+e.toString());
+		}
+	}
+
+	/**
+	 * Save.
+	 */
+	public void save() {
+
+		if(this.idTypePlace==-1) {
+			this.saveNew();
+		}
+		else {
+			this.update();
+		}
+	}
+
+	/**
+	 * Save new.
+	 */
+	private void saveNew() {
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "INSERT INTO TypePlace (`Disponnible`, `Nom`) VALUES" + 
+					"('"+this.disponnible+"', '"+this.nom+"')";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+			String SQLPrep = "SELECT * FROM TypePlace WHERE Disponnible ='"+this.disponnible+"' AND Nom ='"+this.nom+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
 			ResultSet rs = prep1.getResultSet();
-			// s'il y a un resultat
-
+			int idres = -1;
 			while (rs.next()) {
-				String resNom = rs.getString("nom");
-				int resPrendreEnComptePlacement = rs.getInt("PRENDREENCOMPTEPLACEMENT");
-				int resId = rs.getInt("idParticularite");
-				res.add(new Particularite(resNom, resPrendreEnComptePlacement,resId));
+				idres = rs.getInt("idTypePlace");
 			}
+			this.idTypePlace=idres;
 		}
-		return res;
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
+		}
+	}
+
+	/**
+	 * Update.
+	 */
+	private void update() {
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "UPDATE TypePlace " + 
+					"SET Disponnible = '"+this.disponnible+"', Nom = '"+this.nom+"'"+ 
+					"WHERE IDTypePlace ='"+this.idTypePlace+"';";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
+		}
 	}
 }
