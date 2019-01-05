@@ -1,4 +1,4 @@
-package composante_graphique;
+/*package composante_graphique;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -147,4 +147,4 @@ public class PanelListeur extends JPanel{
 		jp_all.setVisible(true);
 	}
 
-}
+}*/

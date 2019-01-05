@@ -1,4 +1,4 @@
-package listeuretudiant;
+/*package listeuretudiant;
 
 
 import java.awt.Dimension;
@@ -17,6 +17,9 @@ import javax.swing.border.Border;
 import controleur_listeur.ConstructeurListeModelCategorie;
 import controleur_listeur.ConstructeurDataEtudiant;
 import modele.*;
+import modele.BDD.Categorie;
+import modele.BDD.Etudiant;
+import modele.BDD.Groupe;
 
 public class DifListeurEtu extends JSplitPane{
 
@@ -88,7 +91,7 @@ public class DifListeurEtu extends JSplitPane{
 		System.out.println(lgtest.get(0).getListeEtudiants());
 		constructeurDATACOL = new ConstructeurDataEtudiant(lgtest);
 		*/
-		constructeurDATACOL = new ConstructeurDataEtudiant(selectAll(lc));
+	/*	constructeurDATACOL = new ConstructeurDataEtudiant(selectAll(lc));
 		
 		
 		
@@ -129,7 +132,7 @@ public class DifListeurEtu extends JSplitPane{
 				
 			}**/
 
-		}
+	/*	}
 
 		for (int i = 0; i < lg.size(); i++) {
 			System.out.println(lg.get(i).getListeEtudiants());
@@ -141,4 +144,4 @@ public class DifListeurEtu extends JSplitPane{
 
 
 
-}
+}*/

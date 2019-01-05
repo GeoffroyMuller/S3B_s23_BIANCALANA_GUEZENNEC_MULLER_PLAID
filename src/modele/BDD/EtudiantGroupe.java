@@ -126,7 +126,7 @@ public class EtudiantGroupe {
 		return res;
 	}
 	
-	public static void New(int idEtudiant, int idGroupe) {
+	public static void ajouterEtudiantAUnGroupe(int idEtudiant, int idGroupe) {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "INSERT INTO EtudiantGroupe (`IdEtudiant`, `IdGroupe`) VALUES" + 

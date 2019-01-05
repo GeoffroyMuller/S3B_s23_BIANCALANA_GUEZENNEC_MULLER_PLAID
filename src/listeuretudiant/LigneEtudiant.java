@@ -1,10 +1,11 @@
-package listeuretudiant;
+/*package listeuretudiant;
 
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import modele.BDD.Etudiant;
 import modele.Etudiant;
 
 public class LigneEtudiant extends JPanel{
@@ -25,4 +26,4 @@ public class LigneEtudiant extends JPanel{
 		
 	}
 
-}
+}*/

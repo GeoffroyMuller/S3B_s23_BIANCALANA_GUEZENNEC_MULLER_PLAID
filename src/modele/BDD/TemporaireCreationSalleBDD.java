@@ -29,18 +29,24 @@ public class TemporaireCreationSalleBDD {
             Groupe groupeA = new Groupe("A");
             for(int i = 0; i < 100;i++){
                 Etudiant etudiant = new Etudiant("A","A");
+                etudiant.save();
+                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeA.getIdGroupe());
             }
 
             //On génére des étudiant du groupe B
             Groupe groupeB = new Groupe("B");
             for(int i = 0; i < 100;i++){
                 Etudiant etudiant = new Etudiant("B","B");
+                etudiant.save();
+                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeB.getIdGroupe());
             }
 
             //On génére des étudiant du groupe C
             Groupe groupeC = new Groupe("C");
             for(int i = 0; i < 100;i++){
                 Etudiant etudiant = new Etudiant("C","C");
+                etudiant.save();
+                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeC.getIdGroupe());
             }
 
             groupeA.save();
@@ -54,6 +60,8 @@ public class TemporaireCreationSalleBDD {
             examen.ajouterGroupe(groupeC);
 
             examen.genererUnPlacement();
+
+            visualisation(examen.getPlacement().get(salle));
 
         } catch (SQLException e) {
             e.printStackTrace();

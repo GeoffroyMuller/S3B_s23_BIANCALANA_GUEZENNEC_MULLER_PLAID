@@ -1,4 +1,4 @@
-package vue;
+/*package vue;
 
 import controleur.ControleurBoutonsPartieSalle;
 import controleur.ControleurModuleSalle.ControleurCaseSalle;
@@ -14,7 +14,7 @@ import java.awt.*;
 /**
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
-public class VueSalle extends JPanel {
+/*public class VueSalle extends JPanel {
     private JScrollPane containerDeLaListeJScroll, visualisationSalle;
     private JPanel contenantPartieGauche;
     private JPanel contenantMilieu;
@@ -22,16 +22,16 @@ public class VueSalle extends JPanel {
     /**
      * Définition de la largeur par défaut d'une salle dans la visualisation
      */
-    public static int DEFAULT_SIZE_ROOM_WIDTH = 10;
+   /* public static int DEFAULT_SIZE_ROOM_WIDTH = 10;
     /**
      * Définition de la hauteur par défaut d'une salle dans la visualisation
      */
-    public static int DEFAULT_SIZE_ROOM_HEIGHT = 10;
+    /*public static int DEFAULT_SIZE_ROOM_HEIGHT = 10;
 
     /**
      * Constructeur de la vue salle, construit également les controleurs necessaires (ControleurCaseSalle et ControleurRadioBoutons)
      */
-    public VueSalle(){
+   /* public VueSalle(){
         this.setLayout(new BorderLayout());
 
         //Jpanel contenant le JLabel
@@ -155,7 +155,7 @@ public class VueSalle extends JPanel {
      * @return
      *      JPanel contenant la représentation de la salle
      */
-    private JPanel construireSalle(int x, int y){
+   /* private JPanel construireSalle(int x, int y){
         JPanel contenant = new JPanel();
         contenant.setPreferredSize(new Dimension((x*ControleurCaseSalle.WIDTH),(y*ControleurCaseSalle.HEIGHT)));
         contenant.setLayout(new GridLayout(x,y));
@@ -172,7 +172,7 @@ public class VueSalle extends JPanel {
      * @param label
      * @return
      */
-    private JLabel applicationStylePolice(JLabel label){
+   /* private JLabel applicationStylePolice(JLabel label){
         label.setFont(new Font("Serial",Font.PLAIN,14));
         label.setBorder(BorderFactory.createLineBorder(new Color(0),1));
         label.setOpaque(true);
@@ -181,4 +181,4 @@ public class VueSalle extends JPanel {
         return label;
     }
 
-}
+}*/

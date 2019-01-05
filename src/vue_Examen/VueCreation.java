@@ -1,4 +1,4 @@
-package vue_Examen;
+/*package vue_Examen;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -95,4 +95,4 @@ public class VueCreation extends JPanel{
 
 	}
 
-}
+}*/

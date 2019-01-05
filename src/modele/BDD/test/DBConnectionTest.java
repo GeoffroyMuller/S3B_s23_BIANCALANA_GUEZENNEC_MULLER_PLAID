@@ -3,7 +3,7 @@ package modele.BDD.test;
 import java.sql.SQLException;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
+import org.junit.*;
 
 import com.mysql.jdbc.Connection;
 

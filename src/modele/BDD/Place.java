@@ -243,6 +243,13 @@ public class Place {
 		this.nom = nom;
 	}
 
+	public Place (int i, int j) {
+		this.j=j;
+		this.i=i;
+		this.disponnible = 1;
+		this.nom = nom;
+	}
+
 
 
 

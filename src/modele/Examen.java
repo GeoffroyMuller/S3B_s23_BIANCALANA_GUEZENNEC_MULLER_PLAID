@@ -206,7 +206,7 @@ public class Examen {
                 int[] tabValeurJ = {(p.getJ())+1,(p.getJ())-1};
 
                 for(int i = 0; i < tabValeurI.length;i++){
-                    modele.BDD.Place placeTestee = new modele.BDD.Place(tabValeurI[i],p.getJ());
+                    modele.BDD.Place placeTestee = new modele.BDD.Place(tabValeurI[i]+""+p.getJ(),tabValeurI[i],p.getJ(),salle.getIdSalle());
                     if(!testerPlace(placeTestee,etudiant,salle)){
                         resultat++;
                     }
@@ -370,11 +370,40 @@ public class Examen {
 		this.date = date;
 	}
 
+    public HashMap<Salle, HashMap<Place, Etudiant>> getPlacement() {
+        return placement;
+    }
 
-	
-	
-	
-	//Groupe Participant
+    public void setPlacement(HashMap<Salle, HashMap<Place, Etudiant>> placement) {
+        this.placement = placement;
+    }
+
+    public HashMap<Etudiant, String> getEtudiants() {
+        return etudiants;
+    }
+
+    public void setEtudiants(HashMap<Etudiant, String> etudiants) {
+        this.etudiants = etudiants;
+    }
+
+    public ArrayList<Salle> getSalles() {
+        return salles;
+    }
+
+    public void setSalles(ArrayList<Salle> salles) {
+        this.salles = salles;
+    }
+
+    public int getPas() {
+        return pas;
+    }
+
+    public void setPas(int pas) {
+        this.pas = pas;
+    }
+
+
+    //Groupe Participant
 
 	//Salle par Priorité
 
