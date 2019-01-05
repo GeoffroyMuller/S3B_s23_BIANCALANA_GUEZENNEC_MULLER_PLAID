@@ -44,7 +44,7 @@ public class Place {
 	 * @param j the j
 	 * @param idSalle the id salle
 	 */
-	public Place(String nom, int IdTypePlace, int i, int j, int disponnible, int idSalle) {
+	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle) {
 		this.idPlace=-1;
 		this.nom=nom;
 		this.idTypePlace=idTypePlace;
