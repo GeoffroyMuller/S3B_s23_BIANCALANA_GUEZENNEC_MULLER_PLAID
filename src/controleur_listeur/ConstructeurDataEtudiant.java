@@ -1,4 +1,4 @@
-/*package controleur_listeur;
+package controleur_listeur;
 
 import java.util.ArrayList;
 
@@ -40,4 +40,4 @@ public class ConstructeurDataEtudiant {
 		return colo;
 	}
 
-}*/
+}
