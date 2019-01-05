@@ -29,7 +29,6 @@ public class Categorie {
 	public Categorie(String nom) {
 		this.idCategorie=-1;
 		this.nom=nom;
-
 	}
 
 	

@@ -231,8 +231,7 @@ public class Place {
 					+ "`j` INT(11) NOT NULL,"
 					+ " `idSalle` INT(11) NOT NULL, "
 					+ "PRIMARY KEY (`idPlace`), "
-					+ "FOREIGN KEY (idSalle) REFERENCES Salle (idSalle)), "
-					+ "FOREIGN KEY (idTypePlace) REFERENCES TypePlace (idTypePlace)) ENGINE = InnoDB";
+					+ ") ENGINE = InnoDB";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
