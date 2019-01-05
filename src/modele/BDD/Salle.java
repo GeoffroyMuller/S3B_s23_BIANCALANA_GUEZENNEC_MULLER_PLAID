@@ -218,8 +218,8 @@ public class Salle {
 	private void saveNew() {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO Salle (`NOM`) VALUES" + 
-					"('"+this.nom+"')";
+			String SQLPrep0 = "INSERT INTO Salle (`NOM`, `NbCaseHauteur`, `NbCaseLargeur`) VALUES" + 
+					"('"+this.nom+"', '"+this.nbCaseHauteur+"', '"+this.nbCaseLargeur+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 			String SQLPrep = "SELECT * FROM Salle WHERE NOM ='"+this.nom+"' AND NbCaseHauteur ='"+this.nbCaseHauteur+"' AND NbCaseLargeur ='"+this.nbCaseLargeur+"';";
