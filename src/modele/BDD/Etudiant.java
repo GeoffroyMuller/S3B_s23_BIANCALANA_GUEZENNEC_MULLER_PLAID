@@ -25,6 +25,8 @@ public class Etudiant implements Comparable<Etudiant> {
 	
 	/** The id etu. */
 	private int idEtu;
+	
+	private ArrayList<Particularite> listParticularite;
 
 
 	/**
@@ -37,6 +39,13 @@ public class Etudiant implements Comparable<Etudiant> {
 		this.idEtu=-1;
 		this.nom=nom;
 		this.prenom=prenom;
+	}
+	
+	public Etudiant(String nom, String prenom, ArrayList<Particularite> listParticularite) {
+		this.idEtu=-1;
+		this.nom=nom;
+		this.prenom=prenom;
+		this.listParticularite=listParticularite;
 	}
 
 	/**
@@ -297,5 +306,4 @@ public class Etudiant implements Comparable<Etudiant> {
 		}
 		return 1;
 	}
-
 }

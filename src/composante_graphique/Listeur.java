@@ -1,4 +1,4 @@
-/*package composante_graphique;
+package composante_graphique;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,8 +19,6 @@ import javax.swing.ScrollPaneConstants;
 
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
-import modele.Categorie;
-import modele.Groupe;
 
 public class Listeur extends JPanel{
 	
@@ -103,7 +101,7 @@ public class Listeur extends JPanel{
 	/**
 	 * Definie et adapte la taille General
 	 */
-	/*public void definirTaille(int w, int h) {
+	public void definirTaille(int w, int h) {
 		scrollpane.setPreferredSize(new Dimension(w, h));
 	}
 
@@ -123,7 +121,7 @@ public class Listeur extends JPanel{
 	 * methode main de test interne a Listeur
 	 * @param arg
 	 */
-	/*public static void main(String arg[]) {
+	public static void main(String arg[]) {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -155,4 +153,4 @@ public class Listeur extends JPanel{
 		fenetre.setVisible(true);
 
 	}
-}*/
+}

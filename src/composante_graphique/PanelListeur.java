@@ -1,4 +1,4 @@
-/*package composante_graphique;
+package composante_graphique;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,8 +18,8 @@ import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import com.sun.xml.internal.ws.api.Component;
 
-import modele.Categorie;
-import modele.Groupe;
+import modele.BDD.Categorie;
+import modele.BDD.Groupe;
 
 public class PanelListeur extends JPanel{
 
@@ -54,7 +54,7 @@ public class PanelListeur extends JPanel{
 		jp_all.add(jp_categorie, gbc);
 
 		JPanel jpp;
-		ArrayList<Groupe> listegroupe = categ.getListegroupe();
+		ArrayList<Groupe> listegroupe = categ.getListGroupe();
 		System.out.println("nombre de categorie::"+listegroupe.size());
 		for (Groupe groupe : listegroupe) {
 			jpp = new JPanel();
@@ -147,4 +147,4 @@ public class PanelListeur extends JPanel{
 		jp_all.setVisible(true);
 	}
 
-}*/
+}

@@ -1,4 +1,4 @@
-/*package vue;
+package vue;
 
 import vue_Examen.VueExamen;
 
@@ -8,7 +8,7 @@ import vue_Etudiant.VueEtudiant;
 
 import java.awt.*;
 
-/*public class VueOngletModules extends JPanel {
+public class VueOngletModules extends JPanel {
 	JTabbedPane onglets;
 	VueExamen moduleExamen = new VueExamen();
 	public VueOngletModules(){
@@ -41,4 +41,4 @@ import java.awt.*;
 		moduleExamen.definirTaille(this.getParent().getWidth(),this.getParent().getHeight());
 		this.onglets.setBounds(0,0,this.getParent().getWidth(),this.getParent().getHeight());
 	}
-}*/
+}

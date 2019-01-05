@@ -23,8 +23,7 @@ public class GroupeCategorie {
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`GroupeCategorie` "
 					+ "( `idGroupe` INT(11) NOT NULL , `idCategorie` INT(11) NOT NULL , "
 					+ "PRIMARY KEY (`idGroupe`,`idCategorie`), "
-					+ "FOREIGN KEY (idGroupe) REFERENCES Groupe (idGroupe), "
-					+ "FOREIGN KEY (idCategorie) REFERENCES Categorie (idCategorie)) ENGINE = InnoDB;";
+					+ ") ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -125,7 +124,7 @@ public class GroupeCategorie {
 		return res;
 	}
 	
-	public static void New(int idGroupe, int idCategorie) {
+	public static void Ajouter(int idGroupe, int idCategorie) {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "INSERT INTO GroupeCategorie (`IdGroupe`, `IdCategorie`) VALUES" + 

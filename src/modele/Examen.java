@@ -15,6 +15,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.sql.SQLException;
 import java.util.*;
 
+import modele.BDD.Categorie;
+
 public class Examen {
 	
 	private String nom;

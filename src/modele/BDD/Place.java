@@ -51,7 +51,7 @@ public class Place {
 	 * @param j the j
 	 * @param idSalle the id salle
 	 */
-	public Place(String nom, int IdTypePlace, int i, int j, int disponnible, int idSalle) {
+	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle) {
 		this.idPlace=-1;
 		this.nom=nom;
 		this.idTypePlace=idTypePlace;
@@ -249,8 +249,7 @@ public class Place {
 					+ "`j` INT(11) NOT NULL,"
 					+ " `idSalle` INT(11) NOT NULL, "
 					+ "PRIMARY KEY (`idPlace`), "
-					+ "FOREIGN KEY (idSalle) REFERENCES Salle (idSalle)), "
-					+ "FOREIGN KEY (idTypePlace) REFERENCES TypePlace (idTypePlace)) ENGINE = InnoDB";
+					+ ") ENGINE = InnoDB";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}

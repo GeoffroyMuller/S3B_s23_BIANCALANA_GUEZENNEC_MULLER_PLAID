@@ -24,9 +24,8 @@ public class EtudiantGroupe {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`EtudiantGroupe` "
 					+ "( `idEtu` INT(11) NOT NULL , `idGroupe` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idEtu`,`idGroupe`), "
-					+ "FOREIGN KEY (idEtu) REFERENCES Etudiant (idEtu), "
-					+ "FOREIGN KEY (idGroupe) REFERENCES Groupe (idGroupe)) ENGINE = InnoDB;";
+					+ "PRIMARY KEY (`idEtu`,`idGroupe`)"
+					+ ") ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
