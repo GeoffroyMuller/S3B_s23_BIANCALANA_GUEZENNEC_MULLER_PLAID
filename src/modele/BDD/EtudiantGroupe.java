@@ -125,4 +125,29 @@ public class EtudiantGroupe {
 		}
 		return res;
 	}
+	
+	public static void New(int idEtudiant, int idGroupe) {
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "INSERT INTO EtudiantGroupe (`IdEtudiant`, `IdGroupe`) VALUES" + 
+					"('"+idEtudiant+"', '"+idGroupe+"')";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
+		}
+	}
+	
+	public static void delete(int idEtudiant, int idGroupe){
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "DELETE FROM EtudiantGroupe WHERE IdEtudiant='"+idEtudiant+"' AND idGroupe ='"+idGroupe+"';";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+" Delete "+e.getErrorCode()+e.toString());
+		}
+	}
 }
