@@ -128,4 +128,29 @@ public class ParticulariteEtudiant {
 		}
 		return res;
 	}
+	
+	public static void New(int idParticularite, int idEtudiant) {
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "INSERT INTO ParticulariteEtudiant (`IdParticularite`, `IdEtudiant`) VALUES" + 
+					"('"+idParticularite+"', '"+idEtudiant+"')";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
+		}
+	}
+	
+	public static void delete(int idParticularite, int idEtudiant){
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "DELETE FROM ParticulariteEtudiant WHERE idParticularite='"+idParticularite+"' AND idEtudiant ='"+idEtudiant+"';";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+" Delete "+e.getErrorCode()+e.toString());
+		}
+	}
 }

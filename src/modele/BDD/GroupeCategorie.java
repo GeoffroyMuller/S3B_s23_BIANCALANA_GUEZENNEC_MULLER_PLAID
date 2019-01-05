@@ -124,4 +124,29 @@ public class GroupeCategorie {
 		}
 		return res;
 	}
+	
+	public static void New(int idGroupe, int idCategorie) {
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "INSERT INTO GroupeCategorie (`IdGroupe`, `IdCategorie`) VALUES" + 
+					"('"+idGroupe+"', '"+idCategorie+"')";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
+		}
+	}
+	
+	public static void delete(int idGroupe, int idCategorie){
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "DELETE FROM GroupeCategorie WHERE IdGroupe='"+idGroupe+"' AND idCategorie ='"+idCategorie+"';";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+" Delete "+e.getErrorCode()+e.toString());
+		}
+	}
 }
