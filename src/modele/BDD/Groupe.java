@@ -18,10 +18,10 @@ public class Groupe {
 
 	/** The nom. */
 	private String nom;
-	
+
 	/** The id groupe. */
 	private int idGroupe;
-	
+
 	private ArrayList<Etudiant> listEtudiant;
 
 	/**
@@ -155,7 +155,7 @@ public class Groupe {
 		}
 		return res;
 	}
-	
+
 	/**
 	 * Delete.
 	 */
@@ -176,7 +176,11 @@ public class Groupe {
 	 * Save.
 	 */
 	public void save() {
-
+		//save de la liste d etudiant
+		for (int i = 0; i < this.listEtudiant.size (); i++) {
+			this.listEtudiant.get(i).save();
+		}
+		//save ou update du groupe
 		if(this.idGroupe==-1) {
 			this.saveNew();
 		}

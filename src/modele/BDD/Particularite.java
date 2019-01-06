@@ -18,7 +18,7 @@ public class Particularite {
 	private String nom;
 	
 	/** The prendre en compte placement. */
-	private int prendreEnComptePlacement; //boolean 0 ou 1 BIT dans Sql
+	private int prendreEnComptePlacement; //boolean 0 ou 1 dans Sql
 	
 	/** The id particularite. */
 	private int idParticularite;

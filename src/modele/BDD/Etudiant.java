@@ -205,7 +205,11 @@ public class Etudiant implements Comparable<Etudiant> {
 	 * Save.
 	 */
 	public void save() {
-
+		//save de la liste de particulariter
+		for (int i = 0; i < this.listParticularite.size (); i++) {
+			this.listParticularite.get(i).save();
+		}
+		//save ou update de l'etudiant
 		if(this.idEtu==-1) {
 			this.saveNew();
 		}
