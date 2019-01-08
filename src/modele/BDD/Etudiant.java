@@ -87,6 +87,33 @@ public class Etudiant implements Comparable<Etudiant> {
 		return idEtu;
 	}
 
+	/**
+	 * Méthode permettant de récupérer le groupe d'un étudiant
+	 * @return
+	 */
+	public String getGroupe(){
+		String res="NON DEFINI";
+		try {
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement prep1 = connect.prepareStatement("SELECT * FROM ETUDIANTGROUPE WHERE idEtu = ? ");
+
+			prep1.setInt(1,this.idEtu);
+			prep1.execute();
+
+			ResultSet rs = prep1.getResultSet();
+			int idGroupe = rs.getInt("idGroupe");
+
+			prep1 = connect.prepareStatement("SELECT * FROM GROUPE WHERE idGroupe=?");
+			prep1.setInt(1,idGroupe);
+
+			rs = prep1.getResultSet();
+			res = rs.getString("nom");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return res;
+	}
 
 	/**
 	 * Instantiates a new etudiant.
