@@ -1,5 +1,6 @@
 package composante_graphique;
 
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -59,7 +60,7 @@ public class PanelListeur extends JPanel{
 		for (Groupe groupe : listegroupe) {
 			jpp = new JPanel();
 			jpp.add(new JLabel(groupe.getNom()));
-
+			jpp.add(new Checkbox());
 			liste_jp_groupe.add(jpp);
 		}
 		this.add(jp_all, gbc);

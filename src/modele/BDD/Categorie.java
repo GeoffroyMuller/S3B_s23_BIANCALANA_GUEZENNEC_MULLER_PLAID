@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Categorie {
 
-	private static ArrayList<Categorie> ListeCateg = new ArrayList<>();
+	//private static ArrayList<Categorie> ListeCateg = new ArrayList<>();
 
 	/** The nom. */
 	private String nom;
@@ -32,14 +32,14 @@ public class Categorie {
 	public Categorie(String nom) {
 		this.idCategorie=-1;
 		this.nom=nom;
-		Categorie.ListeCateg.add(this);
+		//Categorie.ListeCateg.add(this);
 	}
 
 	public Categorie(String nom, ArrayList<Groupe> listGroupe) {
 		this.idCategorie=-1;
 		this.nom=nom;
 		this.listGroupe=listGroupe;
-		Categorie.ListeCateg.add(this);
+		//Categorie.ListeCateg.add(this);
 	}
 
 
@@ -50,13 +50,13 @@ public class Categorie {
 
 
 
-	public static void setListeCateg(ArrayList<Categorie> listeCateg) {
+	/*public static void setListeCateg(ArrayList<Categorie> listeCateg) {
 		ListeCateg = listeCateg;
 	}
 
 	public static ArrayList<Categorie> getListeCateg() {
 		return ListeCateg;
-	}
+	}*/
 
 
 	/**
@@ -213,12 +213,12 @@ public class Categorie {
 	}
 
 	/**
-	 * List categorie.
+	 * Get List categorie.
 	 *
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Categorie> listCategorie() throws SQLException {
+	public static ArrayList<Categorie> getlistCategorie() throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM CATEGORIE;";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);

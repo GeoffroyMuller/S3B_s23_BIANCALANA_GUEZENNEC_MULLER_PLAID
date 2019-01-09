@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Label;
 import java.awt.LayoutManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -69,13 +70,20 @@ public class VueExamen extends JPanel{
 	private PanelDev_Afficheur paneldev = new PanelDev_Afficheur();
 	/**
 	 * Constructeur principale
+	 * @throws SQLException 
 	 */
-	public VueExamen() {
+	public VueExamen(){
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
 		examen = new Examen();
 		testlisteur();
-		jp2_creation = new VueCreation(controleur_Exam, examen);	
+		try {
+			jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie());	
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");
+			jp2_creation = new VueCreation(controleur_Exam, new ArrayList<Categorie>());
+		}
 		this.setBackground(new Color(138, 138, 138));
 		jp_all.setBackground(new Color(138, 138, 138));
 		creerZoneCreation();
@@ -107,7 +115,7 @@ public class VueExamen extends JPanel{
 		Categorie c2 = new Categorie("Année 2", gl2);
 		listcateg.add(c1);
 		listcateg.add(c2);
-		Categorie.setListeCateg(listcateg);
+		
 	}
 	
 
