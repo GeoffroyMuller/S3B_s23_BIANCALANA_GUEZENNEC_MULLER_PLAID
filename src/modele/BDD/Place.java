@@ -349,6 +349,7 @@ public class Place {
 
 		ArrayList<Place> res = new ArrayList<Place>();
 		while (rs.next()) {
+			
 			String resNom = rs.getString("nom");
 			int resIdTypePlace = rs.getInt("idTypePlace");
 			int resIdSalle = rs.getInt("idSalle");
