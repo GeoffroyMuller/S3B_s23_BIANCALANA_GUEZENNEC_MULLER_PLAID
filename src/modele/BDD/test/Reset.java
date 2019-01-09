@@ -1,7 +1,5 @@
 package modele.BDD.test;
 
-import java.util.ArrayList;
-
 import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
 import modele.BDD.EtudiantGroupe;
@@ -12,6 +10,7 @@ import modele.BDD.ParticulariteEtudiant;
 import modele.BDD.Place;
 import modele.BDD.Salle;
 import modele.BDD.TypePlace;
+import modele.GestionFichiersExcel.ImportEtudiant;
 
 public class Reset {
 
@@ -44,8 +43,8 @@ public class Reset {
 		TypePlace.createTable();
 		System.out.println("création des table réaliser");
 		
-		
-		
+		ImportEtudiant i = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1");
+		System.out.println("jeu de donnee import");
 	}
 
 }
