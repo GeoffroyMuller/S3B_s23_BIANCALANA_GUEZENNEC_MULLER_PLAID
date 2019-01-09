@@ -1,5 +1,6 @@
 package composante_graphique;
 
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,11 +18,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import controleur_Examen.ControleurExamen;
+import modele.Examen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 
 public class Listeur extends JPanel{
-	
+	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
 	private PanelListeur pl_courant;
@@ -29,7 +32,8 @@ public class Listeur extends JPanel{
 	private ArrayList<PanelListeur> liste_panelListeur;
 	private GridBagConstraints gbc = new GridBagConstraints();
 
-	public Listeur(ArrayList<Categorie> listep) {
+	public Listeur(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
+		controleur_Exam = ctrlexamp;
 		jp_all = new JPanel();
 		jp_all.setBackground(Color.darkGray);
 		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -43,13 +47,13 @@ public class Listeur extends JPanel{
 		}
 		this.setLayout(new GridBagLayout());
 		jp_all.setLayout(new GridBagLayout());
-		
+
 		for (Categorie categorie : listecategorie) {
-			pl_courant = new PanelListeur(categorie, this);
+			pl_courant = new PanelListeur(categorie, this, ctrlexamp);
 			liste_panelListeur.add(pl_courant);
 		}
 		creerZoneListeur();
-		
+
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -57,19 +61,19 @@ public class Listeur extends JPanel{
 		gbc.weightx = 1;
 		gbc.weighty = 0.5;
 		scrollpane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-		
+
 		this.add(scrollpane, gbc);
 	}
 
 	private void creerZoneListeur() {
-		
+
 		int i = 0;
 
 		if((listecategorie == null)||(listecategorie.size()==0)) {
-			pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this);
+			pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this, controleur_Exam);
 			pl_courant.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
-			
-			
+
+
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
@@ -140,14 +144,14 @@ public class Listeur extends JPanel{
 		gl1.add(new Groupe("groupe1 B"));
 		gl1.add(new Groupe("groupe1 A"));
 		gl1.add(new Groupe("groupe1 B"));
-		
+
 		gl2.add(new Groupe("groupe2 A"));
 		gl2.add(new Groupe("groupe2 B"));
 		Categorie c1 = new Categorie("Année 1", gl1);
 		Categorie c2 = new Categorie("Année 2", gl2);	
 		listcateg.add(c1);
 		listcateg.add(c2);
-		Listeur listeur = new Listeur(listcateg);
+		Listeur listeur = new Listeur(listcateg, new ControleurExamen(new Examen()));
 		fenetre.add(listeur);
 		fenetre.pack();
 		fenetre.setVisible(true);

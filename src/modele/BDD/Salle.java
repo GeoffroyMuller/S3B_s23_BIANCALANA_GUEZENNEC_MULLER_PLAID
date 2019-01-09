@@ -107,10 +107,13 @@ public class Salle {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Salle` "
+
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Salle` "
 					+ "( `idSalle` INT(11) NOT NULL AUTO_INCREMENT , `nbCaseHauteur` INT(11) NOT NULL,"
 					+ " `nbCaseLargeur` INT(11) NOT NULL, `nom` VARCHAR(40) NOT NULL, "
 					+ "PRIMARY KEY (`idSalle`)) ENGINE = InnoDB";
+
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -126,7 +129,7 @@ public class Salle {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE SALLE";
+			String SQLPrep1 = "DROP TABLE  IF EXISTS SALLE";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -147,7 +150,7 @@ public class Salle {
 	 */
 	public static Salle findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM Salle WHERE IDSalle ='"+id+"';";
+		String SQLPrep = "SELECT * FROM Salle WHERE IdSalle ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 		prep1.execute();
 		ResultSet rs = prep1.getResultSet();
@@ -172,7 +175,7 @@ public class Salle {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Salle> res = null;
+		ArrayList<Salle> res = new ArrayList<Salle>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
@@ -454,7 +457,6 @@ public class Salle {
 
 		@Override
 		public Object actual() {
-
 			return salle.getPlaces()[i][j];
 		}
 

@@ -20,11 +20,8 @@ public class ParticulariteEtudiant {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`particulariteEtudiant` "
-					+ "( `idParticularite` INT(11) NOT NULL , `idEtu` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idParticularite`,`idEtu`), "
-					+ "FOREIGN KEY (idParticularite) REFERENCES particularite (idParticularite), "
-					+ "FOREIGN KEY (idEtu) REFERENCES Etudiant (idEtu)) ENGINE = InnoDB";
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`particulariteEtudiant` ( `idParticularite` INT(11) NOT NULL , `idEtu` INT(11) NOT NULL , PRIMARY KEY (`idParticularite`,`idEtu`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -40,7 +37,7 @@ public class ParticulariteEtudiant {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE particulariteEtudiant";
+			String SQLPrep1 = "DROP TABLE IF EXISTS particulariteEtudiant";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -100,7 +97,7 @@ public class ParticulariteEtudiant {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Integer> res = null;
+		ArrayList<Integer> res = new ArrayList<Integer>();
 		int i=0;
 		while (rs.next()) {
 			res.add(rs.getInt("idEtudiant"));
@@ -112,7 +109,7 @@ public class ParticulariteEtudiant {
 	public static ArrayList<Etudiant> listEtudiantPourParticularite(int id) throws SQLException {
 		ArrayList<Integer> list = ParticulariteEtudiant.listEtudiantPourParticulariteId(id);
 		Connection connect=DBConnection.getConnection();
-		ArrayList<Etudiant> res = null;
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		for(int i = 0 ; i < list.size(); i++) {
 			String SQLPrep = "SELECT * FROM Etudiant WHERE IdEtu ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -130,7 +127,7 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
-	public static void Ajouter(int idParticularite, int idEtudiant) {
+	public static void ajouterParticulariteAUnEtudiant(int idParticularite, int idEtudiant) {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "INSERT INTO ParticulariteEtudiant (`IdParticularite`, `IdEtudiant`) VALUES" + 

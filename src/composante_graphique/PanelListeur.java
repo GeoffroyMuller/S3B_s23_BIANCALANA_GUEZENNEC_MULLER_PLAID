@@ -1,5 +1,6 @@
 package composante_graphique;
 
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,23 +11,24 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
-import com.sun.xml.internal.ws.api.Component;
+//import com.sun.xml.internal.ws.api.Component;
 
+import controleur_Examen.ControleurExamen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 
 public class PanelListeur extends JPanel{
-
+	private ControleurExamen controleur_Exam;
 	private Listeur listeur; //listeur qui contient this
 
 	private boolean activer;
-
 	private JPanel jp_all;
 	private JPanel jp_categorie;
 	private ArrayList<JPanel> liste_jp_groupe;
@@ -35,7 +37,7 @@ public class PanelListeur extends JPanel{
 	private Categorie categorie;	//categorie correspondant a this
 
 
-	public PanelListeur(Categorie categ, Listeur listeur) {
+	public PanelListeur(Categorie categ, Listeur listeur, ControleurExamen ctrlexamp) {
 		liste_jp_groupe = new ArrayList<JPanel>();
 		jp_all = new JPanel();
 		jp_categorie = new JPanel();
@@ -43,8 +45,9 @@ public class PanelListeur extends JPanel{
 		this.categorie = categ;
 		this.listeur = listeur;
 		activer = false;
-		jp_categorie.add(new JLabel(categ.getNom()+"      Groupe Participant : 0/0      "));
+		jp_categorie.add(new JLabel(categ.getNom()+"      Groupe Participant : 0/"+categ.getListGroupe().size()+"          "));
 		jp_categorie.setBackground(Color.WHITE);
+		jp_categorie.add(ctrlexamp.creerBoutton_UneCategorie(categ));
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -55,11 +58,11 @@ public class PanelListeur extends JPanel{
 
 		JPanel jpp;
 		ArrayList<Groupe> listegroupe = categ.getListGroupe();
-		System.out.println("nombre de categorie::"+listegroupe.size());
+		System.out.println("Categorie "+categ.getIdCategorie()+" nombre de groupe::"+listegroupe.size());
 		for (Groupe groupe : listegroupe) {
 			jpp = new JPanel();
 			jpp.add(new JLabel(groupe.getNom()));
-
+			jpp.add(ctrlexamp.creerBoutton_UnGroupe(groupe));
 			liste_jp_groupe.add(jpp);
 		}
 		this.add(jp_all, gbc);
@@ -102,7 +105,6 @@ public class PanelListeur extends JPanel{
 						gbc.fill = GridBagConstraints.BOTH;
 						gbc.weightx = 0;
 						gbc.weighty = 0;
-
 						jp_all.add(jp, gbc);
 
 						i++;
@@ -133,7 +135,6 @@ public class PanelListeur extends JPanel{
 
 		jp_categorie.addMouseListener(this.ml);
 
-
 	}
 
 
@@ -145,6 +146,7 @@ public class PanelListeur extends JPanel{
 		jp_all.setVisible(false);
 
 		jp_all.setVisible(true);
+		//System.out.println("r");
 	}
 
 }

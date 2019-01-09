@@ -7,10 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controleur_Etudiant.ControleurConfirmerImportation;
+import controleur_Etudiant.ControleurCréerNouvelleCateg;
 
 public class VueImportation extends JFrame{
 	
 	ControleurConfirmerImportation cci;
+	ControleurCréerNouvelleCateg ccnc;
+	
 	JTextField cheminFichier;
 	JTextField nomListe ;
 	int WidthDispo;
@@ -24,9 +27,10 @@ public class VueImportation extends JFrame{
 		cheminFichier = new JTextField(" ");
 		
         cci = new ControleurConfirmerImportation(ve,this);
+        ccnc = new ControleurCréerNouvelleCateg();
         
         
-        JPanel p = new JPanel();
+      //  JPanel p = new JPanel();
         this.setLayout(new GridBagLayout());
         
 		
@@ -48,7 +52,10 @@ public class VueImportation extends JFrame{
         gbc.gridy=2;
         this.add(cci,gbc);
         
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gbc.gridy=3;
+        this.add(ccnc, gbc);
+        
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(new Dimension(600,600));
         this.setVisible(true);
 		

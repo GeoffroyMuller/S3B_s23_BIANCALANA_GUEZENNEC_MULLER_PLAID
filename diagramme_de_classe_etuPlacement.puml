@@ -20,6 +20,13 @@ class GestionSalle{
 }
 
 class Salle{
+- nom : String
+- idSalle : int
+- nbcasehauteur : int
+- nbCaseLargeur : int
+
++createTable()
++findById(int id)
 +ajouterPlace(Place)
 -supprimerPlace(Place)
 }
@@ -62,8 +69,15 @@ class Contrainte{
 Parametre --> "*" Contrainte
 
 class Groupe{
--estSelectionne : boolean
--nom :String
+- nom : String
+- idGroupe : int
+- listEtudiant : ArrayList<Etudiant>
++createTable()
++deleteTable()
++save()
++findById(int id)
++findByName(String nom)
++getEtudiants(int id)
 +supprimerEtudiant(Etudiant)
 +ajouterEtudiant(Etudiant)
 }

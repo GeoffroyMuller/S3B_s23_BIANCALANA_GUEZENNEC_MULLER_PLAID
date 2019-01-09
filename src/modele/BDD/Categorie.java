@@ -14,7 +14,9 @@ import java.util.ArrayList;
  */
 public class Categorie {
 
-	private static ArrayList<Categorie> ListeCateg = new ArrayList<>();
+
+	//private static ArrayList<Categorie> ListeCateg = new ArrayList<>();
+
 
 	/** The nom. */
 	private String nom;
@@ -32,31 +34,20 @@ public class Categorie {
 	public Categorie(String nom) {
 		this.idCategorie=-1;
 		this.nom=nom;
-		Categorie.ListeCateg.add(this);
+
+		//Categorie.ListeCateg.add(this);
 		
+
+
+		//Categorie.ListeCateg.add(this);
+
 	}
 
 	public Categorie(String nom, ArrayList<Groupe> listGroupe) {
 		this.idCategorie=-1;
 		this.nom=nom;
 		this.listGroupe=listGroupe;
-		Categorie.ListeCateg.add(this);
-	}
-
-
-
-
-
-
-
-
-
-	public static void setListeCateg(ArrayList<Categorie> listeCateg) {
-		ListeCateg = listeCateg;
-	}
-
-	public static ArrayList<Categorie> getListeCateg() {
-		return ListeCateg;
+		//Categorie.ListeCateg.add(this);
 	}
 
 
@@ -160,9 +151,9 @@ public class Categorie {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Categorie` "
-					+ "( `idCategorie` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL, "
-					+ "PRIMARY KEY (`idCategorie`)) ENGINE = InnoDB";
+			String nomBase = DBConnection.getNomDB();
+
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS`"+nomBase+"`.`Categorie` ( `idCategorie` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL, PRIMARY KEY (`idCategorie`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -178,7 +169,7 @@ public class Categorie {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE CATEGORIE";
+			String SQLPrep1 = "DROP TABLE IF EXISTS CATEGORIE";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -214,12 +205,12 @@ public class Categorie {
 	}
 
 	/**
-	 * List categorie.
+	 * Get List categorie.
 	 *
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Categorie> listCategorie() throws SQLException {
+	public static ArrayList<Categorie> getlistCategorie() throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM CATEGORIE;";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -227,7 +218,7 @@ public class Categorie {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Categorie> res = null;
+		ArrayList<Categorie> res = new ArrayList<Categorie>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resId = rs.getInt("idCategorie");
@@ -256,12 +247,14 @@ public class Categorie {
 	 * Save.
 	 */
 	public void save() {
+
 		//save de la liste de groupe
 		if(this.listGroupe!=null) {
 		for (int i = 0; i < this.listGroupe.size (); i++) {
 			this.listGroupe.get(i).save();
 		}
 		}
+
 		//save ou update de la categorie
 		if(this.idCategorie==-1) {
 			this.saveNew();
@@ -314,8 +307,9 @@ public class Categorie {
 		}
 	}
 	
+
 	public void ajouterGroupe(Groupe g) {
-		GroupeCategorie.Ajouter(g.getIdGroupe(), this.getIdCategorie());
+		GroupeCategorie.ajouterGroupeAUneCategorie(g.getIdGroupe(), this.getIdCategorie());
 	}
 	
 	public ArrayList<Groupe> getListegroupe(){
@@ -327,7 +321,15 @@ public class Categorie {
 		}
 		
 		return null;
-		
+	}
+
+	public void ajouterGroupe(ArrayList<Groupe> listGroupe) {
+		for (int i = 0; i < listGroupe.size(); i++) {
+			if(listGroupe.get(i).getIdGroupe()!=-1) {
+				GroupeCategorie.ajouterGroupeAUneCategorie(listGroupe.get(i).getIdGroupe(), this.idCategorie);
+			}
+		}
+
 	}
 
 }

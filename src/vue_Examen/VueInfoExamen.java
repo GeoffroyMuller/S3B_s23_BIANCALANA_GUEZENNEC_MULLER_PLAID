@@ -21,8 +21,7 @@ public class VueInfoExamen extends JPanel{
 	private JPanel jp_matiereExamen = new JPanel();		//JPanel 4 contient la Matiere de l'Examen
 	private JPanel jp_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
 	
-	public VueInfoExamen(ControleurExamen ctrlexamp, Examen examenp) {
-		examen = examenp;
+	public VueInfoExamen(ControleurExamen ctrlexamp) {
 		controleur_Exam = ctrlexamp;                                     
 		creerZoneInfo();
 	}
@@ -48,7 +47,7 @@ public class VueInfoExamen extends JPanel{
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setMinimumSize(new Dimension(500,100));
 
-		VueInfoExamen vuec = new VueInfoExamen(new ControleurExamen(), new Examen());
+		VueInfoExamen vuec = new VueInfoExamen(new ControleurExamen(new Examen()));
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 

@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import modele.BDD.Groupe;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class GroupeTest.
@@ -19,6 +21,7 @@ public class GroupeTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		Groupe.createTable();
 	}
 
 	/**

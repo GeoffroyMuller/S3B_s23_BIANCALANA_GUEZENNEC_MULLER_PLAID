@@ -1,7 +1,7 @@
 package modele.BDD;
 
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
+//import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,10 +22,13 @@ public class EtudiantGroupe {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`EtudiantGroupe` "
-					+ "( `idEtu` INT(11) NOT NULL , `idGroupe` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idEtu`,`idGroupe`)"
-					+ ") ENGINE = InnoDB;";
+
+			String nomBase = DBConnection.getNomDB();
+
+
+
+
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`EtudiantGroupe` ( `idEtu` INT(11) NOT NULL , `idGroupe` INT(11) NOT NULL , PRIMARY KEY (`idEtu`,`idGroupe`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -41,7 +44,7 @@ public class EtudiantGroupe {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE EtudiantGroupe";
+			String SQLPrep1 = "DROP TABLE IF EXISTS EtudiantGroupe";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -136,7 +139,7 @@ public class EtudiantGroupe {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Integer> res = null;
+		ArrayList<Integer> res = new ArrayList<Integer>();
 		int i=0;
 		while (rs.next()) {
 			res.add(rs.getInt("idEtu"));
@@ -148,7 +151,7 @@ public class EtudiantGroupe {
 	public static ArrayList<Groupe> listGroupePourEtudiant(int id) throws SQLException {
 		ArrayList<Integer> list = EtudiantGroupe.listGroupePourEtudiantId(id);
 		Connection connect=DBConnection.getConnection();
-		ArrayList<Groupe> res = null;
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
 		for(int i = 0 ; i < list.size(); i++) {
 			String SQLPrep = "SELECT * FROM Groupe WHERE IdGroupe ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);

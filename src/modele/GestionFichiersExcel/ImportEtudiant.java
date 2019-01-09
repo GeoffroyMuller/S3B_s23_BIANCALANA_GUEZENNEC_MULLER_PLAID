@@ -1,5 +1,6 @@
 package modele.GestionFichiersExcel;
 
+import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
 import modele.BDD.EtudiantGroupe;
 import modele.BDD.Groupe;
@@ -25,9 +26,11 @@ public class ImportEtudiant {
      */
     private String[] nomDesColonnes;
     private ArrayList<Groupe> groupeTrouveDansLeDernierFichier;
+    private Categorie categorie;
 
-    public ImportEtudiant(String cheminFichier, String nomDeLaFeuille){
+    public ImportEtudiant(String cheminFichier, String nomDeLaFeuille, Categorie categorie){
         this.groupeTrouveDansLeDernierFichier = new ArrayList<Groupe>();
+        this.categorie = categorie;
         try {
             //Importation du fichier excel
             FileInputStream fichier = new FileInputStream(cheminFichier);
@@ -87,7 +90,9 @@ public class ImportEtudiant {
             etudiant.save();
 
             String nomDuGroupe = ligne.getCell(indexGroupe).getStringCellValue().toUpperCase();
+
             int indexOfGroupe = this.groupeExiste(nomDuGroupe);
+
             if(indexOfGroupe != -1){
                 int idGroupe =  this.groupeTrouveDansLeDernierFichier.get(indexOfGroupe).getIdGroupe();
                 int idEtudiant = etudiant.getIdEtu();
@@ -95,6 +100,10 @@ public class ImportEtudiant {
             }else{
                 Groupe gr = new Groupe(nomDuGroupe);
                 gr.save();
+                ArrayList<Groupe> groupes = new ArrayList<Groupe>();
+                groupes.add(gr);
+                this.categorie.ajouterGroupe(groupes);
+
                 EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(),gr.getIdGroupe());
 
                 this.groupeTrouveDansLeDernierFichier.add(gr);

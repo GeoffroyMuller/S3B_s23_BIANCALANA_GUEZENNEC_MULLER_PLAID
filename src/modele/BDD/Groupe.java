@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import com.mysql.fabric.xmlrpc.base.Array;
 
@@ -22,8 +23,6 @@ public class Groupe {
 	/** The id groupe. */
 	private int idGroupe;
 
-	private ArrayList<Etudiant> listEtudiant;
-
 	/**
 	 * Instantiates a new groupe.
 	 *
@@ -35,12 +34,14 @@ public class Groupe {
 		
 	}
 
+
 	public Groupe(String nom, ArrayList<Etudiant> listEtudiant) {
 		this.idGroupe=-1;
 		this.nom=nom;
-		this.listEtudiant=listEtudiant;
+		//this.listEtudiant=listEtudiant;
 		
 	}
+
 
 	/**
 	 * Gets the nom.
@@ -82,9 +83,9 @@ public class Groupe {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Groupe` "
-					+ "( `idGroupe` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL, "
-					+ "PRIMARY KEY (`idGroupe`)) ENGINE = InnoDB";
+
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Groupe` ( `idGroupe` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL, PRIMARY KEY (`idGroupe`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -100,7 +101,7 @@ public class Groupe {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE GROUPE";
+			String SQLPrep1 = "DROP TABLE IF EXISTS GROUPE";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -149,7 +150,7 @@ public class Groupe {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Groupe> res = null;
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resId = rs.getInt("idGroupe");
@@ -178,12 +179,6 @@ public class Groupe {
 	 * Save.
 	 */
 	public void save() {
-		//save de la liste d etudiant
-		if(this.listEtudiant!=null) {
-			for (int i = 0; i < this.listEtudiant.size (); i++) {
-				this.listEtudiant.get(i).save();
-			}
-		}
 
 		//save ou update du groupe
 		if(this.idGroupe==-1) {
@@ -236,6 +231,7 @@ public class Groupe {
 		}
 	}
 	
+
 	public void setListeEtudiants(ArrayList<Etudiant> le) {
 		for (Etudiant etudiant : le) {
 			EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), this.getIdGroupe());
@@ -254,4 +250,25 @@ public class Groupe {
 		
 	}
 
+	public void ajouterEtudiant(ArrayList<Etudiant> listEtudiant) {
+		for (int i = 0; i < listEtudiant.size(); i++) {
+			if(listEtudiant.get(i).getIdEtu()!=-1) {
+				EtudiantGroupe.ajouterEtudiantAUnGroupe(listEtudiant.get(i).getIdEtu(), this.idGroupe);
+			}
+		}
+	}
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Groupe groupe = (Groupe) o;
+		return Objects.equals(nom, groupe.nom);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nom);
+	}
 }

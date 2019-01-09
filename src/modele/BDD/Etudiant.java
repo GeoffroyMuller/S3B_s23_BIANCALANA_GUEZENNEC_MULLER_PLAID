@@ -1,6 +1,7 @@
 package modele.BDD;
 
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,8 +26,6 @@ public class Etudiant implements Comparable<Etudiant> {
 	
 	/** The id etu. */
 	private int idEtu;
-	
-	private ArrayList<Particularite> listParticularite;
 
 
 	/**
@@ -41,14 +40,16 @@ public class Etudiant implements Comparable<Etudiant> {
 		this.prenom=prenom;
 		
 	}
+
 	
 	public Etudiant(String nom, String prenom, ArrayList<Particularite> listParticularite) {
 		this.idEtu=-1;
 		this.nom=nom;
 		this.prenom=prenom;
-		this.listParticularite=listParticularite;
+		
 		
 	}
+
 
 	/**
 	 * Gets the nom.
@@ -89,6 +90,36 @@ public class Etudiant implements Comparable<Etudiant> {
 		return idEtu;
 	}
 
+	/**
+	 * Méthode permettant de récupérer le groupe d'un étudiant
+	 * @return
+	 */
+	public String getGroupe(){
+		String res="NON DEFINI";
+		try {
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement prep1 = connect.prepareStatement("SELECT * FROM ETUDIANTGROUPE WHERE idEtu = ? ");
+
+			prep1.setInt(1,this.idEtu);
+			prep1.execute();
+
+			ResultSet rs = prep1.getResultSet();
+			rs.next();
+			int idGroupe = rs.getInt("idGroupe");
+
+			PreparedStatement prep2 = connect.prepareStatement("SELECT * FROM GROUPE WHERE idGroupe=?");
+			prep2.setInt(1,idGroupe);
+			prep2.execute();
+
+			ResultSet rs2 = prep2.getResultSet();
+			rs2.next();
+			res = rs2.getString(2);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return res;
+	}
 
 	/**
 	 * Instantiates a new etudiant.
@@ -112,6 +143,10 @@ public class Etudiant implements Comparable<Etudiant> {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String nomBase = DBConnection.getNomDB();
+
+
+
+
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Etudiant` ( `idEtu` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL , `prenom` VARCHAR(40) NOT NULL , `email` VARCHAR(40), PRIMARY KEY (`idEtu`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -128,7 +163,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE ETUDIANT";
+			String SQLPrep1 = "DROP TABLE IF EXISTS ETUDIANT";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -178,7 +213,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Etudiant> res = null;
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			String resPrenom = rs.getString("prenom");
@@ -208,12 +243,7 @@ public class Etudiant implements Comparable<Etudiant> {
 	 * Save.
 	 */
 	public void save() {
-		//save de la liste de particulariter
-		if(this.listParticularite!=null) {
-		for (int i = 0; i < this.listParticularite.size (); i++) {
-			this.listParticularite.get(i).save();
-		}
-		}
+
 		//save ou update de l'etudiant
 		if(this.idEtu==-1) {
 			this.saveNew();
@@ -312,5 +342,13 @@ public class Etudiant implements Comparable<Etudiant> {
 			return 0;
 		}
 		return 1;
+	}
+	
+	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
+		for (int i = 0; i < listParticularite.size(); i++) {
+			if(listParticularite.get(i).getIdParticularite()!=-1) {
+				ParticulariteEtudiant.ajouterParticulariteAUnEtudiant(listParticularite.get(i).getIdParticularite(), this.idEtu);;
+			}
+		}
 	}
 }

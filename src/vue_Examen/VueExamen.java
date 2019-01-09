@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Label;
 import java.awt.LayoutManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -28,6 +29,7 @@ import controleur_Examen.ControleurExamen;
 
 
 import modele.BDD.Categorie;
+import modele.BDD.Etudiant;
 import modele.BDD.Groupe;
 
 
@@ -39,7 +41,7 @@ import vue.BarreOutils;
 public class VueExamen extends JPanel{
 
 	private Examen examen;
-	private ControleurExamen controleur_Exam = new ControleurExamen();
+	private ControleurExamen controleur_Exam;
 
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
@@ -69,13 +71,22 @@ public class VueExamen extends JPanel{
 	private PanelDev_Afficheur paneldev = new PanelDev_Afficheur();
 	/**
 	 * Constructeur principale
+	 * @throws SQLException 
 	 */
-	public VueExamen() {
+	public VueExamen() throws SQLException{
+		examen = new Examen();
+		controleur_Exam = new ControleurExamen(examen);
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
-		examen = new Examen();
-		testlisteur();
-		jp2_creation = new VueCreation(controleur_Exam, examen);	
+		
+		//testlisteur();
+		//try {
+			jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie());	
+		/*} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");
+			jp2_creation = new VueCreation(controleur_Exam, new ArrayList<Categorie>());
+		}*/
 		this.setBackground(new Color(138, 138, 138));
 		jp_all.setBackground(new Color(138, 138, 138));
 		creerZoneCreation();
@@ -90,24 +101,46 @@ public class VueExamen extends JPanel{
 		ArrayList<Categorie> listcateg = new ArrayList<>();
 		ArrayList<Groupe> gl1 = new ArrayList<Groupe>();
 		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
 		
-		gl2.add(new Groupe("groupe2 A"));
-		gl2.add(new Groupe("groupe2 B"));
-		Categorie c1 = new Categorie("Année 1", gl1);
-		Categorie c2 = new Categorie("Année 2", gl2);	
+		Categorie c1 = new Categorie("Année 1");
+		Categorie c2 = new Categorie("Année 2");
 		listcateg.add(c1);
 		listcateg.add(c2);
-		Categorie.setListeCateg(listcateg);
+		c1.save();
+		c2.save();
+		Groupe g1 = new Groupe("groupe a");
+		Groupe g2 = new Groupe("groupe b");
+		Groupe g3 = new Groupe("groupe c");
+		Groupe g4 = new Groupe("groupe d");
+		Groupe g5 = new Groupe("groupe e");
+		g1.save();
+		g2.save();
+		g3.save();
+		g4.save();
+		g5.save();
+		
+		gl1.add(g1);
+		gl1.add(g2);
+		gl1.add(g3);
+		
+		gl2.add(g4);
+		gl2.add(g5);
+		c1.ajouterGroupe(gl1);
+		c2.ajouterGroupe(gl2);
+		
+		Etudiant e1 = new Etudiant("nna", "poilon");
+		Etudiant e2 = new Etudiant("jee", "galo");
+		Etudiant e3 = new Etudiant("gounalou", "lucas");
+		
+		e1.save();
+		e2.save();
+		e3.save();
+		ArrayList<Etudiant> listetu = new ArrayList<>();
+		listetu.add(e1);
+		listetu.add(e2);
+		listetu.add(e3);
+		g1.ajouterEtudiant(listetu);
+		
 	}
 	
 
@@ -236,15 +269,15 @@ public class VueExamen extends JPanel{
 		paneldev.ajouterInfo("> mettre a This w: 1138 pour minimal");
 	}
 	
-	public static void main(String arg[]) {
+	public static void main(String arg[]) throws SQLException {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		VueExamen vuec = new VueExamen();
 		fenetre.add(vuec);
-		fenetre.setMinimumSize(new Dimension(1155,900));
-		fenetre.setPreferredSize(new Dimension(1155,900));
+		fenetre.setMinimumSize(new Dimension(1155,700));
+		fenetre.setPreferredSize(new Dimension(1155,700));
 		fenetre.setVisible(true);
 		vuec.definirTaille(fenetre.getWidth(),fenetre.getHeight());
 		

@@ -2,6 +2,7 @@ package vue_Etudiant;
 import modele.*;
 import controleur.*;
 import controleur_Etudiant.ControleurImportationListe;
+import controleur_Etudiant.ControleurListeDeroulanteCateg;
 import listeuretudiant.DifListeurEtu;
 import listeuretudiant.PanelListeurEtu;
 import modele.BDD.Groupe;
@@ -28,6 +29,7 @@ import javax.swing.JTextField;
 
 public class VueEtudiant extends JPanel implements Observer{
 	ControleurImportationListe bouttonImport ;
+	ControleurListeDeroulanteCateg listeCateg;
 	
 	JPanel topBarre; 
 	DifListeurEtu	dls;
@@ -48,6 +50,8 @@ public class VueEtudiant extends JPanel implements Observer{
 		bouttonImport = new ControleurImportationListe(this);
 		bouttonImport.setMinimumSize(new Dimension(200, 25));
 		cheminFichier = new JTextField(" ");
+		listeCateg = new ControleurListeDeroulanteCateg();
+		
 		
 		
 		this.setLayout(new GridBagLayout());
@@ -73,7 +77,7 @@ public class VueEtudiant extends JPanel implements Observer{
 		gbc.gridx=2;
 		gbc.weightx=2;
 		gbc.gridwidth=GridBagConstraints.REMAINDER;
-		topBarre.add(new JComboBox<>(),gbc);
+		topBarre.add(listeCateg,gbc);
 		
 		
 		//GridBagConstraints(int gridx, int gridy, int gridwidth, int gridheight, double weightx,

@@ -81,7 +81,7 @@ public class DifListeurEtu extends JSplitPane{
 		//---------------
 		ArrayList<Categorie> lc = new ArrayList<>();
 		try {
-		lc= Categorie.listCategorie();
+		lc= Categorie.getlistCategorie();
 		}
 		catch(Exception e) {
 			

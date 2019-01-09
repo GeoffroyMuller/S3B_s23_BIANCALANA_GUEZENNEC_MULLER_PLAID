@@ -13,7 +13,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.*;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+//import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import javafx.scene.Node;
 import modele.BDD.Categorie;

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -12,24 +13,24 @@ import javax.swing.JPanel;
 
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
+import modele.BDD.Categorie;
 
 public class VueCreation extends JPanel{
-	private Examen examen;
 	private ControleurExamen controleur_Exam;
 	
 	private GridBagConstraints gbc = new GridBagConstraints();
 	
 	private VueInfoExamen vue_infoExam;
 	private VueGroupeParticipant vue_grpParticip;
-	private VueSallePriorite vue_sallePrio = new VueSallePriorite();
+	private VueSallePriorite vue_sallePrio;
 	private VueContrainte vue_contrainte = new VueContrainte();
 	private JPanel jp_bouttonexam = new JPanel(new BorderLayout());
 	
-	public VueCreation(ControleurExamen ctrlexamp, Examen examenp) {
-		examen = examenp;
+	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecateg) {
 		controleur_Exam = ctrlexamp;
-		vue_infoExam = new VueInfoExamen(controleur_Exam, examen);
-		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, examen);
+		vue_infoExam = new VueInfoExamen(controleur_Exam);
+		vue_sallePrio = new VueSallePriorite(controleur_Exam);
+		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, listecateg);
 		this.setBackground(Color.red);
 		creerZoneCreation();
 	}
@@ -89,7 +90,7 @@ public class VueCreation extends JPanel{
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setMinimumSize(new Dimension(500,100));
 
-		VueCreation vuec = new VueCreation(new ControleurExamen(), new Examen());
+		VueCreation vuec = new VueCreation(new ControleurExamen(new Examen()), new ArrayList<Categorie>());
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 
