@@ -111,6 +111,7 @@ public class Listeur extends JPanel{
 
 
 	public void paintComponent(Graphics g) {
+		
 		super.paintComponent(g);
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
 		g.fillRect(0, 10, 10, 10);

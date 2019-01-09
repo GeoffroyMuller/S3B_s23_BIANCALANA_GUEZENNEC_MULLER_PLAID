@@ -280,6 +280,7 @@ public class VueExamen extends JPanel{
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		System.out.println("pexam");
 		//dev
 		jscrol_dev.setPreferredSize(new Dimension(jp2_affichListEtu.getWidth()-5, jp2_affichListEtu.getHeight()-20));//dev
 		paneldev.suppliste();

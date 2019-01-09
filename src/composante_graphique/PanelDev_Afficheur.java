@@ -29,6 +29,7 @@ public class PanelDev_Afficheur extends JPanel{
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
+		//System.out.println("pdev");
 		int compte = 10;
 		g.setColor(Color.GREEN);
 		g.drawString("PanelDeveloppeur>", 2, compte);

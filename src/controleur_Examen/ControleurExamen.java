@@ -46,6 +46,7 @@ public class ControleurExamen {
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
 		jb_creerExam = new JButton("Créer l'Examen");
+		//dev
 		chsalle = new JButton("Choisir Salle 1 (test)");
 		chsalle.addActionListener(new ActionListener() {
 			
@@ -66,7 +67,7 @@ public class ControleurExamen {
 				chsalle.setBackground(Color.gray);
 			}
 		});
-
+		//findev
 		mapBoutton_groupe = new HashMap<>();
 		/**
 		 * dimensionne les JTextFields 
@@ -110,16 +111,15 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
-				examen.genererUnPlacement();
-				ExportEtudiant exportEtu = new ExportEtudiant();
-				exportEtu.exporterPlacement(examen.getPlacement());
-
 				System.out.println("===Examen creer===");
 				System.out.println(">CtrlExam_jtf_Nom: "+jtf_nom.getText());
 				System.out.println(">CtrlExam_jtf_Matiere: "+jtf_matiere.getText());
 				System.out.println(">CtrlExam_jtf_Date: "+jtf_date.getText());
 				System.out.println("==================");
+			
+				examen.genererUnPlacement();
+				ExportEtudiant exportEtu = new ExportEtudiant();
+				exportEtu.exporterPlacement(examen.getPlacement());
 			}
 		});
 
@@ -147,16 +147,18 @@ public class ControleurExamen {
 
 
 					examen.ajouterGroupe(grp);
-					System.out.println("A groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
-					//VueExamen.paneldev.repaint();
+					System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
+					
 				}else {
 					if(jbt.getText().equals("Retirer")) {
 						jbt.setText("Ajouter");
 						jbt.setBackground(Color.white);
-						System.out.println("R groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
+						System.out.println("Retirer> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
 
 					}
 				}
+				
+				//VueExamen.paneldev.repaint();//dev
 			}
 		});
 		mapBoutton_groupe.put(grp, jbt);
@@ -167,7 +169,7 @@ public class ControleurExamen {
 	public JButton creerBoutton_UneCategorie(Categorie categp) {
 
 		JButton jbt = new JButton();
-		jbt.setPreferredSize(new Dimension(20, 20));
+		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
 		jbt.setBackground(Color.white);
 		jbt.addActionListener(new ActionListener() {
