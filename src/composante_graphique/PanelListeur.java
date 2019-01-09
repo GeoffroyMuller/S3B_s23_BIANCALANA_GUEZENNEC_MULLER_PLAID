@@ -146,7 +146,7 @@ public class PanelListeur extends JPanel{
 		jp_all.setVisible(false);
 
 		jp_all.setVisible(true);
-		System.out.println("r");
+		//System.out.println("r");
 	}
 
 }

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import modele.BDD.Salle;
 import modele.GestionFichiersExcel.ExportEtudiant;
 import org.apache.poi.ss.formula.eval.BoolEval;
 
@@ -48,7 +50,16 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Salle 1 (test) selectionner");
-				if(chsalle.getText().equals("Ajouter")) {
+				if(true) {
+					try {
+						Salle salle = Salle.findById(1);
+						salle.getTableauPlaces(salle.getIdSalle());
+						System.out.println("Salle" + salle.getNom());
+						examen.ajouterSalle(salle);
+
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
 					chsalle.setText("Retirer");
 					chsalle.setBackground(Color.gray);
 
