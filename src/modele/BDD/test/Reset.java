@@ -17,8 +17,8 @@ public class Reset {
 	public Reset() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public static void main(String[] args) {
+	public static void reset() {
+		System.out.println("Suppresion en cours");
 		Particularite.deleteTable();
 		Categorie.deleteTable();
 		Etudiant.deleteTable();
@@ -29,7 +29,8 @@ public class Reset {
 		Place.deleteTable();
 		Salle.deleteTable();
 		TypePlace.deleteTable();
-		System.out.println("Suppresion faite");
+		System.out.println("Suppresion ok");
+		System.out.println("Création en cours");
 		
 		Particularite.createTable();
 		Categorie.createTable();
@@ -41,10 +42,15 @@ public class Reset {
 		Place.createTable();
 		Salle.createTable();
 		TypePlace.createTable();
-		System.out.println("création des table réaliser");
+		System.out.println("Création ok");
+		System.out.println("Jeu de données en cours");
 		
 		ImportEtudiant i = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1");
-		System.out.println("jeu de donnee import");
+		System.out.println("Jeu de données ok");
+	}
+	public static void main(String[] args) {
+		Reset.reset();
+		System.out.println("Terminer");
 	}
 
 }
