@@ -21,7 +21,7 @@ public class GroupeCategorie {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String nomBase = DBConnection.getNomDB();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`GroupeCategorie` ( `idGroupe` INT(11) NOT NULL , `idCategorie` INT(11) NOT NULL , PRIMARY KEY (`idGroupe`,`idCategorie`)) ENGINE = InnoDB;";
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`GroupeCategorie` ( `idGroupe` INT(11) NOT NULL , `idCategorie` INT(11) NOT NULL AUTO_INCREMENT, PRIMARY KEY (`idGroupe`,`idCategorie`)) ENGINE = InnoDB;";
 			
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
