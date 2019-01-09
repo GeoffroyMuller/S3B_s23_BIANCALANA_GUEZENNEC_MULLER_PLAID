@@ -26,8 +26,6 @@ public class Etudiant implements Comparable<Etudiant> {
 	
 	/** The id etu. */
 	private int idEtu;
-	
-	private ArrayList<Particularite> listParticularite;
 
 
 	/**
@@ -41,13 +39,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		this.nom=nom;
 		this.prenom=prenom;
 	}
-	
-	public Etudiant(String nom, String prenom, ArrayList<Particularite> listParticularite) {
-		this.idEtu=-1;
-		this.nom=nom;
-		this.prenom=prenom;
-		this.listParticularite=listParticularite;
-	}
+
 
 	/**
 	 * Gets the nom.
@@ -160,7 +152,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE ETUDIANT";
+			String SQLPrep1 = "DROP TABLE IF EXISTS ETUDIANT";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -338,5 +330,13 @@ public class Etudiant implements Comparable<Etudiant> {
 			return 0;
 		}
 		return 1;
+	}
+	
+	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
+		for (int i = 0; i < listParticularite.size(); i++) {
+			if(listParticularite.get(i).getIdParticularite()!=-1) {
+				ParticulariteEtudiant.Ajouter(listParticularite.get(i).getIdParticularite(), this.idEtu);;
+			}
+		}
 	}
 }

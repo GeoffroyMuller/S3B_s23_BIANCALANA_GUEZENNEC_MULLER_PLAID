@@ -22,8 +22,6 @@ public class Groupe {
 	/** The id groupe. */
 	private int idGroupe;
 
-	private ArrayList<Etudiant> listEtudiant;
-
 	/**
 	 * Instantiates a new groupe.
 	 *
@@ -34,11 +32,6 @@ public class Groupe {
 		this.nom=nom;
 	}
 
-	public Groupe(String nom, ArrayList<Etudiant> listEtudiant) {
-		this.idGroupe=-1;
-		this.nom=nom;
-		this.listEtudiant=listEtudiant;
-	}
 
 	/**
 	 * Gets the nom.
@@ -98,7 +91,7 @@ public class Groupe {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE GROUPE";
+			String SQLPrep1 = "DROP TABLE IF EXISTS GROUPE";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -224,6 +217,14 @@ public class Groupe {
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
+		}
+	}
+	
+	public void ajouterEtudiant(ArrayList<Etudiant> listEtudiant) {
+		for (int i = 0; i < listEtudiant.size(); i++) {
+			if(listEtudiant.get(i).getIdEtu()!=-1) {
+				EtudiantGroupe.ajouter(listEtudiant.get(i).getIdEtu(), this.idGroupe);;
+			}
 		}
 	}
 

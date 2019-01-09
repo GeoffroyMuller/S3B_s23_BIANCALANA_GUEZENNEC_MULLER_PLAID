@@ -21,7 +21,7 @@ import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 
 public class Listeur extends JPanel{
-	
+
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
 	private PanelListeur pl_courant;
@@ -43,13 +43,13 @@ public class Listeur extends JPanel{
 		}
 		this.setLayout(new GridBagLayout());
 		jp_all.setLayout(new GridBagLayout());
-		
+
 		for (Categorie categorie : listecategorie) {
 			pl_courant = new PanelListeur(categorie, this);
 			liste_panelListeur.add(pl_courant);
 		}
 		creerZoneListeur();
-		
+
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -57,19 +57,19 @@ public class Listeur extends JPanel{
 		gbc.weightx = 1;
 		gbc.weighty = 0.5;
 		scrollpane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-		
+
 		this.add(scrollpane, gbc);
 	}
 
 	private void creerZoneListeur() {
-		
+
 		int i = 0;
 
 		if((listecategorie == null)||(listecategorie.size()==0)) {
 			pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this);
 			pl_courant.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
-			
-			
+
+
 			gbc.fill = GridBagConstraints.BOTH;
 			gbc.weightx = 1;
 			gbc.weighty = 0;
@@ -140,7 +140,7 @@ public class Listeur extends JPanel{
 		gl1.add(new Groupe("groupe1 B"));
 		gl1.add(new Groupe("groupe1 A"));
 		gl1.add(new Groupe("groupe1 B"));
-		
+
 		gl2.add(new Groupe("groupe2 A"));
 		gl2.add(new Groupe("groupe2 B"));
 		Categorie c1 = new Categorie("Année 1", gl1);

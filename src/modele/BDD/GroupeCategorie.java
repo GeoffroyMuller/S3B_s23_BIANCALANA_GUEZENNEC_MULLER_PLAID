@@ -22,8 +22,8 @@ public class GroupeCategorie {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`GroupeCategorie` "
 					+ "( `idGroupe` INT(11) NOT NULL , `idCategorie` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idGroupe`,`idCategorie`), "
-					+ ") ENGINE = InnoDB;";
+					+ "PRIMARY KEY (`idGroupe`,`idCategorie`)) ENGINE = InnoDB;";
+			
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -39,7 +39,7 @@ public class GroupeCategorie {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE GroupeCategorie";
+			String SQLPrep1 = "DROP TABLE IF EXISTS GroupeCategorie";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
