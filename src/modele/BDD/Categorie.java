@@ -182,7 +182,7 @@ public class Categorie {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE CATEGORIE";
+			String SQLPrep1 = "DROP TABLE IF EXISTS CATEGORIE";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -314,7 +314,7 @@ public class Categorie {
 	public void ajouterGroupe(ArrayList<Groupe> listGroupe) {
 		for (int i = 0; i < listGroupe.size(); i++) {
 			if(listGroupe.get(i).getIdGroupe()!=-1) {
-				GroupeCategorie.Ajouter(listGroupe.get(i).getIdGroupe(), this.idCategorie);
+				GroupeCategorie.ajouterGroupeAUneCategorie(listGroupe.get(i).getIdGroupe(), this.idCategorie);
 			}
 		}
 	}

@@ -1,6 +1,7 @@
 package modele.BDD;
 
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -93,13 +94,16 @@ public class Etudiant implements Comparable<Etudiant> {
 			prep1.execute();
 
 			ResultSet rs = prep1.getResultSet();
+			rs.next();
 			int idGroupe = rs.getInt("idGroupe");
 
-			prep1 = connect.prepareStatement("SELECT * FROM GROUPE WHERE idGroupe=?");
-			prep1.setInt(1,idGroupe);
+			PreparedStatement prep2 = connect.prepareStatement("SELECT * FROM GROUPE WHERE idGroupe=?");
+			prep2.setInt(1,idGroupe);
+			prep2.execute();
 
-			rs = prep1.getResultSet();
-			res = rs.getString("nom");
+			ResultSet rs2 = prep2.getResultSet();
+			rs2.next();
+			res = rs2.getString(2);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -128,6 +132,10 @@ public class Etudiant implements Comparable<Etudiant> {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String nomBase = DBConnection.getNomDB();
+
+
+
+
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Etudiant` ( `idEtu` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL , `prenom` VARCHAR(40) NOT NULL , `email` VARCHAR(40), PRIMARY KEY (`idEtu`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -144,7 +152,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE ETUDIANT";
+			String SQLPrep1 = "DROP TABLE IF EXISTS ETUDIANT";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -194,7 +202,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Etudiant> res = null;
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			String resPrenom = rs.getString("prenom");
@@ -327,7 +335,7 @@ public class Etudiant implements Comparable<Etudiant> {
 	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
 		for (int i = 0; i < listParticularite.size(); i++) {
 			if(listParticularite.get(i).getIdParticularite()!=-1) {
-				ParticulariteEtudiant.Ajouter(listParticularite.get(i).getIdParticularite(), this.idEtu);;
+				ParticulariteEtudiant.ajouterParticulariteAUnEtudiant(listParticularite.get(i).getIdParticularite(), this.idEtu);;
 			}
 		}
 	}

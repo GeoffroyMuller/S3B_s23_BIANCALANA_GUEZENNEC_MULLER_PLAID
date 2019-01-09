@@ -22,8 +22,8 @@ public class GroupeCategorie {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`GroupeCategorie` "
 					+ "( `idGroupe` INT(11) NOT NULL , `idCategorie` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idGroupe`,`idCategorie`), "
-					+ ") ENGINE = InnoDB;";
+					+ "PRIMARY KEY (`idGroupe`,`idCategorie`)) ENGINE = InnoDB;";
+			
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -39,7 +39,7 @@ public class GroupeCategorie {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE GroupeCategorie";
+			String SQLPrep1 = "DROP TABLE IF EXISTS GroupeCategorie";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -60,7 +60,7 @@ public class GroupeCategorie {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Integer> res = null;
+		ArrayList<Integer> res = new ArrayList<Integer>();
 		int i=0;
 		while (rs.next()) {
 			res.add(rs.getInt("idCategorie"));
@@ -72,7 +72,7 @@ public class GroupeCategorie {
 	public static ArrayList<Groupe> listGroupePourCategorie(int id) throws SQLException {
 		ArrayList<Integer> list = GroupeCategorie.listGroupePourCategorieid(id);
 		Connection connect=DBConnection.getConnection();
-		ArrayList<Groupe> res = null;
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
 		for(int i = 0 ; i < list.size(); i++) {
 			String SQLPrep = "SELECT * FROM Groupe WHERE IdGroupe ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -97,7 +97,7 @@ public class GroupeCategorie {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Integer> res = null;
+		ArrayList<Integer> res = new ArrayList<Integer>();
 		int i=0;
 		while (rs.next()) {
 			res.add(rs.getInt("idGroupe"));
@@ -109,7 +109,7 @@ public class GroupeCategorie {
 	public static ArrayList<Categorie> listCategoriePourGroupe(int id) throws SQLException {
 		ArrayList<Integer> list = GroupeCategorie.listCategoriePourGroupeId(id);
 		Connection connect=DBConnection.getConnection();
-		ArrayList<Categorie> res = null;
+		ArrayList<Categorie> res = new ArrayList<Categorie>();
 		for(int i = 0 ; i < list.size(); i++) {
 			String SQLPrep = "SELECT * FROM Categorie WHERE IdCategorie ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -126,7 +126,7 @@ public class GroupeCategorie {
 		return res;
 	}
 	
-	public static void Ajouter(int idGroupe, int idCategorie) {
+	public static void ajouterGroupeAUneCategorie(int idGroupe, int idCategorie) {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "INSERT INTO GroupeCategorie (`IdGroupe`, `IdCategorie`) VALUES" + 

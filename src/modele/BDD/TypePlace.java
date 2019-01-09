@@ -56,7 +56,9 @@ public class TypePlace {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`TypePlace` "
+
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`TypePlace` "
 					+ "( `idTypePlace` INT(1) NOT NULL AUTO_INCREMENT , `Disponnible` INT(1) NOT NULL,"
 					+ " `nom` VARCHAR(40) NOT NULL, "
 					+ "PRIMARY KEY (`idTypePlace`)) ENGINE = InnoDB";

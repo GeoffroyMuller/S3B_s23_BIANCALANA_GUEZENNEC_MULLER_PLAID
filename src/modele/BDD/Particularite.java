@@ -132,10 +132,9 @@ public class Particularite {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`particularite` "
-					+ "( `idParticularite` INT(11) NOT NULL AUTO_INCREMENT "
-					+ ", `nom` VARCHAR(40) NOT NULL , `PrendreEnComptePlacement` INT(1) NOT NULL , "
-					+ "PRIMARY KEY (`idParticularite`)) ENGINE = InnoDB";
+			String nomBase = DBConnection.getNomDB();
+
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`particularite` ( `idParticularite` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL , `PrendreEnComptePlacement` BIT NOT NULL , PRIMARY KEY (`idParticularite`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -151,7 +150,7 @@ public class Particularite {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "SET FOREIGN_KEY_CHECKS = 0";
-			String SQLPrep1 = "DROP TABLE PARTICULARITE";
+			String SQLPrep1 = "DROP TABLE IF EXISTS PARTICULARITE";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 			prep0.execute();
@@ -202,7 +201,7 @@ public class Particularite {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Particularite> res = null;
+		ArrayList<Particularite> res = new ArrayList<Particularite>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resPrendreEnComptePlacement = rs.getInt("PRENDREENCOMPTEPLACEMENT");
