@@ -17,7 +17,7 @@ import java.util.*;
 
 import modele.BDD.Categorie;
 
-public class Examen {
+public class Examen extends Observable{
 	
 	private String nom;
 	private String matiere;
