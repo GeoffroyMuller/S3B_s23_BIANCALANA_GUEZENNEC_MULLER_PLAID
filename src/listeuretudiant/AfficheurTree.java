@@ -1,4 +1,4 @@
-/*package listeuretudiant;
+package listeuretudiant;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -18,8 +18,7 @@ import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import javafx.scene.Node;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
-import modele.Categorie;
-import modele.Groupe;
+
 
 public class AfficheurTree extends JPanel{
 
@@ -31,7 +30,7 @@ public class AfficheurTree extends JPanel{
 		lisetu=plisetu;
 		this.setBackground(Color.PINK);
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Liste de tout les étudiants");
-		createNodesExemple(top);
+		//createNodesExemple(top);
 		tree = new JTree(top);
 
 		this.setLayout(new GridBagLayout());
@@ -126,7 +125,7 @@ public class AfficheurTree extends JPanel{
 		DefaultMutableTreeNode categorie = null;
 		DefaultMutableTreeNode groupe = null;
 
-
+		if(plc!=null) {
 		for (int i = 0; i < plc.size(); i++) {
 			categorie = new DefaultMutableTreeNode(plc.get(i));
 			ArrayList<Groupe> lg = plc.get(i).getListegroupe();
@@ -137,6 +136,7 @@ public class AfficheurTree extends JPanel{
 			}
 
 			top.add(categorie);
+		}
 		}
 
 
@@ -154,7 +154,7 @@ public class AfficheurTree extends JPanel{
 	    categorie = new DefaultMutableTreeNode("groupes for Java Implementers");
 	    top.add(categorie); **/
 
-	/*}
+	}
 
 
 
@@ -195,7 +195,7 @@ public class AfficheurTree extends JPanel{
 		groupe = new DefaultMutableTreeNode(new Categorie
 				("The Java Language Specification"));
 		category.add(groupe);
-	}
+	}*/
 
 
-}*/
+}

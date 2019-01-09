@@ -33,6 +33,7 @@ public class Categorie {
 		this.idCategorie=-1;
 		this.nom=nom;
 		Categorie.ListeCateg.add(this);
+		
 	}
 
 	public Categorie(String nom, ArrayList<Groupe> listGroupe) {
@@ -256,8 +257,10 @@ public class Categorie {
 	 */
 	public void save() {
 		//save de la liste de groupe
+		if(this.listGroupe!=null) {
 		for (int i = 0; i < this.listGroupe.size (); i++) {
 			this.listGroupe.get(i).save();
+		}
 		}
 		//save ou update de la categorie
 		if(this.idCategorie==-1) {
@@ -266,6 +269,7 @@ public class Categorie {
 		else {
 			this.update();
 		}
+		
 	}
 
 	/**
@@ -308,6 +312,22 @@ public class Categorie {
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
+	}
+	
+	public void ajouterGroupe(Groupe g) {
+		GroupeCategorie.Ajouter(g.getIdGroupe(), this.getIdCategorie());
+	}
+	
+	public ArrayList<Groupe> getListegroupe(){
+		try {
+		return GroupeCategorie.listGroupePourCategorie(this.getIdCategorie());
+		}
+		catch(Exception e) {
+			
+		}
+		
+		return null;
+		
 	}
 
 }

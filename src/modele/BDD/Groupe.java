@@ -32,12 +32,14 @@ public class Groupe {
 	public Groupe(String nom) {
 		this.idGroupe=-1;
 		this.nom=nom;
+		
 	}
 
 	public Groupe(String nom, ArrayList<Etudiant> listEtudiant) {
 		this.idGroupe=-1;
 		this.nom=nom;
 		this.listEtudiant=listEtudiant;
+		
 	}
 
 	/**
@@ -177,9 +179,12 @@ public class Groupe {
 	 */
 	public void save() {
 		//save de la liste d etudiant
-		for (int i = 0; i < this.listEtudiant.size (); i++) {
-			this.listEtudiant.get(i).save();
+		if(this.listEtudiant!=null) {
+			for (int i = 0; i < this.listEtudiant.size (); i++) {
+				this.listEtudiant.get(i).save();
+			}
 		}
+
 		//save ou update du groupe
 		if(this.idGroupe==-1) {
 			this.saveNew();
@@ -229,6 +234,24 @@ public class Groupe {
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
+	}
+	
+	public void setListeEtudiants(ArrayList<Etudiant> le) {
+		for (Etudiant etudiant : le) {
+			EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), this.getIdGroupe());
+		}
+	}
+	
+	public ArrayList<Etudiant> getListeEtudiants(){
+		try {
+		return EtudiantGroupe.listEtudiantPourGroupe(this.getIdGroupe());
+		}
+		catch(Exception e) {
+			
+		}
+		
+		return null;
+		
 	}
 
 }

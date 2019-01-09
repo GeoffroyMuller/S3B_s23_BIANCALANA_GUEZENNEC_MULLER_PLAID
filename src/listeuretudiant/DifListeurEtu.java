@@ -1,4 +1,4 @@
-/*package listeuretudiant;
+package listeuretudiant;
 
 
 import java.awt.Dimension;
@@ -34,6 +34,7 @@ public class DifListeurEtu extends JSplitPane{
 
 
 	public DifListeurEtu() {
+		/*
 		//Donnée temporaire ppour la démo
 		//Il faudra utiliser le listeur des sauvegardes de catégorie après
 		ArrayList<Categorie> lc = new ArrayList<>();
@@ -76,22 +77,30 @@ public class DifListeurEtu extends JSplitPane{
 		le .add(new Etudiant("Plaid", "Justin"));
 		le .add(new Etudiant("Biancalana", "Théo"));
 		
-
+		*/
 		//---------------
-
-		//constructeurLMC = new ConstructeurListeModelCategorie(lc);
+		ArrayList<Categorie> lc = new ArrayList<>();
+		try {
+		lc= Categorie.listCategorie();
+		}
+		catch(Exception e) {
+			
+		}
 		
-		/**
+		constructeurLMC = new ConstructeurListeModelCategorie(lc);
+		
+		
 		ArrayList<Groupe> lgtest = new ArrayList<Groupe>() ;
-		lgtest.add(g1);
+		/*lgtest.add(g1);
 		lgtest.add(g2);
 		
 		System.out.println("kkkkkkkkl"+lgtest);
 		System.out.println(g1.getListeEtudiants());
 		System.out.println(lgtest.get(0).getListeEtudiants());
-		constructeurDATACOL = new ConstructeurDataEtudiant(lgtest);
 		*/
-	/*	constructeurDATACOL = new ConstructeurDataEtudiant(selectAll(lc));
+		constructeurDATACOL = new ConstructeurDataEtudiant(lgtest);
+		
+		constructeurDATACOL = new ConstructeurDataEtudiant(selectAll(lc));
 		
 		
 		
@@ -119,29 +128,35 @@ public class DifListeurEtu extends JSplitPane{
 
 	public ArrayList<Groupe> selectAll(ArrayList<Categorie> lc){
 		ArrayList<Groupe> lg = new ArrayList<Groupe>();
-
+		
+		if(lc!=null) {
 		for (int i = 0; i < lc.size(); i++) {
 			
 			lg.addAll(lc.get(i).getListegroupe());
 			
-			/**ArrayList<Groupe> tmplg = lc.get(i).getListegroupe();
+			ArrayList<Groupe> tmplg = lc.get(i).getListegroupe();
 			
 			for (int k = 0; k < tmplg.size(); k++) {
 				Groupe gtmp = tmplg.get(k);
 				lg.add(gtmp);
 				
-			}**/
+			}
 
-	/*	}
-
-		for (int i = 0; i < lg.size(); i++) {
-			System.out.println(lg.get(i).getListeEtudiants());
+		}
+		
+		}
+		else {
 			
 		}
+
+		/*for (int i = 0; i < lg.size(); i++) {
+			System.out.println(lg.get(i).getListeEtudiants());
+			
+		}*/
 		return lg;
 	}
 
 
 
 
-}*/
+}

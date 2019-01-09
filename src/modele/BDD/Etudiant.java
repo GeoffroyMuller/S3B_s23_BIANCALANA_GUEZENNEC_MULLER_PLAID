@@ -39,6 +39,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		this.idEtu=-1;
 		this.nom=nom;
 		this.prenom=prenom;
+		
 	}
 	
 	public Etudiant(String nom, String prenom, ArrayList<Particularite> listParticularite) {
@@ -46,6 +47,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		this.nom=nom;
 		this.prenom=prenom;
 		this.listParticularite=listParticularite;
+		
 	}
 
 	/**
@@ -99,6 +101,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		this.prenom=prenom;
 		this.nom=nom;
 		this.idEtu=idEtu;
+		
 	}
 
 
@@ -206,8 +209,10 @@ public class Etudiant implements Comparable<Etudiant> {
 	 */
 	public void save() {
 		//save de la liste de particulariter
+		if(this.listParticularite!=null) {
 		for (int i = 0; i < this.listParticularite.size (); i++) {
 			this.listParticularite.get(i).save();
+		}
 		}
 		//save ou update de l'etudiant
 		if(this.idEtu==-1) {

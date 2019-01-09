@@ -1,4 +1,4 @@
-package modele.BDD;
+package modele.BDD.test;
 
 import static org.junit.Assert.*;
 

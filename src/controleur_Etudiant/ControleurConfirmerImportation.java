@@ -1,4 +1,4 @@
-//package controleur_Etudiant;
+package controleur_Etudiant;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import modele.*;
 import modele.BDD.Groupe;
-//import vue_Etudiant.VueEtudiant;
-//import vue_Etudiant.VueImportation;
+import vue_Etudiant.VueEtudiant;
+import vue_Etudiant.VueImportation;
 
-/*public class ControleurConfirmerImportation extends JButton implements ActionListener{
+public class ControleurConfirmerImportation extends JButton implements ActionListener{
 
-	/*VueImportation vi ;
+	VueImportation vi ;
 	VueEtudiant vetu;
 	
 	public ControleurConfirmerImportation(VueEtudiant ve,VueImportation v) {
@@ -34,4 +34,4 @@ import modele.BDD.Groupe;
 		
 	}
 		
-}*/
+}
