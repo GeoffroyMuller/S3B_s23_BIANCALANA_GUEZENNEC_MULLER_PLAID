@@ -323,4 +323,12 @@ public class Etudiant implements Comparable<Etudiant> {
 		}
 		return 1;
 	}
+	
+	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
+		for (int i = 0; i < listParticularite.size(); i++) {
+			if(listParticularite.get(i).getIdParticularite()!=-1) {
+				ParticulariteEtudiant.Ajouter(listParticularite.get(i).getIdParticularite(), this.idEtu);;
+			}
+		}
+	}
 }

@@ -219,5 +219,13 @@ public class Groupe {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
 	}
+	
+	public void ajouterEtudiant(ArrayList<Etudiant> listEtudiant) {
+		for (int i = 0; i < listEtudiant.size(); i++) {
+			if(listEtudiant.get(i).getIdEtu()!=-1) {
+				EtudiantGroupe.ajouter(listEtudiant.get(i).getIdEtu(), this.idGroupe);;
+			}
+		}
+	}
 
 }
