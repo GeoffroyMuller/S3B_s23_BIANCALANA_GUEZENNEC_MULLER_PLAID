@@ -21,7 +21,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -69,8 +71,9 @@ public class VueExamen extends JPanel{
 	private JPanel contour_affichContour_West = new JPanel();
 
 
-
+	//dev
 	public static PanelDev_Afficheur paneldev = new PanelDev_Afficheur();
+	JScrollPane jscrol_dev;
 	/**
 	 * Constructeur principale
 	 * @throws SQLException 
@@ -195,12 +198,23 @@ public class VueExamen extends JPanel{
 		// ajout de "jps" aux "this"
 		this.jp_all.add(jpp_affichListEtu_marge);
 		
-		jp2_affichListEtu.add(paneldev);
+		devPane();
 	}
 	
 	
 	
+	private void devPane() {
+		//Developpeur a suppr
+		JPanel jp_dev = new JPanel();
+		jp_dev.add(paneldev);
+		jp_dev.setBackground(Color.white);
+		jscrol_dev = new JScrollPane(jp_dev, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		//jscrol_dev.add(paneldev);
+		jscrol_dev.setPreferredSize(new Dimension(300,120));
 	
+		
+		jp2_affichListEtu.add(jscrol_dev);
+	}
 	
 	
 	
@@ -266,13 +280,17 @@ public class VueExamen extends JPanel{
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		//dev
+		jscrol_dev.setPreferredSize(new Dimension(jp2_affichListEtu.getWidth()-5, jp2_affichListEtu.getHeight()-20));//dev
 		paneldev.suppliste();
 		paneldev.ajouterInfo(">nombre etudiant participant:: "+examen.getEtudiants().size());
-		
+		int compte = 1;
 		for(Entry<Etudiant, String> etul : examen.getEtudiants().entrySet()) {
-			paneldev.ajouterInfo(">"+etul.getKey().getNom());
+			paneldev.ajouterInfo(""+compte+" > "+etul.getKey().getNom());
+			compte++;
 		}
 		paneldev.repaint();
+		//findev
 	}
 	
 	public static void main(String arg[]) throws SQLException {

@@ -14,9 +14,8 @@ import javax.swing.JPanel;
  */
 public class PanelDev_Afficheur extends JPanel{
 	private ArrayList<String> listaffiche = new ArrayList<String>();
-	
 	public PanelDev_Afficheur() {
-		this.setPreferredSize(new Dimension(300, 900));
+		this.setPreferredSize(new Dimension(300, 100));
 		this.setBackground(Color.BLACK);
 	}
 	
@@ -38,7 +37,17 @@ public class PanelDev_Afficheur extends JPanel{
 			g.drawString(string, 2, compte);
 			compte+=12;
 		}
+		this.setPreferredSize(new Dimension(300, compte+20));
 		//suppliste();
+		setVisible(false);
 
+		setVisible(true);
+	}
+	
+	public int getlongeur() {
+		return this.getWidth();
+	}
+	public int gethauteur() {
+		return this.getHeight();
 	}
 }
