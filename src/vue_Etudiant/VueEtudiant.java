@@ -1,9 +1,10 @@
-package vue_Etudiant;
+/*package vue_Etudiant;
 import modele.*;
 import controleur.*;
 import controleur_Etudiant.ControleurImportationListe;
 import listeuretudiant.DifListeurEtu;
 import listeuretudiant.PanelListeurEtu;
+import modele.BDD.Groupe;
 
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -132,4 +133,4 @@ public class VueEtudiant extends JPanel implements Observer{
 	
 
 
-}
+}*/

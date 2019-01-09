@@ -1,5 +1,5 @@
 import vue.BarreOutils;
-import vue.VueOngletModules;
+//import vue.VueOngletModules;
 
 
 import javax.swing.*;
@@ -28,14 +28,14 @@ public class Principal {
         BarreOutils barreOutils = new BarreOutils();
         JFrame fenetre = new JFrame("EtuPlacement");
         //Panneau onglets modules
-        VueOngletModules onglets = new VueOngletModules();
+      //  VueOngletModules onglets = new VueOngletModules();
 
         fenetre.getContentPane().setLayout(new BorderLayout());
-        fenetre.getContentPane().add(onglets,BorderLayout.CENTER);
+        //fenetre.getContentPane().add(onglets,BorderLayout.CENTER);
         fenetre.setJMenuBar(barreOutils);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setMinimumSize(new Dimension(1080,550));
-        fenetre.setSize(new Dimension(1080,900));
+        fenetre.setMinimumSize(new Dimension(1155,550));
+        fenetre.setSize(new Dimension(1155,900));
         fenetre.setVisible(true);
     }
 }

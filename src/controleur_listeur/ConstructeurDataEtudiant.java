@@ -1,8 +1,10 @@
-package controleur_listeur;
-
+/*package controleur_listeur;
+/*
 import java.util.ArrayList;
 
 import modele.*;
+import modele.BDD.Etudiant;
+import modele.BDD.Groupe;/*
 
 public class ConstructeurDataEtudiant {
 	private ArrayList<Groupe> lg ;
@@ -16,7 +18,7 @@ public class ConstructeurDataEtudiant {
 		int row;
 		row=0;
 		for (int i = 0; i < lg.size(); i++) {
-			ArrayList<Etudiant> le = lg.get(i).getListeEtudiants(); 
+			ArrayList<Etudiant> le = lg.get(i).getListeEtudiants();
 			System.out.println("fffff"+i);
 			for (int j = 0; j < le.size(); j++) {
 				data[row][0]=le.get(j).getNom();
@@ -38,4 +40,4 @@ public class ConstructeurDataEtudiant {
 		return colo;
 	}
 
-}
+}*/

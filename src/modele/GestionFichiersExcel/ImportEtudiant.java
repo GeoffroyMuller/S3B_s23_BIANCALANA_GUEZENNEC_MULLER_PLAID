@@ -1,7 +1,8 @@
 package modele.GestionFichiersExcel;
 
-import modele.Etudiant;
-import modele.Groupe;
+import modele.BDD.Etudiant;
+import modele.BDD.EtudiantGroupe;
+import modele.BDD.Groupe;
 import org.apache.poi.sl.usermodel.Line;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -83,13 +84,19 @@ public class ImportEtudiant {
             Etudiant etudiant = new Etudiant(ligne.getCell(indexNom).getStringCellValue().toUpperCase(),
                     ligne.getCell(indexPrenom).getStringCellValue().toLowerCase());
 
+            etudiant.save();
+
             String nomDuGroupe = ligne.getCell(indexGroupe).getStringCellValue().toUpperCase();
             int indexOfGroupe = this.groupeExiste(nomDuGroupe);
             if(indexOfGroupe != -1){
-                this.groupeTrouveDansLeDernierFichier.get(indexOfGroupe).ajouterEtudiant(etudiant);
+                int idGroupe =  this.groupeTrouveDansLeDernierFichier.get(indexOfGroupe).getIdGroupe();
+                int idEtudiant = etudiant.getIdEtu();
+                EtudiantGroupe.ajouterEtudiantAUnGroupe(idEtudiant,idGroupe);
             }else{
                 Groupe gr = new Groupe(nomDuGroupe);
-                gr.ajouterEtudiant(etudiant);
+                gr.save();
+                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(),gr.getIdGroupe());
+
                 this.groupeTrouveDansLeDernierFichier.add(gr);
             }
         }catch(NullPointerException e){
@@ -132,9 +139,14 @@ public class ImportEtudiant {
         return nomDesColonnes;
     }
 
+
+
     public void setNomDesColonnes(String[] nomDesColonnes) {
         this.nomDesColonnes = nomDesColonnes;
     }
+
+
+
 
     public ArrayList<Groupe> getGroupeTrouveDansLeDernierFichier() {
         return groupeTrouveDansLeDernierFichier;

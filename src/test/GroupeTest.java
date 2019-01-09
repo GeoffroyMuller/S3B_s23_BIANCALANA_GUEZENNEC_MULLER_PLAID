@@ -5,35 +5,35 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import modele.Etudiant;
+/*import modele.Etudiant;
 import modele.Groupe;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class GroupeTest.
- */
+ *//*
 public class GroupeTest {
-
-	/** The e 1. */
+*/
+	/** The e 1. *//*
 	private Etudiant e1;
 
-	/** The e 2. */
+	/** The e 2. *//*
 	private Etudiant e2;
 
-	/** The e 3. */
+	/** The e 3. *//*
 	private Etudiant e3;
 
-	/** The e 4. */
+	/** The e 4. *//*
 	private Etudiant e4;
 
-	/** The a. */
+	/** The a. *//*
 	private Groupe a;
 
 	/**
 	 * Sets the up.
 	 *
 	 * @throws Exception the exception
-	 */
+	 *//*
 	@Before
 	public void setUp() throws Exception {
 		e1=new Etudiant("Plaid","Justin");
@@ -45,7 +45,7 @@ public class GroupeTest {
 
 	/**
 	 * Test groupe string.
-	 */
+	 *//*
 	@Test
 	public void testGroupeString() {
 		assertEquals("On devrai avoir le nom A","A",a.getGroupe());
@@ -53,7 +53,7 @@ public class GroupeTest {
 
 	/**
 	 * Test ajouter etudiant.
-	 */
+	 *//*
 	@Test
 	public void testAjouterEtudiant() {
 		a.ajouterEtudiant(e2);
@@ -63,7 +63,7 @@ public class GroupeTest {
 
 	/**
 	 * Test supprimmer etudiant.
-	 */
+	 *//*
 	@Test
 	public void testSupprimmerEtudiant() {
 		a.ajouterEtudiant(e2);
@@ -76,7 +76,7 @@ public class GroupeTest {
 
 	/**
 	 * Test trie par nom.
-	 */
+	 *//*
 	@Test
 	public void testTrieParNom() {
 		a.ajouterEtudiant(e3);
@@ -88,7 +88,7 @@ public class GroupeTest {
 
 	/**
 	 * Test trie par prenom.
-	 */
+	 *//*
 	@Test
 	public void testTrieParPrenom() {
 		a.ajouterEtudiant(e3);
@@ -100,7 +100,7 @@ public class GroupeTest {
 
 	/**
 	 * Etudiant dedans.
-	 */
+	 *//*
 	@Test
 	public void etudiantDedans() {
 		a.ajouterEtudiant(e3);
@@ -109,5 +109,5 @@ public class GroupeTest {
 		assertEquals("il devrais etre dedans",true,this.a.etudiantDedans(e1));
 	}
 
-}
+}*/
 

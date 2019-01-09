@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 public class PanelListeurEtu extends JPanel{
 	
-	DifListeurEtu	dls;
+/*	DifListeurEtu	dls;
 	
 	public PanelListeurEtu() {
 		
@@ -34,6 +34,6 @@ public class PanelListeurEtu extends JPanel{
         this.add(dls,gbc);
 		
 		
-	}
+	}*/
 
 }
