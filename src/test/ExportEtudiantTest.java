@@ -85,7 +85,8 @@ public class ExportEtudiantTest {
             }
 
             //On génére des étudians
-            ImportEtudiant importEtudiant = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1");
+            Categorie categorie = new Categorie("Annee 1");
+            ImportEtudiant importEtudiant = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1",categorie);
 
             ArrayList<Groupe> groupes = Groupe.listGroupe();
 

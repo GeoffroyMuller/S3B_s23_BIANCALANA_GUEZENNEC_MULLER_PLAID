@@ -25,7 +25,9 @@ public class ImportEtudiantTest {
             Etudiant.createTable();
             ParticulariteEtudiant.createTable();
             TypePlace.createTable();
+            Categorie.createTable();
             Groupe.createTable();
+            GroupeCategorie.createTable();
             EtudiantGroupe.createTable();
             Place.createTable();
             Salle.createTable();
@@ -38,7 +40,11 @@ public class ImportEtudiantTest {
 
     @Test
     public void testConstructeur(){
-        ImportEtudiant test = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1");
+
+        Categorie categorie = new Categorie("Annee 1");
+        categorie.save();
+
+        ImportEtudiant test = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1",categorie);
 
         /*assertTrue(test.getGroupeTrouveDansLeDernierFichier().size()==3);
         assertEquals("Le nom de l'etudiant du groupe A devrait être Test1","TEST1",test.getGroupeTrouveDansLeDernierFichier().get(0).getListeEtudiants().get(0).getNom());
