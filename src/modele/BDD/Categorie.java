@@ -231,7 +231,7 @@ public class Categorie {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Categorie> res = null;
+		ArrayList<Categorie> res = new ArrayList<Categorie>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resId = rs.getInt("idCategorie");

@@ -72,18 +72,18 @@ public class VueExamen extends JPanel{
 	 * Constructeur principale
 	 * @throws SQLException 
 	 */
-	public VueExamen(){
+	public VueExamen() throws SQLException{
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
 		examen = new Examen();
-		testlisteur();
-		try {
+		//testlisteur();
+		//try {
 			jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie());	
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");
 			jp2_creation = new VueCreation(controleur_Exam, new ArrayList<Categorie>());
-		}
+		}*/
 		this.setBackground(new Color(138, 138, 138));
 		jp_all.setBackground(new Color(138, 138, 138));
 		creerZoneCreation();
@@ -98,23 +98,27 @@ public class VueExamen extends JPanel{
 		ArrayList<Categorie> listcateg = new ArrayList<>();
 		ArrayList<Groupe> gl1 = new ArrayList<Groupe>();
 		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
+		
 		
 		gl2.add(new Groupe("groupe2 A"));
 		gl2.add(new Groupe("groupe2 B"));
-		Categorie c1 = new Categorie("Année 1", gl1);
-		Categorie c2 = new Categorie("Année 2", gl2);
+		Categorie c1 = new Categorie("Année 1");
+		Categorie c2 = new Categorie("Année 2");
 		listcateg.add(c1);
 		listcateg.add(c2);
+		c1.save();
+		c2.save();
+		Groupe g1 = new Groupe("groupe a");
+		Groupe g2 = new Groupe("groupe b");
+		Groupe g3 = new Groupe("groupe c");
+		Groupe g4 = new Groupe("groupe d");
+		Groupe g5 = new Groupe("groupe e");
+		g1.save();
+		g2.save();
+		g3.save();
+		g4.save();
+		g5.save();
+		
 		
 	}
 	
@@ -244,7 +248,7 @@ public class VueExamen extends JPanel{
 		paneldev.ajouterInfo("> mettre a This w: 1138 pour minimal");
 	}
 	
-	public static void main(String arg[]) {
+	public static void main(String arg[]) throws SQLException {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
