@@ -3,6 +3,7 @@ package test;
 import modele.BDD.*;
 import modele.Examen;
 import modele.GestionFichiersExcel.ExportEtudiant;
+import modele.GestionFichiersExcel.ImportEtudiant;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -16,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -82,43 +84,19 @@ public class ExportEtudiantTest {
                 }
             }
 
-            //On génére des étudiant du groupe A
-            Groupe groupeA = new Groupe("A");
-            groupeA.save();
+            //On génére des étudians
+            ImportEtudiant importEtudiant = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1");
 
-            for(int i = 0; i < 25;i++){
-                Etudiant etudiant = new Etudiant("A","A");
-                etudiant.save();
-                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeA.getIdGroupe());
-            }
-
-            //On génére des étudiant du groupe B
-            Groupe groupeB = new Groupe("B");
-            groupeB.save();
-
-            for(int i = 0; i < 25;i++){
-                Etudiant etudiant = new Etudiant("B","B");
-                etudiant.save();
-                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeB.getIdGroupe());
-            }
-
-            //On génére des étudiant du groupe C
-            Groupe groupeC = new Groupe("C");
-            groupeC.save();
-            for(int i = 0; i < 25;i++){
-                Etudiant etudiant = new Etudiant("C","C");
-                etudiant.save();
-                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeC.getIdGroupe());
-            }
-
+            ArrayList<Groupe> groupes = Groupe.listGroupe();
 
             examen = new Examen();
 
             salle.getTableauPlaces(salle.getIdSalle());
             examen.ajouterSalle(salle);
-            examen.ajouterGroupe(groupeA);
-            examen.ajouterGroupe(groupeB);
-            examen.ajouterGroupe(groupeC);
+            for(Groupe groupe : groupes){
+                examen.ajouterGroupe(groupe);
+            }
+
             examen.genererUnPlacement();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -87,7 +87,9 @@ public class ImportEtudiant {
             etudiant.save();
 
             String nomDuGroupe = ligne.getCell(indexGroupe).getStringCellValue().toUpperCase();
+
             int indexOfGroupe = this.groupeExiste(nomDuGroupe);
+
             if(indexOfGroupe != -1){
                 int idGroupe =  this.groupeTrouveDansLeDernierFichier.get(indexOfGroupe).getIdGroupe();
                 int idEtudiant = etudiant.getIdEtu();
