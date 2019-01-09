@@ -314,7 +314,7 @@ public class Categorie {
 	public void ajouterGroupe(ArrayList<Groupe> listGroupe) {
 		for (int i = 0; i < listGroupe.size(); i++) {
 			if(listGroupe.get(i).getIdGroupe()!=-1) {
-				GroupeCategorie.Ajouter(listGroupe.get(i).getIdGroupe(), this.idCategorie);
+				GroupeCategorie.ajouterGroupeAUneCategorie(listGroupe.get(i).getIdGroupe(), this.idCategorie);
 			}
 		}
 	}

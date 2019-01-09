@@ -139,7 +139,7 @@ public class EtudiantGroupe {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Integer> res = null;
+		ArrayList<Integer> res = new ArrayList<Integer>();
 		int i=0;
 		while (rs.next()) {
 			res.add(rs.getInt("idEtu"));
@@ -151,7 +151,7 @@ public class EtudiantGroupe {
 	public static ArrayList<Groupe> listGroupePourEtudiant(int id) throws SQLException {
 		ArrayList<Integer> list = EtudiantGroupe.listGroupePourEtudiantId(id);
 		Connection connect=DBConnection.getConnection();
-		ArrayList<Groupe> res = null;
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
 		for(int i = 0 ; i < list.size(); i++) {
 			String SQLPrep = "SELECT * FROM Groupe WHERE IdGroupe ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);

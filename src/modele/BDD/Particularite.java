@@ -201,7 +201,7 @@ public class Particularite {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Particularite> res = null;
+		ArrayList<Particularite> res = new ArrayList<Particularite>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resPrendreEnComptePlacement = rs.getInt("PRENDREENCOMPTEPLACEMENT");

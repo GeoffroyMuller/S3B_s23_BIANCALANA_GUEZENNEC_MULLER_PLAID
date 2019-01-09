@@ -175,7 +175,7 @@ public class Salle {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Salle> res = null;
+		ArrayList<Salle> res = new ArrayList<Salle>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");

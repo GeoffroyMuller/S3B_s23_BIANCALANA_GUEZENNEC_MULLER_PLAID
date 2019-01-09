@@ -1,5 +1,7 @@
 package modele.BDD.test;
 
+import java.util.ArrayList;
+
 import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
 import modele.BDD.EtudiantGroupe;
@@ -28,6 +30,7 @@ public class Reset {
 		Place.deleteTable();
 		Salle.deleteTable();
 		TypePlace.deleteTable();
+		System.out.println("Suppresion faite");
 		
 		Particularite.createTable();
 		Categorie.createTable();
@@ -39,7 +42,10 @@ public class Reset {
 		Place.createTable();
 		Salle.createTable();
 		TypePlace.createTable();
-		System.out.println("coucou");
+		System.out.println("création des table réaliser");
+		
+		
+		
 	}
 
 }

@@ -97,7 +97,7 @@ public class ParticulariteEtudiant {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Integer> res = null;
+		ArrayList<Integer> res = new ArrayList<Integer>();
 		int i=0;
 		while (rs.next()) {
 			res.add(rs.getInt("idEtudiant"));
@@ -109,7 +109,7 @@ public class ParticulariteEtudiant {
 	public static ArrayList<Etudiant> listEtudiantPourParticularite(int id) throws SQLException {
 		ArrayList<Integer> list = ParticulariteEtudiant.listEtudiantPourParticulariteId(id);
 		Connection connect=DBConnection.getConnection();
-		ArrayList<Etudiant> res = null;
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		for(int i = 0 ; i < list.size(); i++) {
 			String SQLPrep = "SELECT * FROM Etudiant WHERE IdEtu ='"+list.get(i)+"';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
@@ -127,7 +127,7 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
-	public static void Ajouter(int idParticularite, int idEtudiant) {
+	public static void ajouterParticulariteAUnEtudiant(int idParticularite, int idEtudiant) {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "INSERT INTO ParticulariteEtudiant (`IdParticularite`, `IdEtudiant`) VALUES" + 
