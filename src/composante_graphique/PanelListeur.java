@@ -141,7 +141,7 @@ public class PanelListeur extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*10), (int)(Math.random()*50)));
-		g.fillRect(0, 10, 10, 10);
+		//g.fillRect(0, 10, 10, 10);
 		jp_categorie.setPreferredSize(new Dimension(400, 30));
 		jp_all.setVisible(false);
 

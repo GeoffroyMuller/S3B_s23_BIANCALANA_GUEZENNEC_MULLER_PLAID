@@ -23,7 +23,7 @@ public class VueGroupeParticipant extends JPanel{
 
 	private Listeur listeur;
 	private GridBagConstraints gbc;
-	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 
+	private JLabel jl_grpParticip = new JLabel("   Groupe Participant"); 
 
 	public VueGroupeParticipant(ControleurExamen ctrlexamp, ArrayList<Categorie> listecateg) {
 		controleur_Exam = ctrlexamp;
