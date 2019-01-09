@@ -29,6 +29,7 @@ import controleur_Examen.ControleurExamen;
 
 
 import modele.BDD.Categorie;
+import modele.BDD.Etudiant;
 import modele.BDD.Groupe;
 
 
@@ -40,7 +41,7 @@ import vue.BarreOutils;
 public class VueExamen extends JPanel{
 
 	private Examen examen;
-	private ControleurExamen controleur_Exam = new ControleurExamen();
+	private ControleurExamen controleur_Exam;
 
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
@@ -73,9 +74,11 @@ public class VueExamen extends JPanel{
 	 * @throws SQLException 
 	 */
 	public VueExamen() throws SQLException{
+		examen = new Examen();
+		controleur_Exam = new ControleurExamen(examen);
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
-		examen = new Examen();
+		
 		//testlisteur();
 		//try {
 			jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie());	
@@ -99,9 +102,6 @@ public class VueExamen extends JPanel{
 		ArrayList<Groupe> gl1 = new ArrayList<Groupe>();
 		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
 		
-		
-		gl2.add(new Groupe("groupe2 A"));
-		gl2.add(new Groupe("groupe2 B"));
 		Categorie c1 = new Categorie("Année 1");
 		Categorie c2 = new Categorie("Année 2");
 		listcateg.add(c1);
@@ -119,6 +119,27 @@ public class VueExamen extends JPanel{
 		g4.save();
 		g5.save();
 		
+		gl1.add(g1);
+		gl1.add(g2);
+		gl1.add(g3);
+		
+		gl2.add(g4);
+		gl2.add(g5);
+		c1.ajouterGroupe(gl1);
+		c2.ajouterGroupe(gl2);
+		
+		Etudiant e1 = new Etudiant("nna", "poilon");
+		Etudiant e2 = new Etudiant("jee", "galo");
+		Etudiant e3 = new Etudiant("gounalou", "lucas");
+		
+		e1.save();
+		e2.save();
+		e3.save();
+		ArrayList<Etudiant> listetu = new ArrayList<>();
+		listetu.add(e1);
+		listetu.add(e2);
+		listetu.add(e3);
+		g1.ajouterEtudiant(listetu);
 		
 	}
 	

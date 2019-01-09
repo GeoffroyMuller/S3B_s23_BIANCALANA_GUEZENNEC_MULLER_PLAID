@@ -31,7 +31,7 @@ public class VueGroupeParticipant extends JPanel{
 
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
-		listeur = new Listeur(listecateg);
+		listeur = new Listeur(listecateg, ctrlexamp);
 		creerZoneGroupeParticipant();
 	}
 
@@ -64,7 +64,7 @@ public class VueGroupeParticipant extends JPanel{
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setMinimumSize(new Dimension(500,100));
 
-		VueGroupeParticipant vuec = new VueGroupeParticipant(new ControleurExamen(), new ArrayList<Categorie>());
+		VueGroupeParticipant vuec = new VueGroupeParticipant(new ControleurExamen(new Examen()), new ArrayList<Categorie>());
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 

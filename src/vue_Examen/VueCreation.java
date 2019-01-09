@@ -89,7 +89,7 @@ public class VueCreation extends JPanel{
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setMinimumSize(new Dimension(500,100));
 
-		VueCreation vuec = new VueCreation(new ControleurExamen(), new ArrayList<Categorie>());
+		VueCreation vuec = new VueCreation(new ControleurExamen(new Examen()), new ArrayList<Categorie>());
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 
