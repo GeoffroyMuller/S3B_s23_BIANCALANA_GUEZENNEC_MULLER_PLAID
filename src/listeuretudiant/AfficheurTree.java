@@ -106,7 +106,7 @@ public class AfficheurTree extends JPanel{
 				}
 				if(userObject instanceof Categorie) {
 
-					for (Groupe g :((Categorie)(userObject)).getListegroupe()) {
+					for (Groupe g :((Categorie)(userObject)).getListGroupe()) {
 						lg.add(g);
 					}
 				}
@@ -128,7 +128,7 @@ public class AfficheurTree extends JPanel{
 		if(plc!=null) {
 		for (int i = 0; i < plc.size(); i++) {
 			categorie = new DefaultMutableTreeNode(plc.get(i));
-			ArrayList<Groupe> lg = plc.get(i).getListegroupe();
+			ArrayList<Groupe> lg = plc.get(i).getListGroupe();
 			for (int j = 0; j < lg.size(); j++) {
 				groupe = new DefaultMutableTreeNode(lg.get(j));
 

@@ -43,14 +43,14 @@ public class Reset {
 		Salle.createTable();
 		TypePlace.createTable();
 		System.out.println("Création ok");
+
 		System.out.println("Jeu de données en cours");
 		
-<<<<<<< HEAD
+
 		ImportEtudiant i = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1",new Categorie("Categorie Test"));
-=======
-	//	ImportEtudiant i = new ImportEtudiant("fichierPourTest\\JeuDonnee.xlsx","Feuil1");
->>>>>>> ecf28c5fdbc16e3dc417a3f21b275b84fa3eca5e
+
 		System.out.println("Jeu de données ok");
+
 	}
 	public static void main(String[] args) {
 		Reset.reset();
