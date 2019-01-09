@@ -20,9 +20,8 @@ public class GroupeCategorie {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`GroupeCategorie` "
-					+ "( `idGroupe` INT(11) NOT NULL , `idCategorie` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idGroupe`,`idCategorie`)) ENGINE = InnoDB;";
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`GroupeCategorie` ( `idGroupe` INT(11) NOT NULL , `idCategorie` INT(11) NOT NULL , PRIMARY KEY (`idGroupe`,`idCategorie`)) ENGINE = InnoDB;";
 			
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
