@@ -39,6 +39,7 @@ public class Reset {
 		Place.createTable();
 		Salle.createTable();
 		TypePlace.createTable();
+		System.out.println("coucou");
 	}
 
 }
