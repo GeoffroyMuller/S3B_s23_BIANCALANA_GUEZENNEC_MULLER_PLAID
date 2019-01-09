@@ -9,15 +9,17 @@ import vue_Etudiant.vueCreationCateg;
 
 public class ControleurCréerNouvelleCateg extends JButton implements ActionListener{
 	vueCreationCateg vcc ;
+	ControleurListeDeroulanteCateg cldc;
 	
-	public ControleurCréerNouvelleCateg() {
+	public ControleurCréerNouvelleCateg(ControleurListeDeroulanteCateg pcldc) {
 		this.setText("nouvelle catégorie");
+		cldc=pcldc;
 		this.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		vcc = new vueCreationCateg();
+		vcc = new vueCreationCateg(cldc);
 		
 	}
 	

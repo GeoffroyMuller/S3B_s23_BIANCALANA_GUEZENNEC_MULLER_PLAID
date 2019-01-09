@@ -15,6 +15,7 @@ import javax.swing.border.Border;
 
 
 import controleur_listeur.ConstructeurListeModelCategorie;
+import controleur_listeur.ListenerDeRefresh;
 import controleur_listeur.ConstructeurDataEtudiant;
 import modele.*;
 import modele.BDD.Categorie;
@@ -34,51 +35,7 @@ public class DifListeurEtu extends JSplitPane{
 
 
 	public DifListeurEtu() {
-		/*
-		//Donnée temporaire ppour la démo
-		//Il faudra utiliser le listeur des sauvegardes de catégorie après
-		ArrayList<Categorie> lc = new ArrayList<>();
-		lc.add(new Categorie("sansgroupe1"));
-		lc.add(new Categorie("Avecgroupe1"));
-		lc.add(new Categorie("sansgroupe2"));
-		lc.add(new Categorie("Avecgroupe2"));
 
-
-		ArrayList<Etudiant> les4 = new ArrayList<>();
-		les4 .add(new Etudiant("Muller", "Geoff"));
-		les4 .add(new Etudiant("Guezennec", "Lucas"));
-		les4 .add(new Etudiant("Plaid", "Justin"));
-		les4 .add(new Etudiant("Biancalana", "Théo"));
-
-		ArrayList<Etudiant> les2 = new ArrayList<>();
-		les2 .add(new Etudiant("Viard", "Hugo"));
-		les2 .add(new Etudiant("Jhon", "Jhonny"));
-
-
-		Groupe g1 = new Groupe("A");
-		g1.setListeEtudiants(les4);
-
-
-		Groupe g2 = new Groupe("B");
-		g2.setListeEtudiants(les2);
-
-
-		lc.get(1).ajouterGroupe(g1);
-		
-		lc.get(1).ajouterGroupe(g2);
-		
-
-		
-		lc.get(3).ajouterGroupe(g1);
-
-		ArrayList<Etudiant> le = new ArrayList<>();
-		le .add(new Etudiant("Muller", "Geoff"));
-		le .add(new Etudiant("Guezennec", "Lucas"));
-		le .add(new Etudiant("Plaid", "Justin"));
-		le .add(new Etudiant("Biancalana", "Théo"));
-		
-		*/
-		//---------------
 		ArrayList<Categorie> lc = new ArrayList<>();
 		try {
 		lc= Categorie.getlistCategorie();
@@ -89,27 +46,7 @@ public class DifListeurEtu extends JSplitPane{
 		
 		constructeurLMC = new ConstructeurListeModelCategorie(lc);
 		
-		
-		//ArrayList<Groupe> lgtest = new ArrayList<Groupe>() ;
-		/*lgtest.add(g1);
-		lgtest.add(g2);
-		
-		System.out.println("kkkkkkkkl"+lgtest);
-		System.out.println(g1.getListeEtudiants());
-		System.out.println(lgtest.get(0).getListeEtudiants());
-		*/
-		
-		ArrayList<Groupe> lg;
-		
-		lg= new ArrayList<>();
-		
-		try {
-		lg = Groupe.listGroupe();
-		}
-		catch(Exception e) {
-			System.out.println("erreur datacol liste groupeS");
-		}
-		constructeurDATACOL = new ConstructeurDataEtudiant(lg);
+		ListenerDeRefresh ldf = new ListenerDeRefresh(this);
 		
 		constructeurDATACOL = new ConstructeurDataEtudiant(selectAll(lc));
 		
@@ -167,6 +104,33 @@ public class DifListeurEtu extends JSplitPane{
 			
 		}*/
 		return lg;
+	}
+	
+	public void refresh() {
+		ArrayList<Categorie> lc = new ArrayList<>();
+		try {
+		lc= Categorie.getlistCategorie();
+		}
+		catch(Exception e) {
+			
+		}
+		
+		constructeurLMC = new ConstructeurListeModelCategorie(lc);
+		
+		
+		constructeurDATACOL = new ConstructeurDataEtudiant(selectAll(lc));
+		
+		
+		
+		afftree = new AfficheurTree(lc,this);
+		jspLeft = new JScrollPane( afftree);
+
+		tabledata = new JTable(constructeurDATACOL.genererDataLigneEtu(),constructeurDATACOL.GenereColonneEtu());
+		jspRight = new JScrollPane(tabledata);			
+		this.setLeftComponent(new PanelGauche(jspLeft));
+		jspLeft.setMinimumSize(new Dimension(250, 500));
+		this.setRightComponent(jspRight);
+		this.setDividerSize(100);
 	}
 
 

@@ -11,13 +11,14 @@ import javax.swing.JTextField;
 
 import controleur_Etudiant.ControleurBouttonConfCreationCateg;
 import controleur_Etudiant.ControleurCréerNouvelleCateg;
+import controleur_Etudiant.ControleurListeDeroulanteCateg;
 
 public class vueCreationCateg extends JFrame{
 	
 	JTextField nomCateg;
 	ControleurBouttonConfCreationCateg ccc;
 	
-	public vueCreationCateg() {
+	public vueCreationCateg(ControleurListeDeroulanteCateg pcldg) {
 		
 		
         this.setLayout(new GridBagLayout());
@@ -40,7 +41,7 @@ public class vueCreationCateg extends JFrame{
 		this.add(nomCateg,gbc);
 		
 		gbc.gridy=1;
-		ccc = new ControleurBouttonConfCreationCateg(nomCateg,this);
+		ccc = new ControleurBouttonConfCreationCateg(nomCateg,this,pcldg);
 		this.add(ccc,gbc);
 		
 		

@@ -69,7 +69,7 @@ public class VueEtudiant extends JPanel implements Observer{
 		topBarre.setBackground(Color.orange);
 		topBarre.add(bouttonImport,gbc);
 		
-		
+		/*
 		gbc.gridx=1;
 		gbc.weightx=2;
 		topBarre.add(cheminFichier,gbc);
@@ -78,7 +78,7 @@ public class VueEtudiant extends JPanel implements Observer{
 		gbc.weightx=2;
 		gbc.gridwidth=GridBagConstraints.REMAINDER;
 		topBarre.add(listeCateg,gbc);
-		
+		*/
 		
 		//GridBagConstraints(int gridx, int gridy, int gridwidth, int gridheight, double weightx,
 		//double weighty, int anchor, int fill, Insets insets, int ipadx, int ipady)

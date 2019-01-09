@@ -8,11 +8,14 @@ import javax.swing.JTextField;
 
 import controleur_Etudiant.ControleurConfirmerImportation;
 import controleur_Etudiant.ControleurCréerNouvelleCateg;
+import controleur_Etudiant.ControleurListeDeroulanteCateg;
+import modele.BDD.Categorie;
 
 public class VueImportation extends JFrame{
 	
 	ControleurConfirmerImportation cci;
 	ControleurCréerNouvelleCateg ccnc;
+	ControleurListeDeroulanteCateg cldg;
 	
 	JTextField cheminFichier;
 	JTextField nomListe ;
@@ -25,9 +28,9 @@ public class VueImportation extends JFrame{
 
 		
 		cheminFichier = new JTextField(" ");
-		
+		 cldg = new ControleurListeDeroulanteCateg();
         cci = new ControleurConfirmerImportation(ve,this);
-        ccnc = new ControleurCréerNouvelleCateg();
+        ccnc = new ControleurCréerNouvelleCateg(cldg );
         
         
       //  JPanel p = new JPanel();
@@ -55,6 +58,10 @@ public class VueImportation extends JFrame{
         gbc.gridy=3;
         this.add(ccnc, gbc);
         
+        gbc.gridy=4;
+        cldg = new ControleurListeDeroulanteCateg();
+        this.add(cldg,gbc);
+        
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setSize(new Dimension(600,600));
         this.setVisible(true);
@@ -74,6 +81,14 @@ public class VueImportation extends JFrame{
 	
 	public void settextPath(String s) {
 		this.cheminFichier.setText(s);
+	}
+	
+	public String getpath() {
+		return this.cheminFichier.getText();
+	}
+	
+	public Categorie getCategSelectioner() {
+		return this.cldg.getSelectedCategorie();
 	}
 	
 	
