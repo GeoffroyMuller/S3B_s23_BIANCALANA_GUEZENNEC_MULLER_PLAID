@@ -80,9 +80,9 @@ public class Groupe {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Groupe` "
-					+ "( `idGroupe` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL, "
-					+ "PRIMARY KEY (`idGroupe`)) ENGINE = InnoDB";
+
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Groupe` ( `idGroupe` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL, PRIMARY KEY (`idGroupe`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
@@ -176,10 +176,6 @@ public class Groupe {
 	 * Save.
 	 */
 	public void save() {
-		//save de la liste d etudiant
-		for (int i = 0; i < this.listEtudiant.size (); i++) {
-			this.listEtudiant.get(i).save();
-		}
 		//save ou update du groupe
 		if(this.idGroupe==-1) {
 			this.saveNew();

@@ -116,7 +116,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
      * Méthode permettant de créer le fichier excel associant chaque étudiant à sa place ainsi que les feuilles de signature présent dans ce même Excel
      * @param placement
      */
-    public void exporterPlacement(HashMap<modele.BDD.Salle, HashMap<Place, Etudiant>> placement){
+    public void exporterPlacement(HashMap<modele.BDD.Salle, HashMap<Place, Etudiant>> placement) {
         //Création du fichier et des feuilles
         ArrayList<String> nomFeuille = new ArrayList<String>();
         nomFeuille.add(ExportEtudiant.nomFeuilleEtudiantPlace);
@@ -124,13 +124,18 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
             nomFeuille.add(ExportEtudiant.nomFeuilleSignature+"_"+salle.getNom());
         }
 
-        XSSFWorkbook wb = creerDocumentVide((String[])nomFeuille.toArray());
+        String[] tabNomFeuille = new String[nomFeuille.size()];
+        tabNomFeuille = nomFeuille.toArray(tabNomFeuille);
+
+        XSSFWorkbook wb = creerDocumentVide(tabNomFeuille);
 
         //Debut par association place=>Etudiant
-        Sheet feuille = wb.getSheet(ExportEtudiant.nomFeuilleEtudiantPlace);
+        Sheet feuillePlacement = wb.getSheet(ExportEtudiant.nomFeuilleEtudiantPlace);
+
 
         //Création de la premiére ligne
-        Row row = feuille.createRow((short)0);
+        Row row = feuillePlacement.createRow((short)0);
+
 
 
         //Application du style
@@ -138,16 +143,54 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
         //Ajout des cellules
         String[] valeurs = {"GRP","NOM","PRENOM","SALLE","RANG","PLACE"};
-        row = creerCellules(row,5,valeurs,cellStyle);
+        row = creerCellules(row,6,valeurs,cellStyle);
 
         //Ajout des étudiants a la feuille Excel
-
+        int nbLignePlace = 1;
+        int nbLigneSignature = 1;
         for(Salle salle : placement.keySet()){
+
+            Sheet feuilleSalle = wb.getSheet(ExportEtudiant.nomFeuilleSignature+"_"+salle.getNom());
+            Row rowFeuilleSalle = feuilleSalle.createRow(0);
+            String[] valeursPremiereLigneSalle = {"GRP","NOM","PRENOM","SALLE","RANG","PLACE","SIGNATURE"};
+            rowFeuilleSalle = creerCellules(rowFeuilleSalle,7,valeursPremiereLigneSalle,cellStyle);
+
             for(Place place : placement.get(salle).keySet()){
+                //Informations étudiant
                 String nom = placement.get(salle).get(place).getNom();
                 String prenom = placement.get(salle).get(place).getPrenom();
                 String groupe = placement.get(salle).get(place).getGroupe();
+
+                //Information place
+                String rang = place.getI()+"";
+                String emplacement = place.getJ()+"";
+
+                //Ajout de la ligne a la feuille de placement
+                Row ligne = feuillePlacement.createRow(nbLignePlace);
+                String[] valeursLigne={groupe,nom,prenom,salle.getNom(),rang,emplacement};
+                ligne =  creerCellules(ligne,6,valeursLigne,cellStyle);
+
+                //Ajout de la ligne à la feuille de signature
+                ligne = feuilleSalle.createRow(nbLigneSignature);
+                ligne = creerCellules(ligne,7,valeursLigne,cellStyle);
+
+
+
+                nbLignePlace++;
+                nbLigneSignature++;
             }
+            nbLigneSignature = 0;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        ExportEtudiant.nomDuDernierFichier = "fichierPourTest/placement_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx";
+        FileOutputStream fileOut = null;
+        try {
+            fileOut = new FileOutputStream("fichierPourTest/placement_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx");
+            wb.write(fileOut);
+            fileOut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
 
@@ -160,7 +203,12 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         for(int i = 0; i < nb; i++){
             Cell cellule = row.createCell(i);
             cellule.setCellStyle(cellStyle);
-            cellule.setCellValue(valeur[i]);
+
+            try{
+                cellule.setCellValue(valeur[i]);
+            }catch(IndexOutOfBoundsException e){
+                cellule.setCellValue("");
+            }
 
         }
         return row;

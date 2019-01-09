@@ -20,11 +20,8 @@ public class ParticulariteEtudiant {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`particulariteEtudiant` "
-					+ "( `idParticularite` INT(11) NOT NULL , `idEtu` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idParticularite`,`idEtu`), "
-					+ "FOREIGN KEY (idParticularite) REFERENCES particularite (idParticularite), "
-					+ "FOREIGN KEY (idEtu) REFERENCES Etudiant (idEtu)) ENGINE = InnoDB";
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`particulariteEtudiant` ( `idParticularite` INT(11) NOT NULL , `idEtu` INT(11) NOT NULL , PRIMARY KEY (`idParticularite`,`idEtu`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}

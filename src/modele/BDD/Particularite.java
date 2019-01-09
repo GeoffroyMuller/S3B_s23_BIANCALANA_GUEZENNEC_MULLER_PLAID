@@ -132,10 +132,9 @@ public class Particularite {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`particularite` "
-					+ "( `idParticularite` INT(11) NOT NULL AUTO_INCREMENT "
-					+ ", `nom` VARCHAR(40) NOT NULL , `PrendreEnComptePlacement` INT(1) NOT NULL , "
-					+ "PRIMARY KEY (`idParticularite`)) ENGINE = InnoDB";
+			String nomBase = DBConnection.getNomDB();
+
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`particularite` ( `idParticularite` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL , `PrendreEnComptePlacement` BIT NOT NULL , PRIMARY KEY (`idParticularite`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}

@@ -1,9 +1,7 @@
 package test;
 
-import modele.BDD.DBConnection;
-import modele.BDD.Etudiant;
-import modele.BDD.EtudiantGroupe;
-import modele.BDD.Groupe;
+import modele.BDD.*;
+import modele.Examen;
 import modele.GestionFichiersExcel.ExportEtudiant;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -25,6 +23,7 @@ import static org.junit.Assert.*;
 public class ExportEtudiantTest {
 
     private Groupe groupetest;
+    private Examen examen;
 
     @Before
     public void environnementDeTest(){
@@ -32,7 +31,14 @@ public class ExportEtudiantTest {
             DBConnection.setNomDB("etuplacementtest");
             Connection connect= DBConnection.getConnection();
 
+            Particularite.createTable();
             Etudiant.createTable();
+            ParticulariteEtudiant.createTable();
+            TypePlace.createTable();
+            Groupe.createTable();
+            EtudiantGroupe.createTable();
+            Place.createTable();
+            Salle.createTable();
 
 
             groupetest = new Groupe("groupeTest");
@@ -47,16 +53,82 @@ public class ExportEtudiantTest {
             EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiantA.getIdEtu(),groupetest.getIdGroupe());
             EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiantB.getIdEtu(),groupetest.getIdGroupe());
             EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiantC.getIdEtu(),groupetest.getIdGroupe());
+
+
+            //Ajout de salles et d'étudiant pour creer un placement et ainsi pouvoir tester l'export en excel
+            Salle salle = new Salle("Salle_Test2",10,10);
+            salle.save();
+
+
+
+            TypePlace typePlace = new TypePlace("Chaise",1);
+            TypePlace typePlaceAllee = new TypePlace("Allee",0);
+
+            typePlaceAllee.save();
+            typePlace.save();
+
+            int idSalle = salle.getIdSalle();
+
+            for(int i = 0; i < 10;i++){
+                for(int j = 0; j < 10;j++){
+                    if(j == 7 || j == 4){
+                        Place place = new Place(i+""+j,typePlaceAllee.getIdTypePlace(),i,j,0,salle.getIdSalle());
+                        place.save();
+                    }else{
+                        Place place = new Place(i+""+j,typePlace.getIdTypePlace(),i,j,1,salle.getIdSalle());
+                        place.save();
+                    }
+
+                }
+            }
+
+            //On génére des étudiant du groupe A
+            Groupe groupeA = new Groupe("A");
+            groupeA.save();
+
+            for(int i = 0; i < 25;i++){
+                Etudiant etudiant = new Etudiant("A","A");
+                etudiant.save();
+                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeA.getIdGroupe());
+            }
+
+            //On génére des étudiant du groupe B
+            Groupe groupeB = new Groupe("B");
+            groupeB.save();
+
+            for(int i = 0; i < 25;i++){
+                Etudiant etudiant = new Etudiant("B","B");
+                etudiant.save();
+                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeB.getIdGroupe());
+            }
+
+            //On génére des étudiant du groupe C
+            Groupe groupeC = new Groupe("C");
+            groupeC.save();
+            for(int i = 0; i < 25;i++){
+                Etudiant etudiant = new Etudiant("C","C");
+                etudiant.save();
+                EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), groupeC.getIdGroupe());
+            }
+
+
+            examen = new Examen();
+
+            salle.getTableauPlaces(salle.getIdSalle());
+            examen.ajouterSalle(salle);
+            examen.ajouterGroupe(groupeA);
+            examen.ajouterGroupe(groupeB);
+            examen.ajouterGroupe(groupeC);
+            examen.genererUnPlacement();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @After
     public void detruireEnvironnementTest(){
         Etudiant.deleteTable();
+        Salle.deleteTable();
     }
 
     /**
@@ -95,6 +167,47 @@ public class ExportEtudiantTest {
         }
 
 
+
+
+    }
+
+
+    /**
+     * Test la méthode ExporterPlacement
+     */
+    @Test
+    public void testExporterPlacement(){
+        ExportEtudiant export = new ExportEtudiant();
+
+        export.exporterPlacement(examen.getPlacement());
+
+        try {
+            FileInputStream fichier = new FileInputStream(ExportEtudiant.nomDuDernierFichier);
+            Workbook workbook = WorkbookFactory.create(fichier);
+            Sheet feuille = workbook.getSheet(ExportEtudiant.nomFeuilleEtudiantPlace);
+
+
+           /* String nomEtudiantA = feuille.getRow(1).getCell(0).getStringCellValue();
+            String nomEtudiantB = feuille.getRow(2).getCell(0).getStringCellValue();
+            String nomEtudiantC = feuille.getRow(3).getCell(0).getStringCellValue();
+
+            String prenomEtudiantA = feuille.getRow(1).getCell(1).getStringCellValue();
+            String prenomEtudiantB = feuille.getRow(2).getCell(1).getStringCellValue();
+            String prenomEtudiantC = feuille.getRow(3).getCell(1).getStringCellValue();
+
+            assertEquals("Le nom devrait être etudiantA","etudiantA",nomEtudiantA);
+            assertEquals("Le nom devrait être etudiantB","etudiantB",nomEtudiantB);
+            assertEquals("Le nom devrait être etudiantB","etudiantC",nomEtudiantC);
+
+            assertEquals("Le prenom devrait être etudiantPrenomA","etudiantPrenomA",prenomEtudiantA);
+            assertEquals("Le prenom devrait être etudiantPrenomB","etudiantPrenomB",prenomEtudiantB);
+            assertEquals("Le prenom devrait être etudiantPrenomC","etudiantPrenomC",prenomEtudiantC);*/
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }

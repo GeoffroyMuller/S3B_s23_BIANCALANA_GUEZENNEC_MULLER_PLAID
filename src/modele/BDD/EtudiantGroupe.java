@@ -1,7 +1,7 @@
 package modele.BDD;
 
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
+//import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,10 +22,13 @@ public class EtudiantGroupe {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`EtudiantGroupe` "
-					+ "( `idEtu` INT(11) NOT NULL , `idGroupe` INT(11) NOT NULL , "
-					+ "PRIMARY KEY (`idEtu`,`idGroupe`)"
-					+ ") ENGINE = InnoDB;";
+
+			String nomBase = DBConnection.getNomDB();
+
+
+
+
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`EtudiantGroupe` ( `idEtu` INT(11) NOT NULL , `idGroupe` INT(11) NOT NULL , PRIMARY KEY (`idEtu`,`idGroupe`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}

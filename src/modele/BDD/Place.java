@@ -242,14 +242,12 @@ public class Place {
 	 */
 	public static void createTable(){
 		try {
+
+
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Place` "
-					+ "( `idPlace` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL,"
-					+ " `IdTypePlace` INT(1) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,"
-					+ "`j` INT(11) NOT NULL,"
-					+ " `idSalle` INT(11) NOT NULL, "
-					+ "PRIMARY KEY (`idPlace`), "
-					+ ") ENGINE = InnoDB";
+
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Place` ( `idPlace` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL,`IdTypePlace` INT(1) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,`j` INT(11) NOT NULL, `idSalle` INT(11) NOT NULL, PRIMARY KEY (`idPlace`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}

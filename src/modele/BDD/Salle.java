@@ -107,10 +107,13 @@ public class Salle {
 	public static void createTable(){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `etuplacement`.`Salle` "
+
+			String nomBase = DBConnection.getNomDB();
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Salle` "
 					+ "( `idSalle` INT(11) NOT NULL AUTO_INCREMENT , `nbCaseHauteur` INT(11) NOT NULL,"
 					+ " `nbCaseLargeur` INT(11) NOT NULL, `nom` VARCHAR(40) NOT NULL, "
 					+ "PRIMARY KEY (`idSalle`)) ENGINE = InnoDB";
+
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}

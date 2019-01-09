@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
-import com.sun.xml.internal.ws.api.Component;
+//import com.sun.xml.internal.ws.api.Component;
 
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;

@@ -1,6 +1,7 @@
 package modele.BDD;
 
 
+import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -101,13 +102,16 @@ public class Etudiant implements Comparable<Etudiant> {
 			prep1.execute();
 
 			ResultSet rs = prep1.getResultSet();
+			rs.next();
 			int idGroupe = rs.getInt("idGroupe");
 
-			prep1 = connect.prepareStatement("SELECT * FROM GROUPE WHERE idGroupe=?");
-			prep1.setInt(1,idGroupe);
+			PreparedStatement prep2 = connect.prepareStatement("SELECT * FROM GROUPE WHERE idGroupe=?");
+			prep2.setInt(1,idGroupe);
+			prep2.execute();
 
-			rs = prep1.getResultSet();
-			res = rs.getString("nom");
+			ResultSet rs2 = prep2.getResultSet();
+			rs2.next();
+			res = rs2.getString(2);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -136,6 +140,10 @@ public class Etudiant implements Comparable<Etudiant> {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String nomBase = DBConnection.getNomDB();
+
+
+
+
 			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Etudiant` ( `idEtu` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL , `prenom` VARCHAR(40) NOT NULL , `email` VARCHAR(40), PRIMARY KEY (`idEtu`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -232,10 +240,6 @@ public class Etudiant implements Comparable<Etudiant> {
 	 * Save.
 	 */
 	public void save() {
-		//save de la liste de particulariter
-		for (int i = 0; i < this.listParticularite.size (); i++) {
-			this.listParticularite.get(i).save();
-		}
 		//save ou update de l'etudiant
 		if(this.idEtu==-1) {
 			this.saveNew();
