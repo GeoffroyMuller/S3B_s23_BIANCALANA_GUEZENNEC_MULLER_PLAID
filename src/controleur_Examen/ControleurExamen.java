@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import modele.GestionFichiersExcel.ExportEtudiant;
 import org.apache.poi.ss.formula.eval.BoolEval;
 
 import modele.Examen;
@@ -83,6 +84,10 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+
+				examen.genererUnPlacement();
+				ExportEtudiant exportEtu = new ExportEtudiant();
+				exportEtu.exporterPlacement(examen.getPlacement());
 
 				System.out.println("===Examen creer===");
 				System.out.println(">CtrlExam_jtf_Nom: "+jtf_nom.getText());
