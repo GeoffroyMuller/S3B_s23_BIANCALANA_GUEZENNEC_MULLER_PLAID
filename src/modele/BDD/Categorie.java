@@ -15,16 +15,11 @@ import java.util.ArrayList;
 public class Categorie {
 
 
-	//private static ArrayList<Categorie> ListeCateg = new ArrayList<>();
-
-
 	/** The nom. */
 	private String nom;
 
 	/** The id categorie. */
 	private int idCategorie;
-
-	private ArrayList<Groupe> listGroupe;
 
 	/**
 	 * Instantiates a new categorie.
@@ -34,21 +29,8 @@ public class Categorie {
 	public Categorie(String nom) {
 		this.idCategorie=-1;
 		this.nom=nom;
-
-		//Categorie.ListeCateg.add(this);
-		
-
-
-		//Categorie.ListeCateg.add(this);
-
 	}
 
-	public Categorie(String nom, ArrayList<Groupe> listGroupe) {
-		this.idCategorie=-1;
-		this.nom=nom;
-		this.listGroupe=listGroupe;
-		//Categorie.ListeCateg.add(this);
-	}
 
 
 	/**
@@ -247,14 +229,6 @@ public class Categorie {
 	 * Save.
 	 */
 	public void save() {
-
-		//save de la liste de groupe
-		if(this.listGroupe!=null) {
-		for (int i = 0; i < this.listGroupe.size (); i++) {
-			this.listGroupe.get(i).save();
-		}
-		}
-
 		//save ou update de la categorie
 		if(this.idCategorie==-1) {
 			this.saveNew();

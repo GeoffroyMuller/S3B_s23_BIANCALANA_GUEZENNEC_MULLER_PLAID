@@ -41,15 +41,6 @@ public class Etudiant implements Comparable<Etudiant> {
 		
 	}
 
-	
-	public Etudiant(String nom, String prenom, ArrayList<Particularite> listParticularite) {
-		this.idEtu=-1;
-		this.nom=nom;
-		this.prenom=prenom;
-		
-		
-	}
-
 
 	/**
 	 * Gets the nom.

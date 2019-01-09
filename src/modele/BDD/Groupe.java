@@ -35,14 +35,6 @@ public class Groupe {
 	}
 
 
-	public Groupe(String nom, ArrayList<Etudiant> listEtudiant) {
-		this.idGroupe=-1;
-		this.nom=nom;
-		//this.listEtudiant=listEtudiant;
-		
-	}
-
-
 	/**
 	 * Gets the nom.
 	 *
@@ -85,7 +77,7 @@ public class Groupe {
 			Connection connect=DBConnection.getConnection();
 
 			String nomBase = DBConnection.getNomDB();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Groupe` ( `idGroupe` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL, PRIMARY KEY (`idGroupe`)) ENGINE = InnoDB;";
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Groupe` ( `idGroupe` INT(11) NOT NULL AUTO_INCREMENT, `nom` VARCHAR(40) NOT NULL, PRIMARY KEY (`idGroupe`)) ENGINE = InnoDB;";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}
