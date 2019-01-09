@@ -104,7 +104,7 @@ public class VueExamen extends JPanel{
 		gl2.add(new Groupe("groupe2 A"));
 		gl2.add(new Groupe("groupe2 B"));
 		Categorie c1 = new Categorie("Année 1", gl1);
-		Categorie c2 = new Categorie("Année 2", gl2);	
+		Categorie c2 = new Categorie("Année 2", gl2);
 		listcateg.add(c1);
 		listcateg.add(c2);
 		Categorie.setListeCateg(listcateg);
