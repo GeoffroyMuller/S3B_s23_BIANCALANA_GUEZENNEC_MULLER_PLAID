@@ -22,13 +22,14 @@ public class VueCreation extends JPanel{
 	
 	private VueInfoExamen vue_infoExam;
 	private VueGroupeParticipant vue_grpParticip;
-	private VueSallePriorite vue_sallePrio = new VueSallePriorite();
+	private VueSallePriorite vue_sallePrio;
 	private VueContrainte vue_contrainte = new VueContrainte();
 	private JPanel jp_bouttonexam = new JPanel(new BorderLayout());
 	
 	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecateg) {
 		controleur_Exam = ctrlexamp;
 		vue_infoExam = new VueInfoExamen(controleur_Exam);
+		vue_sallePrio = new VueSallePriorite(controleur_Exam);
 		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, listecateg);
 		this.setBackground(Color.red);
 		creerZoneCreation();
