@@ -22,8 +22,6 @@ public class Groupe {
 	/** The id groupe. */
 	private int idGroupe;
 
-	private ArrayList<Etudiant> listEtudiant;
-
 	/**
 	 * Instantiates a new groupe.
 	 *
@@ -34,11 +32,6 @@ public class Groupe {
 		this.nom=nom;
 	}
 
-	public Groupe(String nom, ArrayList<Etudiant> listEtudiant) {
-		this.idGroupe=-1;
-		this.nom=nom;
-		this.listEtudiant=listEtudiant;
-	}
 
 	/**
 	 * Gets the nom.
@@ -176,10 +169,6 @@ public class Groupe {
 	 * Save.
 	 */
 	public void save() {
-		//save de la liste d etudiant
-		for (int i = 0; i < this.listEtudiant.size (); i++) {
-			this.listEtudiant.get(i).save();
-		}
 		//save ou update du groupe
 		if(this.idGroupe==-1) {
 			this.saveNew();
