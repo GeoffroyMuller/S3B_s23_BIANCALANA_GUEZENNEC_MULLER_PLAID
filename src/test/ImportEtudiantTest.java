@@ -18,7 +18,7 @@ public class ImportEtudiantTest {
     @Before
     public void init(){
         try {
-            DBConnection.setNomDB("etuplacementtest");
+            DBConnection.setNomDB("etuplacement");
             Connection connect= DBConnection.getConnection();
 
             Particularite.createTable();

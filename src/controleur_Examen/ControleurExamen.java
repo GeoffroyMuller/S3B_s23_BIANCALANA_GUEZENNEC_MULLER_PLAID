@@ -21,6 +21,7 @@ import modele.BDD.Groupe;
 public class ControleurExamen {
 
 	private Examen examen;
+	private JButton chsalle;
 
 	private String exam_nom;
 	private String exam_matiere;
@@ -39,6 +40,29 @@ public class ControleurExamen {
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
 		jb_creerExam = new JButton("Créer l'Examen");
+		chsalle = new JButton("Choisir Salle 1 (test)");
+		chsalle.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Salle 1 (test) selectionner");
+				if(chsalle.getText().equals("Ajouter")) {
+					chsalle.setText("Retirer");
+					chsalle.setBackground(Color.gray);
+
+
+
+				
+				}else {
+					if(chsalle.getText().equals("Retirer")) {
+						chsalle.setText("Ajouter");
+						chsalle.setBackground(Color.white);
+						 
+					}
+				}
+			}
+		});
 
 		mapBoutton_groupe = new HashMap<>();
 		/**
@@ -173,6 +197,7 @@ public class ControleurExamen {
 
 		return jbt;
 	}
+	
 
 
 	public JTextField getJtf_nom() {
@@ -192,6 +217,11 @@ public class ControleurExamen {
 
 	public JButton getJb_creerExam() {
 		return jb_creerExam;
+	}
+
+
+	public JButton getChsalle() {
+		return chsalle;
 	}
 
 
