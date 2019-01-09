@@ -140,7 +140,7 @@ public class Groupe {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Groupe> res = null;
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resId = rs.getInt("idGroupe");
@@ -223,7 +223,7 @@ public class Groupe {
 	public void ajouterEtudiant(ArrayList<Etudiant> listEtudiant) {
 		for (int i = 0; i < listEtudiant.size(); i++) {
 			if(listEtudiant.get(i).getIdEtu()!=-1) {
-				EtudiantGroupe.ajouter(listEtudiant.get(i).getIdEtu(), this.idGroupe);;
+				EtudiantGroupe.ajouterEtudiantAUnGroupe(listEtudiant.get(i).getIdEtu(), this.idGroupe);;
 			}
 		}
 	}

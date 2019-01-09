@@ -202,7 +202,7 @@ public class Etudiant implements Comparable<Etudiant> {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Etudiant> res = null;
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			String resPrenom = rs.getString("prenom");
@@ -335,7 +335,7 @@ public class Etudiant implements Comparable<Etudiant> {
 	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
 		for (int i = 0; i < listParticularite.size(); i++) {
 			if(listParticularite.get(i).getIdParticularite()!=-1) {
-				ParticulariteEtudiant.Ajouter(listParticularite.get(i).getIdParticularite(), this.idEtu);;
+				ParticulariteEtudiant.ajouterParticulariteAUnEtudiant(listParticularite.get(i).getIdParticularite(), this.idEtu);;
 			}
 		}
 	}
