@@ -280,5 +280,13 @@ public class Categorie {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
 	}
+	
+	public void ajouterGroupe(ArrayList<Groupe> listGroupe) {
+		for (int i = 0; i < listGroupe.size(); i++) {
+			if(listGroupe.get(i).getIdGroupe()!=-1) {
+				GroupeCategorie.Ajouter(listGroupe.get(i).getIdGroupe(), this.idCategorie);
+			}
+		}
+	}
 
 }
