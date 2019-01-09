@@ -150,7 +150,7 @@ public class Salle {
 	 */
 	public static Salle findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM Salle WHERE IDSalle ='"+id+"';";
+		String SQLPrep = "SELECT * FROM Salle WHERE IdSalle ='"+id+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 		prep1.execute();
 		ResultSet rs = prep1.getResultSet();
@@ -457,7 +457,6 @@ public class Salle {
 
 		@Override
 		public Object actual() {
-
 			return salle.getPlaces()[i][j];
 		}
 

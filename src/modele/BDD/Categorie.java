@@ -36,6 +36,11 @@ public class Categorie {
 		this.nom=nom;
 
 		//Categorie.ListeCateg.add(this);
+		
+
+
+		//Categorie.ListeCateg.add(this);
+
 	}
 
 	public Categorie(String nom, ArrayList<Groupe> listGroupe) {
@@ -242,6 +247,14 @@ public class Categorie {
 	 * Save.
 	 */
 	public void save() {
+
+		//save de la liste de groupe
+		if(this.listGroupe!=null) {
+		for (int i = 0; i < this.listGroupe.size (); i++) {
+			this.listGroupe.get(i).save();
+		}
+		}
+
 		//save ou update de la categorie
 		if(this.idCategorie==-1) {
 			this.saveNew();
@@ -249,6 +262,7 @@ public class Categorie {
 		else {
 			this.update();
 		}
+		
 	}
 
 	/**
@@ -293,12 +307,29 @@ public class Categorie {
 		}
 	}
 	
+
+	public void ajouterGroupe(Groupe g) {
+		GroupeCategorie.ajouterGroupeAUneCategorie(g.getIdGroupe(), this.getIdCategorie());
+	}
+	
+	public ArrayList<Groupe> getListegroupe(){
+		try {
+		return GroupeCategorie.listGroupePourCategorie(this.getIdCategorie());
+		}
+		catch(Exception e) {
+			
+		}
+		
+		return null;
+	}
+
 	public void ajouterGroupe(ArrayList<Groupe> listGroupe) {
 		for (int i = 0; i < listGroupe.size(); i++) {
 			if(listGroupe.get(i).getIdGroupe()!=-1) {
 				GroupeCategorie.ajouterGroupeAUneCategorie(listGroupe.get(i).getIdGroupe(), this.idCategorie);
 			}
 		}
+
 	}
 
 }

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import modele.BDD.Salle;
+import modele.GestionFichiersExcel.ExportEtudiant;
 import org.apache.poi.ss.formula.eval.BoolEval;
 
 import modele.Examen;
@@ -21,6 +24,7 @@ import modele.BDD.Groupe;
 public class ControleurExamen {
 
 	private Examen examen;
+	private JButton chsalle;
 
 	private String exam_nom;
 	private String exam_matiere;
@@ -39,6 +43,38 @@ public class ControleurExamen {
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
 		jb_creerExam = new JButton("Créer l'Examen");
+		chsalle = new JButton("Choisir Salle 1 (test)");
+		chsalle.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("Salle 1 (test) selectionner");
+				if(true) {
+					try {
+						Salle salle = Salle.findById(1);
+						salle.getTableauPlaces(salle.getIdSalle());
+						System.out.println("Salle" + salle.getNom());
+						examen.ajouterSalle(salle);
+
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+					chsalle.setText("Retirer");
+					chsalle.setBackground(Color.gray);
+
+
+
+				
+				}else {
+					if(chsalle.getText().equals("Retirer")) {
+						chsalle.setText("Ajouter");
+						chsalle.setBackground(Color.white);
+						 
+					}
+				}
+			}
+		});
 
 		mapBoutton_groupe = new HashMap<>();
 		/**
@@ -83,6 +119,10 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+
+				examen.genererUnPlacement();
+				ExportEtudiant exportEtu = new ExportEtudiant();
+				exportEtu.exporterPlacement(examen.getPlacement());
 
 				System.out.println("===Examen creer===");
 				System.out.println(">CtrlExam_jtf_Nom: "+jtf_nom.getText());
@@ -173,6 +213,7 @@ public class ControleurExamen {
 
 		return jbt;
 	}
+	
 
 
 	public JTextField getJtf_nom() {
@@ -192,6 +233,11 @@ public class ControleurExamen {
 
 	public JButton getJb_creerExam() {
 		return jb_creerExam;
+	}
+
+
+	public JButton getChsalle() {
+		return chsalle;
 	}
 
 

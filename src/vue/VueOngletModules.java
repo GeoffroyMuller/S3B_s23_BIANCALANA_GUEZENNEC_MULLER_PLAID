@@ -1,4 +1,4 @@
-/*package vue;
+package vue;
 
 import vue_Examen.VueExamen;
 
@@ -7,10 +7,12 @@ import javax.swing.*;
 //import vue_Etudiant.VueEtudiant;
 
 import java.awt.*;
+import vue_Etudiant.*;
 
 public class VueOngletModules extends JPanel {
 	JTabbedPane onglets;
-	VueExamen moduleExamen = new VueExamen();
+	VueExamen moduleExamen;
+
 	public VueOngletModules(){
 		this.setBackground(new Color(0xFFFFFF));
 		this.onglets = new JTabbedPane();
@@ -18,6 +20,12 @@ public class VueOngletModules extends JPanel {
 		this.onglets.setUI(new TabbedPanDesign());
 		//A supprimer
 		VueEtudiant moduleEtudiant = new VueEtudiant();
+		try {
+			moduleExamen = new VueExamen();
+			}
+			catch(Exception e) {
+				System.out.println("erreur chargement module exam");
+			}
 
 		JPanel test = new JPanel();
 		//FIN DELETE
@@ -41,4 +49,4 @@ public class VueOngletModules extends JPanel {
 		moduleExamen.definirTaille(this.getParent().getWidth(),this.getParent().getHeight());
 		this.onglets.setBounds(0,0,this.getParent().getWidth(),this.getParent().getHeight());
 	}
-}*/
+}

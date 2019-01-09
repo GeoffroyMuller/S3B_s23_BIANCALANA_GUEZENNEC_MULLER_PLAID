@@ -276,8 +276,8 @@ public class VueExamen extends JPanel{
 
 		VueExamen vuec = new VueExamen();
 		fenetre.add(vuec);
-		fenetre.setMinimumSize(new Dimension(1155,900));
-		fenetre.setPreferredSize(new Dimension(1155,900));
+		fenetre.setMinimumSize(new Dimension(1155,700));
+		fenetre.setPreferredSize(new Dimension(1155,700));
 		fenetre.setVisible(true);
 		vuec.definirTaille(fenetre.getWidth(),fenetre.getHeight());
 		

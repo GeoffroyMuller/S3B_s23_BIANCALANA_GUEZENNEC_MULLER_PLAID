@@ -18,7 +18,7 @@ public class ImportEtudiantTest {
     @Before
     public void init(){
         try {
-            DBConnection.setNomDB("etuplacementtest");
+            DBConnection.setNomDB("etuplacement");
             Connection connect= DBConnection.getConnection();
 
             Particularite.createTable();
@@ -31,6 +31,34 @@ public class ImportEtudiantTest {
             EtudiantGroupe.createTable();
             Place.createTable();
             Salle.createTable();
+
+            //AJout de la salle
+
+            Salle salle = new Salle("Salle_Test2",10,10);
+            salle.save();
+
+
+
+            TypePlace typePlace = new TypePlace("Chaise",1);
+            TypePlace typePlaceAllee = new TypePlace("Allee",0);
+
+            typePlaceAllee.save();
+            typePlace.save();
+
+            int idSalle = salle.getIdSalle();
+
+            for(int i = 0; i < 10;i++){
+                for(int j = 0; j < 10;j++){
+                    if(j == 7 || j == 4){
+                        Place place = new Place(i+""+j,typePlaceAllee.getIdTypePlace(),i,j,0,salle.getIdSalle());
+                        place.save();
+                    }else{
+                        Place place = new Place(i+""+j,typePlace.getIdTypePlace(),i,j,1,salle.getIdSalle());
+                        place.save();
+                    }
+
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
