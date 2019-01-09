@@ -312,16 +312,7 @@ public class Categorie {
 		GroupeCategorie.ajouterGroupeAUneCategorie(g.getIdGroupe(), this.getIdCategorie());
 	}
 	
-	public ArrayList<Groupe> getListegroupe(){
-		try {
-		return GroupeCategorie.listGroupePourCategorie(this.getIdCategorie());
-		}
-		catch(Exception e) {
-			
-		}
-		
-		return null;
-	}
+
 
 	public void ajouterGroupe(ArrayList<Groupe> listGroupe) {
 		for (int i = 0; i < listGroupe.size(); i++) {
@@ -330,6 +321,10 @@ public class Categorie {
 			}
 		}
 
+	}
+	
+	public String toString() {
+		return this.nom;
 	}
 
 }

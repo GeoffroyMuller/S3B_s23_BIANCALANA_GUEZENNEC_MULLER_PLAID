@@ -240,7 +240,7 @@ public class Groupe {
 	
 	public ArrayList<Etudiant> getListeEtudiants(){
 		try {
-		return EtudiantGroupe.listEtudiantPourGroupe(this.getIdGroupe());
+		return EtudiantGroupe.recupererEtudiantDansGroupe(this.getIdGroupe());
 		}
 		catch(Exception e) {
 			
@@ -270,5 +270,10 @@ public class Groupe {
 	@Override
 	public int hashCode() {
 		return Objects.hash(nom);
+	}
+	
+	
+	public String toString() {
+		return this.nom;
 	}
 }
