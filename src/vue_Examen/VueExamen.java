@@ -79,7 +79,7 @@ public class VueExamen extends JPanel{
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
 		
-		testlisteur();
+		//testlisteur();
 		//try {
 			jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie());	
 		/*} catch (Exception e) {

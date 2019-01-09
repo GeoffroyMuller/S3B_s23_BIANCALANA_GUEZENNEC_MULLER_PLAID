@@ -45,8 +45,9 @@ public class PanelListeur extends JPanel{
 		this.categorie = categ;
 		this.listeur = listeur;
 		activer = false;
-		jp_categorie.add(new JLabel(categ.getNom()+"      Groupe Participant : 0/"+categ.getListGroupe().size()      ));
+		jp_categorie.add(new JLabel(categ.getNom()+"      Groupe Participant : 0/"+categ.getListGroupe().size()+"          "));
 		jp_categorie.setBackground(Color.WHITE);
+		jp_categorie.add(ctrlexamp.creerBoutton_UneCategorie(categ));
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
