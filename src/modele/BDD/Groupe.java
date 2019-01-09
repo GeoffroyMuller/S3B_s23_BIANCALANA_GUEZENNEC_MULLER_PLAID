@@ -224,7 +224,7 @@ public class Groupe {
 	public void ajouterEtudiant(ArrayList<Etudiant> listEtudiant) {
 		for (int i = 0; i < listEtudiant.size(); i++) {
 			if(listEtudiant.get(i).getIdEtu()!=-1) {
-				EtudiantGroupe.ajouterEtudiantAUnGroupe(listEtudiant.get(i).getIdEtu(), this.idGroupe);;
+				EtudiantGroupe.ajouterEtudiantAUnGroupe(listEtudiant.get(i).getIdEtu(), this.idGroupe);
 			}
 		}
 	}
