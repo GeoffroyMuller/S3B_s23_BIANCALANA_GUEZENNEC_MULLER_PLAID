@@ -22,8 +22,9 @@ import modele.BDD.Groupe;
 
 public class AfficheurTree extends JPanel{
 
-	private JTree tree;
+	static private JTree tree;
 	private DifListeurEtu lisetu;
+	TreeSelectionListener tsl;
 
 	public AfficheurTree(DifListeurEtu plisetu) {
 		super();
@@ -197,5 +198,7 @@ public class AfficheurTree extends JPanel{
 		category.add(groupe);
 	}*/
 
-
+	static public JTree getTree() {
+		return tree;
+	}
 }

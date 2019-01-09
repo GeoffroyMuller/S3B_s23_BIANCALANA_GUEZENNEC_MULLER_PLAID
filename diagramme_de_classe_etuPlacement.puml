@@ -1,22 +1,9 @@
 @startuml
 
-class EtuPlacement{
 
-}
 
 class Examen{
 -HashMap<Etudiant,Place>
-}
-
-class GestionEtudiant{
- +importerGroupe()
- +ajouterGroupeVide(String)
- +supprimerGroupe(Groupe)
-}
-
-class GestionSalle{
-+ajouterSalle()
-+supprimerSalle()
 }
 
 class Salle{
@@ -128,13 +115,15 @@ interface Observer{
 class Observable{
 }
 
-ControleurSalle --> EtuPlacement
+ControleurSalle --> Salle
 
-ControleurExamen --> EtuPlacement
+ControleurExamen --> Examen
 
-ControleurEtudiant --> EtuPlacement
+ControleurEtudiant --> Categorie
 
-
+VueOngletModules --> VueEtudiant
+VueOngletModules --> VueExamen
+VueOngletModules --> VueSalle
 
 VueEtudiant ..|> Observer
 
@@ -152,16 +141,15 @@ VueExamen --> ControleurExamen
 
 VueSalle --> ControleurSalle
 
-EtuPlacement --|> Observer
+Examen --|> Observer
+Categorie --|> Observer
+Salle --|> Observer
 
 
-EtuPlacement --> "-examen : 1" Examen
-EtuPlacement --> "-gestionEtudiant : 1" GestionEtudiant
-EtuPlacement --> "-gestionSalle : 1" GestionSalle
 
-GestionSalle --> "-listsalle : *" Salle
 
-Salle --> "-places" TypePlace
+
+Salle --> "-places" Place
 
 Place --> "-type" TypePlace
 
@@ -172,7 +160,7 @@ SiegeCasse ..|> TypePlace
 Examen --> "-parametres" Parametre
 Examen --> "-groupesParticipants : *" Groupe
 
-GestionEtudiant --> "-listeGroupe : *" Groupe
+
 
 Categorie --> "-listeGroupe : *" Groupe
 

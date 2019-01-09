@@ -12,7 +12,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
 
-
+import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 import controleur_listeur.ConstructeurListeModelCategorie;
 import controleur_listeur.ListenerDeRefresh;
@@ -132,8 +132,7 @@ public class DifListeurEtu extends JSplitPane{
 		this.setRightComponent(jspRight);
 		this.setDividerSize(100);
 	}
-
-
+	
 
 
 }

@@ -15,6 +15,9 @@ import javax.swing.JTextField;
 
 import modele.BDD.Salle;
 import modele.GestionFichiersExcel.ExportEtudiant;
+import vue_Etudiant.VueEtudiant;
+import vue_Examen.VueExamen;
+
 import org.apache.poi.ss.formula.eval.BoolEval;
 
 import modele.Examen;
@@ -43,6 +46,7 @@ public class ControleurExamen {
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
 		jb_creerExam = new JButton("Créer l'Examen");
+		//dev
 		chsalle = new JButton("Choisir Salle 1 (test)");
 		chsalle.addActionListener(new ActionListener() {
 			
@@ -50,32 +54,20 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Salle 1 (test) selectionner");
-				if(true) {
-					try {
-						Salle salle = Salle.findById(1);
-						salle.getTableauPlaces(salle.getIdSalle());
-						System.out.println("Salle" + salle.getNom());
-						examen.ajouterSalle(salle);
+				try {
+					Salle salle = Salle.findById(1);
+					salle.getTableauPlaces(salle.getIdSalle());
+					System.out.println("Salle" + salle.getNom());
+					examen.ajouterSalle(salle);
 
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
-					chsalle.setText("Retirer");
-					chsalle.setBackground(Color.gray);
-
-
-
-				
-				}else {
-					if(chsalle.getText().equals("Retirer")) {
-						chsalle.setText("Ajouter");
-						chsalle.setBackground(Color.white);
-						 
-					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
+				chsalle.setText("Retirer Salle 1 (test) ");
+				chsalle.setBackground(Color.gray);
 			}
 		});
-
+		//findev
 		mapBoutton_groupe = new HashMap<>();
 		/**
 		 * dimensionne les JTextFields 
@@ -119,16 +111,15 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
-				examen.genererUnPlacement();
-				ExportEtudiant exportEtu = new ExportEtudiant();
-				exportEtu.exporterPlacement(examen.getPlacement());
-
 				System.out.println("===Examen creer===");
 				System.out.println(">CtrlExam_jtf_Nom: "+jtf_nom.getText());
 				System.out.println(">CtrlExam_jtf_Matiere: "+jtf_matiere.getText());
 				System.out.println(">CtrlExam_jtf_Date: "+jtf_date.getText());
 				System.out.println("==================");
+			
+				examen.genererUnPlacement();
+				ExportEtudiant exportEtu = new ExportEtudiant();
+				exportEtu.exporterPlacement(examen.getPlacement());
 			}
 		});
 
@@ -156,15 +147,18 @@ public class ControleurExamen {
 
 
 					examen.ajouterGroupe(grp);
-					System.out.println("A groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
+					System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
+					
 				}else {
 					if(jbt.getText().equals("Retirer")) {
 						jbt.setText("Ajouter");
 						jbt.setBackground(Color.white);
-						System.out.println("R groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
+						System.out.println("Retirer> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
 
 					}
 				}
+				
+				//VueExamen.paneldev.repaint();//dev
 			}
 		});
 		mapBoutton_groupe.put(grp, jbt);
@@ -175,7 +169,7 @@ public class ControleurExamen {
 	public JButton creerBoutton_UneCategorie(Categorie categp) {
 
 		JButton jbt = new JButton();
-		jbt.setPreferredSize(new Dimension(20, 20));
+		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
 		jbt.setBackground(Color.white);
 		jbt.addActionListener(new ActionListener() {
@@ -192,9 +186,10 @@ public class ControleurExamen {
 					for(int i=0; i<categp.getListGroupe().size();i++) {
 						(mapBoutton_groupe.get(categp.getListGroupe().get(i))).setText("Retirer");
 						(mapBoutton_groupe.get(categp.getListGroupe().get(i))).setBackground(Color.gray);
+						examen.ajouterGroupe(categp.getListGroupe().get(i));
 
 					}
-					System.out.println("A Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
+					System.out.println("Ajouter> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
 				}else {
 					if(jbt.getText().equals("Retirer")) {
 						jbt.setText("Ajouter");
@@ -203,7 +198,7 @@ public class ControleurExamen {
 							(mapBoutton_groupe.get(categp.getListGroupe().get(i))).setText("Ajouter");
 							(mapBoutton_groupe.get(categp.getListGroupe().get(i))).setBackground(Color.white);
 						}
-						System.out.println("R Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
+						System.out.println("Retirer> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
 
 					}
 				}

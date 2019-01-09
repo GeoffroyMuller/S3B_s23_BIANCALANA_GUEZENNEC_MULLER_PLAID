@@ -19,6 +19,7 @@ public class ControleurBouttonConfCreationCateg extends JButton implements Actio
 		nom = jtf;
 		vcc=v;
 		cldc=pcldc;
+		this.setText("Confirmer creation catégorie");
 		this.addActionListener(this);
 	}
 	

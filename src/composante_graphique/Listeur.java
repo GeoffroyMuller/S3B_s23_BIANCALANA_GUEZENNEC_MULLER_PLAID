@@ -111,6 +111,7 @@ public class Listeur extends JPanel{
 
 
 	public void paintComponent(Graphics g) {
+		
 		super.paintComponent(g);
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
 		g.fillRect(0, 10, 10, 10);
@@ -147,10 +148,10 @@ public class Listeur extends JPanel{
 
 		gl2.add(new Groupe("groupe2 A"));
 		gl2.add(new Groupe("groupe2 B"));
-		Categorie c1 = new Categorie("Année 1", gl1);
-		Categorie c2 = new Categorie("Année 2", gl2);	
-		listcateg.add(c1);
-		listcateg.add(c2);
+		//Categorie c1 = new Categorie("Année 1", gl1);
+		//Categorie c2 = new Categorie("Année 2", gl2);	
+		//listcateg.add(c1);
+		//listcateg.add(c2);
 		Listeur listeur = new Listeur(listcateg, new ControleurExamen(new Examen()));
 		fenetre.add(listeur);
 		fenetre.pack();

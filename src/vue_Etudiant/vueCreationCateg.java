@@ -30,8 +30,8 @@ public class vueCreationCateg extends JFrame{
         gbc.anchor=GridBagConstraints.PAGE_START;
         gbc.weightx = 1;
         gbc.weighty = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(0,10,0,0);
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(50,50,0,50);
         
         
         
@@ -41,12 +41,13 @@ public class vueCreationCateg extends JFrame{
 		this.add(nomCateg,gbc);
 		
 		gbc.gridy=1;
+		gbc.insets = new Insets(0,50,50,50);
 		ccc = new ControleurBouttonConfCreationCateg(nomCateg,this,pcldg);
 		this.add(ccc,gbc);
 		
 		
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(new Dimension(600,600));
+        this.setSize(new Dimension(400,200));
         this.setVisible(true);
 		
 	}
