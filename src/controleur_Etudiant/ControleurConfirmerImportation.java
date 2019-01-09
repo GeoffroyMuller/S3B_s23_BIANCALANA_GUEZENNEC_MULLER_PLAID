@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import modele.*;
 import modele.BDD.Groupe;
+import modele.GestionFichiersExcel.ImportEtudiant;
 import vue_Etudiant.VueEtudiant;
 import vue_Etudiant.VueImportation;
 
@@ -29,7 +30,10 @@ public class ControleurConfirmerImportation extends JButton implements ActionLis
 		
 		//gerer l'importation du excel !!!!!
 		this.vetu.setListeActuelle(new ArrayList<Groupe>());
-		
+
+
+		//ImportEtudiant importEtudiant = new ImportEtudiant(vi.get,"Feuil1","");
+
 		vi.dispose();
 		
 	}
