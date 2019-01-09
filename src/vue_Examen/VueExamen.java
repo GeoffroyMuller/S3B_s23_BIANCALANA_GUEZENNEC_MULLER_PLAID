@@ -13,6 +13,8 @@ import java.awt.Label;
 import java.awt.LayoutManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -68,7 +70,7 @@ public class VueExamen extends JPanel{
 
 
 
-	private PanelDev_Afficheur paneldev = new PanelDev_Afficheur();
+	public static PanelDev_Afficheur paneldev = new PanelDev_Afficheur();
 	/**
 	 * Constructeur principale
 	 * @throws SQLException 
@@ -264,9 +266,13 @@ public class VueExamen extends JPanel{
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		paneldev.ajouterInfo("THIS w: "+getWidth()+" h: "+this.getHeight());
-		paneldev.ajouterInfo("jp2_affichlistEtu w: "+jp2_affichListEtu.getWidth()+" h: "+jp2_affichListEtu.getHeight());
-		paneldev.ajouterInfo("> mettre a This w: 1138 pour minimal");
+		paneldev.suppliste();
+		paneldev.ajouterInfo(">nombre etudiant participant:: "+examen.getEtudiants().size());
+		
+		for(Entry<Etudiant, String> etul : examen.getEtudiants().entrySet()) {
+			paneldev.ajouterInfo(">"+etul.getKey().getNom());
+		}
+		paneldev.repaint();
 	}
 	
 	public static void main(String arg[]) throws SQLException {

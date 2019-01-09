@@ -16,7 +16,7 @@ public class PanelDev_Afficheur extends JPanel{
 	private ArrayList<String> listaffiche = new ArrayList<String>();
 	
 	public PanelDev_Afficheur() {
-		this.setPreferredSize(new Dimension(300, 50));
+		this.setPreferredSize(new Dimension(300, 900));
 		this.setBackground(Color.BLACK);
 	}
 	
@@ -28,13 +28,17 @@ public class PanelDev_Afficheur extends JPanel{
 		listaffiche.clear();
 	}
 	public void paintComponent(Graphics g) {
-		int compte = 10;
+		
 		super.paintComponent(g);
+		int compte = 10;
 		g.setColor(Color.GREEN);
+		g.drawString("PanelDeveloppeur>", 2, compte);
+		compte+=12;
 		for(String string : listaffiche) {
 			g.drawString(string, 2, compte);
 			compte+=12;
 		}
-		suppliste();
+		//suppliste();
+
 	}
 }
