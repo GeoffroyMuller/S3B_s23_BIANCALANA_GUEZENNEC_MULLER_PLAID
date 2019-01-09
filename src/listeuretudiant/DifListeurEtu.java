@@ -90,7 +90,7 @@ public class DifListeurEtu extends JSplitPane{
 		constructeurLMC = new ConstructeurListeModelCategorie(lc);
 		
 		
-		ArrayList<Groupe> lgtest = new ArrayList<Groupe>() ;
+		//ArrayList<Groupe> lgtest = new ArrayList<Groupe>() ;
 		/*lgtest.add(g1);
 		lgtest.add(g2);
 		
@@ -98,7 +98,18 @@ public class DifListeurEtu extends JSplitPane{
 		System.out.println(g1.getListeEtudiants());
 		System.out.println(lgtest.get(0).getListeEtudiants());
 		*/
-		constructeurDATACOL = new ConstructeurDataEtudiant(lgtest);
+		
+		ArrayList<Groupe> lg;
+		
+		lg= new ArrayList<>();
+		
+		try {
+		lg = Groupe.listGroupe();
+		}
+		catch(Exception e) {
+			System.out.println("erreur datacol liste groupeS");
+		}
+		constructeurDATACOL = new ConstructeurDataEtudiant(lg);
 		
 		constructeurDATACOL = new ConstructeurDataEtudiant(selectAll(lc));
 		
@@ -131,14 +142,16 @@ public class DifListeurEtu extends JSplitPane{
 		
 		if(lc!=null) {
 		for (int i = 0; i < lc.size(); i++) {
+			//System.out.println("eeeee"+lc.get(i).getListGroupe());
 			
-			lg.addAll(lc.get(i).getListegroupe());
+			lg.addAll(lc.get(i).getListGroupe());
 			
-			ArrayList<Groupe> tmplg = lc.get(i).getListegroupe();
+			ArrayList<Groupe> tmplg = lc.get(i).getListGroupe();
 			
 			for (int k = 0; k < tmplg.size(); k++) {
 				Groupe gtmp = tmplg.get(k);
 				lg.add(gtmp);
+				//System.out.println("rrrrrr"+tmplg);
 				
 			}
 

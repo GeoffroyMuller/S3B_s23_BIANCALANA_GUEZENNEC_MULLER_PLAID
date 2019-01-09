@@ -147,10 +147,10 @@ public class Listeur extends JPanel{
 
 		gl2.add(new Groupe("groupe2 A"));
 		gl2.add(new Groupe("groupe2 B"));
-		Categorie c1 = new Categorie("Année 1", gl1);
-		Categorie c2 = new Categorie("Année 2", gl2);	
-		listcateg.add(c1);
-		listcateg.add(c2);
+		//Categorie c1 = new Categorie("Année 1", gl1);
+		//Categorie c2 = new Categorie("Année 2", gl2);	
+		//listcateg.add(c1);
+		//listcateg.add(c2);
 		Listeur listeur = new Listeur(listcateg, new ControleurExamen(new Examen()));
 		fenetre.add(listeur);
 		fenetre.pack();

@@ -19,12 +19,12 @@ public class ConstructeurDataEtudiant {
 		row=0;
 		for (int i = 0; i < lg.size(); i++) {
 			ArrayList<Etudiant> le = lg.get(i).getListeEtudiants();
-			System.out.println("fffff"+i);
+			//System.out.println("fffff"+i);
 			for (int j = 0; j < le.size(); j++) {
 				data[row][0]=le.get(j).getNom();
 				data[row][1]=le.get(j).getPrenom();
 				data[row][2]=lg.get(i).getNom();
-				System.out.println(i);
+				//System.out.println(i);
 				data[row][3]=le.get(j).getEmail();
 				row++;
 			}
