@@ -27,7 +27,7 @@ public class VueContrainte extends JPanel{
 	public VueContrainte() {
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
-		jl_containte = new JLabel("Contrainte");
+		jl_containte = new JLabel("   Contrainte");
 		jp_espacement = new JPanel();
 		jp_grpEtudiant = new JPanel();
 		

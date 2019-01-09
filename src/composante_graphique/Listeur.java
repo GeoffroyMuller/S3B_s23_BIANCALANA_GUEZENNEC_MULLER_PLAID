@@ -114,7 +114,7 @@ public class Listeur extends JPanel{
 		
 		super.paintComponent(g);
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
-		g.fillRect(0, 10, 10, 10);
+		//g.fillRect(0, 10, 10, 10);
 		//scrollpane.setPreferredSize(new Dimension(this.getWidth()-20, this.getHeight()-20));
 	}
 

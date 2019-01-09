@@ -31,7 +31,7 @@ public class VueCreation extends JPanel{
 		vue_infoExam = new VueInfoExamen(controleur_Exam);
 		vue_sallePrio = new VueSallePriorite(controleur_Exam);
 		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, listecateg);
-		this.setBackground(Color.red);
+		this.setBackground(new Color(138, 138, 138));
 		creerZoneCreation();
 	}
 	
@@ -68,14 +68,14 @@ public class VueCreation extends JPanel{
 		gbc.weighty = 0;
 		this.add(vue_contrainte, gbc);
 		jp_bouttonexam.setBackground(new Color(138, 138, 138));
-		controleur_Exam.getJb_creerExam().setPreferredSize(new Dimension(200, 30));
+		controleur_Exam.getJb_creerExam().setPreferredSize(new Dimension(200, 40));
 		jp_bouttonexam.add(controleur_Exam.getJb_creerExam(), BorderLayout.WEST);
 		jp_bouttonexam.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
 		gbc.gridx = 0;
 		gbc.gridy = 5;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0;
-		gbc.weighty = 0;
+		gbc.weighty = 0.03;
 		this.add(jp_bouttonexam, gbc);
 	}
 	
