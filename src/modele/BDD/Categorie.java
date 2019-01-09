@@ -46,24 +46,6 @@ public class Categorie {
 	}
 
 
-
-
-
-
-
-
-
-	/*public static void setListeCateg(ArrayList<Categorie> listeCateg) {
-		ListeCateg = listeCateg;
-	}
-
-	public static ArrayList<Categorie> getListeCateg() {
-		return ListeCateg;
-	}*/
-
-
-
-
 	/**
 	 * Méthode permettant de récupérer les groupes appartenant à la catégorie courante
 	 * @return
