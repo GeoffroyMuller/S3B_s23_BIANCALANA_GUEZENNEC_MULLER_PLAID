@@ -55,10 +55,10 @@ public class VueImportation extends JFrame{
         gbc.gridy=2;
         this.add(cci,gbc);
         
-        gbc.gridy=3;
+        gbc.gridy=4;
         this.add(ccnc, gbc);
         
-        gbc.gridy=4;
+        gbc.gridy=3;
         cldg = new ControleurListeDeroulanteCateg();
         this.add(cldg,gbc);
         

@@ -34,8 +34,9 @@ public class ControleurBouttonConfCreationCateg extends JButton implements Actio
 	public void creerCateg(String n) {
 		Categorie categ = new Categorie(n);
 		categ.save();
-		cldc.refresh();
+		
 		ListenerDeRefresh.avertirChangement();
+		cldc.refresh();
 		vcc.dispose();
 	}
 	
