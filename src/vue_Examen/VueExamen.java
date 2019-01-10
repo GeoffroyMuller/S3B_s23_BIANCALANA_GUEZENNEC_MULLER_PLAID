@@ -15,6 +15,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -42,7 +44,7 @@ import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 import vue.BarreOutils;
 
-public class VueExamen extends JPanel{
+public class VueExamen extends JPanel implements Observer {
 
 	private Examen examen;
 	private ControleurExamen controleur_Exam;
@@ -307,6 +309,10 @@ public class VueExamen extends JPanel{
 		vuec.definirTaille(fenetre.getWidth(),fenetre.getHeight());
 		
 	}
-	
+
+	@Override
+	public void update(Observable o, Object arg) {
+
+	}
 }
 

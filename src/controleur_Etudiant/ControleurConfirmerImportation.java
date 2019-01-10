@@ -12,6 +12,7 @@ import modele.BDD.Groupe;
 import modele.GestionFichiersExcel.ImportEtudiant;
 import vue_Etudiant.VueEtudiant;
 import vue_Etudiant.VueImportation;
+import vue_Examen.VueGroupeParticipant;
 
 public class ControleurConfirmerImportation extends JButton implements ActionListener{
 
@@ -34,6 +35,9 @@ public class ControleurConfirmerImportation extends JButton implements ActionLis
 		this.vetu.setListeActuelle(new ArrayList<Groupe>());
 
 		ImportEtudiant ie = new ImportEtudiant(vi.getpath(), "Feuil1", vi.getCategSelectioner());
+		ie.addObserver(VueGroupeParticipant.getListeur());
+		ie.importerEtudiant();
+
 		ListenerDeRefresh.avertirChangement();
 
 		vi.dispose();

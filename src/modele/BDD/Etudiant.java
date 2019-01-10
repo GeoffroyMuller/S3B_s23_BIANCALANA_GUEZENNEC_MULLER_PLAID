@@ -1,19 +1,23 @@
 package modele.BDD;
 
 
+
+
 import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Etudiant.
  */
-public class Etudiant implements Comparable<Etudiant> {
+public class Etudiant implements Comparable<Etudiant>  {
 
 	/** The nom. */
 	private String nom;
