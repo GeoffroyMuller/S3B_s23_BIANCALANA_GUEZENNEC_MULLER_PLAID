@@ -9,7 +9,10 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -23,7 +26,7 @@ import modele.Examen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 
-public class Listeur extends JPanel{
+public class Listeur extends JPanel implements Observer {
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
@@ -63,6 +66,13 @@ public class Listeur extends JPanel{
 		scrollpane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 
 		this.add(scrollpane, gbc);
+	}
+
+	private void createPanelCategorie(){
+		for (Categorie categorie : listecategorie) {
+			pl_courant = new PanelListeur(categorie, this, controleur_Exam);
+			liste_panelListeur.add(pl_courant);
+		}
 	}
 
 	private void creerZoneListeur() {
@@ -157,5 +167,22 @@ public class Listeur extends JPanel{
 		fenetre.pack();
 		fenetre.setVisible(true);
 
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		try {
+			this.listecategorie = Categorie.getlistCategorie();
+
+			this.createPanelCategorie();
+			this.pl_courant.repaint();
+			repaint();
+			this.creerZoneListeur();
+			System.out.println("YYYYYYYYYY");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		this.pl_courant.repaint();
+		repaint();
 	}
 }

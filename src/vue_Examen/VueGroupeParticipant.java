@@ -21,7 +21,7 @@ import modele.BDD.Categorie;
 public class VueGroupeParticipant extends JPanel{
 	private ControleurExamen controleur_Exam;
 
-	private Listeur listeur;
+	public static Listeur listeur;
 	private GridBagConstraints gbc;
 	private JLabel jl_grpParticip = new JLabel("   Groupe Participant"); 
 
@@ -33,6 +33,10 @@ public class VueGroupeParticipant extends JPanel{
 		gbc = new GridBagConstraints();
 		listeur = new Listeur(listecateg, ctrlexamp);
 		creerZoneGroupeParticipant();
+	}
+
+	public static Listeur getListeur(){
+		return listeur;
 	}
 
 	private void creerZoneGroupeParticipant() {

@@ -20,17 +20,25 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class ImportEtudiant {
+public class ImportEtudiant extends Observable {
     /**
      * Tabbleau de String contenant le nom des colonnes du fichier
      */
     private String[] nomDesColonnes;
     private ArrayList<Groupe> groupeTrouveDansLeDernierFichier;
     private Categorie categorie;
+    private String cheminFichier;
+    private String nomDeLaFeuille;
+
 
     public ImportEtudiant(String cheminFichier, String nomDeLaFeuille, Categorie categorie){
         this.groupeTrouveDansLeDernierFichier = new ArrayList<Groupe>();
         this.categorie = categorie;
+        this.cheminFichier = cheminFichier;
+        this.nomDeLaFeuille = nomDeLaFeuille;
+    }
+
+    public void importerEtudiant(){
         try {
             //Importation du fichier excel
             FileInputStream fichier = new FileInputStream(cheminFichier);
@@ -46,6 +54,8 @@ public class ImportEtudiant {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setChanged();
+        notifyObservers();
 
     }
 
