@@ -2,33 +2,21 @@ package vue_Examen;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Label;
-import java.awt.LayoutManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
@@ -40,9 +28,6 @@ import modele.BDD.Groupe;
 
 
 import modele.Examen;
-import modele.BDD.Categorie;
-import modele.BDD.Groupe;
-import vue.BarreOutils;
 
 public class VueExamen extends JPanel implements Observer {
 
@@ -146,7 +131,7 @@ public class VueExamen extends JPanel implements Observer {
 		listetu.add(e1);
 		listetu.add(e2);
 		listetu.add(e3);
-		g1.ajouterEtudiant(listetu);
+		g1.ajouterEtudiants(listetu);
 		
 	}
 	
