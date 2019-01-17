@@ -242,13 +242,19 @@ public class Groupe {
 		
 	}
 
-	public void ajouterEtudiant(ArrayList<Etudiant> listEtudiant) {
+	public void ajouterEtudiants(ArrayList<Etudiant> listEtudiant) {
 		for (int i = 0; i < listEtudiant.size(); i++) {
 			if(listEtudiant.get(i).getIdEtu()!=-1) {
 				EtudiantGroupe.ajouterEtudiantAUnGroupe(listEtudiant.get(i).getIdEtu(), this.idGroupe);
 			}
 		}
 	}
+
+	public void ajouterEtudiant(Etudiant etudiant){
+		EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), this.idGroupe);
+
+	}
+
 
 
 	@Override

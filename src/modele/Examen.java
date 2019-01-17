@@ -63,6 +63,42 @@ public class Examen extends Observable{
         this.salles.add(salle);
     }
 
+
+    /**
+     * Permet d'enlever un étudiant de la liste des étudiants pris en compte pour l'examen
+     * @param etudiant
+     */
+    public void enleverUnEtudiantDeExamen(Etudiant etudiant){
+        this.etudiants.remove(etudiant);
+       /* HashMap<Etudiant, String> etudiants = new HashMap<Etudiant,String>();
+        Set<Etudiant> listeEtudiant = this.etudiants.keySet();
+        for(Etudiant etu : listeEtudiant){
+            if(etudiant != etu){
+                etudiants.put(etu,etu.getGroupe());
+            }
+        }
+        this.etudiants = etudiants;*/
+    }
+
+    /**
+     * Permet d'enlever des étudiants de la liste des étudiants pris en compte pour l'exmamen
+     * @param etudiants
+     */
+    public void enleverDesEtudiantsDeExamen(ArrayList<Etudiant> etudiants){
+        for (Etudiant etudiant: etudiants) {
+            this.etudiants.remove(etudiant);
+        }
+    }
+
+    /**
+     * Permet d'enlever un groupe de la liste des étudiants pris en comptepour l'examen
+     * @param groupe
+     */
+    public void enleverDesGroupesDeExamen(Groupe groupe){
+        ArrayList<Etudiant> etudiants = groupe.getListeEtudiants();
+        this.enleverDesEtudiantsDeExamen(etudiants);
+    }
+
     /**
      * Permet d'ajouter un groupe, seuls les étudiants sont ajouté et pas le groupe en lui-même
      * @param groupe

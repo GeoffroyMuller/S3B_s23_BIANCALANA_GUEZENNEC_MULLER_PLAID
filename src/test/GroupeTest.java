@@ -56,8 +56,8 @@ public class GroupeTest {
 	 *//*
 	@Test
 	public void testAjouterEtudiant() {
-		a.ajouterEtudiant(e2);
-		a.ajouterEtudiant(e1);
+		a.ajouterEtudiants(e2);
+		a.ajouterEtudiants(e1);
 		assertEquals("On devrai avoir l'etudiant e1 seulement ajouter",e1,this.a.getListeEtudiants().get(1));
 	}
 
@@ -66,9 +66,9 @@ public class GroupeTest {
 	 *//*
 	@Test
 	public void testSupprimmerEtudiant() {
-		a.ajouterEtudiant(e2);
-		a.ajouterEtudiant(e1);
-		a.ajouterEtudiant(e3);
+		a.ajouterEtudiants(e2);
+		a.ajouterEtudiants(e1);
+		a.ajouterEtudiants(e3);
 		a.supprimmerEtudiant(e1);
 		a.supprimmerEtudiant(e2);
 		assertEquals("On devrai avoir supprimer e1",e3,this.a.getListeEtudiants().get(0));
@@ -79,9 +79,9 @@ public class GroupeTest {
 	 *//*
 	@Test
 	public void testTrieParNom() {
-		a.ajouterEtudiant(e3);
-		a.ajouterEtudiant(e4);
-		a.ajouterEtudiant(e1);
+		a.ajouterEtudiants(e3);
+		a.ajouterEtudiants(e4);
+		a.ajouterEtudiants(e1);
 		a.trieParNom();
 		assertEquals("On devrai avoir e4 en premier",e4,this.a.getListeEtudiants().get(0));
 	}
@@ -91,9 +91,9 @@ public class GroupeTest {
 	 *//*
 	@Test
 	public void testTrieParPrenom() {
-		a.ajouterEtudiant(e3);
-		a.ajouterEtudiant(e4);
-		a.ajouterEtudiant(e1);
+		a.ajouterEtudiants(e3);
+		a.ajouterEtudiants(e4);
+		a.ajouterEtudiants(e1);
 		a.trieParPrenom();
 		assertEquals("On devrai avoir e1 en premier",e1,this.a.getListeEtudiants().get(0));
 	}
@@ -103,9 +103,9 @@ public class GroupeTest {
 	 *//*
 	@Test
 	public void etudiantDedans() {
-		a.ajouterEtudiant(e3);
-		a.ajouterEtudiant(e4);
-		a.ajouterEtudiant(e1);
+		a.ajouterEtudiants(e3);
+		a.ajouterEtudiants(e4);
+		a.ajouterEtudiants(e1);
 		assertEquals("il devrais etre dedans",true,this.a.etudiantDedans(e1));
 	}
 
