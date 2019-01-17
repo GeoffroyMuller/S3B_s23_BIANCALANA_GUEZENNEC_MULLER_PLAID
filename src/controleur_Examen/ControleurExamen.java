@@ -41,9 +41,9 @@ public class ControleurExamen {
 	private JTextField jtf_date;	//JTextField : gere la date de l'examen
 	private JButton jb_creerExam;	//JButton : creer un Examen
 	
-	private JButton jb_groupe;
-	private JButton jb_categorie;
-	private ArrayList<Groupe> liste_grp;
+	//private JButton jb_groupe;
+	//private JButton jb_categorie;
+	private ArrayList<ArrayList<Groupe>> liste_listegrp;
 
 	public ControleurExamen(Examen examenp) {
 		examen = examenp;
@@ -51,7 +51,7 @@ public class ControleurExamen {
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
 		jb_creerExam = new JButton("Créer l'Examen");
-		liste_grp= new ArrayList<Groupe>();
+		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
 		//dev
 		chsalle = new JButton("Choisir Salle 1 (test)");
 		chsalle.addActionListener(new ActionListener() {
@@ -75,6 +75,7 @@ public class ControleurExamen {
 		});
 		//findev
 		mapBoutton_groupe = new HashMap<>();
+		mapButton_categorie = new HashMap<>();
 		/**
 		 * dimensionne les JTextFields 
 		 */
@@ -157,6 +158,7 @@ public class ControleurExamen {
 	public JButton creerBoutton_UneCategorie(Categorie categp) {
 
 		JButton jbt = new JButton();
+		mapButton_categorie.put(jbt, categp);
 		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
 		jbt.setBackground(Color.white);
@@ -197,15 +199,25 @@ public class ControleurExamen {
 		}
 	}
 	private void changeButtonGroupeCategorie(Categorie categp, JButton jbt) {
+		Categorie categcourante = mapButton_categorie.get(jbt);
+		HashMap<JButton, Groupe> mapBoutton_groupe_categorie = new HashMap<>();
+		ArrayList<Groupe> listegroupe_categorie = categcourante.getListGroupe();
+		for(Map.Entry<JButton, Groupe> mapgrp: mapBoutton_groupe.entrySet()) {
+			for(Groupe grp : listegroupe_categorie) {
+				if(grp.getIdGroupe() == mapgrp.getValue().getIdGroupe()) {
+					mapBoutton_groupe_categorie.put(mapgrp.getKey(), mapgrp.getValue());
+				}
+			}
+		}
 		if(jbt.getText().equals("Ajouter")) {
 			jbt.setText("Retirer");
 			jbt.setBackground(Color.black);
 			//liste_grp.clear();
 			
-			for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe.entrySet()) {
+			for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
 				if(jb_grp.getKey().getText().equals("Ajouter")) {
 					jb_grp.getKey().setText("Retirer");
-					liste_grp.add(jb_grp.getValue());
+					//liste_listegrp.add(jb_grp.getValue());
 					examen.ajouterGroupe(jb_grp.getValue());
 				}
 				
@@ -216,10 +228,10 @@ public class ControleurExamen {
 				jbt.setText("Ajouter");
 				jbt.setBackground(Color.white);
 				//liste_grp.clear();
-				for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe.entrySet()) {
+				for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
 					if(jb_grp.getKey().getText().equals("Retirer")) {
 						jb_grp.getKey().setText("Ajouter");
-						liste_grp.remove(jb_grp.getValue());
+						liste_listegrp.remove(jb_grp.getValue());
 						examen.enleverDesGroupesDeExamen(jb_grp.getValue());
 					}
 					
