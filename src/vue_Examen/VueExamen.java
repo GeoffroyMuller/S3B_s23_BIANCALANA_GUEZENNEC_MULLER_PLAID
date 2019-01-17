@@ -38,15 +38,15 @@ public class VueExamen extends JPanel implements Observer {
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
 	 */
 	private JPanel jp_all = new JPanel(new GridBagLayout());	//JPanel qui contient tous les autre JPanel
-	
+
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private JPanel jpp_creation_marge = new JPanel(new BorderLayout());				//JPanel principal contient les JPanel qui concerne la creation d'un Examen et contour
 	private JPanel jpp_affichListEtu_marge = new JPanel(new BorderLayout());		//JPanel principal contient le JPanel de liste d'etudiant et contour
 
 	private JPanel jp2_affichListEtu = new JPanel();	//JPanel 2 contient la Liste les Etudiants participant a l'Examen
 	private JPanel jp2_creation;			//JPanel 2 contient les JPanel qui concerne la creation d'un Examen
-	
-	
+
+
 	private JPanel contour_creation_South = new JPanel();
 	private JPanel contour_creation_North = new JPanel();
 	private JPanel contour_creation_East = new JPanel();
@@ -70,10 +70,10 @@ public class VueExamen extends JPanel implements Observer {
 		controleur_Exam = new ControleurExamen(examen);
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
-		
+
 		//testlisteur();
 		//try {
-			jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie());	
+		jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie());	
 		/*} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");
@@ -88,12 +88,12 @@ public class VueExamen extends JPanel implements Observer {
 		this.add(jp_all);
 		definirTaille(1000, 300);
 	}
-	
+
 	private void testlisteur() {
 		ArrayList<Categorie> listcateg = new ArrayList<>();
 		ArrayList<Groupe> gl1 = new ArrayList<Groupe>();
 		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
-		
+
 		Categorie c1 = new Categorie("Année 1");
 		Categorie c2 = new Categorie("Année 2");
 		listcateg.add(c1);
@@ -110,20 +110,20 @@ public class VueExamen extends JPanel implements Observer {
 		g3.save();
 		g4.save();
 		g5.save();
-		
+
 		gl1.add(g1);
 		gl1.add(g2);
 		gl1.add(g3);
-		
+
 		gl2.add(g4);
 		gl2.add(g5);
 		c1.ajouterGroupe(gl1);
 		c2.ajouterGroupe(gl2);
-		
+
 		Etudiant e1 = new Etudiant("nna", "poilon");
 		Etudiant e2 = new Etudiant("jee", "galo");
 		Etudiant e3 = new Etudiant("gounalou", "lucas");
-		
+
 		e1.save();
 		e2.save();
 		e3.save();
@@ -132,9 +132,9 @@ public class VueExamen extends JPanel implements Observer {
 		listetu.add(e2);
 		listetu.add(e3);
 		g1.ajouterEtudiants(listetu);
-		
+
 	}
-	
+
 
 	/**
 	 * Créer La zone de creation d' Examen
@@ -149,16 +149,16 @@ public class VueExamen extends JPanel implements Observer {
 		jpp_creation_marge.add(contour_creation_North, BorderLayout.NORTH);
 		jpp_creation_marge.add(contour_creation_East, BorderLayout.EAST);
 		jpp_creation_marge.add(contour_creation_West, BorderLayout.WEST);
-		
-		
+
+
 
 		//ajout de "jpp" aux "jp_all"
 		this.jp_all.add(jpp_creation_marge);
 	}
-	
-	
-	
-	
+
+
+
+
 
 	/**
 	 * Créer La zone d'Affichage d'Etudiant
@@ -168,28 +168,28 @@ public class VueExamen extends JPanel implements Observer {
 		//ajout de couleur de font au JPanel
 		jpp_affichListEtu_marge.setBackground(Color.darkGray);
 		jp2_affichListEtu.setBackground(Color.white);
-		
+
 		//jp2_affichListEtu.setPreferredSize(new Dimension(200, 200));
 		//ajout de "jp2" aux "jp1"
 		jpp_affichListEtu_marge.add(jp2_affichListEtu, BorderLayout.CENTER);
 
-		
+
 		//contoure de jp2
 		jpp_affichListEtu_marge.add(contour_affichContour_South,BorderLayout.SOUTH);
 		jpp_affichListEtu_marge.add(contour_affichContour_North,BorderLayout.NORTH);
 		jpp_affichListEtu_marge.add(contour_affichContour_East,BorderLayout.EAST);
 		jpp_affichListEtu_marge.add(contour_affichContour_West,BorderLayout.WEST);
-		
+
 		jp2_affichListEtu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-		
+
 		// ajout de "jps" aux "this"
 		this.jp_all.add(jpp_affichListEtu_marge);
-		
+
 		devPane();
 	}
-	
-	
-	
+
+
+
 	private void devPane() {
 		//Developpeur a suppr
 		JPanel jp_dev = new JPanel();
@@ -198,17 +198,17 @@ public class VueExamen extends JPanel implements Observer {
 		jscrol_dev = new JScrollPane(jp_dev, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		//jscrol_dev.add(paneldev);
 		jscrol_dev.setPreferredSize(new Dimension(300,120));
-	
-		
+
+
 		jp2_affichListEtu.add(jscrol_dev);
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	/**
 	 * Met la couleur passer en parametre sur les JPanel jpp_[...]_marge et du jpanel jp_boutton
 	 */
@@ -226,9 +226,9 @@ public class VueExamen extends JPanel implements Observer {
 	}
 
 
-	
-	
-	
+
+
+
 	/**
 	 * Definie et adapte la taille General
 	 */
@@ -242,11 +242,11 @@ public class VueExamen extends JPanel implements Observer {
 		contour_affichContour_South.setPreferredSize(new Dimension(100, 80));
 		contour_affichContour_East.setPreferredSize(new Dimension(30, 40));
 		contour_affichContour_West.setPreferredSize(new Dimension(30, 40));
-		
+
 		contour_creation_West.setPreferredSize(new Dimension(40, 0));
-		
+
 	}
-	
+
 	public void placerElementPrincipaux() {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -262,8 +262,8 @@ public class VueExamen extends JPanel implements Observer {
 		jp2_affichListEtu.setPreferredSize(new Dimension(100, 200));
 		jp_all.add(jpp_affichListEtu_marge, gbc);
 	}
-	
-	
+
+
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -279,7 +279,7 @@ public class VueExamen extends JPanel implements Observer {
 		paneldev.repaint();
 		//findev
 	}
-	
+
 	public static void main(String arg[]) throws SQLException {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
@@ -291,7 +291,7 @@ public class VueExamen extends JPanel implements Observer {
 		fenetre.setPreferredSize(new Dimension(1155,700));
 		fenetre.setVisible(true);
 		vuec.definirTaille(fenetre.getWidth(),fenetre.getHeight());
-		
+
 	}
 
 	@Override

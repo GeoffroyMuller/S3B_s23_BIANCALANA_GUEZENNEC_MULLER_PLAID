@@ -32,6 +32,7 @@ public class PanelListeur extends JPanel{
 	private JPanel jp_all;
 	private JPanel jp_categorie;
 	private ArrayList<JPanel> liste_jp_groupe;
+	private ArrayList<JPanel> liste_jb_groupe;
 	private MouseListener ml;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Categorie categorie;	//categorie correspondant a this
@@ -39,6 +40,7 @@ public class PanelListeur extends JPanel{
 
 	public PanelListeur(Categorie categ, Listeur listeur, ControleurExamen ctrlexamp) {
 		liste_jp_groupe = new ArrayList<JPanel>();
+
 		jp_all = new JPanel();
 		jp_categorie = new JPanel();
 		jp_all.setLayout(new GridBagLayout());
