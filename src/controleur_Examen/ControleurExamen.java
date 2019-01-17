@@ -143,9 +143,6 @@ public class ControleurExamen {
 				if(jbt.getText().equals("Ajouter")) {
 					jbt.setText("Retirer");
 					jbt.setBackground(Color.gray);
-
-
-
 					examen.ajouterGroupe(grp);
 					System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
 					
@@ -153,6 +150,7 @@ public class ControleurExamen {
 					if(jbt.getText().equals("Retirer")) {
 						jbt.setText("Ajouter");
 						jbt.setBackground(Color.white);
+						//examen.en
 						System.out.println("Retirer> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
 
 					}

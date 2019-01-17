@@ -178,7 +178,6 @@ public class Listeur extends JPanel implements Observer {
 			this.pl_courant.repaint();
 			repaint();
 			this.creerZoneListeur();
-			System.out.println("YYYYYYYYYY");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
