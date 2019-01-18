@@ -12,9 +12,15 @@ import java.util.ArrayList;
 /**
  * The Class Categorie.
  */
-public class Categorie {
+public class Categorie{
 
-
+	public static final int ALPHA_ASC = 0; 
+	public static final int ALPHA_DSC = 1;
+	public static final int DATE_ASC = 2;
+	public static final int DATE_DSC = 3; 
+	
+	
+	
 	/** The nom. */
 	private String nom;
 
@@ -208,6 +214,64 @@ public class Categorie {
 		}
 		return res;
 	}
+	
+	
+	/**
+	 * Get List categorie.
+	 *
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
+	
+	
+	/**static final int ALPHA_ASC = 0; 
+	static final int ALPHA_DSC = 1;
+	static final int DATE_ASC = 2;
+	static final int DATE_DSC = 3;**/ 
+	
+	public static ArrayList<Categorie> getlistCategorieTrier(int tri) throws SQLException {
+		
+		String SQLPrep ="";
+		Connection connect=DBConnection.getConnection();
+		
+		switch (tri) {
+		case 0:
+			SQLPrep= "SELECT * FROM CATEGORIE ORDER BY NOM ASC ;";
+			break;
+			
+		case 1:
+			SQLPrep= "SELECT * FROM CATEGORIE ORDER BY NOM DESC ;";
+			break;
+		case 2:
+			SQLPrep= "SELECT * FROM CATEGORIE ORDER BY ID ASC ;";
+			break;
+		case 3:
+			SQLPrep= "SELECT * FROM CATEGORIE ORDER BY ID DESC ;";
+			break;
+
+		default:
+			SQLPrep= "SELECT * FROM CATEGORIE;";
+			break;
+		}
+		
+		
+		
+		
+		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+		prep1.execute();
+		ResultSet rs = prep1.getResultSet();
+		// s'il y a un resultat
+
+		ArrayList<Categorie> res = new ArrayList<Categorie>();
+		while (rs.next()) {
+			String resNom = rs.getString("nom");
+			int resId = rs.getInt("idCategorie");
+			res.add(new Categorie(resNom,resId));
+			System.out.println("eeee"+res);
+		}
+		return res;
+	}
+
 
 	/**
 	 * Delete.
@@ -300,5 +364,7 @@ public class Categorie {
 	public String toString() {
 		return this.nom;
 	}
+
+
 
 }

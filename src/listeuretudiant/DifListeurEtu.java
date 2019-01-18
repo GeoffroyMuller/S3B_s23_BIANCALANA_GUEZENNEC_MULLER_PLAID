@@ -38,11 +38,12 @@ public class DifListeurEtu extends JSplitPane{
 
 		ArrayList<Categorie> lc = new ArrayList<>();
 		try {
-		lc= Categorie.getlistCategorie();
+		lc= Categorie.getlistCategorieTrier(Categorie.ALPHA_ASC);
 		}
 		catch(Exception e) {
 			
 		}
+		
 		
 		constructeurLMC = new ConstructeurListeModelCategorie(lc);
 		
@@ -65,14 +66,20 @@ public class DifListeurEtu extends JSplitPane{
 	}
 	
 	public void majData(ArrayList<Groupe> plg) {
-		constructeurDATACOL=new ConstructeurDataEtudiant(plg);
 		
+		ArrayList<Categorie> lc = new ArrayList<>();
+		
+		
+		afftree = new AfficheurTree(lc,this);
+		constructeurDATACOL=new ConstructeurDataEtudiant(plg);
 		tabledata=new JTable(constructeurDATACOL.genererDataLigneEtu(),constructeurDATACOL.GenereColonneEtu());
 		jspRight = new JScrollPane(tabledata);
 		this.setRightComponent(jspRight);
 		this.revalidate();
 	
 	}
+	
+
 
 	public ArrayList<Groupe> selectAll(ArrayList<Categorie> lc){
 		ArrayList<Groupe> lg = new ArrayList<Groupe>();

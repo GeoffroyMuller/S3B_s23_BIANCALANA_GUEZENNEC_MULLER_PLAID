@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 
+import barre_chargement.VueChargement;
 import controleur_listeur.ListenerDeRefresh;
 import modele.*;
 import modele.BDD.Groupe;
@@ -18,6 +19,7 @@ public class ControleurConfirmerImportation extends JButton implements ActionLis
 
 	VueImportation vi ;
 	VueEtudiant vetu;
+	VueChargement vc;
 	
 	public ControleurConfirmerImportation(VueEtudiant ve,VueImportation v) {
 		this.setText("Confimrer importation");
@@ -31,7 +33,7 @@ public class ControleurConfirmerImportation extends JButton implements ActionLis
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		//gerer l'importation du excel !!!!!
+		
 		this.vetu.setListeActuelle(new ArrayList<Groupe>());
 
 		ImportEtudiant ie = new ImportEtudiant(vi.getpath(), "Feuil1", vi.getCategSelectioner());
@@ -39,7 +41,8 @@ public class ControleurConfirmerImportation extends JButton implements ActionLis
 		ie.importerEtudiant();
 
 		ListenerDeRefresh.avertirChangement();
-
+		
+		
 		vi.dispose();
 		
 	}

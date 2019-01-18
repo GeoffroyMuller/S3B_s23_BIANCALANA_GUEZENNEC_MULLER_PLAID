@@ -8,10 +8,13 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.*;
+
+import controleur_Etudiant.DeroulOptionTriCateg;
 
 //import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
@@ -24,6 +27,8 @@ public class AfficheurTree extends JPanel{
 
 	static private JTree tree;
 	private DifListeurEtu lisetu;
+	private DeroulOptionTriCateg dotc;
+	private JTextField jtf;
 	TreeSelectionListener tsl;
 
 	public AfficheurTree(DifListeurEtu plisetu) {
@@ -33,18 +38,35 @@ public class AfficheurTree extends JPanel{
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Liste de tout les étudiants");
 		//createNodesExemple(top);
 		tree = new JTree(top);
-
+		dotc = new DeroulOptionTriCateg();
+		jtf = new JTextField();
+		jtf.setText("Trié par ");
+		
+		
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = gbc.gridy = 0;
-		gbc.gridwidth =gbc.gridheight= GridBagConstraints.REMAINDER;
+		gbc.gridwidth =gbc.gridheight= GridBagConstraints.RELATIVE;
 		gbc.anchor=GridBagConstraints.PAGE_START;
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0,0,0,0);
-
-
+		
+		this.add(jtf,gbc);
+		
+		
+		gbc.gridwidth=  GridBagConstraints.REMAINDER;
+		gbc.gridx = 1;
+		
+		this.add(dotc,gbc);
+		
+		gbc.gridx=0;
+		gbc.gridy=1;
+		
+		
+		
+		gbc.gridheight= GridBagConstraints.REMAINDER;
 		this.add(tree,gbc);
 	}
 
@@ -53,27 +75,12 @@ public class AfficheurTree extends JPanel{
 		super();
 		lisetu=plisetu;
 		this.setBackground(Color.PINK);
-		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Liste de tout les étudiants");
+		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Listes disponibles");
 		createNodes(top,plc); 
 
 		tree = new JTree(top);
-		this.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = gbc.gridy = 0;
-		gbc.gridheight= GridBagConstraints.REMAINDER;
-		gbc.anchor=GridBagConstraints.PAGE_START;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.insets = new Insets(0,0,0,0);
 
-
-		this.add(tree,gbc);
-
-		gbc.gridwidth=GridBagConstraints.REMAINDER;
-		gbc.gridx=1;
-
-		ControleurTestSelection cts = new ControleurTestSelection(tree);
+		//ControleurTestSelection cts = new ControleurTestSelection(tree);
 
 		//this.add(cts,gbc);
 
@@ -87,6 +94,36 @@ public class AfficheurTree extends JPanel{
 		};
 
 		tree.addTreeSelectionListener(tsl);
+		dotc = new DeroulOptionTriCateg();
+		jtf = new JTextField();
+		jtf.setText("Trié par ");
+		
+		this.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = gbc.gridy = 0;
+		gbc.gridwidth =gbc.gridheight= GridBagConstraints.RELATIVE;
+		gbc.anchor=GridBagConstraints.PAGE_START;
+		gbc.weightx = 1;
+		gbc.weighty = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(0,0,0,0);
+		
+		this.add(jtf,gbc);
+		
+		
+		gbc.gridwidth=  GridBagConstraints.REMAINDER;
+		gbc.gridx = 1;
+		gbc.weightx = 2;
+		this.add(dotc,gbc);
+		
+		gbc.gridx=0;
+		gbc.gridy=1;
+		
+		gbc.weightx = 1;
+		gbc.weighty = 20;
+		
+		gbc.gridheight= GridBagConstraints.REMAINDER;
+		this.add(tree,gbc);
 	}
 
 

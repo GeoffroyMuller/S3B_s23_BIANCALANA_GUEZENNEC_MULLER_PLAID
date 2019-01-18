@@ -10,9 +10,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-
-
-
+import barre_chargement.VueChargement;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,6 +27,7 @@ public class ImportEtudiant extends Observable {
     private Categorie categorie;
     private String cheminFichier;
     private String nomDeLaFeuille;
+    private VueChargement vc;
 
 
     public ImportEtudiant(String cheminFichier, String nomDeLaFeuille, Categorie categorie){
@@ -36,10 +35,12 @@ public class ImportEtudiant extends Observable {
         this.categorie = categorie;
         this.cheminFichier = cheminFichier;
         this.nomDeLaFeuille = nomDeLaFeuille;
+       
     }
 
     public void importerEtudiant(){
         try {
+        	 vc = new VueChargement();
             //Importation du fichier excel
             FileInputStream fichier = new FileInputStream(cheminFichier);
             Workbook workbook = WorkbookFactory.create(fichier);

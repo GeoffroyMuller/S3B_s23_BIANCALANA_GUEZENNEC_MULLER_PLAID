@@ -14,18 +14,33 @@ public class ConstructeurDataEtudiant {
 	}
 	
 	public String[][] genererDataLigneEtu(){
-		String[][] data = new String[100000][4];
+		int tailleMin = 100;
+		int nbetu=0;
+		String[][] data ;
+		for (Groupe groupe : lg) {
+			for (Etudiant Etu : groupe.getListeEtudiants()) {
+				nbetu++;
+			}
+		}
+		if(nbetu>tailleMin) {
+			data = new String[nbetu][5];
+		}
+		else{
+			 data = new String[tailleMin][5];
+		}
+		
 		int row;
 		row=0;
 		for (int i = 0; i < lg.size(); i++) {
 			ArrayList<Etudiant> le = lg.get(i).getListeEtudiants();
 			//System.out.println("fffff"+i);
 			for (int j = 0; j < le.size(); j++) {
-				data[row][0]=le.get(j).getNom();
-				data[row][1]=le.get(j).getPrenom();
-				data[row][2]=lg.get(i).getNom();
+				data[row][0]=""+le.get(j).getIdEtu();
+				data[row][1]=le.get(j).getNom();
+				data[row][2]=le.get(j).getPrenom();
+				data[row][3]=lg.get(i).getNom();
 				//System.out.println(i);
-				data[row][3]=le.get(j).getEmail();
+				data[row][4]=le.get(j).getEmail();
 				row++;
 			}
 
@@ -36,7 +51,7 @@ public class ConstructeurDataEtudiant {
 	}
 	
 	public String[] GenereColonneEtu() {
-		String[] colo = new String[] {"Nom","Prenom","Groupe","Email"};
+		String[] colo = new String[] {"ID","Nom","Prenom","Groupe","Email"};
 		return colo;
 	}
 

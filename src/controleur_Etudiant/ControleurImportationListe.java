@@ -15,11 +15,13 @@ public class ControleurImportationListe extends JButton implements ActionListene
 	VueImportation vi;
 	JFileChooser explorateur;
 	VueEtudiant vueEtu;
+	String lastpath;
 	
 	public ControleurImportationListe(VueEtudiant ve) {
 		this.setText("Importer une liste d'Etudiant");
 		this.addActionListener(this);
 		this.vueEtu = ve;
+		lastpath = "C:\\";
 		//this.setSize(this.vueEtu.getWidth()/3, this.vueEtu.getHeight()/3);
 		// TODO Auto-generated constructor stub
 	}
@@ -27,7 +29,7 @@ public class ControleurImportationListe extends JButton implements ActionListene
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		JFileChooser chooser = new JFileChooser();
+		JFileChooser chooser = new JFileChooser(lastpath);
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				".xlsx fichier Excel", "xlsx");
 		chooser.setFileFilter(filter);
@@ -35,7 +37,9 @@ public class ControleurImportationListe extends JButton implements ActionListene
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
 			vueEtu.setTextChemin(chooser.getSelectedFile().getName());  
 			this.vi= new VueImportation(vueEtu);
+			this.lastpath=chooser.getSelectedFile().getPath();
 			vi.settextPath(chooser.getSelectedFile().getPath());
+			
 			
 
 		}
