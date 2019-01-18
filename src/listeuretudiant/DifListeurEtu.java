@@ -67,10 +67,8 @@ public class DifListeurEtu extends JSplitPane{
 	
 	public void majData(ArrayList<Groupe> plg) {
 		
-		ArrayList<Categorie> lc = new ArrayList<>();
+
 		
-		
-		afftree = new AfficheurTree(lc,this);
 		constructeurDATACOL=new ConstructeurDataEtudiant(plg);
 		tabledata=new JTable(constructeurDATACOL.genererDataLigneEtu(),constructeurDATACOL.GenereColonneEtu());
 		jspRight = new JScrollPane(tabledata);

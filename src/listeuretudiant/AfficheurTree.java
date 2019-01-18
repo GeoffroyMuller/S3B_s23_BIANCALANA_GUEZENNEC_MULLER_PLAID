@@ -89,6 +89,7 @@ public class AfficheurTree extends JPanel{
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				majDonnee();
+				System.out.println("changement de selection");
 
 			}
 		};
@@ -128,10 +129,12 @@ public class AfficheurTree extends JPanel{
 
 
 	private ArrayList<Groupe> majDonnee(){
+		System.out.println("dans maj donnee");
 		ArrayList<Groupe> lg= new ArrayList<>();
 
 		TreePath[] treePaths = tree.getSelectionPaths();
-
+		System.out.println(tree);
+		System.out.println(treePaths);
 		if(treePaths!=null) {
 			for (TreePath treePath : treePaths) {
 				DefaultMutableTreeNode selectedElement = (DefaultMutableTreeNode)treePath.getLastPathComponent();
@@ -146,6 +149,7 @@ public class AfficheurTree extends JPanel{
 
 					for (Groupe g :((Categorie)(userObject)).getListGroupe()) {
 						lg.add(g);
+						System.out.println("selction cat");
 					}
 				}
 
@@ -156,6 +160,7 @@ public class AfficheurTree extends JPanel{
 
 		lisetu.majData(lg);
 		return lg;
+		
 	}
 
 

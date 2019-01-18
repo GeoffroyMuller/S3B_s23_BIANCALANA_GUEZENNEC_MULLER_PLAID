@@ -18,6 +18,7 @@ public class Categorie{
 	public static final int ALPHA_DSC = 1;
 	public static final int DATE_ASC = 2;
 	public static final int DATE_DSC = 3; 
+	private static int TRI_CHOISIT;
 	
 	
 	
@@ -237,20 +238,25 @@ public class Categorie{
 		switch (tri) {
 		case 0:
 			SQLPrep= "SELECT * FROM CATEGORIE ORDER BY NOM ASC ;";
+			Categorie.TRI_CHOISIT=0;
 			break;
 			
 		case 1:
 			SQLPrep= "SELECT * FROM CATEGORIE ORDER BY NOM DESC ;";
+			Categorie.TRI_CHOISIT=1;
 			break;
 		case 2:
 			SQLPrep= "SELECT * FROM CATEGORIE ORDER BY ID ASC ;";
+			Categorie.TRI_CHOISIT=2;
 			break;
 		case 3:
 			SQLPrep= "SELECT * FROM CATEGORIE ORDER BY ID DESC ;";
+			Categorie.TRI_CHOISIT=3;
 			break;
 
 		default:
 			SQLPrep= "SELECT * FROM CATEGORIE;";
+			Categorie.TRI_CHOISIT=0;
 			break;
 		}
 		
@@ -267,7 +273,7 @@ public class Categorie{
 			String resNom = rs.getString("nom");
 			int resId = rs.getInt("idCategorie");
 			res.add(new Categorie(resNom,resId));
-			System.out.println("eeee"+res);
+			//System.out.println("eeee"+res);
 		}
 		return res;
 	}
@@ -363,6 +369,10 @@ public class Categorie{
 	
 	public String toString() {
 		return this.nom;
+	}
+	
+	static public int getTriChoisit() {
+		return Categorie.TRI_CHOISIT;
 	}
 
 
