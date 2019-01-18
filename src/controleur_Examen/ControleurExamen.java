@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -32,13 +33,17 @@ public class ControleurExamen {
 	private String exam_nom;
 	private String exam_matiere;
 	private String exam_date;
-	private HashMap<Groupe, JButton> mapBoutton_groupe;
+	private HashMap<JButton, Groupe> mapBoutton_groupe;
 	private HashMap<JButton, Categorie> mapButton_categorie;
 
 	private JTextField jtf_nom;		//JTextField : gere le nom de l'examen
 	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
 	private JTextField jtf_date;	//JTextField : gere la date de l'examen
 	private JButton jb_creerExam;	//JButton : creer un Examen
+	
+	//private JButton jb_groupe;
+	//private JButton jb_categorie;
+	private ArrayList<ArrayList<Groupe>> liste_listegrp;
 
 	public ControleurExamen(Examen examenp) {
 		examen = examenp;
@@ -46,6 +51,7 @@ public class ControleurExamen {
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
 		jb_creerExam = new JButton("Créer l'Examen");
+		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
 		//dev
 		chsalle = new JButton("Choisir Salle 1 (test)");
 		chsalle.addActionListener(new ActionListener() {
@@ -69,6 +75,7 @@ public class ControleurExamen {
 		});
 		//findev
 		mapBoutton_groupe = new HashMap<>();
+		mapButton_categorie = new HashMap<>();
 		/**
 		 * dimensionne les JTextFields 
 		 */
@@ -128,8 +135,9 @@ public class ControleurExamen {
 
 
 	public JButton creerBoutton_UnGroupe(Groupe grp) {
-
+		
 		JButton jbt = new JButton();
+		mapBoutton_groupe.put(jbt, grp);
 		jbt.setText("Ajouter");
 		jbt.setBackground(Color.white);
 		jbt.addActionListener(new ActionListener() {
@@ -137,38 +145,20 @@ public class ControleurExamen {
 			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				// TODO Auto-generated method stub
-
-				if(jbt.getText().equals("Ajouter")) {
-					jbt.setText("Retirer");
-					jbt.setBackground(Color.gray);
-
-
-
-					examen.ajouterGroupe(grp);
-					System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
-					
-				}else {
-					if(jbt.getText().equals("Retirer")) {
-						jbt.setText("Ajouter");
-						jbt.setBackground(Color.white);
-						System.out.println("Retirer> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
-
-					}
-				}
-				
+				changeButtonGroupe(jbt, grp);	
 				//VueExamen.paneldev.repaint();//dev
 			}
 		});
-		mapBoutton_groupe.put(grp, jbt);
-
+		
+		
 		return jbt;
 	}
 
 	public JButton creerBoutton_UneCategorie(Categorie categp) {
 
 		JButton jbt = new JButton();
+		mapButton_categorie.put(jbt, categp);
 		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
 		jbt.setBackground(Color.white);
@@ -179,37 +169,78 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 
 				// TODO Auto-generated method stub
-
-				if(jbt.getText().equals("Ajouter")) {
-					jbt.setText("Retirer");
-					jbt.setBackground(Color.black);
-					for(int i=0; i<categp.getListGroupe().size();i++) {
-						(mapBoutton_groupe.get(categp.getListGroupe().get(i))).setText("Retirer");
-						(mapBoutton_groupe.get(categp.getListGroupe().get(i))).setBackground(Color.gray);
-						examen.ajouterGroupe(categp.getListGroupe().get(i));
-
-					}
-					System.out.println("Ajouter> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
-				}else {
-					if(jbt.getText().equals("Retirer")) {
-						jbt.setText("Ajouter");
-						jbt.setBackground(Color.white);
-						for(int i=0; i<categp.getListGroupe().size();i++) {
-							(mapBoutton_groupe.get(categp.getListGroupe().get(i))).setText("Ajouter");
-							(mapBoutton_groupe.get(categp.getListGroupe().get(i))).setBackground(Color.white);
-						}
-						System.out.println("Retirer> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
-
-					}
-				}
+				changeButtonGroupeCategorie(categp, jbt);
 			}
 		});
+		
 		//mapBoutton_groupe.put(jbt, grp);
 
 		return jbt;
 	}
 	
+	
+	private void changeButtonGroupe(JButton jbt, Groupe grp) {
+		if(jbt.getText().equals("Ajouter")) {
+			jbt.setText("Retirer");
+			jbt.setBackground(Color.gray);
 
+			examen.ajouterGroupe(grp);
+			System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
+			
+		}else {
+			if(jbt.getText().equals("Retirer")) {
+				jbt.setText("Ajouter");
+				jbt.setBackground(Color.white);
+
+				examen.enleverDesGroupesDeExamen(grp);
+				System.out.println("Retirer> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
+
+			}
+		}
+	}
+	private void changeButtonGroupeCategorie(Categorie categp, JButton jbt) {
+		Categorie categcourante = mapButton_categorie.get(jbt);
+		HashMap<JButton, Groupe> mapBoutton_groupe_categorie = new HashMap<>();
+		ArrayList<Groupe> listegroupe_categorie = categcourante.getListGroupe();
+		for(Map.Entry<JButton, Groupe> mapgrp: mapBoutton_groupe.entrySet()) {
+			for(Groupe grp : listegroupe_categorie) {
+				if(grp.getIdGroupe() == mapgrp.getValue().getIdGroupe()) {
+					mapBoutton_groupe_categorie.put(mapgrp.getKey(), mapgrp.getValue());
+				}
+			}
+		}
+		if(jbt.getText().equals("Ajouter")) {
+			jbt.setText("Retirer");
+			jbt.setBackground(Color.black);
+			//liste_grp.clear();
+			
+			for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
+				if(jb_grp.getKey().getText().equals("Ajouter")) {
+					jb_grp.getKey().setText("Retirer");
+					//liste_listegrp.add(jb_grp.getValue());
+					examen.ajouterGroupe(jb_grp.getValue());
+				}
+				
+			}
+			System.out.println("Ajouter> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
+		}else {
+			if(jbt.getText().equals("Retirer")) {
+				jbt.setText("Ajouter");
+				jbt.setBackground(Color.white);
+				//liste_grp.clear();
+				for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
+					if(jb_grp.getKey().getText().equals("Retirer")) {
+						jb_grp.getKey().setText("Ajouter");
+						liste_listegrp.remove(jb_grp.getValue());
+						examen.enleverDesGroupesDeExamen(jb_grp.getValue());
+					}
+					
+				}
+				System.out.println("Retirer> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
+
+			}
+		}
+	}
 
 	public JTextField getJtf_nom() {
 		return jtf_nom;

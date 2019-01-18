@@ -22,61 +22,36 @@ public class Salle {
 	/** The id salle. */
 	private int idSalle;
 
+	/** The nb case largeur. */
 	protected int nbCaseLargeur;
+	
+	/** The nb case hauteur. */
 	protected int nbCaseHauteur;
 
-	public Place[][] getPlaces() {
-		return places;
-	}
-
-	public void setPlaces(Place[][] places) {
-		this.places = places;
-	}
-
+	/** The places. */
 	protected Place[][] places;
 
 	/**
 	 * Instantiates a new salle.
 	 *
 	 * @param nom the nom
+	 * @param nbCaseHauteur the nb case hauteur
+	 * @param nbCaseLargeur the nb case largeur
 	 */
 	public Salle(String nom, int nbCaseHauteur, int nbCaseLargeur) {
 		this.idSalle=-1;
 		this.nom=nom;
 		this.nbCaseHauteur=nbCaseHauteur;
 		this.nbCaseLargeur=nbCaseLargeur;
-
 	}
-
-	
-
-	/**
-	 * Gets the nom.
-	 *
-	 * @return the nom
-	 */
-	public String getNom() {
-		return nom;
-	}
-
-
-
-	/**
-	 * Gets the id salle.
-	 *
-	 * @return the idSalle
-	 */
-	public int getIdSalle() {
-		return idSalle;
-	}
-
-
 
 	/**
 	 * Instantiates a new salle.
 	 *
 	 * @param nom the nom
 	 * @param idSalle the id salle
+	 * @param nbCaseHauteur the nb case hauteur
+	 * @param nbCaseLargeur the nb case largeur
 	 */
 	private Salle(String nom, int idSalle, int nbCaseHauteur, int nbCaseLargeur) {
 		this.nom=nom;
@@ -91,6 +66,12 @@ public class Salle {
 		}*/
 	}
 
+	/**
+	 * Gets the tableau places.
+	 *
+	 * @param idSalle the id salle
+	 * @return the tableau places
+	 */
 	public void getTableauPlaces(int idSalle){
 		try {
 			this.places = new Place[this.nbCaseHauteur][this.nbCaseLargeur];
@@ -167,6 +148,13 @@ public class Salle {
 		return res;
 	}
 	
+	/**
+	 * Find by nom.
+	 *
+	 * @param nom the nom
+	 * @return the array list
+	 * @throws SQLException the SQL exception
+	 */
 	public static ArrayList<Salle> findByNom(String nom) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM Salle WHERE nom ='"+nom+"';";
@@ -201,7 +189,7 @@ public class Salle {
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
 
-		ArrayList<Salle> res = null;
+		ArrayList<Salle> res = new ArrayList<Salle>();
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resId = rs.getInt("idSalle");
@@ -283,38 +271,112 @@ public class Salle {
 		}
 	}
 
+	/**
+	 * Gets the iterateur.
+	 *
+	 * @param i the i
+	 * @param j the j
+	 * @param salle the salle
+	 * @return the iterateur
+	 */
 	public Iterateur getIterateur(int i, int j, Salle salle){
 		return new SalleIterateur(i,j, salle);
 	}
 
+	/**
+	 * @return the nom
+	 */
+	public String getNom() {
+		return nom;
+	}
+
+	/**
+	 * @param nom the nom to set
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	/**
+	 * @return the idSalle
+	 */
+	public int getIdSalle() {
+		return idSalle;
+	}
+
+	/**
+	 * @param idSalle the idSalle to set
+	 */
+	public void setIdSalle(int idSalle) {
+		this.idSalle = idSalle;
+	}
+
+	/**
+	 * @return the nbCaseLargeur
+	 */
 	public int getNbCaseLargeur() {
 		return nbCaseLargeur;
 	}
 
+	/**
+	 * @param nbCaseLargeur the nbCaseLargeur to set
+	 */
 	public void setNbCaseLargeur(int nbCaseLargeur) {
 		this.nbCaseLargeur = nbCaseLargeur;
 	}
 
+	/**
+	 * @return the nbCaseHauteur
+	 */
 	public int getNbCaseHauteur() {
 		return nbCaseHauteur;
 	}
 
+	/**
+	 * @param nbCaseHauteur the nbCaseHauteur to set
+	 */
 	public void setNbCaseHauteur(int nbCaseHauteur) {
 		this.nbCaseHauteur = nbCaseHauteur;
 	}
 
+	/**
+	 * @return the places
+	 */
+	public Place[][] getPlaces() {
+		return places;
+	}
 
+	/**
+	 * @param places the places to set
+	 */
+	public void setPlaces(Place[][] places) {
+		this.places = places;
+	}
+
+
+
+
+	/**
+	 * The Class SalleIterateur.
+	 */
 	public class SalleIterateur implements Iterateur {
 
+		/** The j. */
 		protected int i,j;
 
+		/** The salle. */
 		private Salle salle;
 
-		/**
-		 * Coordonnées lors de la création de l'itérateur afin de pouvoir y retourner si besoin
-		 */
+		/** Coordonnées lors de la création de l'itérateur afin de pouvoir y retourner si besoin. */
 		protected int firstI, firstJ;
 
+		/**
+		 * Instantiates a new salle iterateur.
+		 *
+		 * @param i the i
+		 * @param j the j
+		 * @param salle the salle
+		 */
 		public SalleIterateur(int i, int j, Salle salle){
 			this.firstI = this.i = i;
 			this.firstJ = this.j = j;
@@ -323,6 +385,9 @@ public class Salle {
 		}
 
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#hasNext()
+		 */
 		@Override
 		public boolean hasNext() {
 			if(i==nbCaseHauteur-1 && j==nbCaseLargeur-1){
@@ -331,6 +396,9 @@ public class Salle {
 			return true;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#hasPrevious()
+		 */
 		@Override
 		public boolean hasPrevious() {
 			if(i==0 && j==0){
@@ -339,6 +407,9 @@ public class Salle {
 			return true;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#hasNext(int)
+		 */
 		@Override
 		public boolean hasNext(int pas) {
 			if(j+pas>nbCaseLargeur-1){
@@ -349,6 +420,9 @@ public class Salle {
 			return true;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#hasPrevious(int)
+		 */
 		@Override
 		public boolean hasPrevious(int pas) {
 			if(j-pas<0){
@@ -359,6 +433,9 @@ public class Salle {
 			return true;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#hasUp()
+		 */
 		@Override
 		public boolean hasUp() {
 			if(!(this.i == 0)){
@@ -367,6 +444,9 @@ public class Salle {
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#hasDown()
+		 */
 		@Override
 		public boolean hasDown() {
 			if(!(this.i == nbCaseHauteur-1)){
@@ -375,6 +455,9 @@ public class Salle {
 			return false;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#next()
+		 */
 		@Override
 		public Object next() {
 
@@ -388,6 +471,9 @@ public class Salle {
 			return places[this.i][this.j];
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#previous()
+		 */
 		@Override
 		public Object previous() {
 			if(j==0){
@@ -401,6 +487,9 @@ public class Salle {
 			return places[this.i][this.j];
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#next(int)
+		 */
 		@Override
 		public Object next(int pas) {
 			Place place=null;
@@ -423,6 +512,9 @@ public class Salle {
 			return place;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#previous(int)
+		 */
 		@Override
 		public Object previous(int pas) {
 			Place place=null;
@@ -443,34 +535,52 @@ public class Salle {
 			return place;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#up()
+		 */
 		@Override
 		public Object up() {
 			this.i--;
 			return places[i][j];
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#down()
+		 */
 		@Override
 		public Object down() {
 			this.i++;
 			return places[i][j];
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#actual()
+		 */
 		@Override
 		public Object actual() {
 			return salle.getPlaces()[i][j];
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#reset()
+		 */
 		@Override
 		public void reset() {
 			this.i = this.firstI;
 			this.j = this.firstJ;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#getCoordI()
+		 */
 		@Override
 		public int getCoordI() {
 			return this.i;
 		}
 
+		/* (non-Javadoc)
+		 * @see modele.Iterateur#getCoordY()
+		 */
 		@Override
 		public int getCoordY() {
 			return this.j;

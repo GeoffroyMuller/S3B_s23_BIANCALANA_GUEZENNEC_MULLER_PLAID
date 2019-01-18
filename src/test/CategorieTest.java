@@ -57,11 +57,11 @@ public class CategorieTest {
 		g1=new Groupe("A");
 		g2=new Groupe("B");
 		g3=new Groupe("C");
-		g1.ajouterEtudiant(e1);
-		g1.ajouterEtudiant(e2);
-		g2.ajouterEtudiant(e3);
-		g2.ajouterEtudiant(e4);
-		g3.ajouterEtudiant(e1);
+		g1.ajouterEtudiants(e1);
+		g1.ajouterEtudiants(e2);
+		g2.ajouterEtudiants(e3);
+		g2.ajouterEtudiants(e4);
+		g3.ajouterEtudiants(e1);
 		c1=new Categorie("cat");
 	}
 
