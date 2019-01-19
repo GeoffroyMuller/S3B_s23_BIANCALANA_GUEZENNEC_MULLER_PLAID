@@ -26,7 +26,7 @@ import modele.Examen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 
-public class Listeur extends JPanel implements Observer {
+public class Listeur extends JPanel{
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
@@ -51,10 +51,6 @@ public class Listeur extends JPanel implements Observer {
 		this.setLayout(new GridBagLayout());
 		jp_all.setLayout(new GridBagLayout());
 
-		for (Categorie categorie : listecategorie) {
-			pl_courant = new PanelListeur(categorie, this, ctrlexamp);
-			liste_panelListeur.add(pl_courant);
-		}
 		creerZoneListeur();
 
 		gbc.gridx = 0;
@@ -68,19 +64,26 @@ public class Listeur extends JPanel implements Observer {
 		this.add(scrollpane, gbc);
 	}
 
-	private void createPanelCategorie(){
+	private void genererPanelCategorie(){
+		liste_panelListeur.clear();
+		pl_courant = new PanelListeur();
 		for (Categorie categorie : listecategorie) {
 			pl_courant = new PanelListeur(categorie, this, controleur_Exam);
 			liste_panelListeur.add(pl_courant);
+			
 		}
 	}
 
-	private void creerZoneListeur() {
+	public void setListecategorie(ArrayList<Categorie> listecategorie) {
+		this.listecategorie = listecategorie;
+	}
 
+	public void creerZoneListeur() {
+		genererPanelCategorie();
 		int i = 0;
 
 		if((listecategorie == null)||(listecategorie.size()==0)) {
-			pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this, controleur_Exam);
+			PanelListeur pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this, controleur_Exam);
 			pl_courant.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 
 
@@ -105,12 +108,12 @@ public class Listeur extends JPanel implements Observer {
 				gbc.insets = new Insets(0, 0, 0, 0);
 				gbc.weightx = 1;
 				gbc.weighty = 0;
-
+				System.out.println("========================================");
 				jp_all.add(pl, gbc);
 				i++;
 			}
 		}
-
+		repaint();
 	}
 	/**
 	 * Definie et adapte la taille General
@@ -126,6 +129,8 @@ public class Listeur extends JPanel implements Observer {
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
 		//g.fillRect(0, 10, 10, 10);
 		//scrollpane.setPreferredSize(new Dimension(this.getWidth()-20, this.getHeight()-20));
+		//this.setVisible(false);
+		//this.setVisible(true);
 	}
 
 
@@ -169,19 +174,4 @@ public class Listeur extends JPanel implements Observer {
 
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		try {
-			this.listecategorie = Categorie.getlistCategorie();
-
-			this.createPanelCategorie();
-			this.pl_courant.repaint();
-			repaint();
-			this.creerZoneListeur();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		this.pl_courant.repaint();
-		repaint();
-	}
 }

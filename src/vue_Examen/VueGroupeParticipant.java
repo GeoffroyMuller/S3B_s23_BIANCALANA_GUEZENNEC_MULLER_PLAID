@@ -1,11 +1,14 @@
 package vue_Examen;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
+import java.util.Observer;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,33 +18,34 @@ import composante_graphique.Listeur;
 //import composante_graphique.Listeur;
 
 import controleur_Examen.ControleurExamen;
+import javafx.beans.Observable;
 import modele.Examen;
 import modele.BDD.Categorie;
 
-public class VueGroupeParticipant extends JPanel{
+public class VueGroupeParticipant extends JPanel implements Observer{
 	private ControleurExamen controleur_Exam;
 
-	public static Listeur listeur;
+	private static Listeur listeur;
 	private GridBagConstraints gbc;
 	private JLabel jl_grpParticip = new JLabel("   Groupe Participant"); 
+	private ArrayList<Categorie> listecateg;
 
-	public VueGroupeParticipant(ControleurExamen ctrlexamp, ArrayList<Categorie> listecateg) {
+	public VueGroupeParticipant(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp) {
 		controleur_Exam = ctrlexamp;
-
-
-		this.setLayout(new GridBagLayout());
+		listecateg = listecategp;
+		
+		//this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
-		listeur = new Listeur(listecateg, ctrlexamp);
-		creerZoneGroupeParticipant();
+		creerZoneGroupeParticipant(listecategp);
 	}
 
-	public static Listeur getListeur(){
-		return listeur;
-	}
-
-	private void creerZoneGroupeParticipant() {
-
-
+	
+	public void creerZoneGroupeParticipant(ArrayList<Categorie> listecategp) {
+		if(listeur!=null) {
+			listeur.removeAll();
+		}
+		this.setLayout(new GridBagLayout());
+		listeur = new Listeur(listecategp, controleur_Exam);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -54,13 +58,25 @@ public class VueGroupeParticipant extends JPanel{
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		this.add(listeur, gbc);
-
+		repaint();
+		
 	}
+
+	
+	
+	public static Listeur getListeur() {
+		return listeur;
+	}
+
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		
 		listeur.definirTaille(this.getWidth(), this.getHeight());
+		setVisible(false);
+		setVisible(true);
 	}
+
 
 	public static void main(String arg[]) {
 		JFrame fenetre = new JFrame("EtuPlacement");
@@ -73,4 +89,12 @@ public class VueGroupeParticipant extends JPanel{
 		fenetre.setVisible(true);
 
 	}
+
+
+	@Override
+	public void update(java.util.Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
