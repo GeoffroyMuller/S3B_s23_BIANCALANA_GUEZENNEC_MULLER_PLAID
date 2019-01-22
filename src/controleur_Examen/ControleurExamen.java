@@ -198,6 +198,10 @@ public class ControleurExamen {
 			}
 		}
 	}
+	
+	
+	
+	
 	private void changeButtonGroupeCategorie(Categorie categp, JButton jbt) {
 		Categorie categcourante = mapButton_categorie.get(jbt);
 		HashMap<JButton, Groupe> mapBoutton_groupe_categorie = new HashMap<>();

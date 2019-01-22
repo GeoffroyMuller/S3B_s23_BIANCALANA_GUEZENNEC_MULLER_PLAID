@@ -100,18 +100,27 @@ public class Listeur extends JPanel{
 			gbc.gridy = 1;
 			jp_all.add(new JPanel(), gbc);
 		}else {
+			GridBagConstraints gbcd = new GridBagConstraints();
 			for (PanelListeur pl : liste_panelListeur) {
 
-				gbc.gridx = 0;
-				gbc.gridy = i;
-				gbc.fill = GridBagConstraints.BOTH;
-				gbc.insets = new Insets(0, 0, 0, 0);
-				gbc.weightx = 1;
-				gbc.weighty = 0;
+				gbcd.gridx = 0;
+				gbcd.gridy = i;
+				gbcd.fill = GridBagConstraints.BOTH;
+				gbcd.insets = new Insets(0, 0, 0, 0);
+				gbcd.weightx = 1;
+				gbcd.weighty = 0;
 				System.out.println("========================================");
-				jp_all.add(pl, gbc);
+				jp_all.add(pl, gbcd);
 				i++;
 			}
+			gbcd.gridx = 0;
+			gbcd.gridy = i;
+			gbcd.fill = GridBagConstraints.BOTH;
+			gbcd.insets = new Insets(0, 0, 0, 0);
+			gbcd.weightx = 0;
+			gbcd.weighty = i;
+			System.out.println("========================================");
+			jp_all.add(new JPanel(), gbcd);
 		}
 		repaint();
 	}
