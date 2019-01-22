@@ -3,12 +3,14 @@ package vue_Examen;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controleur_Examen.ControleurExamen;
@@ -19,6 +21,7 @@ public class VueCreation extends JPanel{
 	private ControleurExamen controleur_Exam;
 	
 	private GridBagConstraints gbc = new GridBagConstraints();
+	private ArrayList<Categorie> listecateg = new ArrayList<>();
 	
 	private VueInfoExamen vue_infoExam;
 	private VueGroupeParticipant vue_grpParticip;
@@ -26,8 +29,9 @@ public class VueCreation extends JPanel{
 	private VueContrainte vue_contrainte = new VueContrainte();
 	private JPanel jp_bouttonexam = new JPanel(new BorderLayout());
 	
-	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecateg) {
+	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp) {
 		controleur_Exam = ctrlexamp;
+		listecateg = listecategp; 
 		vue_infoExam = new VueInfoExamen(controleur_Exam);
 		vue_sallePrio = new VueSallePriorite(controleur_Exam);
 		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, listecateg);
@@ -79,11 +83,16 @@ public class VueCreation extends JPanel{
 		this.add(jp_bouttonexam, gbc);
 	}
 	
+	public VueGroupeParticipant getVue_grpParticip() {
+		return vue_grpParticip;
+	}
+
 	
-	
-	
-	
-	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		//this.setVisible(false);
+		//this.setVisible(true);
+	}
 	public static void main(String arg[]) {
 		JFrame fenetre = new JFrame("EtuPlacement");
 

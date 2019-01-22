@@ -3,6 +3,7 @@ package controleur_Etudiant;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Observer;
 
 import javax.swing.JButton;
 
@@ -37,7 +38,7 @@ public class ControleurConfirmerImportation extends JButton implements ActionLis
 		this.vetu.setListeActuelle(new ArrayList<Groupe>());
 
 		ImportEtudiant ie = new ImportEtudiant(vi.getpath(), "Feuil1", vi.getCategSelectioner());
-		ie.addObserver(VueGroupeParticipant.getListeur());
+		//ie.addObserver((Observer) VueGroupeParticipant.getListeur());
 		ie.importerEtudiant();
 
 		ListenerDeRefresh.avertirChangement();

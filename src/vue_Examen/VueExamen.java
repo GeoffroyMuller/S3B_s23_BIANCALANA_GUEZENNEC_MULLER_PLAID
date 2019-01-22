@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map.Entry;
@@ -13,6 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,8 +23,7 @@ import javax.swing.ScrollPaneConstants;
 
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
-
-
+import javafx.beans.InvalidationListener;
 import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
 import modele.BDD.Groupe;
@@ -29,7 +31,7 @@ import modele.BDD.Groupe;
 
 import modele.Examen;
 
-public class VueExamen extends JPanel implements Observer {
+public class VueExamen extends JPanel implements Observer{
 
 	private Examen examen;
 	private ControleurExamen controleur_Exam;
@@ -61,6 +63,7 @@ public class VueExamen extends JPanel implements Observer {
 	//dev
 	public static PanelDev_Afficheur paneldev = new PanelDev_Afficheur();
 	JScrollPane jscrol_dev;
+	//fin dev
 	/**
 	 * Constructeur principale
 	 * @throws SQLException 
@@ -201,10 +204,35 @@ public class VueExamen extends JPanel implements Observer {
 
 
 		jp2_affichListEtu.add(jscrol_dev);
+		JButton jb_dev_up = new JButton("update");
+		jb_dev_up.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+
+				try {
+					((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					System.out.println("ERROOOOOOOOR");
+				}
+	
+				
+				/*try {
+					((VueCreation) jp2_creation).creerVueGroupeParticipant(Categorie.getlistCategorie());
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}*/
+				repaint();
+
+			}
+
+		});
+		jp2_creation.add(jb_dev_up);
 	}
-
-
-
 
 
 
@@ -296,7 +324,14 @@ public class VueExamen extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-
+		try {
+			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
+
+
 }
 

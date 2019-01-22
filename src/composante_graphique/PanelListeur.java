@@ -38,6 +38,9 @@ public class PanelListeur extends JPanel{
 	private Categorie categorie;	//categorie correspondant a this
 
 
+	public PanelListeur() {
+		
+	}
 	public PanelListeur(Categorie categ, Listeur listeur, ControleurExamen ctrlexamp) {
 		liste_jp_groupe = new ArrayList<JPanel>();
 

@@ -26,7 +26,7 @@ import modele.Examen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 
-public class Listeur extends JPanel implements Observer {
+public class Listeur extends JPanel{
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
@@ -40,6 +40,7 @@ public class Listeur extends JPanel implements Observer {
 		jp_all = new JPanel();
 		jp_all.setBackground(Color.darkGray);
 		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollpane.getVerticalScrollBar().setUnitIncrement(15);
 		//scrollpane.setBackground(Color.BLUE);
 		liste_panelListeur = new ArrayList<PanelListeur>();
 		//this.setBackground(Color.blue);
@@ -51,10 +52,6 @@ public class Listeur extends JPanel implements Observer {
 		this.setLayout(new GridBagLayout());
 		jp_all.setLayout(new GridBagLayout());
 
-		for (Categorie categorie : listecategorie) {
-			pl_courant = new PanelListeur(categorie, this, ctrlexamp);
-			liste_panelListeur.add(pl_courant);
-		}
 		creerZoneListeur();
 
 		gbc.gridx = 0;
@@ -68,19 +65,26 @@ public class Listeur extends JPanel implements Observer {
 		this.add(scrollpane, gbc);
 	}
 
-	private void createPanelCategorie(){
+	private void genererPanelCategorie(){
+		liste_panelListeur.clear();
+		pl_courant = new PanelListeur();
 		for (Categorie categorie : listecategorie) {
 			pl_courant = new PanelListeur(categorie, this, controleur_Exam);
 			liste_panelListeur.add(pl_courant);
+			
 		}
 	}
 
-	private void creerZoneListeur() {
+	public void setListecategorie(ArrayList<Categorie> listecategorie) {
+		this.listecategorie = listecategorie;
+	}
 
+	public void creerZoneListeur() {
+		genererPanelCategorie();
 		int i = 0;
 
 		if((listecategorie == null)||(listecategorie.size()==0)) {
-			pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this, controleur_Exam);
+			PanelListeur pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this, controleur_Exam);
 			pl_courant.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 
 
@@ -97,20 +101,27 @@ public class Listeur extends JPanel implements Observer {
 			gbc.gridy = 1;
 			jp_all.add(new JPanel(), gbc);
 		}else {
+			GridBagConstraints gbcd = new GridBagConstraints();
 			for (PanelListeur pl : liste_panelListeur) {
 
-				gbc.gridx = 0;
-				gbc.gridy = i;
-				gbc.fill = GridBagConstraints.BOTH;
-				gbc.insets = new Insets(0, 0, 0, 0);
-				gbc.weightx = 1;
-				gbc.weighty = 0;
-
-				jp_all.add(pl, gbc);
+				gbcd.gridx = 0;
+				gbcd.gridy = i;
+				gbcd.fill = GridBagConstraints.BOTH;
+				gbcd.insets = new Insets(0, 0, 0, 0);
+				gbcd.weightx = 1;
+				gbcd.weighty = 0;
+				jp_all.add(pl, gbcd);
 				i++;
 			}
+			gbcd.gridx = 0;
+			gbcd.gridy = i;
+			gbcd.fill = GridBagConstraints.BOTH;
+			gbcd.insets = new Insets(0, 0, 0, 0);
+			gbcd.weightx = 0;
+			gbcd.weighty = i;
+			jp_all.add(new JPanel(), gbcd);
 		}
-
+		repaint();
 	}
 	/**
 	 * Definie et adapte la taille General
@@ -126,6 +137,8 @@ public class Listeur extends JPanel implements Observer {
 		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
 		//g.fillRect(0, 10, 10, 10);
 		//scrollpane.setPreferredSize(new Dimension(this.getWidth()-20, this.getHeight()-20));
+		//this.setVisible(false);
+		//this.setVisible(true);
 	}
 
 
@@ -169,19 +182,4 @@ public class Listeur extends JPanel implements Observer {
 
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		try {
-			this.listecategorie = Categorie.getlistCategorie();
-
-			this.createPanelCategorie();
-			this.pl_courant.repaint();
-			repaint();
-			this.creerZoneListeur();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		this.pl_courant.repaint();
-		repaint();
-	}
 }
