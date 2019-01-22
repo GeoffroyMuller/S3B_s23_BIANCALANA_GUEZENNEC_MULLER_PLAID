@@ -40,6 +40,7 @@ public class Listeur extends JPanel{
 		jp_all = new JPanel();
 		jp_all.setBackground(Color.darkGray);
 		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollpane.getVerticalScrollBar().setUnitIncrement(15);
 		//scrollpane.setBackground(Color.BLUE);
 		liste_panelListeur = new ArrayList<PanelListeur>();
 		//this.setBackground(Color.blue);
@@ -109,7 +110,6 @@ public class Listeur extends JPanel{
 				gbcd.insets = new Insets(0, 0, 0, 0);
 				gbcd.weightx = 1;
 				gbcd.weighty = 0;
-				System.out.println("========================================");
 				jp_all.add(pl, gbcd);
 				i++;
 			}
@@ -119,7 +119,6 @@ public class Listeur extends JPanel{
 			gbcd.insets = new Insets(0, 0, 0, 0);
 			gbcd.weightx = 0;
 			gbcd.weighty = i;
-			System.out.println("========================================");
 			jp_all.add(new JPanel(), gbcd);
 		}
 		repaint();
