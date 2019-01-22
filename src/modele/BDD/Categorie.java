@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import Popup_Categorie.Frame_Popup;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -300,12 +302,19 @@ public class Categorie{
 	 */
 	public void save() {
 		//save ou update de la categorie
-		if(this.idCategorie==-1) {
-			this.saveNew();
+		if(checkUniciterNomCategorie()) {
+			if(this.idCategorie==-1) {
+				this.saveNew();
+			}
+			else {
+				this.update();
+			}
 		}
 		else {
-			this.update();
+			Frame_Popup popup = new Frame_Popup(this);
+			
 		}
+
 		
 	}
 
@@ -365,6 +374,54 @@ public class Categorie{
 			}
 		}
 
+	}
+	
+	public boolean checkUniciterNomCategorie() {
+		boolean res = true;
+		int count = 0;
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "select count(*) from Categorie " + 
+					"WHERE nom ='"+this.nom+"';";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+			ResultSet rs = prep0.getResultSet();
+			while (rs.next()) {
+				count = rs.getInt(1);
+			}
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
+		}
+		
+		if(count!=0){
+			res=false;
+		}
+		System.out.println("resulatat du check de nom : "+res);
+		return res;
+	}
+	
+	public int getIdDoublon() {
+		int res = -1;
+		
+		try {
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep0 = "select idCategorie from Categorie " + 
+					"WHERE nom ='"+this.nom+"';";
+			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
+			prep0.execute();
+			ResultSet rs = prep0.getResultSet();
+			while (rs.next()) {
+				res = rs.getInt(1);
+			}
+		}
+		catch(SQLException e) {
+			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
+		}
+		
+
+		System.out.println("resulatat du check de l'id : "+res);
+		return res;
 	}
 	
 	public String toString() {
