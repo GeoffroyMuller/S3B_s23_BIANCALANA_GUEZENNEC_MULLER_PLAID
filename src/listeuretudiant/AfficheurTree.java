@@ -38,7 +38,7 @@ public class AfficheurTree extends JPanel{
 		DefaultMutableTreeNode top = new DefaultMutableTreeNode("Liste de tout les étudiants");
 		//createNodesExemple(top);
 		tree = new JTree(top);
-		dotc = new DeroulOptionTriCateg();
+		dotc = new DeroulOptionTriCateg(this);
 		jtf = new JTextField();
 		jtf.setText("Trié par ");
 		
@@ -95,7 +95,7 @@ public class AfficheurTree extends JPanel{
 		};
 
 		tree.addTreeSelectionListener(tsl);
-		dotc = new DeroulOptionTriCateg();
+		dotc = new DeroulOptionTriCateg(this);
 		jtf = new JTextField();
 		jtf.setText("Trié par ");
 		
