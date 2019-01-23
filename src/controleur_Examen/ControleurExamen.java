@@ -51,6 +51,7 @@ public class ControleurExamen {
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
 		jb_creerExam = new JButton("Créer l'Examen");
+		jb_creerExam.setEnabled(false);
 		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
 		//dev
 		chsalle = new JButton("Choisir Salle 1 (test)");
@@ -65,6 +66,11 @@ public class ControleurExamen {
 					salle.getTableauPlaces(salle.getIdSalle());
 					System.out.println("Salle" + salle.getNom());
 					examen.ajouterSalle(salle);
+					if(!examen.vérifierLeNombreDePlace()){
+						jb_creerExam.setEnabled(false);
+					}else{
+						jb_creerExam.setEnabled(true);
+					}
 
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -110,6 +116,11 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				exam_date = ""+((JTextField)e.getSource()).getText();
+				if(examen.verifierLesParametresExamen() && examen.vérifierLeNombreDePlace()){
+					jb_creerExam.setEnabled(true);
+				}else{
+					jb_creerExam.setEnabled(false);
+				}
 				System.out.println("CtrlExam_jtf_Date: "+((JTextField)e.getSource()).getText());
 			}
 		});
@@ -146,7 +157,14 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				changeButtonGroupe(jbt, grp);	
+				changeButtonGroupe(jbt, grp);
+
+				//On vérifie si le nombre de place est toujours suffisant
+				if(!examen.vérifierLeNombreDePlace()){
+					jb_creerExam.setEnabled(false);
+				}else{
+					jb_creerExam.setEnabled(true);
+				}
 				//VueExamen.paneldev.repaint();//dev
 			}
 		});
@@ -170,6 +188,11 @@ public class ControleurExamen {
 
 				// TODO Auto-generated method stub
 				changeButtonGroupeCategorie(categp, jbt);
+				if(!examen.vérifierLeNombreDePlace()){
+					jb_creerExam.setEnabled(false);
+				}else{
+					jb_creerExam.setEnabled(true);
+				}
 			}
 		});
 		

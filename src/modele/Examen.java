@@ -48,6 +48,9 @@ public class Examen extends Observable{
      * Constructeur Examen
      */
     public Examen(){
+        this.nom = "";
+        this.date = "";
+        this.matiere = "";
         this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
         this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
         this.salles = new ArrayList<Salle>();
@@ -135,6 +138,12 @@ public class Examen extends Observable{
 
         int margeErreur = 0;
 
+        if(!this.verifierLesParametresExamen()){
+            /*
+            To do ouverture fenetre exception
+             */
+        }
+
         while(resultat !=margeErreur){
             placerEleve();
             resultat = this.verifierSolution();
@@ -157,22 +166,43 @@ public class Examen extends Observable{
         boolean res = false;
         int nombreDePlacesTotales = 0;
 
-        //On Compte le nombre de place disponible dans toutes les salles
-        for (Salle salle: this.salles) {
-            nombreDePlacesTotales+=salle.compterLeNombreDePlaceDisponible();
-        }
-
         //On compte le nombre d'étudiant
         Set<Etudiant> etudiants = this.etudiants.keySet();
         int nombreEtudiants = etudiants.size();
 
-        //On compare
-        if(nombreDePlacesTotales>= nombreEtudiants){
-            res=true;
+        if(nombreEtudiants==0){
+            res=false;
+        }else{
+            //On Compte le nombre de place disponible dans toutes les salles
+            for (Salle salle: this.salles) {
+                nombreDePlacesTotales+=salle.compterLeNombreDePlaceDisponible();
+            }
+
+
+
+            //On compare
+            if(nombreDePlacesTotales>= nombreEtudiants){
+                res=true;
+            }
         }
 
         return res;
     }
+
+    /**
+     * Méthode permettant de vérifier que tout les champs nécessaire à la création d'un examen on été renseigné
+     * @return
+     */
+    public boolean verifierLesParametresExamen(){
+        boolean res=true;
+
+        if(this.nom.equals("") || this.date.equals("") || this.matiere.equals("")){
+            res=false;
+        }
+
+        return res;
+    }
+
 
     /**
      * Méthode permettant de placer tout les éléves dans les salles choisies
