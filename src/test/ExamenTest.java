@@ -16,6 +16,7 @@ public class ExamenTest {
     private Examen examen;
     private Etudiant e1,e2,e3,e4;
     private Groupe gA,gB,gC,gD;
+    private Salle salle;
 
     @Before
     public void init(){
@@ -69,7 +70,39 @@ public class ExamenTest {
         examen.ajouterGroupe(gC);
         examen.ajouterGroupe(gD);
 
-    }
+        //Ajout d'une salle test
+
+        //AJout de la salle
+
+        salle = new Salle("Salle_Test2",10,10);
+        salle.save();
+
+
+
+        TypePlace typePlace = new TypePlace("Chaise",1);
+        TypePlace typePlaceAllee = new TypePlace("Allee",0);
+
+        typePlaceAllee.save();
+        typePlace.save();
+
+        int idSalle = salle.getIdSalle();
+
+        for(int i = 0; i < 10;i++){
+            for(int j = 0; j < 10;j++){
+                if(j == 7 || j == 4){
+                    Place place = new Place(i+""+j,typePlaceAllee.getIdTypePlace(),i,j,0,salle.getIdSalle());
+                    place.save();
+                }else{
+                    Place place = new Place(i+""+j,typePlace.getIdTypePlace(),i,j,1,salle.getIdSalle());
+                    place.save();
+                }
+
+            }
+        }
+
+
+
+}
 
     @After
     public void fin(){
@@ -108,5 +141,24 @@ public class ExamenTest {
         listEtu.add(this.e3);
         examen.enleverDesEtudiantsDeExamen(listEtu);
         assertTrue("L'étudiant devrait ne plus faire parti de l'examen",!this.examen.etudiants.keySet().contains(this.e3));
+    }
+
+    @Test
+    public void testCompterLeNombreDePlaceVrai(){
+        examen.ajouterSalle(salle);
+       assertTrue("Le nombre de place devrait être suffisant",examen.vérifierLeNombreDePlace());
+    }
+
+    @Test
+    public void testCompterLeNombreDePlaceFaux(){
+        examen.ajouterSalle(salle);
+        for(int i = 0; i < 100; i++){
+            Etudiant etu = new Etudiant("EtudiantA","EtudiantA");
+            etu.save();
+            gA.ajouterEtudiant(etu);
+            examen.ajouterUnEtudiant(etu);
+        }
+
+        assertFalse("Le nombre de place devrait ne pas être suffisant",examen.vérifierLeNombreDePlace());
     }
 }

@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import com.sun.xml.internal.ws.spi.db.OldBridge;
+//import com.sun.xml.internal.ws.spi.db.OldBridge;
 
 import controleur_listeur.ListenerDeRefresh;
 import modele.BDD.Categorie;

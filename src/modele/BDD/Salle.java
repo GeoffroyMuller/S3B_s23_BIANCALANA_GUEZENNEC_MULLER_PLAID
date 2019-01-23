@@ -32,6 +32,11 @@ public class Salle {
 	protected Place[][] places;
 
 	/**
+	 * Correspond au nombre de place disponible d'une salle, les places indisponible ne sont pas comptées.
+	 */
+	private int nbPlaces;
+
+	/**
 	 * Instantiates a new salle.
 	 *
 	 * @param nom the nom
@@ -64,6 +69,22 @@ public class Salle {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}*/
+	}
+
+	public int compterLeNombreDePlaceDisponible(){
+		int res = 0;
+		this.getTableauPlaces(this.getIdSalle());
+
+		for(int i = 0; i < this.getPlaces().length;i++){
+			for(int j = 0; j < this.getPlaces().length;j++){
+				Place place = this.getPlaces()[i][j];
+				if(place.getDisponnible()){
+					res++;
+				}
+			}
+		}
+
+		return res;
 	}
 
 	/**
@@ -503,7 +524,7 @@ public class Salle {
 
 				//On vérifie que la place n'est pas une allee ou une place cassé
 				//Si la place n'est pas disponible alors on avance d'une case
-				if(!(places[this.i][this.j].getDisponnible()==1)){
+				if(!(places[this.i][this.j].getDisponnible())){
 					place = (Place)this.next();
 				}
 			}
@@ -528,7 +549,7 @@ public class Salle {
 
 				//On vérifie que la place n'est pas une allee ou une place cassé
 				//Si la place n'est pas disponible alors on recule d'une case
-				if(!(places[this.i][this.j].getDisponnible()==1)){
+				if(!(places[this.i][this.j].getDisponnible())){
 					place = (Place)this.previous();
 				}
 			}
