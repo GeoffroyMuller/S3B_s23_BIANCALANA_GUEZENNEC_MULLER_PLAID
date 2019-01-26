@@ -82,11 +82,10 @@ public class VueExamen extends JPanel implements Observer{
 			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");
 			jp2_creation = new VueCreation(controleur_Exam, new ArrayList<Categorie>());
 		}*/
-		this.setBackground(new Color(138, 138, 138));
-		jp_all.setBackground(new Color(138, 138, 138));
+		
 		creerZoneCreation();
 		creerZoneAffichageEtu();
-		couleurJpp_marge(new Color(138, 138, 138));
+		colorer(new Color(138, 138, 138));
 		placerElementPrincipaux();
 		this.add(jp_all);
 		definirTaille(1000, 300);
@@ -219,7 +218,7 @@ public class VueExamen extends JPanel implements Observer{
 					System.out.println("ERROOOOOOOOR");
 				}
 	
-				
+				colorer(new Color(138, 138, 138));
 				/*try {
 					((VueCreation) jp2_creation).creerVueGroupeParticipant(Categorie.getlistCategorie());
 				} catch (SQLException e1) {
@@ -254,7 +253,11 @@ public class VueExamen extends JPanel implements Observer{
 	}
 
 
-
+	public void colorer(Color color) {
+		this.setBackground(color);
+		jp_all.setBackground(color);
+		couleurJpp_marge(color);
+	}
 
 
 	/**
@@ -330,6 +333,7 @@ public class VueExamen extends JPanel implements Observer{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		colorer(new Color(138, 138, 138));
 	}
 
 

@@ -26,7 +26,7 @@ import controleur_Examen.ControleurExamen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 
-public class PanelListeur extends JPanel{
+public class PanelListeurCategorie extends JPanel{
 	private ControleurExamen controleur_Exam;
 	private ListeurCategorie listeur; //listeur qui contient this
 
@@ -40,10 +40,10 @@ public class PanelListeur extends JPanel{
 	private Categorie categorie;	//categorie correspondant a this
 
 
-	public PanelListeur() {
+	public PanelListeurCategorie() {
 		
 	}
-	public PanelListeur(Categorie categ, ListeurCategorie listeur, ControleurExamen ctrlexamp) {
+	public PanelListeurCategorie(Categorie categ, ListeurCategorie listeur, ControleurExamen ctrlexamp) {
 		liste_jp_groupe = new ArrayList<JPanel>();
 
 		jp_all = new JPanel();
@@ -110,7 +110,7 @@ public class PanelListeur extends JPanel{
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 
-				System.out.print("pressed::"+PanelListeur.this.categorie.getNom());
+				System.out.print("pressed::"+PanelListeurCategorie.this.categorie.getNom());
 
 				if(activer) {
 					activer = false;

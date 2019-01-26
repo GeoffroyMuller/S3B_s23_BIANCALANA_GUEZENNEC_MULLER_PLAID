@@ -30,9 +30,9 @@ public class ListeurCategorie extends JPanel{
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
-	private PanelListeur pl_courant;
+	private PanelListeurCategorie pl_courant;
 	private ArrayList<Categorie> listecategorie;
-	private ArrayList<PanelListeur> liste_panelListeur;
+	private ArrayList<PanelListeurCategorie> liste_panelListeur;
 	private GridBagConstraints gbc = new GridBagConstraints();
 
 	public ListeurCategorie(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
@@ -42,7 +42,7 @@ public class ListeurCategorie extends JPanel{
 		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollpane.getVerticalScrollBar().setUnitIncrement(15);
 		//scrollpane.setBackground(Color.BLUE);
-		liste_panelListeur = new ArrayList<PanelListeur>();
+		liste_panelListeur = new ArrayList<PanelListeurCategorie>();
 		//this.setBackground(Color.blue);
 		if(listep == null) {
 			listecategorie = new ArrayList<Categorie>();
@@ -67,9 +67,9 @@ public class ListeurCategorie extends JPanel{
 
 	private void genererPanelCategorie(){
 		liste_panelListeur.clear();
-		pl_courant = new PanelListeur();
+		pl_courant = new PanelListeurCategorie();
 		for (Categorie categorie : listecategorie) {
-			pl_courant = new PanelListeur(categorie, this, controleur_Exam);
+			pl_courant = new PanelListeurCategorie(categorie, this, controleur_Exam);
 			liste_panelListeur.add(pl_courant);
 			
 		}
@@ -84,7 +84,7 @@ public class ListeurCategorie extends JPanel{
 		int i = 0;
 
 		if((listecategorie == null)||(listecategorie.size()==0)) {
-			PanelListeur pl_courant = new PanelListeur(new Categorie("Pas de categorie"), this, controleur_Exam);
+			PanelListeurCategorie pl_courant = new PanelListeurCategorie(new Categorie("Pas de categorie"), this, controleur_Exam);
 			pl_courant.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 
 
@@ -101,7 +101,7 @@ public class ListeurCategorie extends JPanel{
 			jp_all.add(new JPanel(), gbc);
 		}else {
 			GridBagConstraints gbcd = new GridBagConstraints();
-			for (PanelListeur pl : liste_panelListeur) {
+			for (PanelListeurCategorie pl : liste_panelListeur) {
 
 
 				gbc.gridx = 0;
@@ -140,6 +140,10 @@ public class ListeurCategorie extends JPanel{
 		/*for(PanelListeur plp : liste_panelListeur) {
 			plp.definirTaille(w-200, 30);
 		}*/
+	}
+	
+	public void colorer(Color color) {
+		this.setBackground(color);
 	}
 
 

@@ -86,6 +86,7 @@ public class VueCreation extends JPanel{
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0;
 		gbc.weighty = 0.03;
+		//jp_bouttonexam.add(new JLabel("Veuillez selectionner les groupes participants et les Salles"));
 		this.add(jp_bouttonexam, gbc);
 	}
 	
@@ -96,10 +97,11 @@ public class VueCreation extends JPanel{
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		//vue_infoExam.definirTaille(this.getWidth()-1000, 25);
 		//this.setVisible(false);
 		//this.setVisible(true);
 	}
-	public static void main(String arg[]) {
+	/*public static void main(String arg[]) {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -109,6 +111,6 @@ public class VueCreation extends JPanel{
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 
-	}
+	}*/
 
 }

@@ -1,6 +1,11 @@
 package vue_Examen;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,11 +27,13 @@ public class VueInfoExamen extends JPanel{
 	private JPanel jp_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
 	
 	public VueInfoExamen(ControleurExamen ctrlexamp) {
+		colorer(new Color(162, 190, 251));
 		controleur_Exam = ctrlexamp;                                     
 		creerZoneInfo();
 	}
 	
 	private void creerZoneInfo() {
+		this.setLayout(new GridBagLayout());
 		jp_nomExamen.add(jl_nom);
 		jp_matiereExamen.add(jl_matiere);
 		jp_dateExamen.add(jl_date);
@@ -35,13 +42,56 @@ public class VueInfoExamen extends JPanel{
 		jp_matiereExamen.add(controleur_Exam.getJtf_matiere());
 		jp_dateExamen.add(controleur_Exam.getJtf_Date());
 		
-		this.add(jp_nomExamen);
-		this.add(jp_matiereExamen);
-		this.add(jp_dateExamen);
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(0, 0, 5, 0);
+		gbc.weightx = 1;
+		gbc.weighty = 0;
+		this.add(jp_nomExamen, gbc);
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(0, 0, 0, 0);
+		gbc.weightx = 1;
+		gbc.weighty = 0;
+		this.add(jp_matiereExamen, gbc);
+		gbc.gridx = 2;
+		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(0, 0, 0, 0);
+		gbc.weightx = 1;
+		gbc.weighty = 0;
+		this.add(jp_dateExamen, gbc);
 		
 		
 	}
-	public static void main(String arg[]) {
+	
+	public void colorer(Color color) {
+		this.setBackground(color);
+		jp_dateExamen.setBackground(color);
+		jp_matiereExamen.setBackground(color);
+		jp_nomExamen.setBackground(color);
+	}
+	
+	/**
+	 * Definie et adapte la taille General
+	 */
+	public void definirTaille(int w, int h) {
+		controleur_Exam.getJtf_nom().setPreferredSize(new Dimension(w, h));
+		controleur_Exam.getJtf_matiere().setPreferredSize(new Dimension(w, h));
+		controleur_Exam.getJtf_Date().setPreferredSize(new Dimension(w, h));
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+	}
+	
+	
+	
+	/*public static void main(String arg[]) {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,5 +101,5 @@ public class VueInfoExamen extends JPanel{
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 
-	}
+	}*/
 }

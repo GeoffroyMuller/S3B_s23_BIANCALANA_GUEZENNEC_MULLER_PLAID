@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Observer;
 
@@ -27,7 +28,7 @@ public class VueGroupeParticipant extends JPanel implements Observer{
 
 	private static ListeurCategorie listeur;
 	private GridBagConstraints gbc;
-	private JLabel jl_grpParticip = new JLabel("   Groupe Participant"); 
+	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 
 	private ArrayList<Categorie> listecateg;
 
 	public VueGroupeParticipant(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp) {
@@ -35,6 +36,7 @@ public class VueGroupeParticipant extends JPanel implements Observer{
 		listecateg = listecategp;
 		gbc = new GridBagConstraints();
 		creerZoneGroupeParticipant(listecategp);
+		
 	}
 
 	/**
@@ -50,19 +52,25 @@ public class VueGroupeParticipant extends JPanel implements Observer{
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.2;
-		gbc.weighty = 0.2;
+		gbc.insets = new Insets(10, 10, 10, 10);
+		gbc.weightx = 0;
+		gbc.weighty = 0;
 		this.add(jl_grpParticip, gbc);
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.weightx = 1;
 		gbc.weighty = 2;
 		this.add(listeur, gbc);
 		//repaint();
-		
+		colorer(new Color(206, 221, 253));
 	}
-
+	
+	public void colorer(Color color) {
+		this.setBackground(color);
+		this.listeur.colorer(color);
+	}
 	
 	
 	/*public static Listeur getListeur() {

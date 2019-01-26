@@ -25,6 +25,7 @@ public class VueContrainte extends JPanel{
 	private String[] tab_espacement = {"0", "1", "2", "3", "4", "5"};;
 	
 	public VueContrainte() {
+		this.setBackground(new Color(162, 190, 251));
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
 		jl_containte = new JLabel("   Contrainte");
