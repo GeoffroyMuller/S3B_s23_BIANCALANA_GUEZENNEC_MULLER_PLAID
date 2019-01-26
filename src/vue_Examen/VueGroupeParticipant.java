@@ -33,13 +33,14 @@ public class VueGroupeParticipant extends JPanel implements Observer{
 	public VueGroupeParticipant(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp) {
 		controleur_Exam = ctrlexamp;
 		listecateg = listecategp;
-		
-		//this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
 		creerZoneGroupeParticipant(listecategp);
 	}
 
-	
+	/**
+	 * Creer la zone Groupe Participant
+	 * @param listecategp : liste de Categories qui seront placer dans le Listeur
+	 */
 	public void creerZoneGroupeParticipant(ArrayList<Categorie> listecategp) {
 		if(listeur!=null) {
 			listeur.removeAll();

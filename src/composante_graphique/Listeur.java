@@ -92,7 +92,6 @@ public class Listeur extends JPanel{
 			gbc.weighty = 0;
 			gbc.gridx = 0;
 			gbc.gridy = 0;
-			//gbc.ipady = gbc.anchor = GridBagConstraints.NORTH;
 			gbc.insets = new Insets( 0, 0, 0, 0);
 			System.out.println("pas de categorie");
 			jp_all.add(pl_courant, gbc);
@@ -108,7 +107,6 @@ public class Listeur extends JPanel{
 				gbc.insets = new Insets(0, 0, 0, 0);
 				gbc.weightx = 1;
 				gbc.weighty = 0;
-				System.out.println("========================================");
 				jp_all.add(pl, gbc);
 				i++;
 			}
@@ -126,52 +124,11 @@ public class Listeur extends JPanel{
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
-		g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
+		//g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
 		//g.fillRect(0, 10, 10, 10);
-		//scrollpane.setPreferredSize(new Dimension(this.getWidth()-20, this.getHeight()-20));
+
 		//this.setVisible(false);
 		//this.setVisible(true);
-	}
-
-
-
-
-
-	/**
-	 * methode main de test interne a Listeur
-	 * @param arg
-	 */
-	public static void main(String arg[]) {
-		JFrame fenetre = new JFrame("EtuPlacement");
-
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setSize(new Dimension(700,600));
-
-		ArrayList<Categorie> listcateg = new ArrayList<>();
-		ArrayList<Groupe> gl1 = new ArrayList<Groupe>();
-		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-		gl1.add(new Groupe("groupe1 A"));
-		gl1.add(new Groupe("groupe1 B"));
-
-		gl2.add(new Groupe("groupe2 A"));
-		gl2.add(new Groupe("groupe2 B"));
-		//Categorie c1 = new Categorie("Année 1", gl1);
-		//Categorie c2 = new Categorie("Année 2", gl2);	
-		//listcateg.add(c1);
-		//listcateg.add(c2);
-		Listeur listeur = new Listeur(listcateg, new ControleurExamen(new Examen()));
-		fenetre.add(listeur);
-		fenetre.pack();
-		fenetre.setVisible(true);
-
 	}
 
 }
