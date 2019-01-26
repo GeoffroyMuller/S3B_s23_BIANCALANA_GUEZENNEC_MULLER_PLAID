@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
@@ -65,6 +66,11 @@ public class VueCreation extends JPanel{
 		gbc.weightx = 0;
 		gbc.weighty = 0.5;
 		this.add(vue_sallePrio, gbc);
+		
+		/*JSplitPane jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, vue_grpParticip, vue_sallePrio);
+		jsp.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.black));
+		this.add(jsp, gbc);*/
+		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		gbc.fill = GridBagConstraints.BOTH;

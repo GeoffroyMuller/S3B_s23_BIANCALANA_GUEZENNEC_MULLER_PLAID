@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import composante_graphique.Listeur;
+import composante_graphique.ListeurCategorie;
 
 //import composante_graphique.Listeur;
 
@@ -25,7 +25,7 @@ import modele.BDD.Categorie;
 public class VueGroupeParticipant extends JPanel implements Observer{
 	private ControleurExamen controleur_Exam;
 
-	private static Listeur listeur;
+	private static ListeurCategorie listeur;
 	private GridBagConstraints gbc;
 	private JLabel jl_grpParticip = new JLabel("   Groupe Participant"); 
 	private ArrayList<Categorie> listecateg;
@@ -46,7 +46,7 @@ public class VueGroupeParticipant extends JPanel implements Observer{
 			listeur.removeAll();
 		}
 		this.setLayout(new GridBagLayout());
-		listeur = new Listeur(listecategp, controleur_Exam);
+		listeur = new ListeurCategorie(listecategp, controleur_Exam);
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -57,17 +57,17 @@ public class VueGroupeParticipant extends JPanel implements Observer{
 		gbc.gridy = 1;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1;
-		gbc.weighty = 1;
+		gbc.weighty = 2;
 		this.add(listeur, gbc);
-		repaint();
+		//repaint();
 		
 	}
 
 	
 	
-	public static Listeur getListeur() {
+	/*public static Listeur getListeur() {
 		return listeur;
-	}
+	}*/
 
 
 	public void paintComponent(Graphics g) {

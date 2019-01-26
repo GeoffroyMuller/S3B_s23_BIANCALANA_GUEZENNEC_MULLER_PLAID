@@ -1,11 +1,13 @@
 package composante_graphique;
 
+import java.awt.BorderLayout;
 import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import modele.BDD.Groupe;
 
 public class PanelListeur extends JPanel{
 	private ControleurExamen controleur_Exam;
-	private Listeur listeur; //listeur qui contient this
+	private ListeurCategorie listeur; //listeur qui contient this
 
 	private boolean activer;
 	private JPanel jp_all;
@@ -41,18 +43,44 @@ public class PanelListeur extends JPanel{
 	public PanelListeur() {
 		
 	}
-	public PanelListeur(Categorie categ, Listeur listeur, ControleurExamen ctrlexamp) {
+	public PanelListeur(Categorie categ, ListeurCategorie listeur, ControleurExamen ctrlexamp) {
 		liste_jp_groupe = new ArrayList<JPanel>();
 
 		jp_all = new JPanel();
 		jp_categorie = new JPanel();
+		jp_categorie.setLayout(new GridBagLayout());
 		jp_all.setLayout(new GridBagLayout());
 		this.categorie = categ;
+		jp_categorie.setPreferredSize(new Dimension(400, 30));
 		this.listeur = listeur;
 		activer = false;
-		jp_categorie.add(new JLabel(categ.getNom()+"      Groupe Participant : 0/"+categ.getListGroupe().size()+"          "));
+		GridBagConstraints gbcp = new GridBagConstraints();
+		gbcp.gridx = 0;
+		gbcp.gridy = 0;
+		gbcp.fill = GridBagConstraints.BOTH;
+		gbcp.insets = new Insets(0, 30, 0, 20);
+		gbcp.weightx = 0.5;
+		gbcp.weighty = 0;
+		jp_categorie.add(new JLabel(""+categ.getNom()) , gbcp);
+		
+		gbcp.gridx = 1;
+		gbcp.gridy = 0;
+		gbcp.fill = GridBagConstraints.BOTH;
+		gbcp.insets = new Insets(0, 0, 0, 45);
+		gbcp.weightx = 0;
+		gbcp.weighty = 0;
+		jp_categorie.add(new JLabel("Groupe Participant : 0/"+categ.getListGroupe().size()+""), gbcp);
+		
 		jp_categorie.setBackground(Color.WHITE);
-		jp_categorie.add(ctrlexamp.creerBoutton_UneCategorie(categ));
+		
+		gbcp.gridx = 2;
+		gbcp.gridy = 0;
+		gbcp.fill = GridBagConstraints.BOTH;
+		gbcp.insets = new Insets(0, 0, 0, 30);
+		gbcp.weightx = 0;
+		gbcp.weighty = 0;
+		jp_categorie.add(ctrlexamp.creerBoutton_UneCategorie(categ), gbcp);
+		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -114,8 +142,8 @@ public class PanelListeur extends JPanel{
 
 						i++;
 					}
-					repaint();
-					listeur.repaint();
+					//repaint();
+					//listeur.repaint();
 				}
 			}
 
@@ -139,14 +167,18 @@ public class PanelListeur extends JPanel{
 		};
 		jp_categorie.addMouseListener(this.ml);
 	}
+	
+	public void definirTaille(int w, int y) {
+		jp_categorie.setPreferredSize(new Dimension(w, y));
+	}
 
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*10), (int)(Math.random()*50)));
 		//g.fillRect(0, 10, 10, 10);
-		jp_categorie.setPreferredSize(new Dimension(400, 30));
-		
+		//jp_categorie.setPreferredSize(new Dimension(400, 30));
+		//this.setBackground(Color.red);
 		jp_all.setVisible(false);
 		jp_all.setVisible(true);
 	}

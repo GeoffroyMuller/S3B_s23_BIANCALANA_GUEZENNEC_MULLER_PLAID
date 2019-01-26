@@ -1,24 +1,30 @@
 package modele.BDD.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+//import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.AfterEach;
+/*import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;*/
 
 import modele.BDD.Salle;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.sql.SQLException;
 
 class SalleTest {
 
-	@BeforeEach
+	@Before
 	void setUp() throws Exception {
 		Salle.createTable();
 	}
 
-	@AfterEach
+	@After
 	void tearDown() throws Exception {
 		Salle.deleteTable();
 	}

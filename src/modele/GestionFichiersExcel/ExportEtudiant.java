@@ -60,7 +60,10 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         Cell nomCell = row.createCell(0);
         Cell prenomCell = row.createCell(1);
         Cell groupeCell = row.createCell(2);
+        Cell idCell = row.createCell(3);
 
+
+        idCell.setCellStyle(cellStyle);
         nomCell.setCellStyle(cellStyle);
         prenomCell.setCellStyle(cellStyle);
         groupeCell.setCellStyle(cellStyle);
@@ -69,6 +72,8 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         nomCell.setCellValue("Nom");
         prenomCell.setCellValue("Prenom");
         groupeCell.setCellValue("Groupe");
+        idCell.setCellValue("ID");
+
 
         //Ajout des données
             //Récupération des étudiants
@@ -80,16 +85,21 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
                 Cell etuNomCell = row.createCell(0);
                 Cell etuPrenomCell = row.createCell(1);
                 Cell etuGroupeCell = row.createCell(2);
+                Cell etuIdCell = row.createCell(3);
+
 
                 etuNomCell.setCellStyle(cellStyle);
                 etuPrenomCell.setCellStyle(cellStyle);
                 etuGroupeCell.setCellStyle(cellStyle);
+                etuIdCell.setCellStyle(cellStyle);
 
 
 
                 etuNomCell.setCellValue(etudiants.get(i).getNom());
                 etuPrenomCell.setCellValue(etudiants.get(i).getPrenom());
                 etuGroupeCell.setCellValue(groupe.getNom());
+                etuIdCell.setCellValue(i+1);
+
 
             }
 
@@ -142,8 +152,8 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         XSSFCellStyle cellStyle = creerLeStyle(wb);
 
         //Ajout des cellules
-        String[] valeurs = {"GRP","NOM","PRENOM","SALLE","RANG","PLACE"};
-        row = creerCellules(row,6,valeurs,cellStyle);
+        String[] valeurs = {"ID","GRP","NOM","PRENOM","SALLE","RANG","PLACE"};
+        row = creerCellules(row,valeurs.length,valeurs,cellStyle);
 
         //Ajout des étudiants a la feuille Excel
         int nbLignePlace = 1;
@@ -152,9 +162,10 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
             Sheet feuilleSalle = wb.getSheet(ExportEtudiant.nomFeuilleSignature+"_"+salle.getNom());
             Row rowFeuilleSalle = feuilleSalle.createRow(0);
-            String[] valeursPremiereLigneSalle = {"GRP","NOM","PRENOM","SALLE","RANG","PLACE","SIGNATURE"};
-            rowFeuilleSalle = creerCellules(rowFeuilleSalle,7,valeursPremiereLigneSalle,cellStyle);
+            String[] valeursPremiereLigneSalle = {"ID","GRP","NOM","PRENOM","SALLE","RANG","PLACE","SIGNATURE"};
+            rowFeuilleSalle = creerCellules(rowFeuilleSalle,valeursPremiereLigneSalle.length,valeursPremiereLigneSalle,cellStyle);
 
+            int id = 1;
             for(Place place : placement.get(salle).keySet()){
                 //Informations étudiant
                 String nom = placement.get(salle).get(place).getNom();
@@ -167,15 +178,15 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
                 //Ajout de la ligne a la feuille de placement
                 Row ligne = feuillePlacement.createRow(nbLignePlace);
-                String[] valeursLigne={groupe,nom,prenom,salle.getNom(),rang,emplacement};
-                ligne =  creerCellules(ligne,6,valeursLigne,cellStyle);
+                String[] valeursLigne={id+"",groupe,nom,prenom,salle.getNom(),rang,emplacement};
+                ligne =  creerCellules(ligne,valeursLigne.length,valeursLigne,cellStyle);
 
                 //Ajout de la ligne à la feuille de signature
                 ligne = feuilleSalle.createRow(nbLigneSignature);
-                ligne = creerCellules(ligne,7,valeursLigne,cellStyle);
+                ligne = creerCellules(ligne,valeursLigne.length,valeursLigne,cellStyle);
 
 
-
+                id++;
                 nbLignePlace++;
                 nbLigneSignature++;
             }

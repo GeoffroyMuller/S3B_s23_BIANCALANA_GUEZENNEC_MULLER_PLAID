@@ -26,7 +26,7 @@ import modele.Examen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 
-public class Listeur extends JPanel{
+public class ListeurCategorie extends JPanel{
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
@@ -35,11 +35,12 @@ public class Listeur extends JPanel{
 	private ArrayList<PanelListeur> liste_panelListeur;
 	private GridBagConstraints gbc = new GridBagConstraints();
 
-	public Listeur(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
+	public ListeurCategorie(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
 		controleur_Exam = ctrlexamp;
 		jp_all = new JPanel();
 		jp_all.setBackground(Color.darkGray);
 		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollpane.getVerticalScrollBar().setUnitIncrement(15);
 		//scrollpane.setBackground(Color.BLUE);
 		liste_panelListeur = new ArrayList<PanelListeur>();
 		//this.setBackground(Color.blue);
@@ -99,7 +100,9 @@ public class Listeur extends JPanel{
 			gbc.gridy = 1;
 			jp_all.add(new JPanel(), gbc);
 		}else {
+			GridBagConstraints gbcd = new GridBagConstraints();
 			for (PanelListeur pl : liste_panelListeur) {
+
 
 				gbc.gridx = 0;
 				gbc.gridy = i;
@@ -108,8 +111,24 @@ public class Listeur extends JPanel{
 				gbc.weightx = 1;
 				gbc.weighty = 0;
 				jp_all.add(pl, gbc);
+
+				/*gbcd.gridx = 0;
+				gbcd.gridy = i;
+				gbcd.fill = GridBagConstraints.BOTH;
+				gbcd.insets = new Insets(0, 0, 0, 0);
+				gbcd.weightx = 1;
+				gbcd.weighty = 0;
+				jp_all.add(pl, gbcd);*/
+
 				i++;
 			}
+			gbcd.gridx = 0;
+			gbcd.gridy = i;
+			gbcd.fill = GridBagConstraints.BOTH;
+			gbcd.insets = new Insets(0, 0, 0, 0);
+			gbcd.weightx = 0;
+			gbcd.weighty = i;
+			jp_all.add(new JPanel(), gbcd);
 		}
 		repaint();
 	}
@@ -118,6 +137,9 @@ public class Listeur extends JPanel{
 	 */
 	public void definirTaille(int w, int h) {
 		scrollpane.setPreferredSize(new Dimension(w, h));
+		/*for(PanelListeur plp : liste_panelListeur) {
+			plp.definirTaille(w-200, 30);
+		}*/
 	}
 
 

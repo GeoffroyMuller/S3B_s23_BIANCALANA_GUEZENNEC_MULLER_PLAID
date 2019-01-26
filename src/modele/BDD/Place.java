@@ -32,8 +32,18 @@ public class Place {
 	/** The i. */
 	private int i;
 
-	public int getDisponnible() {
-		return disponnible;
+	public boolean getDisponnible() {
+		boolean res = false;
+		try {
+			TypePlace typeDeLaPlace = TypePlace.findById(this.idTypePlace);
+			if(typeDeLaPlace.getDisponnible() == 1){
+				res= true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return res;
 	}
 
 	public void setDisponnible(int disponnible) {

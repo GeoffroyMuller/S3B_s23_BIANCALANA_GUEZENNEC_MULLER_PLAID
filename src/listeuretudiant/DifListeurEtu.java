@@ -11,7 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.border.Border;
-
 //import com.sun.org.apache.bcel.internal.generic.RETURN;
 
 import controleur_listeur.ConstructeurListeModelCategorie;
@@ -77,6 +76,10 @@ public class DifListeurEtu extends JSplitPane{
 	
 	}
 	
+	public void changementTriArbre(int pTri) {
+		this.refresh();
+	}
+	
 
 
 	public ArrayList<Groupe> selectAll(ArrayList<Categorie> lc){
@@ -114,7 +117,7 @@ public class DifListeurEtu extends JSplitPane{
 	public void refresh() {
 		ArrayList<Categorie> lc = new ArrayList<>();
 		try {
-		lc= Categorie.getlistCategorie();
+		lc= Categorie.getlistCategorieTrier(Categorie.getTriChoisit());
 		}
 		catch(Exception e) {
 			

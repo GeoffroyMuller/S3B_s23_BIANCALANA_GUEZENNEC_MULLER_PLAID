@@ -48,6 +48,9 @@ public class Examen extends Observable{
      * Constructeur Examen
      */
     public Examen(){
+        this.nom = "";
+        this.date = "";
+        this.matiere = "";
         this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
         this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
         this.salles = new ArrayList<Salle>();
@@ -100,7 +103,7 @@ public class Examen extends Observable{
     }
 
     /**
-     * Permet d'ajouter un groupe, seuls les étudiants sont ajouté et pas le groupe en lui-même
+     * Permet d'ajouter un groupe, seuls les étudiants sont ajoutés et pas le groupe en lui-même
      * @param groupe
      */
     public void ajouterGroupe(Groupe groupe){
@@ -119,6 +122,14 @@ public class Examen extends Observable{
     }
 
     /**
+     * Méthode permettant l'ajout d'un etudiant à un examen
+     * @param etudiant
+     */
+    public void ajouterUnEtudiant(Etudiant etudiant){
+        this.etudiants.put(etudiant,etudiant.getGroupe());
+    }
+
+    /**
      * Méthode permettant de générer un placement le plus optimal possible
      */
     public void genererUnPlacement(){
@@ -126,6 +137,12 @@ public class Examen extends Observable{
         int resultat = 500;
 
         int margeErreur = 0;
+
+        if(!this.verifierLesParametresExamen()){
+            /*
+            To do ouverture fenetre exception
+             */
+        }
 
         while(resultat !=margeErreur){
             placerEleve();
@@ -139,6 +156,53 @@ public class Examen extends Observable{
         }
         System.out.println("Le placement générer contient une marge d'erreur de :"+margeErreur+" cela peut être du à la présence d'élève ayant un placement spéccifique.");
     }
+
+
+    /**
+     * Méthode permettant de vérifier si le nombre de places sélectionnées est suffisant pour le nombre d'éléve sélectionnés
+     * @return boolean
+     */
+    public boolean vérifierLeNombreDePlace(){
+        boolean res = false;
+        int nombreDePlacesTotales = 0;
+
+        //On compte le nombre d'étudiant
+        Set<Etudiant> etudiants = this.etudiants.keySet();
+        int nombreEtudiants = etudiants.size();
+
+        if(nombreEtudiants==0){
+            res=false;
+        }else{
+            //On Compte le nombre de place disponible dans toutes les salles
+            for (Salle salle: this.salles) {
+                nombreDePlacesTotales+=salle.compterLeNombreDePlaceDisponible();
+            }
+
+
+
+            //On compare
+            if(nombreDePlacesTotales>= nombreEtudiants){
+                res=true;
+            }
+        }
+
+        return res;
+    }
+
+    /**
+     * Méthode permettant de vérifier que tout les champs nécessaire à la création d'un examen on été renseigné
+     * @return
+     */
+    public boolean verifierLesParametresExamen(){
+        boolean res=true;
+
+        if(this.nom.equals("") || this.date.equals("") || this.matiere.equals("")){
+            res=false;
+        }
+
+        return res;
+    }
+
 
     /**
      * Méthode permettant de placer tout les éléves dans les salles choisies
@@ -188,7 +252,7 @@ public class Examen extends Observable{
             //On vérifie si la place est disponible (chaise cassé,allée...) et qu'aucun n'autre étudiant n'a été placé dessus
             Place placeActuelle = (Place)iterateurSalle.actual();
 
-            if(placeActuelle.getDisponnible()==1 && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
+            if(placeActuelle.getDisponnible() && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
 
                 //On regarde si il y a un conflit de groupe avec les places adjacentes, de plus si on à déja testé tout les étudiants alors l'étudiant
                 // sera placé même si un membre du même groupe est adjacent à lui
@@ -328,7 +392,7 @@ public class Examen extends Observable{
      * @return
      */
     private boolean testerPlace(modele.BDD.Place place, modele.BDD.Etudiant etu, modele.BDD.Salle salle){
-        if(place.getDisponnible() == 1){
+        if(place.getDisponnible()){
             //On vérifie si il y a un étudiant placer à la place donné en paramétre
             modele.BDD.Etudiant etudiantOccupantLaPlace = this.placement.get(salle).get(place);
             //Si il y a un étudiant placer
