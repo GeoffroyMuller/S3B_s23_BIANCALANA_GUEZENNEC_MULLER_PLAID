@@ -1,0 +1,173 @@
+@startuml
+
+
+
+class Examen{
+-HashMap<Etudiant,Place>
+}
+
+class Salle{
+- nom : String
+- idSalle : int
+- nbcasehauteur : int
+- nbCaseLargeur : int
+
++createTable()
++findById(int id)
++ajouterPlace(Place)
+-supprimerPlace(Place)
+}
+
+class Place{
+-nom : String
+-estSelectionne : boolean
++nommerPlace(String)
++changerType(TypePlace)
+}
+
+abstract TypePlace{
+-estDisponible : boolean
+}
+
+class Couloir{
+
+}
+
+class Siege{
+
+}
+
+class SiegeCasse{
+
+}
+
+class Parametre{
+-nomExamen : String
+-matiere : String
+-date : String
+
++sauvegarderParametre()
++chargerParametre()
+}
+
+class Contrainte{
+}
+
+Parametre --> "*" Contrainte
+
+class Groupe{
+- nom : String
+- idGroupe : int
+- listEtudiant : ArrayList<Etudiant>
++createTable()
++deleteTable()
++save()
++findById(int id)
++findByName(String nom)
++getEtudiants(int id)
++supprimerEtudiant(Etudiant)
++ajouterEtudiant(Etudiant)
+}
+
+class Categorie{
+-nom : String
+}
+
+class Etudiant{
+-nom : String
+-prenom : String
+-email : String
+-id : int
+}
+
+class Particularite{
+-nom : String
+-prendreEnCompteDansLePlacement : boolean
+}
+
+class VueEtudiant{
+}
+
+class VueExamen{
+}
+
+class VueSalle{
+}
+
+class VueOngletModules{
+}
+
+class VueImportation{
+}
+
+class ControleurExamen{
+}
+
+class ControleurEtudiant{
+}
+
+class ControleurSalle{
+}
+
+interface Observer{
+}
+
+class Observable{
+}
+
+ControleurSalle --> Salle
+
+ControleurExamen --> Examen
+
+ControleurEtudiant --> Categorie
+
+VueOngletModules --> VueEtudiant
+VueOngletModules --> VueExamen
+VueOngletModules --> VueSalle
+
+VueEtudiant ..|> Observer
+
+VueExamen ..|> Observer
+
+VueSalle ..|>Observer
+
+VueImportation ..|> Observer
+
+Observer --> "*" Observable
+
+VueEtudiant --> ControleurEtudiant
+
+VueExamen --> ControleurExamen
+
+VueSalle --> ControleurSalle
+
+Examen --|> Observer
+Categorie --|> Observer
+Salle --|> Observer
+
+
+
+
+
+Salle --> "-places" Place
+
+Place --> "-type" TypePlace
+
+Couloir ..|> TypePlace
+Siege ..|> TypePlace
+SiegeCasse ..|> TypePlace
+
+Examen --> "-parametres" Parametre
+Examen --> "-groupesParticipants : *" Groupe
+
+
+
+Categorie --> "-listeGroupe : *" Groupe
+
+Groupe --> "-listeEtudiant : *" Etudiant
+
+Etudiant --> "-particularites : *" Particularite
+
+
+
+@enduml
