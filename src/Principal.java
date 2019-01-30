@@ -4,6 +4,8 @@ import vue.VueOngletModules;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class Principal {
     public static void main(String[] args) {
@@ -29,6 +31,7 @@ public class Principal {
         JFrame fenetre = new JFrame("EtuPlacement");
         //Panneau onglets modules
        VueOngletModules onglets = new VueOngletModules();
+
 
         fenetre.getContentPane().setLayout(new BorderLayout());
         fenetre.getContentPane().add(onglets,BorderLayout.CENTER);

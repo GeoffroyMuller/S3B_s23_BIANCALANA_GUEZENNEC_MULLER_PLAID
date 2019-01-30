@@ -1,6 +1,7 @@
 package modele.BDD;
 
 
+import java.awt.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +15,10 @@ import java.util.ArrayList;
  */
 public class TypePlace {
 
-	
+	public static Color couleurPlace = new Color(0x126B91);
+	public static Color couleurPlaceInutilisable = new Color(0xB11000);
+	public static Color couleurAllee = new Color(0xA99F00);
+
 	/** The id type place. */
 	private int idTypePlace;
 	
@@ -121,21 +125,20 @@ public class TypePlace {
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<TypePlace> findByNom(String nom) throws SQLException {
+	public static TypePlace findByNom(String nom) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM TypePlace WHERE nom ='"+nom+"';";
 		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 		prep1.execute();
 		ResultSet rs = prep1.getResultSet();
 		// s'il y a un resultat
-
-		ArrayList<TypePlace> res = null;
+		TypePlace res =null;
 		while (rs.next()) {
 			String resNom = rs.getString("nom");
 			int resDisponnible = rs.getInt("Disponnible");
 			int resId = rs.getInt("idTypePlace");
 			
-			res.add(new TypePlace(resNom,resId,resDisponnible));
+			res = new TypePlace(resNom,resId,resDisponnible);
 		}
 		return res;
 	}

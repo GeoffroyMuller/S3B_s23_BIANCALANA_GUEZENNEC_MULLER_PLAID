@@ -9,17 +9,32 @@ import java.awt.event.ActionListener;
 
 public class ControleurRadioBoutons extends JPanel implements ActionListener {
 
+    public static String placeSelectionnee="place";
+
     public ControleurRadioBoutons(){
         this.setLayout(new GridBagLayout());
 
+        ActionListener choixBouton = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ControleurRadioBoutons.placeSelectionnee = ((JRadioButton)e.getSource()).getName();
+            }
+        };
+
         JRadioButton allee = new JRadioButton();
         allee.setName("allee");
+        allee.addActionListener(choixBouton);
 
         JRadioButton place = new JRadioButton();
         place.setName("place");
+        place.addActionListener(choixBouton);
+        place.setSelected(true);
+
 
         JRadioButton placeInutilisable = new JRadioButton();
         placeInutilisable.setName("placeInutillisable");
+        placeInutilisable.addActionListener(choixBouton);
+
 
         ButtonGroup bg = new ButtonGroup();
         bg.add(allee);bg.add(place);bg.add(placeInutilisable);

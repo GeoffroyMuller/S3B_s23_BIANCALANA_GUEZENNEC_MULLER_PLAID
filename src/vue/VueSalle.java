@@ -3,13 +3,19 @@ package vue;
 import controleur.ControleurBoutonsPartieSalle;
 import controleur.ControleurModuleSalle.ControleurCaseSalle;
 import controleur.ControleurModuleSalle.ControleurRadioBoutons;
+import controleur.ControleurModuleSalle.ControleurSauvegardeSalle;
 import modele.BDD.Etudiant;
+import modele.BDD.Salle;
 import vue.ComposantVueSalle.Indicateur;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
@@ -67,12 +73,13 @@ public class VueSalle extends JPanel {
 
 		//Partie visualisation de la liste (Partie du milieux)
 		this.visualisationSalle = new JScrollPane(this.construireSalle(DEFAULT_SIZE_ROOM_WIDTH,DEFAULT_SIZE_ROOM_HEIGHT));
-		this.visualisationSalle.setPreferredSize(new Dimension(400,400));
+		this.visualisationSalle.setPreferredSize(new Dimension(500,500));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
 		this.contenantMilieu.setLayout(new GridBagLayout());
 
 		JLabel titrePartieMilieu = new JLabel("Visualisation de la salle :",SwingConstants.CENTER);
+
 		//FACTORISER LE CODE
 		titrePartieMilieu.setFont(new Font("Serial",Font.PLAIN,14));
 		titrePartieMilieu.setBorder(BorderFactory.createLineBorder(new Color(0),1));
@@ -101,10 +108,11 @@ public class VueSalle extends JPanel {
 		gbc.weighty = 1;
 		this.contenantMilieu.add(visualisationSalle, gbc);
 
+
 		//Partie selection (Partie de droite)
 		//Composant Indications
 		JPanel indications = new Indicateur();
-		indications.setPreferredSize(new Dimension(300,600));
+		indications.setPreferredSize(new Dimension(300,200));
 		//Composant Edition
 		JPanel editionPan = new JPanel();
 		editionPan.setLayout(new BorderLayout());
@@ -119,10 +127,18 @@ public class VueSalle extends JPanel {
 		partieEdition.add(editionBoutons,BorderLayout.WEST);
 		partieEdition.add(new Indicateur(), BorderLayout.CENTER);
 
+		JButton sauvegarde = new ControleurSauvegardeSalle();
+
+		JPanel containerBouton = new JPanel();
+		containerBouton.setLayout(new BorderLayout());
+		containerBouton.setPreferredSize(new Dimension(300,460));
+		containerBouton.add(sauvegarde,BorderLayout.NORTH);
+
 		editionPan.add(edition, BorderLayout.NORTH);
 		editionPan.add(partieEdition, BorderLayout.CENTER);
-		editionPan.setPreferredSize(new Dimension(300,600));
-		editionPan.setBorder(new EmptyBorder(20,10,0,0));
+		editionPan.add(containerBouton,BorderLayout.SOUTH);
+		editionPan.setPreferredSize(new Dimension(300,300));
+		editionPan.setBorder(new EmptyBorder(20,10,0,10));
 
 
 
@@ -137,13 +153,16 @@ public class VueSalle extends JPanel {
 		this.add(this.contenantMilieu, BorderLayout.CENTER);
 		this.add(contenantPartieGauche, BorderLayout.WEST);
 		this.add(editionPan,BorderLayout.EAST);
+
+
 	}
 
 	@Override
 	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/3, this.getParent().getHeight()));
+		this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/5, this.getParent().getHeight()));
 		this.visualisationSalle.setPreferredSize(new Dimension(this.getParent().getWidth()/3,this.getParent().getWidth()/3));
+		super.paintComponent(g);
+
 	}
 
 	/**
@@ -156,13 +175,24 @@ public class VueSalle extends JPanel {
 	 *      JPanel contenant la représentation de la salle
 	 */
 	 private JPanel construireSalle(int x, int y){
+	 	Salle salle = new Salle("Sans nom",x,y);
         JPanel contenant = new JPanel();
-        contenant.setPreferredSize(new Dimension((x*ControleurCaseSalle.WIDTH),(y*ControleurCaseSalle.HEIGHT)));
-        contenant.setLayout(new GridLayout(x,y));
-        for(int i = 0; i < x;i++){
-            for(int j = 0; j < y;j++){
-                contenant.add(new ControleurCaseSalle(new Color(0)));
+		 contenant.setLayout(new GridBagLayout());
+		 GridBagConstraints gbc = new GridBagConstraints();
+		 gbc.gridx= gbc.gridy = 0;
+		 gbc.gridheight = gbc.gridwidth = 1;
+		gbc.insets = new Insets(2,2,0,2);
+		 for(int i = 0; i < y;i++){
+            for(int j = 0; j < x;j++){
+            	JPanel jpBouton = new JPanel();
+            	jpBouton.setLayout(new BorderLayout());
+            	jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j));
+            	jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
+                contenant.add(jpBouton,gbc);
+                gbc.gridx++;
             }
+            gbc.gridy++;
+            gbc.gridx=0;
         }
         return contenant;
     }

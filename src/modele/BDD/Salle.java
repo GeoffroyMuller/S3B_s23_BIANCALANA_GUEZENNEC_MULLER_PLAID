@@ -3,6 +3,7 @@ package modele.BDD;
 
 import modele.Iterateur;
 
+import java.net.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -48,6 +49,17 @@ public class Salle {
 		this.nom=nom;
 		this.nbCaseHauteur=nbCaseHauteur;
 		this.nbCaseLargeur=nbCaseLargeur;
+
+		this.places = new Place[nbCaseHauteur][nbCaseLargeur];
+		for(int i = 0; i < places.length; i++){
+			for(int j = 0; j < places[0].length; j++){
+				try {
+					this.places[i][j] = new Place(i+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	/**
@@ -269,6 +281,16 @@ public class Salle {
 				idres = rs.getInt("idSalle");
 			}
 			this.idSalle=idres;
+
+			//On sauvegarde les places liées à la salle
+			for(int i = 0; i < nbCaseHauteur;i++){
+				for(int j = 0; j < nbCaseLargeur;j++){
+					this.places[i][j].setIdSalle(this.idSalle);
+					this.places[i][j].save();
+				}
+			}
+
+
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
@@ -364,7 +386,7 @@ public class Salle {
 	 * @return the places
 	 */
 	public Place[][] getPlaces() {
-		return places;
+		return this.places;
 	}
 
 	/**
