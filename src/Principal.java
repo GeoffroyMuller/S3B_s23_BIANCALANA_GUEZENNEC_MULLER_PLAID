@@ -1,3 +1,5 @@
+import modele.BDD.Salle;
+import modele.Examen;
 import vue.BarreOutils;
 import vue.VueOngletModules;
 
@@ -26,11 +28,18 @@ public class Principal {
             // handle exception
         }
 
+        //Modeles
+        Examen examen = new Examen();
+        Salle salle = new Salle("Sans nom",Salle.DEFAULT_SIZE_ROOM_HEIGHT,Salle.DEFAULT_SIZE_ROOM_WIDTH);
+
+
+
         //Barre d'outil
         BarreOutils barreOutils = new BarreOutils();
         JFrame fenetre = new JFrame("EtuPlacement");
+
         //Panneau onglets modules
-       VueOngletModules onglets = new VueOngletModules();
+       VueOngletModules onglets = new VueOngletModules(examen,salle);
 
 
         fenetre.getContentPane().setLayout(new BorderLayout());

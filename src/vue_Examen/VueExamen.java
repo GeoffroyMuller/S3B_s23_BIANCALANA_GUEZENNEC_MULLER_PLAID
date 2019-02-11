@@ -68,8 +68,8 @@ public class VueExamen extends JPanel implements Observer{
 	 * Constructeur principale
 	 * @throws SQLException 
 	 */
-	public VueExamen() throws SQLException{
-		examen = new Examen();
+	public VueExamen(Examen examen) throws SQLException{
+		this.examen = examen;
 		controleur_Exam = new ControleurExamen(examen);
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
@@ -316,7 +316,9 @@ public class VueExamen extends JPanel implements Observer{
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		VueExamen vuec = new VueExamen();
+		Examen examen = new Examen();
+
+		VueExamen vuec = new VueExamen(examen);
 		fenetre.add(vuec);
 		fenetre.setMinimumSize(new Dimension(1155,700));
 		fenetre.setPreferredSize(new Dimension(1155,700));

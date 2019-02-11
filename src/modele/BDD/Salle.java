@@ -9,13 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Observable;
 
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Salle.
  */
-public class Salle {
+public class Salle extends Observable {
 
 	/** The nom. */
 	private String nom;
@@ -31,6 +32,15 @@ public class Salle {
 
 	/** The places. */
 	protected Place[][] places;
+
+	/**
+	 * Définition de la largeur par défaut d'une salle dans la visualisation
+	 */
+	public static int DEFAULT_SIZE_ROOM_WIDTH = 10;
+	/**
+	 * Définition de la hauteur par défaut d'une salle dans la visualisation
+	 */
+	public static int DEFAULT_SIZE_ROOM_HEIGHT = 10;
 
 	/**
 	 * Correspond au nombre de place disponible d'une salle, les places indisponible ne sont pas comptées.
@@ -338,6 +348,8 @@ public class Salle {
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -366,6 +378,8 @@ public class Salle {
 	 */
 	public void setNbCaseLargeur(int nbCaseLargeur) {
 		this.nbCaseLargeur = nbCaseLargeur;
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -380,6 +394,8 @@ public class Salle {
 	 */
 	public void setNbCaseHauteur(int nbCaseHauteur) {
 		this.nbCaseHauteur = nbCaseHauteur;
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -394,6 +410,15 @@ public class Salle {
 	 */
 	public void setPlaces(Place[][] places) {
 		this.places = places;
+		setChanged();
+		notifyObservers();
+	}
+
+
+	public void changerLeTypePlace(int coordX, int coordY, int nouveauTypeId){
+		this.places[coordX][coordY].setTypePlace(nouveauTypeId);
+		setChanged();
+		notifyObservers();
 	}
 
 

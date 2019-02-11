@@ -1,6 +1,7 @@
 package controleur.ControleurModuleSalle;
 
 import modele.BDD.Place;
+import modele.BDD.Salle;
 import modele.BDD.TypePlace;
 
 import javax.swing.*;
@@ -16,9 +17,11 @@ public class ControleurCaseSalle extends JButton implements ActionListener {
     private int i,j; //i = hauteur / y=largeur
     public static int WIDTH = 40;
     public static int HEIGHT = 40;
+    private Salle salle;
 
-    public ControleurCaseSalle(Color c, int i, int j){
+    public ControleurCaseSalle(Color c, int i, int j, Salle salle){
         super();
+        this.salle = salle;
         this.i = i;
         this.j = j;
         this.couleurCase = c;
@@ -52,12 +55,12 @@ public class ControleurCaseSalle extends JButton implements ActionListener {
         try {
             TypePlace tp = TypePlace.findByNom(typePlace);
             Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
-            places[this.i][this.j].setTypePlace(tp.getIdTypePlace());
+            this.salle.changerLeTypePlace(this.i,this.j,tp.getIdTypePlace());
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
         this.couleurCase = couleur;
-        repaint();
+        //repaint();
     }
 
 

@@ -16,28 +16,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
-public class VueSalle extends JPanel {
+public class VueSalle extends JPanel implements Observer {
 	private JScrollPane containerDeLaListeJScroll, visualisationSalle;
 	private JPanel contenantPartieGauche;
 	private JPanel contenantMilieu;
+	private Salle salle;
 
-	/**
-	 * Définition de la largeur par défaut d'une salle dans la visualisation
-	 */
-	public static int DEFAULT_SIZE_ROOM_WIDTH = 10;
-	/**
-	 * Définition de la hauteur par défaut d'une salle dans la visualisation
-	 */
-	public static int DEFAULT_SIZE_ROOM_HEIGHT = 10;
+
+
 
 	/**
 	 * Constructeur de la vue salle, construit également les controleurs necessaires (ControleurCaseSalle et ControleurRadioBoutons)
 	 */
-	public VueSalle(){
+	public VueSalle(Salle salleModele){
+		this.salle = salleModele;
 		this.setLayout(new BorderLayout());
 
 		//Jpanel contenant le JLabel
@@ -72,7 +70,7 @@ public class VueSalle extends JPanel {
 		ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle();
 
 		//Partie visualisation de la liste (Partie du milieux)
-		this.visualisationSalle = new JScrollPane(this.construireSalle(DEFAULT_SIZE_ROOM_WIDTH,DEFAULT_SIZE_ROOM_HEIGHT));
+		this.visualisationSalle = new JScrollPane(this.construireSalle(this.salle));
 		this.visualisationSalle.setPreferredSize(new Dimension(500,500));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
@@ -127,7 +125,7 @@ public class VueSalle extends JPanel {
 		partieEdition.add(editionBoutons,BorderLayout.WEST);
 		partieEdition.add(new Indicateur(), BorderLayout.CENTER);
 
-		JButton sauvegarde = new ControleurSauvegardeSalle();
+		JButton sauvegarde = new ControleurSauvegardeSalle(salle);
 
 		JPanel containerBouton = new JPanel();
 		containerBouton.setLayout(new BorderLayout());
@@ -139,11 +137,6 @@ public class VueSalle extends JPanel {
 		editionPan.add(containerBouton,BorderLayout.SOUTH);
 		editionPan.setPreferredSize(new Dimension(300,300));
 		editionPan.setBorder(new EmptyBorder(20,10,0,10));
-
-
-
-
-
 
 		contenantPartieGauche.add(boutons,BorderLayout.SOUTH);
 		contenantPartieGauche.setBorder(new EmptyBorder(20,20,0,0));
@@ -186,7 +179,7 @@ public class VueSalle extends JPanel {
             for(int j = 0; j < x;j++){
             	JPanel jpBouton = new JPanel();
             	jpBouton.setLayout(new BorderLayout());
-            	jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j));
+            	jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j,this.salle));
             	jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
                 contenant.add(jpBouton,gbc);
                 gbc.gridx++;
@@ -196,6 +189,28 @@ public class VueSalle extends JPanel {
         }
         return contenant;
     }
+
+    private JPanel construireSalle(Salle salle){
+		JPanel contenant = new JPanel();
+		contenant.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx= gbc.gridy = 0;
+		gbc.gridheight = gbc.gridwidth = 1;
+		gbc.insets = new Insets(2,2,0,2);
+		for(int i = 0; i < salle.getNbCaseLargeur();i++){
+			for(int j = 0; j < salle.getNbCaseHauteur();j++){
+				JPanel jpBouton = new JPanel();
+				jpBouton.setLayout(new BorderLayout());
+				jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j,this.salle));
+				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
+				contenant.add(jpBouton,gbc);
+				gbc.gridx++;
+			}
+			gbc.gridy++;
+			gbc.gridx=0;
+		}
+		return contenant;
+	}
 
     /**
 	 * Applique les styles de polices aux labels
@@ -211,4 +226,10 @@ public class VueSalle extends JPanel {
         return label;
     }
 
+	@Override
+	public void update(Observable o, Object arg) {
+	 	Salle salleUpdate = (Salle)o;
+		this.visualisationSalle = new JScrollPane(this.construireSalle(salleUpdate));
+		this.visualisationSalle.setPreferredSize(new Dimension(500,500));
+	}
 }

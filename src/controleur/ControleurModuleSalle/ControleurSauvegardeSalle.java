@@ -9,8 +9,8 @@ import java.awt.event.ActionListener;
 public class ControleurSauvegardeSalle extends JButton implements ActionListener {
     public static Salle salle;
 
-    public ControleurSauvegardeSalle(){
-        this.salle = new Salle("Sans nom",10,10);
+    public ControleurSauvegardeSalle(Salle salle){
+        this.salle = salle;
         this.setText("Sauvegarder");
     }
 

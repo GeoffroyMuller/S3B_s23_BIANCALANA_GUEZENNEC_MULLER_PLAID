@@ -1,5 +1,7 @@
 package vue;
 
+import modele.BDD.Salle;
+import modele.Examen;
 import vue_Examen.VueExamen;
 
 import javax.swing.*;
@@ -13,7 +15,7 @@ public class VueOngletModules extends JPanel {
 	JTabbedPane onglets;
 	VueExamen moduleExamen;
 
-	public VueOngletModules(){
+	public VueOngletModules(Examen examen, Salle salle){
 		this.setBackground(new Color(0xFFFFFF));
 		this.onglets = new JTabbedPane();
 		this.onglets.setFont(new Font("Serial",Font.BOLD,20));
@@ -21,7 +23,8 @@ public class VueOngletModules extends JPanel {
 		//A supprimer
 		VueEtudiant moduleEtudiant = new VueEtudiant();
 		try {
-			moduleExamen = new VueExamen();
+			moduleExamen = new VueExamen(examen);
+			examen.addObserver(moduleExamen);
 			}
 			catch(Exception e) {
 				System.out.println("erreur chargement module exam");
@@ -34,7 +37,10 @@ public class VueOngletModules extends JPanel {
 		this.onglets.add("Examen", moduleExamen);
 		this.onglets.add("Etudiants",moduleEtudiant);
 
-		this.onglets.add("Salles",new VueSalle());
+		VueSalle vs = new VueSalle(salle);
+		salle.addObserver(vs);
+
+		this.onglets.add("Salles",new VueSalle(salle));
 
 
 		this.onglets.setBounds(0,0,800,1000);
