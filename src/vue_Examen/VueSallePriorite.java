@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -51,6 +52,7 @@ public class VueSallePriorite extends JPanel{
 		gbc.weightx = 1;
 		gbc.weighty = 1;
 		this.add(listeur, gbc);
+
 	}
 	
 	public void paintComponent(Graphics g) {

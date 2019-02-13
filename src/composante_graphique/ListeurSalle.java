@@ -11,10 +11,12 @@ import java.awt.LayoutManager;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
 
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
@@ -43,10 +45,12 @@ public class ListeurSalle extends JPanel{
 
 		//test
 		GridBagConstraints gbcp = new GridBagConstraints();
-		for(int i=0;i<2;i++) {
+		for(int i=0;i<3;i++) {
 			JPanel jptest = new JPanel();
-			jptest.setPreferredSize(new Dimension(WIDTH, 25));
+			jptest.setPreferredSize(new Dimension(WIDTH, 30));
 			jptest.add(new JLabel("test"));
+			jptest.add(new JComboBox<String>());
+			jptest.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 			gbcp.gridx = 0;
 			gbcp.gridy = i;
 			gbcp.fill = GridBagConstraints.BOTH;

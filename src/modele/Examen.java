@@ -1,4 +1,4 @@
-package modele;
+ package modele;
 
 import modele.BDD.*;
 import modele.BDD.Etudiant;
@@ -64,6 +64,8 @@ public class Examen extends Observable{
     public void ajouterSalle(modele.BDD.Salle salle){
         this.placement.put(salle, new HashMap<modele.BDD.Place, modele.BDD.Etudiant>());
         this.salles.add(salle);
+		setChanged();
+		notifyObservers();
     }
 
 
@@ -91,6 +93,8 @@ public class Examen extends Observable{
         for (Etudiant etudiant: etudiants) {
             this.etudiants.remove(etudiant);
         }
+		setChanged();
+		notifyObservers();
     }
 
     /**
