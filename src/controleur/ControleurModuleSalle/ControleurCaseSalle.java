@@ -7,10 +7,7 @@ import vue.VueSalle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.sql.SQLException;
 
 public class ControleurCaseSalle extends JButton implements ActionListener {
@@ -19,6 +16,8 @@ public class ControleurCaseSalle extends JButton implements ActionListener {
     public static int WIDTH = 40;
     public static int HEIGHT = 40;
     private Salle salle;
+
+    public static boolean MOUSE_DOWN = false;
 
     public ControleurCaseSalle(Color c, int i, int j, Salle salle){
         super();
@@ -34,7 +33,85 @@ public class ControleurCaseSalle extends JButton implements ActionListener {
        //this.setSize(new Dimension(WIDTH,HEIGHT));
         // this.setForeground(this.couleurCase);
        this.setBackground(this.couleurCase);
-       this.addActionListener(this);
+       //this.addActionListener(this);
+
+       this.addMouseListener(new MouseListener() {
+           @Override
+           public void mouseClicked(MouseEvent e) {
+               ControleurCaseSalle.MOUSE_DOWN = false;
+           }
+
+           @Override
+           public void mousePressed(MouseEvent e) {
+               System.out.println("MOUSE PRESSED");
+                ControleurCaseSalle.MOUSE_DOWN =true;
+
+               Color couleur = new Color(0);
+               String typePlace = ControleurRadioBoutons.placeSelectionnee;
+               switch(typePlace){
+                   case "place":
+                       couleur = TypePlace.couleurPlace;
+                       break;
+                   case "placeInutillisable":
+                       couleur = TypePlace.couleurPlaceInutilisable;
+                       break;
+                   case "allee":
+                       couleur= TypePlace.couleurAllee;
+                       break;
+               }
+               try {
+                   TypePlace tp = TypePlace.findByNom(typePlace);
+                   Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
+                   salle.changerLeTypePlace(i,j,tp.getIdTypePlace());
+                   VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+               } catch (SQLException e1) {
+                   e1.printStackTrace();
+               }
+               couleurCase = couleur;
+
+           }
+
+           @Override
+           public void mouseReleased(MouseEvent e) {
+            ControleurCaseSalle.MOUSE_DOWN = false;
+               System.out.println("MOUSE RELEASED");
+           }
+
+           @Override
+           public void mouseEntered(MouseEvent e) {
+                int mask = MouseEvent.BUTTON1_DOWN_MASK;
+               if(mask == e.getModifiersEx()){
+                    Color couleur = new Color(0);
+                    String typePlace = ControleurRadioBoutons.placeSelectionnee;
+                    switch(typePlace){
+                        case "place":
+                            couleur = TypePlace.couleurPlace;
+                            break;
+                        case "placeInutillisable":
+                            couleur = TypePlace.couleurPlaceInutilisable;
+                            break;
+                        case "allee":
+                            couleur= TypePlace.couleurAllee;
+                            break;
+                    }
+                    try {
+                        TypePlace tp = TypePlace.findByNom(typePlace);
+                        Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
+                        salle.changerLeTypePlace(i,j,tp.getIdTypePlace());
+                        VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                    couleurCase = couleur;
+                }
+           }
+
+           @Override
+           public void mouseExited(MouseEvent e) {
+                ControleurCaseSalle.MOUSE_DOWN = false;
+           }
+       });
+
     }
 
 
