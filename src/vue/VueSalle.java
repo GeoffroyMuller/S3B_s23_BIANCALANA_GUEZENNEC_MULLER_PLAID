@@ -11,22 +11,29 @@ import vue.ComposantVueSalle.Indicateur;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.SQLException;
 import java.util.Observable;
 import java.util.Observer;
 
 /**
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
-public class VueSalle extends JPanel implements Observer {
+public class VueSalle extends JPanel {
 	private JScrollPane containerDeLaListeJScroll, visualisationSalle;
 	private JPanel contenantPartieGauche;
 	private JPanel contenantMilieu;
 	private Salle salle;
+
+	private JLabel labelDeLaListe;
+
+	public static String salleSelectionne;
 
 
 
@@ -47,7 +54,7 @@ public class VueSalle extends JPanel implements Observer {
 		//Partie de gauche Liste des salles
 
 		//JLABEL
-		JLabel labelDeLaListe = new JLabel("Listes des Salles :",SwingConstants.CENTER);
+		labelDeLaListe = new JLabel("Listes des Salles :",SwingConstants.CENTER);
 		labelDeLaListe.setFont(new Font("Serial",Font.PLAIN,14));
 		labelDeLaListe.setBorder(BorderFactory.createLineBorder(new Color(0),1));
 		labelDeLaListe.setOpaque(true);
@@ -55,7 +62,23 @@ public class VueSalle extends JPanel implements Observer {
 		labelDeLaListe.setForeground(new Color(0xFAFFF1));
 
 		//Composant de la visualisation des listes des groupes
-		JList<Etudiant> listeDesSalles = new JList<Etudiant>();
+		DefaultListModel<Salle> dlm = new DefaultListModel<Salle>();
+		try {
+			for(Salle s : Salle.listSalle()){
+				dlm.addElement(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		JList<Salle> listeDesSalles = new JList<Salle>(dlm);
+		VueSalle.salleSelectionne = dlm.firstElement().getNom();
+		listeDesSalles.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				VueSalle.salleSelectionne = listeDesSalles.getSelectedValue().getNom();
+			}
+		});
 		this.containerDeLaListeJScroll = new JScrollPane(listeDesSalles);
 
 		//Ajout dans un conteneur
@@ -67,7 +90,7 @@ public class VueSalle extends JPanel implements Observer {
 		contenantPartieGauche.add(containerDeLaListeJScroll,BorderLayout.CENTER);
 
 		//Creation du controleur
-		ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle();
+		ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle(this.salle);
 
 		//Partie visualisation de la liste (Partie du milieux)
 		this.visualisationSalle = new JScrollPane(this.construireSalle(this.salle));
@@ -226,10 +249,4 @@ public class VueSalle extends JPanel implements Observer {
         return label;
     }
 
-	@Override
-	public void update(Observable o, Object arg) {
-	 	Salle salleUpdate = (Salle)o;
-		this.visualisationSalle = new JScrollPane(this.construireSalle(salleUpdate));
-		this.visualisationSalle.setPreferredSize(new Dimension(500,500));
-	}
 }

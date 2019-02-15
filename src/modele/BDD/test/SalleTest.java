@@ -47,7 +47,7 @@ class SalleTest {
 	void testFindByNom() throws SQLException {
 		Salle s = new Salle("salle",10,5);
 		s.save();
-		Assert.assertEquals("l'objet doit etre salle",Salle.findByNom("salle").get(0).getNom(), "salle");
+		Assert.assertEquals("l'objet doit etre salle",Salle.findByNom("salle").getNom(), "salle");
 	}
 
 	@Test

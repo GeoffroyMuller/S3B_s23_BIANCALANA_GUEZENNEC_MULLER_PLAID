@@ -3,6 +3,7 @@ package modele.BDD;
 
 import modele.Iterateur;
 
+import javax.swing.*;
 import java.net.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -91,6 +92,10 @@ public class Salle extends Observable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}*/
+	}
+
+	public String toString(){
+		return this.nom;
 	}
 
 	public int compterLeNombreDePlaceDisponible(){
@@ -198,23 +203,31 @@ public class Salle extends Observable {
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Salle> findByNom(String nom) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM Salle WHERE nom ='"+nom+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
+	public static Salle findByNom(String nom){
+		Salle res = null;
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM Salle WHERE nom ='"+nom+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
 
-		ArrayList<Salle> res = new ArrayList<Salle>();
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
-			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
-			int resId = rs.getInt("IdSalle");
-			
-			res.add(new Salle(resNom,resId,resNbCaseHauteur,resNbCaseLargeur));
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
+				int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
+				int resId = rs.getInt("IdSalle");
+
+				res=new Salle(resNom,resId,resNbCaseHauteur,resNbCaseLargeur);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JOptionPane jop = new JOptionPane();
+			jop.showMessageDialog(null,"La connexion à la base de donnée n'a pas pu être établie !","Erreur",JOptionPane.INFORMATION_MESSAGE);
 		}
+
 		return res;
 	}
 	
@@ -421,10 +434,28 @@ public class Salle extends Observable {
 		notifyObservers();
 	}
 
+    public void changerInformation(String nom, int hauteur, int largeur) {
+		this.nom =nom;
+		this.nbCaseHauteur = hauteur;
+		this.nbCaseLargeur = largeur;
+
+		this.places = new Place[hauteur][largeur];
+
+		for(int i = 0; i < hauteur; i++){
+			for(int j = 0; j < largeur; j++){
+				try {
+					this.places[i][j] = new Place(i+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		setChanged();
+		notifyObservers();
+    }
 
 
-
-	/**
+    /**
 	 * The Class SalleIterateur.
 	 */
 	public class SalleIterateur implements Iterateur {
