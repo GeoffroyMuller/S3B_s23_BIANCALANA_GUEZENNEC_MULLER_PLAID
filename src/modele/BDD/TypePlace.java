@@ -100,21 +100,25 @@ public class TypePlace {
 	 * @return the salle
 	 * @throws SQLException the SQL exception
 	 */
-	public static TypePlace findById(int id) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM TypePlace WHERE IDTypePlace ='"+id+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static TypePlace findById(int id) {
 		TypePlace res = null;
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			int resDisponnible = rs.getInt("Disponnible");
-			
-			res = new TypePlace(resNom,id,resDisponnible);
+		try{
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM TypePlace WHERE IDTypePlace ='"+id+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resDisponnible = rs.getInt("Disponnible");
+
+				res = new TypePlace(resNom,id,resDisponnible);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+
 		return res;
 	}
 	

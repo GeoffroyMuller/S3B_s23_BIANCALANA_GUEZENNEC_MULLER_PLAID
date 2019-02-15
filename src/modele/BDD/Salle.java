@@ -73,6 +73,14 @@ public class Salle extends Observable {
 		}
 	}
 
+	public Salle(Salle salle){
+		this.nom = salle.getNom();
+		this.nbCaseLargeur = salle.getNbCaseLargeur();
+		this.nbCaseHauteur = salle.getNbCaseHauteur();
+		this.places = salle.places;
+		this.idSalle = salle.getIdSalle();
+	}
+
 	/**
 	 * Instantiates a new salle.
 	 *
@@ -318,6 +326,8 @@ public class Salle extends Observable {
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
 		}
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -331,10 +341,25 @@ public class Salle extends Observable {
 					"WHERE IDSalle ='"+this.idSalle+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
+
+			//Mise a jour des places
+			for(int i = 0; i < this.places.length;i++){
+				for(int j = 0; j < this.places[i].length;j++){
+
+					String SQLPrep1 = "UPDATE Place " +
+							"SET NOM = '"+this.places[i][j].getNom()+"', IdTypePlace = '"+this.places[i][j].getIdTypePlace()+"', i = '"+this.places[i][j].getI()+"', j = '"+this.places[i][j].getJ()+"', Disponnible = '"+this.places[i][j].getDisponnible()+"', idSalle = '"+this.places[i][j].getIdSalle()
+							+"'"+ "WHERE idPlace ='"+this.places[i][j].getIdPlace()+"';";
+
+					PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
+					prep1.execute();
+				}
+			}
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -428,16 +453,47 @@ public class Salle extends Observable {
 	}
 
 
+	/**
+	 * Permet de changer le Type d'une place de la salle
+	 * @param coordX
+	 * @param coordY
+	 * @param nouveauTypeId
+	 */
 	public void changerLeTypePlace(int coordX, int coordY, int nouveauTypeId){
 		this.places[coordX][coordY].setTypePlace(nouveauTypeId);
 		setChanged();
 		notifyObservers();
 	}
 
+	/**
+	 * Permet de changer la salle actuel par une autre
+	 * @param salle
+	 */
+	public void  changerSalle(Salle salle){
+		this.nom = salle.getNom();
+		this.idSalle = salle.getIdSalle();
+		this.nbCaseLargeur = salle.getNbCaseLargeur();
+		this.nbCaseHauteur=salle.getNbCaseHauteur();
+		salle.getTableauPlaces(salle.idSalle);
+		this.places=salle.getPlaces();
+		setChanged();
+		notifyObservers();
+	}
+
+
+	/**
+	 * Permet de changer les informations de la salle
+	 * @param nom
+	 * @param hauteur
+	 * @param largeur
+	 */
     public void changerInformation(String nom, int hauteur, int largeur) {
 		this.nom =nom;
 		this.nbCaseHauteur = hauteur;
 		this.nbCaseLargeur = largeur;
+		this.idSalle = -1;
+
+		System.out.println("Création de la salle");
 
 		this.places = new Place[hauteur][largeur];
 

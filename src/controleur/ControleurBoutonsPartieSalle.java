@@ -30,6 +30,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                 CreationSalleDialogInfos infos = dialogBox.afficherDialog();
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
+                VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
                 modele.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur());
             }
         });
@@ -44,10 +45,10 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                         JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,choix,choix[1]);
 
                 if(choix[rang].equals("Oui")){
-                    Salle salle = Salle.findByNom(VueSalle.salleSelectionne);
-                    //salle.delete();
+                    Salle salle = Salle.findByNom(VueSalle.salleSelectionne.getNom());
+                    salle.delete();
                     JOptionPane jop = new JOptionPane();
-                    jop.showMessageDialog(null,"La salle à bien été supprimer !","Supression effectué avec succés",JOptionPane.INFORMATION_MESSAGE);
+                    jop.showMessageDialog(null,"La salle à bien été supprimer !","Supression effectuée avec succés",JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     JOptionPane jop = new JOptionPane();
                     jop.showMessageDialog(null,"La suppression de la salle à été annulée !","Supression annulée",JOptionPane.INFORMATION_MESSAGE);

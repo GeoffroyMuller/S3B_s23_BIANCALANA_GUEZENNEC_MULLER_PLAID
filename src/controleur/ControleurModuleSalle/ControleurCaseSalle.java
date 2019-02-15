@@ -3,6 +3,7 @@ package controleur.ControleurModuleSalle;
 import modele.BDD.Place;
 import modele.BDD.Salle;
 import modele.BDD.TypePlace;
+import vue.VueSalle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,6 +57,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener {
             TypePlace tp = TypePlace.findByNom(typePlace);
             Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
             this.salle.changerLeTypePlace(this.i,this.j,tp.getIdTypePlace());
+            VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
         } catch (SQLException e1) {
             e1.printStackTrace();
         }

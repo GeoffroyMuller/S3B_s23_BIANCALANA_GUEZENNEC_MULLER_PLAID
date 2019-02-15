@@ -34,13 +34,9 @@ public class Place {
 
 	public boolean getDisponnible() {
 		boolean res = false;
-		try {
-			TypePlace typeDeLaPlace = TypePlace.findById(this.idTypePlace);
-			if(typeDeLaPlace.getDisponnible() == 1){
-				res= true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		TypePlace typeDeLaPlace = TypePlace.findById(this.idTypePlace);
+		if(typeDeLaPlace.getDisponnible() == 1){
+			res= true;
 		}
 
 		return res;

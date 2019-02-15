@@ -42,8 +42,8 @@ public class VueOngletModules extends JPanel implements Observer {
 		this.onglets.add("Etudiants",moduleEtudiant);
 
 		this.moduleSalle = new VueSalle(salle);
-		salle.addObserver(this);
-		//salle.addObserver(this.moduleSalle);
+		//salle.addObserver(this);
+		salle.addObserver(this.moduleSalle);
 
 		this.onglets.add("Salles",this.moduleSalle);
 

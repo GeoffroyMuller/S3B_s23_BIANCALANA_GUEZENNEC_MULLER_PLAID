@@ -5,7 +5,9 @@ import controleur.ControleurModuleSalle.ControleurCaseSalle;
 import controleur.ControleurModuleSalle.ControleurRadioBoutons;
 import controleur.ControleurModuleSalle.ControleurSauvegardeSalle;
 import modele.BDD.Etudiant;
+import modele.BDD.Place;
 import modele.BDD.Salle;
+import modele.BDD.TypePlace;
 import vue.ComposantVueSalle.Indicateur;
 
 import javax.swing.*;
@@ -25,15 +27,30 @@ import java.util.Observer;
 /**
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
-public class VueSalle extends JPanel {
+public class VueSalle extends JPanel implements Observer {
 	private JScrollPane containerDeLaListeJScroll, visualisationSalle;
 	private JPanel contenantPartieGauche;
 	private JPanel contenantMilieu;
 	private Salle salle;
 
+
+	private DefaultListModel<Salle> dlm;
+
 	private JLabel labelDeLaListe;
 
-	public static String salleSelectionne;
+	public static Salle salleSelectionne;
+
+	/**
+	 * Correspond a la partie qui doit être mise à jour, (1 = partie gauche, 2= milieu, 3=partie de droite)
+	 */
+	public static int partieAUpdate;
+
+	private JList<Salle> listeDesSalles;
+
+	public static int UPDATE_PARTIE_LISTE_SALLE = 1;
+	public static int UPDATE_PARTIE_AFFICHAGE_SALLE = 2;
+	public static int UPDATE_AJOUT_SALLE = 3;
+	public static int UPDATE_ALL = -1;
 
 
 
@@ -62,7 +79,7 @@ public class VueSalle extends JPanel {
 		labelDeLaListe.setForeground(new Color(0xFAFFF1));
 
 		//Composant de la visualisation des listes des groupes
-		DefaultListModel<Salle> dlm = new DefaultListModel<Salle>();
+		dlm = new DefaultListModel<Salle>();
 		try {
 			for(Salle s : Salle.listSalle()){
 				dlm.addElement(s);
@@ -71,14 +88,20 @@ public class VueSalle extends JPanel {
 			e.printStackTrace();
 		}
 
-		JList<Salle> listeDesSalles = new JList<Salle>(dlm);
-		VueSalle.salleSelectionne = dlm.firstElement().getNom();
+		this.listeDesSalles = new JList<Salle>(dlm);
+		VueSalle.salleSelectionne = dlm.firstElement();
 		listeDesSalles.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				VueSalle.salleSelectionne = listeDesSalles.getSelectedValue().getNom();
+				VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+				VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
+				String nomSalle = listeDesSalles.getSelectedValue().getNom();
+				System.out.println("Nom de la salle selectionne : "+nomSalle);
+				Salle salleSelectionne = Salle.findByNom(nomSalle);
+				salle.changerSalle(salleSelectionne);
 			}
 		});
+
 		this.containerDeLaListeJScroll = new JScrollPane(listeDesSalles);
 
 		//Ajout dans un conteneur
@@ -224,7 +247,21 @@ public class VueSalle extends JPanel {
 			for(int j = 0; j < salle.getNbCaseHauteur();j++){
 				JPanel jpBouton = new JPanel();
 				jpBouton.setLayout(new BorderLayout());
-				jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j,this.salle));
+				TypePlace typePlace = TypePlace.findById(salle.getPlaces()[i][j].getIdTypePlace());
+				Color couleurPlace = null;
+				switch(typePlace.getNom()){
+					case "place":
+					case "chaise":
+						couleurPlace = TypePlace.couleurPlace;
+						break;
+					case "placeInutillisable":
+						couleurPlace = TypePlace.couleurPlaceInutilisable;
+						break;
+					case "allee":
+						couleurPlace = TypePlace.couleurAllee;
+						break;
+				}
+				jpBouton.add(new ControleurCaseSalle(couleurPlace,i,j,this.salle));
 				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
 				contenant.add(jpBouton,gbc);
 				gbc.gridx++;
@@ -249,4 +286,53 @@ public class VueSalle extends JPanel {
         return label;
     }
 
+	@Override
+	public void update(Observable o, Object arg) {
+	 	this.salle = (Salle)o;
+
+	 	if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL) {
+			this.remove(this.contenantMilieu);
+			this.visualisationSalle = new JScrollPane(this.construireSalle(this.salle));
+			this.visualisationSalle.setPreferredSize(new Dimension(500, 500));
+			//Mise en place du controlleur
+			this.contenantMilieu = new JPanel();
+			this.contenantMilieu.setLayout(new GridBagLayout());
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = gbc.gridy = 0;
+			gbc.gridwidth = GridBagConstraints.REMAINDER;
+			gbc.anchor = GridBagConstraints.PAGE_START;
+			gbc.weightx = 1;
+			gbc.weighty = 0;
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.insets = new Insets(20, 10, 20, 0);
+
+			JLabel titrePartieMilieu = new JLabel("Visualisation de la salle :", SwingConstants.CENTER);
+			titrePartieMilieu = applicationStylePolice(titrePartieMilieu);
+
+			this.contenantMilieu.add(titrePartieMilieu, gbc);
+
+			gbc = new GridBagConstraints();
+			gbc.gridx = 0;
+			gbc.gridy = 1;
+			gbc.gridwidth = gbc.gridheight = GridBagConstraints.REMAINDER;
+			gbc.anchor = GridBagConstraints.PAGE_START;
+			gbc.weightx = 1;
+			gbc.weighty = 1;
+			this.contenantMilieu.add(visualisationSalle, gbc);
+			this.add(this.contenantMilieu, BorderLayout.CENTER);
+			this.revalidate();
+			this.repaint();
+		}
+
+
+		if(partieAUpdate == VueSalle.UPDATE_AJOUT_SALLE){
+			Salle salle = new Salle(this.salle);
+			this.dlm.addElement(salle);
+			listeDesSalles.setSelectedIndex(this.dlm.indexOf(salle));
+			contenantPartieGauche.revalidate();
+			contenantPartieGauche.repaint();
+			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+		}
+
+	}
 }
