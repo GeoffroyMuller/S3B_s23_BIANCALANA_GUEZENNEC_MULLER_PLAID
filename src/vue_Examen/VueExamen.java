@@ -33,7 +33,7 @@ import modele.Examen;
 
 public class VueExamen extends JPanel implements Observer{
 
-	private Examen examen;
+	static Examen examen;
 	private ControleurExamen controleur_Exam;
 
 	/**
@@ -68,8 +68,8 @@ public class VueExamen extends JPanel implements Observer{
 	 * Constructeur principale
 	 * @throws SQLException 
 	 */
-	public VueExamen(Examen examen) throws SQLException{
-		this.examen = examen;
+	public VueExamen(Examen exam) throws SQLException{
+		examen = exam;
 		controleur_Exam = new ControleurExamen(examen);
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
@@ -89,6 +89,9 @@ public class VueExamen extends JPanel implements Observer{
 		placerElementPrincipaux();
 		this.add(jp_all);
 		definirTaille(1000, 300);
+	}
+	static public Examen getModeleExamen() {
+		return examen;
 	}
 
 	private void testlisteur() {
