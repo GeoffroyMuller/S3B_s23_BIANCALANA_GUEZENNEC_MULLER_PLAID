@@ -5,7 +5,7 @@ import modele.Examen;
 import vue_Examen.VueExamen;
 
 public  class ListenerDeRefresh {
-	static DifListeurEtu dle;
+	public static DifListeurEtu dle;
 	
 	
 	public ListenerDeRefresh(DifListeurEtu pdle) {

@@ -494,7 +494,13 @@ public class Place {
 		int jmax = salle.getNbCaseLargeur();
 
 		Place res[][] = new Place[imax][jmax];
+		System.out.println("IMAX : "+imax);
+		System.out.println("JMAX : "+jmax);
+
+		int coordI,coordJ;
 		for(int i=0; i<temp.size(); i++) {
+			coordI = temp.get(i).getI();
+			coordJ = temp.get(i).getJ();
 			res[temp.get(i).getI()][temp.get(i).getJ()] = temp.get(i);
 		}
 		return res;

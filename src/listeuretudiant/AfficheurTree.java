@@ -25,7 +25,7 @@ import modele.BDD.Groupe;
 
 public class AfficheurTree extends JPanel{
 
-	static private JTree tree;
+	public static JTree tree;
 	private DifListeurEtu lisetu;
 	private DeroulOptionTriCateg dotc;
 	private JTextField jtf;
@@ -240,7 +240,7 @@ public class AfficheurTree extends JPanel{
 		category.add(groupe);
 	}*/
 
-	static public JTree getTree() {
+	 public static JTree getTree() {
 		return tree;
 	}
 }

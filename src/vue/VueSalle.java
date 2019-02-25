@@ -243,8 +243,11 @@ public class VueSalle extends JPanel implements Observer {
 		gbc.gridx= gbc.gridy = 0;
 		gbc.gridheight = gbc.gridwidth = 1;
 		gbc.insets = new Insets(2,2,0,2);
-		for(int i = 0; i < salle.getNbCaseLargeur();i++){
-			for(int j = 0; j < salle.getNbCaseHauteur();j++){
+		System.out.println("PLACE [] :"+salle.getPlaces().length);
+		System.out.println("PLACE [][] :"+salle.getPlaces()[0].length);
+		for(int i = 0; i < salle.getNbCaseHauteur();i++){
+			for(int j = 0; j < salle.getNbCaseLargeur();j++){
+				System.out.println("Affichage d'une salle de hauteur : "+salle.getNbCaseHauteur());
 				JPanel jpBouton = new JPanel();
 				jpBouton.setLayout(new BorderLayout());
 				TypePlace typePlace = TypePlace.findById(salle.getPlaces()[i][j].getIdTypePlace());

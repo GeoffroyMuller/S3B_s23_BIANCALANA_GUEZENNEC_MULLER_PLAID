@@ -130,7 +130,7 @@ public class Salle extends Observable {
 	 */
 	public void getTableauPlaces(int idSalle){
 		try {
-			this.places = new Place[this.nbCaseHauteur][this.nbCaseLargeur];
+			this.places = new Place[this.nbCaseLargeur][this.nbCaseHauteur];
 			this.places = Place.tableauPlace(idSalle);
 		} catch (SQLException e) {
 			e.printStackTrace();
