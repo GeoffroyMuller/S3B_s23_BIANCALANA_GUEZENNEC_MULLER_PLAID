@@ -69,7 +69,7 @@ public class PanelListeurCategorie extends JPanel{
 		gbcp.insets = new Insets(0, 0, 0, 45);
 		gbcp.weightx = 0;
 		gbcp.weighty = 0;
-		jp_categorie.add(new JLabel("Groupe Participant : 0/"+categ.getListGroupe().size()+""), gbcp);
+		jp_categorie.add(new JLabel("Groupe Participant : /"+categ.getListGroupe().size()+""), gbcp);
 		
 		jp_categorie.setBackground(Color.WHITE);
 		

@@ -32,7 +32,7 @@ public class ControleurExamen {
 
 	private String exam_nom;
 	private String exam_matiere;
-	private String exam_date;
+	private String exam_date; 
 	private HashMap<JButton, Groupe> mapBoutton_groupe;
 	private HashMap<JButton, Categorie> mapButton_categorie;
 

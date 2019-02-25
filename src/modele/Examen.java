@@ -93,8 +93,7 @@ public class Examen extends Observable{
         for (Etudiant etudiant: etudiants) {
             this.etudiants.remove(etudiant);
         }
-		setChanged();
-		notifyObservers();
+
     }
 
     /**
