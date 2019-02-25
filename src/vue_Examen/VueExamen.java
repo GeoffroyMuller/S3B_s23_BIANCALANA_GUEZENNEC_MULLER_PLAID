@@ -33,7 +33,7 @@ import modele.Examen;
 
 public class VueExamen extends JPanel implements Observer{
 
-	static Examen examen;
+	public static Examen examen;
 	private ControleurExamen controleur_Exam;
 
 	/**

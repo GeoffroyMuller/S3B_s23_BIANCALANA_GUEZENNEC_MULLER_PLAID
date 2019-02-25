@@ -1,5 +1,7 @@
 package controleur.ControleurModuleSalle;
 
+import controleur.ModificationNomPlaceDialog;
+import controleur.ModificationNomPlaceDialogInfo;
 import modele.BDD.Place;
 import modele.BDD.Salle;
 import modele.BDD.TypePlace;
@@ -27,18 +29,18 @@ public class ControleurCaseSalle extends JButton implements ActionListener {
         this.couleurCase = c;
         setContentAreaFilled(false);
 
-       /* this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
-        this.setMinimumSize(new Dimension(WIDTH,HEIGHT));
-        this.setMaximumSize(new Dimension(WIDTH,HEIGHT));*/
-       //this.setSize(new Dimension(WIDTH,HEIGHT));
-        // this.setForeground(this.couleurCase);
        this.setBackground(this.couleurCase);
-       //this.addActionListener(this);
-
        this.addMouseListener(new MouseListener() {
            @Override
            public void mouseClicked(MouseEvent e) {
-               ControleurCaseSalle.MOUSE_DOWN = false;
+               if(SwingUtilities.isRightMouseButton(e)){
+                   Place place = salle.getPlaces()[i][j];
+                   ModificationNomPlaceDialog dialog = new ModificationNomPlaceDialog(null,"Changement de nom",true,place.getNom());
+                   ModificationNomPlaceDialogInfo infos = dialog.afficherDialog();
+                   place.setNom(infos.getNouveauNom());
+                   place.save();
+               }
+
            }
 
            @Override

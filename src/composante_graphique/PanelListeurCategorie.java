@@ -34,7 +34,6 @@ public class PanelListeurCategorie extends JPanel{
 	private JPanel jp_all;
 	private JPanel jp_categorie;
 	private ArrayList<JPanel> liste_jp_groupe;
-	private ArrayList<JPanel> liste_jb_groupe;
 	private MouseListener ml;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Categorie categorie;	//categorie correspondant a this

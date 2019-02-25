@@ -26,7 +26,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 //Création d'une fenetre contextuelle
-                CreationSalleDialog dialogBox = new CreationSalleDialog(null,"Création d'une salle",true);
+                CreationSalleDialog dialogBox = new CreationSalleDialog(null,"Création d'une salle",true,false,null);
                 CreationSalleDialogInfos infos = dialogBox.afficherDialog();
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);

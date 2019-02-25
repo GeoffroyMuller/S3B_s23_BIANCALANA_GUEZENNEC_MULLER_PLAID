@@ -2,6 +2,7 @@ package modele.BDD;
 
 
 import modele.Iterateur;
+import vue.VueSalle;
 
 import javax.swing.*;
 import java.net.Proxy;
@@ -130,7 +131,7 @@ public class Salle extends Observable {
 	 */
 	public void getTableauPlaces(int idSalle){
 		try {
-			this.places = new Place[this.nbCaseHauteur][this.nbCaseLargeur];
+			this.places = new Place[this.nbCaseLargeur][this.nbCaseHauteur];
 			this.places = Place.tableauPlace(idSalle);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -488,21 +489,35 @@ public class Salle extends Observable {
 	 * @param largeur
 	 */
     public void changerInformation(String nom, int hauteur, int largeur) {
-		this.nom =nom;
-		this.nbCaseHauteur = hauteur;
-		this.nbCaseLargeur = largeur;
+    	boolean changementDimension = false;
+    	if(!this.nom.contains(nom)){
+			this.nom =nom;
+			VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
+		}
+		if(this.nbCaseHauteur != hauteur){
+			this.nbCaseHauteur = hauteur;
+			 changementDimension = true;
+			VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
+		}
+		if(this.nbCaseLargeur!=largeur){
+			this.nbCaseLargeur = largeur;
+			 changementDimension = true;
+
+			VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
+		}
 		this.idSalle = -1;
 
 		System.out.println("Création de la salle");
+		if(changementDimension){
+			this.places = new Place[hauteur][largeur];
 
-		this.places = new Place[hauteur][largeur];
-
-		for(int i = 0; i < hauteur; i++){
-			for(int j = 0; j < largeur; j++){
-				try {
-					this.places[i][j] = new Place(i+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
-				} catch (SQLException e) {
-					e.printStackTrace();
+			for(int i = 0; i < hauteur; i++){
+				for(int j = 0; j < largeur; j++){
+					try {
+						this.places[i][j] = new Place(i+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

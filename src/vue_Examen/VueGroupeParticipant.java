@@ -23,7 +23,7 @@ import javafx.beans.Observable;
 import modele.Examen;
 import modele.BDD.Categorie;
 
-public class VueGroupeParticipant extends JPanel implements Observer{
+public class VueGroupeParticipant extends JPanel{
 	private ControleurExamen controleur_Exam;
 
 	private static ListeurCategorie listeur;
@@ -100,10 +100,6 @@ public class VueGroupeParticipant extends JPanel implements Observer{
 	}
 
 
-	@Override
-	public void update(java.util.Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }
