@@ -16,7 +16,7 @@ public class CreationSalleDialog extends JDialog {
     private JSpinner hauteurSalle,largeurSalle;
     private JButton valider,annuler;
 
-    public CreationSalleDialog(JFrame parent, String title, boolean modal){
+    public CreationSalleDialog(JFrame parent, String title, boolean modal,boolean modification,Salle salle){
         super(parent,title,modal);
 
         this.setSize(new Dimension(550,270));
@@ -24,6 +24,11 @@ public class CreationSalleDialog extends JDialog {
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         this.initComponent();
+        if(modification){
+            this.nomSalle.setText(salle.getNom());
+            this.hauteurSalle.setValue(salle.getNbCaseHauteur());
+            this.largeurSalle.setValue(salle.getNbCaseLargeur());
+        }
 
     }
 

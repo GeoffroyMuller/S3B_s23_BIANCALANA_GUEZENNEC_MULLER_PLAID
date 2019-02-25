@@ -2,6 +2,7 @@ package vue;
 
 import controleur.ControleurBoutonsPartieSalle;
 import controleur.ControleurModuleSalle.ControleurCaseSalle;
+import controleur.ControleurModuleSalle.ControleurModifierNomSalle;
 import controleur.ControleurModuleSalle.ControleurRadioBoutons;
 import controleur.ControleurModuleSalle.ControleurSauvegardeSalle;
 import modele.BDD.Etudiant;
@@ -51,6 +52,7 @@ public class VueSalle extends JPanel implements Observer {
 	public static int UPDATE_PARTIE_AFFICHAGE_SALLE = 2;
 	public static int UPDATE_AJOUT_SALLE = 3;
 	public static int UPDATE_ALL = -1;
+	public static int UPDATE_NOTHING = 0;
 
 
 
@@ -172,11 +174,17 @@ public class VueSalle extends JPanel implements Observer {
 		partieEdition.add(new Indicateur(), BorderLayout.CENTER);
 
 		JButton sauvegarde = new ControleurSauvegardeSalle(salle);
+		JButton modifierInfo = new ControleurModifierNomSalle(salle);
 
 		JPanel containerBouton = new JPanel();
+		JPanel panelBoutons = new JPanel();
+		panelBoutons.setLayout(new GridLayout(2,0));
+		panelBoutons.add(sauvegarde);
+		panelBoutons.add(modifierInfo);
+
 		containerBouton.setLayout(new BorderLayout());
 		containerBouton.setPreferredSize(new Dimension(300,460));
-		containerBouton.add(sauvegarde,BorderLayout.NORTH);
+		containerBouton.add(panelBoutons,BorderLayout.NORTH);
 
 		editionPan.add(edition, BorderLayout.NORTH);
 		editionPan.add(partieEdition, BorderLayout.CENTER);
