@@ -509,6 +509,11 @@ public class Examen extends Observable{
     public void setPas(int pas) {
         this.pas = pas;
     }
+    
+    public void refresh() {
+    	this.setChanged();
+    	this.notifyObservers();
+    }
 
 
     //Groupe Participant
