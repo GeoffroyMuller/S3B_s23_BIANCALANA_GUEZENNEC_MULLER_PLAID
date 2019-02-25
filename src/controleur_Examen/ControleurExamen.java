@@ -207,7 +207,7 @@ public class ControleurExamen {
 			jbt.setText("Retirer");
 			jbt.setBackground(Color.gray);
 
-			examen.ajouterGroupe(grp);
+			 examen.ajouterGroupe(grp);
 			System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
 			
 		}else {
