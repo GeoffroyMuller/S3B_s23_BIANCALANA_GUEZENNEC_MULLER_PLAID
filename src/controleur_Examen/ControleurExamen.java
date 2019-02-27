@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -32,9 +33,10 @@ public class ControleurExamen {
 
 	private String exam_nom;
 	private String exam_matiere;
-	private String exam_date; 
+	private String exam_date;
 	private HashMap<JButton, Groupe> mapBoutton_groupe;
 	private HashMap<JButton, Categorie> mapButton_categorie;
+	private ArrayList<JComboBox<String>> listeComboSalle;
 
 	private JTextField jtf_nom;		//JTextField : gere le nom de l'examen
 	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
@@ -45,7 +47,7 @@ public class ControleurExamen {
 	//private JButton jb_categorie;
 	private ArrayList<ArrayList<Groupe>> liste_listegrp;
 
-	public ControleurExamen(Examen examenp) {
+	public ControleurExamen(Examen examenp)  {
 		examen = examenp;
 		jtf_nom = new JTextField();
 		jtf_matiere = new JTextField();
@@ -80,6 +82,18 @@ public class ControleurExamen {
 			}
 		});
 		//findev
+		//comboSalle
+		try {
+			
+			for(int i=0;i<Salle.listSalle().size();i++) {
+				
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur:: recuperation de Salle impossible");
+			e1.printStackTrace();
+		}
+		//finComboSalle
 		mapBoutton_groupe = new HashMap<>();
 		mapButton_categorie = new HashMap<>();
 		/**

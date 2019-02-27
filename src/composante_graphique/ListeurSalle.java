@@ -32,6 +32,7 @@ public class ListeurSalle extends JPanel{
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
 	private GridBagConstraints gbc = new GridBagConstraints();
+	private ArrayList<Salle> prioriteSalle;
 
 	public ListeurSalle(ControleurExamen ctrlexamp) throws SQLException {
 		ctrlexam = ctrlexamp;
@@ -48,18 +49,10 @@ public class ListeurSalle extends JPanel{
 
 		//test
 		GridBagConstraints gbcp = new GridBagConstraints();
-		ArrayList<Salle> listSalle = Salle.listSalle();
-		for(int i=0;i<listSalle.size();i++) {
+		for(int i=0;i<3;i++) {
 			JPanel jptest = new JPanel();
 			jptest.setPreferredSize(new Dimension(WIDTH, 30));
-			if(i==10) {
-				System.out.println("1000000000000000000--------:: ");
-				jptest.setPreferredSize(new Dimension(WIDTH, 30));
-				jptest.setBackground(Color.red);
-			}else {
-				jptest.setBackground(Color.gray);
-			}
-			jptest.add(new JLabel(listSalle.get(i).getNom()));
+			jptest.add(new JLabel(""+i));
 			jptest.add(new JComboBox<String>());
 			jptest.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 			gbcp.gridx = 0;
