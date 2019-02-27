@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -49,11 +50,14 @@ public class ListeurSalle extends JPanel{
 
 		//test
 		GridBagConstraints gbcp = new GridBagConstraints();
-		for(int i=0;i<3;i++) {
+		for(int i=0;i<1;i++) {
 			JPanel jptest = new JPanel();
 			jptest.setPreferredSize(new Dimension(WIDTH, 30));
 			jptest.add(new JLabel(""+i));
-			jptest.add(new JComboBox<String>());
+			this.controleur_Exam.ajouterComboSalle();
+			this.controleur_Exam.ajouterComboSalle();
+			//System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee"+this.controleur_Exam.getListeComboSalle());
+			jptest.add(this.controleur_Exam.getListeComboSalle().get(1));
 			jptest.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 			gbcp.gridx = 0;
 			gbcp.gridy = i;
@@ -95,6 +99,9 @@ public class ListeurSalle extends JPanel{
 		/*for(PanelListeur plp : liste_panelListeur) {
 			plp.definirTaille(w-200, 30);
 		}*/
+	}
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 	}
 
 }

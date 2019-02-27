@@ -48,6 +48,7 @@ public class ControleurExamen {
 	private ArrayList<ArrayList<Groupe>> liste_listegrp;
 
 	public ControleurExamen(Examen examenp)  {
+		listeComboSalle = new ArrayList<JComboBox<String>>();
 		examen = examenp;
 		jtf_nom = new JTextField();
 		jtf_matiere = new JTextField();
@@ -82,18 +83,7 @@ public class ControleurExamen {
 			}
 		});
 		//findev
-		//comboSalle
-		try {
-			
-			for(int i=0;i<Salle.listSalle().size();i++) {
-				
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur:: recuperation de Salle impossible");
-			e1.printStackTrace();
-		}
-		//finComboSalle
+
 		mapBoutton_groupe = new HashMap<>();
 		mapButton_categorie = new HashMap<>();
 		/**
@@ -282,6 +272,29 @@ public class ControleurExamen {
 			}
 		}
 	}
+	public void ajouterComboSalle() {
+
+		try {
+			
+			String[] nomSalle = new String[Salle.listSalle().size()];
+			for(int i=0;i<Salle.listSalle().size();i++) {
+				nomSalle[i] = Salle.listSalle().get(i).getNom();
+			}
+			JComboBox<String> combres = new JComboBox<String>(nomSalle);
+			this.listeComboSalle.add(combres);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur:: recuperation de Salle impossible");
+			e1.printStackTrace();
+		}
+
+	}
+	
+
+	public ArrayList<JComboBox<String>> getListeComboSalle() {
+		return listeComboSalle;
+	}
+
 
 	public JTextField getJtf_nom() {
 		return jtf_nom;
