@@ -17,7 +17,9 @@ import java.util.*;
 
 import modele.BDD.Categorie;
 
-public class Examen extends Observable{
+import javax.swing.*;
+
+ public class Examen extends Observable{
 	
 	private String nom;
 	private String matiere;
@@ -453,8 +455,81 @@ public class Examen extends Observable{
         return res;
     }
 
+    public InformationsPlacementEtudiant trouverPlaceEtudiant(CritereRechercheEtudiant cre){
+        InformationsPlacementEtudiant resultat=null;
+        Set<Salle> clesSalle = this.placement.keySet();
+
+        for(Salle salle : clesSalle){
+            Set<Place> clesPlaces = this.placement.get(salle).keySet();
+
+            for(Place place : clesPlaces){
+                Etudiant etudiant = this.placement.get(salle).get(place);
+                if(etudiant.getNom().toLowerCase().equals(cre.getNom())
+                && etudiant.getPrenom().toLowerCase().equals(cre.getPrenom())
+                && etudiant.getGroupe().toLowerCase().equals(cre.getGroupe().toLowerCase())){
+                    resultat = new InformationsPlacementEtudiant(salle,place,etudiant);
+                }
+            }
+        }
 
 
+        return resultat;
+    }
+
+     /**
+      * Permet de générer la prévisualisation d'un placementsous forme d'un JTable
+      * @return
+      */
+    public ArrayList<JTable> genererPrevisualisationFiche(){
+        ArrayList<JTable> resultat = new ArrayList<JTable>();
+        String column[]={"ID","GROUPE","NOM","PRENOM","SALLE","RANG","PLACE"};
+
+        Set<Salle> clesSalle= this.placement.keySet();
+        for(Salle salle : clesSalle){
+            Set<Place> clesPlaces = this.placement.get(salle).keySet();
+            String data[][] = new String[clesPlaces.size()][7];
+            int iterateur = 0;
+            for(Place place : clesPlaces){
+                Etudiant etudiant = this.placement.get(salle).get(place);
+                data[iterateur][0] = iterateur+"";
+                data[iterateur][1] = etudiant.getGroupe();
+                data[iterateur][2] = etudiant.getNom();
+                data[iterateur][3] = etudiant.getPrenom();
+                data[iterateur][4] = salle.getNom();
+                data[iterateur][5] = place.getI()+"";
+                data[iterateur][6] = place.getJ()+"";
+                iterateur++;
+            }
+            JTable tableau= new JTable(data,column);
+            resultat.add(tableau);
+        }
+
+        return resultat;
+    }
+
+
+     /**
+      *  Retourne tout les groupes participants
+      * @return
+      */
+    public String[] groupeParticipant(){
+        ArrayList<String> groupes = new ArrayList<String>();
+
+        Set<Salle> clesSalles = this.placement.keySet();
+        for(Salle salle : clesSalles){
+            Set<Place> clesPlace = this.placement.get(salle).keySet();
+            for(Place place : clesPlace){
+                Etudiant etudiant = this.placement.get(salle).get(place);
+                if(!(groupes.contains(etudiant.getGroupe().toLowerCase()))){
+                    groupes.add(etudiant.getGroupe().toLowerCase());
+                }
+            }
+        }
+        String[] resultat = (String[])groupes.toArray();
+
+
+        return resultat;
+    }
 	
 	
 	

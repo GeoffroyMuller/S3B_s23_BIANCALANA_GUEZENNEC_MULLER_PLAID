@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import modele.BDD.Salle;
 import modele.GestionFichiersExcel.ExportEtudiant;
 import vue_Etudiant.VueEtudiant;
+import vue_Examen.DialogVerificationPlacement;
 import vue_Examen.VueExamen;
 
 import org.apache.poi.ss.formula.eval.BoolEval;
@@ -136,8 +137,10 @@ public class ControleurExamen {
 				System.out.println("==================");
 			
 				examen.genererUnPlacement();
-				ExportEtudiant exportEtu = new ExportEtudiant();
-				exportEtu.exporterPlacement(examen.getPlacement());
+				//IMPORTANT ICI LANCER LE DIALOG
+				DialogVerificationPlacement dialog = new DialogVerificationPlacement(null,"Prévisualisation",true,examen);
+				dialog.afficherDialog();
+
 			}
 		});
 

@@ -15,8 +15,8 @@ import java.sql.SQLException;
 public class ControleurCaseSalle extends JButton implements ActionListener {
     private Color couleurCase;
     private int i,j; //i = hauteur / y=largeur
-    public static int WIDTH = 40;
-    public static int HEIGHT = 40;
+    public static int WIDTH = 30;
+    public static int HEIGHT = 30;
     private Salle salle;
 
     public static boolean MOUSE_DOWN = false;

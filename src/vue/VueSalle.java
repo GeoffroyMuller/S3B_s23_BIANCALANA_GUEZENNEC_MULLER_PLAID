@@ -110,7 +110,7 @@ public class VueSalle extends JPanel implements Observer {
 		contenantPartieGauche = new JPanel();
 		//contenantPartieGauche.setBorder(new EmptyBorder(0,20,0,0));
 		contenantPartieGauche.setLayout(new BorderLayout());
-		contenantPartieGauche.setPreferredSize(new Dimension(300,this.getHeight()));
+		contenantPartieGauche.setPreferredSize(new Dimension(200,this.getHeight()));
 		contenantPartieGauche.add(labelDeLaListe,BorderLayout.NORTH);
 		contenantPartieGauche.add(containerDeLaListeJScroll,BorderLayout.CENTER);
 
@@ -119,7 +119,8 @@ public class VueSalle extends JPanel implements Observer {
 
 		//Partie visualisation de la liste (Partie du milieux)
 		this.visualisationSalle = new JScrollPane(this.construireSalle(this.salle));
-		this.visualisationSalle.setPreferredSize(new Dimension(500,500));
+
+		this.visualisationSalle.setPreferredSize(new Dimension(800,500));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
 		this.contenantMilieu.setLayout(new GridBagLayout());
@@ -183,13 +184,13 @@ public class VueSalle extends JPanel implements Observer {
 		panelBoutons.add(modifierInfo);
 
 		containerBouton.setLayout(new BorderLayout());
-		containerBouton.setPreferredSize(new Dimension(300,460));
+		containerBouton.setPreferredSize(new Dimension(200,460));
 		containerBouton.add(panelBoutons,BorderLayout.NORTH);
 
 		editionPan.add(edition, BorderLayout.NORTH);
 		editionPan.add(partieEdition, BorderLayout.CENTER);
 		editionPan.add(containerBouton,BorderLayout.SOUTH);
-		editionPan.setPreferredSize(new Dimension(300,300));
+		editionPan.setPreferredSize(new Dimension(250,300));
 		editionPan.setBorder(new EmptyBorder(20,10,0,10));
 
 		contenantPartieGauche.add(boutons,BorderLayout.SOUTH);
@@ -206,9 +207,9 @@ public class VueSalle extends JPanel implements Observer {
 
 	@Override
 	public void paintComponent(Graphics g){
-		this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/5, this.getParent().getHeight()));
-		this.visualisationSalle.setPreferredSize(new Dimension(this.getParent().getWidth()/3,this.getParent().getWidth()/3));
 		super.paintComponent(g);
+		//this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/5, this.getParent().getHeight()));
+		this.visualisationSalle.setPreferredSize(new Dimension((this.getWidth()-(480)),(this.getHeight()-130)));
 
 	}
 
@@ -344,6 +345,5 @@ public class VueSalle extends JPanel implements Observer {
 			contenantPartieGauche.repaint();
 			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
 		}
-
 	}
 }
