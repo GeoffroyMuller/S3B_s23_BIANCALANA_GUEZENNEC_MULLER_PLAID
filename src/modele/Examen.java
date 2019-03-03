@@ -95,8 +95,7 @@ import javax.swing.*;
         for (Etudiant etudiant: etudiants) {
             this.etudiants.remove(etudiant);
         }
-		setChanged();
-		notifyObservers();
+
     }
 
     /**

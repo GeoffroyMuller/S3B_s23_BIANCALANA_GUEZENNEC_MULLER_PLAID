@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.LayoutManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,6 +24,7 @@ import javax.swing.border.Border;
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
 import modele.BDD.Categorie;
+import modele.BDD.Salle;
 
 public class ListeurSalle extends JPanel{
 	private ControleurExamen ctrlexam;
@@ -29,8 +33,9 @@ public class ListeurSalle extends JPanel{
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
 	private GridBagConstraints gbc = new GridBagConstraints();
+	private ArrayList<Salle> prioriteSalle;
 
-	public ListeurSalle(ControleurExamen ctrlexamp) {
+	public ListeurSalle(ControleurExamen ctrlexamp) throws SQLException {
 		ctrlexam = ctrlexamp;
 		this.setBackground(new Color(162, 190, 251));
 
@@ -45,11 +50,14 @@ public class ListeurSalle extends JPanel{
 
 		//test
 		GridBagConstraints gbcp = new GridBagConstraints();
-		for(int i=0;i<3;i++) {
+		for(int i=0;i<1;i++) {
 			JPanel jptest = new JPanel();
 			jptest.setPreferredSize(new Dimension(WIDTH, 30));
-			jptest.add(new JLabel("test"));
-			jptest.add(new JComboBox<String>());
+			jptest.add(new JLabel(""+i));
+			this.controleur_Exam.ajouterComboSalle();
+			this.controleur_Exam.ajouterComboSalle();
+			//System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeeeee"+this.controleur_Exam.getListeComboSalle());
+			jptest.add(this.controleur_Exam.getListeComboSalle().get(1));
 			jptest.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 			gbcp.gridx = 0;
 			gbcp.gridy = i;
@@ -91,6 +99,9 @@ public class ListeurSalle extends JPanel{
 		/*for(PanelListeur plp : liste_panelListeur) {
 			plp.definirTaille(w-200, 30);
 		}*/
+	}
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -30,7 +31,13 @@ public class VueSallePriorite extends JPanel{
 	
 	public VueSallePriorite(ControleurExamen ctrlexamp) {
 		ctrlexam = ctrlexamp;
-		listeur = new ListeurSalle(ctrlexamp);
+		try {
+			listeur = new ListeurSalle(ctrlexamp);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur:: probleme de recuperation des salles dans la base de données");
+			e.printStackTrace();
+		}
 		
 		controleur_Exam = ctrlexamp;
 		jp_all = new JPanel();

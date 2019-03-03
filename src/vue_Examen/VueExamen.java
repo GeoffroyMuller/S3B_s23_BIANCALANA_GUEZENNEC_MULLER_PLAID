@@ -82,7 +82,7 @@ public class VueExamen extends JPanel implements Observer{
 			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");
 			jp2_creation = new VueCreation(controleur_Exam, new ArrayList<Categorie>());
 		}*/
-		
+
 		creerZoneCreation();
 		creerZoneAffichageEtu();
 		colorer(new Color(138, 138, 138));
@@ -220,7 +220,7 @@ public class VueExamen extends JPanel implements Observer{
 					e1.printStackTrace();
 					System.out.println("ERROOOOOOOOR");
 				}
-	
+
 				colorer(new Color(138, 138, 138));
 				/*try {
 					((VueCreation) jp2_creation).creerVueGroupeParticipant(Categorie.getlistCategorie());

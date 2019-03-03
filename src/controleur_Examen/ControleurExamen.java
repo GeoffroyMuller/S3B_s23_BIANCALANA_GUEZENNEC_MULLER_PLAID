@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
@@ -36,6 +37,7 @@ public class ControleurExamen {
 	private String exam_date;
 	private HashMap<JButton, Groupe> mapBoutton_groupe;
 	private HashMap<JButton, Categorie> mapButton_categorie;
+	private ArrayList<JComboBox<String>> listeComboSalle;
 
 	private JTextField jtf_nom;		//JTextField : gere le nom de l'examen
 	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
@@ -46,7 +48,8 @@ public class ControleurExamen {
 	//private JButton jb_categorie;
 	private ArrayList<ArrayList<Groupe>> liste_listegrp;
 
-	public ControleurExamen(Examen examenp) {
+	public ControleurExamen(Examen examenp)  {
+		listeComboSalle = new ArrayList<JComboBox<String>>();
 		examen = examenp;
 		jtf_nom = new JTextField();
 		jtf_matiere = new JTextField();
@@ -81,6 +84,7 @@ public class ControleurExamen {
 			}
 		});
 		//findev
+
 		mapBoutton_groupe = new HashMap<>();
 		mapButton_categorie = new HashMap<>();
 		/**
@@ -210,7 +214,7 @@ public class ControleurExamen {
 			jbt.setText("Retirer");
 			jbt.setBackground(Color.gray);
 
-			examen.ajouterGroupe(grp);
+			 examen.ajouterGroupe(grp);
 			System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
 			
 		}else {
@@ -271,6 +275,29 @@ public class ControleurExamen {
 			}
 		}
 	}
+	public void ajouterComboSalle() {
+
+		try {
+			
+			String[] nomSalle = new String[Salle.listSalle().size()];
+			for(int i=0;i<Salle.listSalle().size();i++) {
+				nomSalle[i] = Salle.listSalle().get(i).getNom();
+			}
+			JComboBox<String> combres = new JComboBox<String>(nomSalle);
+			this.listeComboSalle.add(combres);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Erreur:: recuperation de Salle impossible");
+			e1.printStackTrace();
+		}
+
+	}
+	
+
+	public ArrayList<JComboBox<String>> getListeComboSalle() {
+		return listeComboSalle;
+	}
+
 
 	public JTextField getJtf_nom() {
 		return jtf_nom;
