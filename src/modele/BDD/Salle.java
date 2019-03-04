@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Observable;
 
 
@@ -66,7 +67,7 @@ public class Salle extends Observable {
 		for(int i = 0; i < places.length; i++){
 			for(int j = 0; j < places[0].length; j++){
 				try {
-					this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
+					this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle,j+"",i+"");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -97,12 +98,11 @@ public class Salle extends Observable {
 		this.nbCaseLargeur=nbCaseLargeur;
 	}
 
-	public void modifierNomPlace(int i, int j, String nomPlace){
-		System.out.println("NOUVEAU NOM :"+nomPlace);
+	public void modifierNomPlace(int i, int j, String nomPlace,String nomColonne,String nomRangee){
 		Place place = this.places[i][j];
-		System.out.println("ANCIEN NOM : "+place.getNom()+" ID : "+place.getIdPlace());
 		this.places[i][j].setNom(nomPlace);
-		System.out.println("APRES CHANGEMENT : "+this.places[i][j].getNom());
+		this.places[i][j].setNomColonne(nomColonne);
+		this.places[i][j].setNomRangee(nomRangee);
 		setChanged();
 		notifyObservers();
 		this.save();
@@ -525,7 +525,7 @@ public class Salle extends Observable {
 			for(int i = 0; i < hauteur; i++){
 				for(int j = 0; j < largeur; j++){
 					try {
-						this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
+						this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle,j+"",i+"");
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -536,8 +536,68 @@ public class Salle extends Observable {
 		notifyObservers();
     }
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Salle salle = (Salle) o;
+		return idSalle == salle.idSalle;
+	}
 
-    /**
+	@Override
+	public int hashCode() {
+		return Objects.hash(idSalle);
+	}
+
+	public void renommerLigneAlpha(boolean bashaut){
+    	String[] alpha = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y","Z"};
+    	int nbPassage=1;
+    	String nom="";
+    	int index=0;
+    	if(bashaut){
+    		index = this.nbCaseHauteur-1;
+		}
+    	for(int i = 0; i < this.getPlaces().length;i++){
+    		for(int j = 0; j < this.getPlaces()[i].length;j++){
+				for(int x = 0; x < nbPassage;x++){
+					nom+=alpha[index];
+				}
+				this.getPlaces()[i][j].setNomRangee(nom);
+				this.getPlaces()[i][j].setNom(nom+""+this.getPlaces()[i][j].getNomColonne());
+				this.getPlaces()[i][j].save();
+				nom="";
+				if(alpha.length-1==i){
+					nbPassage++;
+				}
+			}
+			if(bashaut){
+				index--;
+			}else{
+				index++;
+			}
+
+		}
+    	this.save();
+    	this.getTableauPlaces(this.idSalle);
+	}
+
+	public void renommerColonneNumerique(boolean reset){
+    	int numeric = 1;
+		for(int i = 0; i < this.getPlaces().length;i++){
+			for(int j = 0; j < this.getPlaces().length;j++){
+				this.getPlaces()[i][j].setNomColonne(numeric+"");
+				this.getPlaces()[i][j].setNom(this.getPlaces()[i][j].getNomRangee()+""+numeric);
+				this.getPlaces()[i][j].save();
+				numeric++;
+			}
+			if(reset){ numeric=1;}
+		}
+		this.save();
+		this.getTableauPlaces(this.idSalle);
+	}
+
+
+	/**
 	 * The Class SalleIterateur.
 	 */
 	public class SalleIterateur implements Iterateur {
@@ -606,11 +666,13 @@ public class Salle extends Observable {
 		 */
 		@Override
 		public boolean hasPrevious(int pas) {
+			System.out.println("Coordonnée du bug : "+i+"-"+j);
 			if(j-pas<0){
-				if(i==0){
+				if(i<=0){
 					return false;
 				}
 			}
+
 			return true;
 		}
 
@@ -657,14 +719,13 @@ public class Salle extends Observable {
 		 */
 		@Override
 		public Object previous() {
-			if(j==0){
+
+			if(j==0 &&!(i==0 && j==0)){
 				this.i--;
 				this.j=nbCaseLargeur-1;
-			}else{
+			}else if(!(i==0 && j==0)){
 				this.j--;
 			}
-
-
 			return places[this.i][this.j];
 		}
 
@@ -739,7 +800,13 @@ public class Salle extends Observable {
 		 */
 		@Override
 		public Object actual() {
-			return salle.getPlaces()[i][j];
+			Place place = null;
+			try {
+				place = salle.getPlaces()[i][j];
+			}catch(NullPointerException e){
+				System.out.println("TEST");
+			}
+			return place;
 		}
 
 		/* (non-Javadoc)

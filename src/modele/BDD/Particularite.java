@@ -186,6 +186,30 @@ public class Particularite {
 		return res;
 	}
 
+	public static Particularite findByNom(String nom){
+		Connection connect= null;
+		Particularite res = null;
+		try {
+			connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM Particularite WHERE nom ='"+nom+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int id = rs.getInt("idParticularite");
+				int resPrendreEnComptePlacement = rs.getInt("PRENDREENCOMPTEPLACEMENT");
+				res = new Particularite(resNom, resPrendreEnComptePlacement, id);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return res;
+	}
+
 	
 	/**
 	 * List particularite.

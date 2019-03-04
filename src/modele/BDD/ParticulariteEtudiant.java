@@ -100,7 +100,7 @@ public class ParticulariteEtudiant {
 		ArrayList<Integer> res = new ArrayList<Integer>();
 		int i=0;
 		while (rs.next()) {
-			res.add(rs.getInt("idEtudiant"));
+			res.add(rs.getInt("idEtu"));
 			i++;
 		}
 		return res;
@@ -120,7 +120,7 @@ public class ParticulariteEtudiant {
 			while (rs.next()) {
 				String resNom = rs.getString("nom");
 				String resPrenom = rs.getString("prenom");
-				int resId = rs.getInt("idEtudiant");
+				int resId = rs.getInt("idEtu");
 				res.add(new Etudiant(resNom, resPrenom, resId));
 			}
 		}
@@ -130,7 +130,7 @@ public class ParticulariteEtudiant {
 	public static void ajouterParticulariteAUnEtudiant(int idParticularite, int idEtudiant) {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO ParticulariteEtudiant (`IdParticularite`, `IdEtudiant`) VALUES" + 
+			String SQLPrep0 = "INSERT INTO ParticulariteEtudiant (`IdParticularite`, `IdEtu`) VALUES" +
 					"('"+idParticularite+"', '"+idEtudiant+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -143,7 +143,7 @@ public class ParticulariteEtudiant {
 	public static void delete(int idParticularite, int idEtudiant){
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "DELETE FROM ParticulariteEtudiant WHERE idParticularite='"+idParticularite+"' AND idEtudiant ='"+idEtudiant+"';";
+			String SQLPrep0 = "DELETE FROM ParticulariteEtudiant WHERE idParticularite='"+idParticularite+"' AND idEtu ='"+idEtudiant+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 		}

@@ -2,10 +2,7 @@ package controleur.ControleurModuleSalle;
 
 import controleur.ModificationNomPlaceDialog;
 import controleur.ModificationNomPlaceDialogInfo;
-import modele.BDD.Etudiant;
-import modele.BDD.Place;
-import modele.BDD.Salle;
-import modele.BDD.TypePlace;
+import modele.BDD.*;
 import modele.Examen;
 import vue.VueSalle;
 import vue_Examen.DialogVerificationPlacement;
@@ -14,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -40,6 +38,25 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         this.j = j;
         this.couleurCase = c;
         this.couleurCaseBase = c;
+
+
+        //Couleur situation de handicap
+        Etudiant etudiant = examen.placement.get(salle).get(salle.getPlaces()[i][j]);
+        ArrayList<Particularite> particulariteEtudiant = new ArrayList<Particularite>();
+        try{
+            particulariteEtudiant = etudiant.getParticularites();
+            for(Particularite p : particulariteEtudiant){
+                if(p.getNom().contains("Situation de handicap (Prise en compte)")){
+                    this.couleurCase = new Color(0x7800AE);
+                    this.couleurCaseBase = new Color(0x7800AE);
+                }
+            }
+        }catch(NullPointerException e){
+
+        }
+
+
+
         this.boiteDialogue = dialog;
         setContentAreaFilled(false);
         this.setBackground(this.couleurCase);
@@ -63,7 +80,11 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
             @Override
             public void mouseEntered(MouseEvent e) {
                 Etudiant etudiant = examen.placement.get(salle).get(salle.getPlaces()[i][j]);
-                boiteDialogue.modifierInformationEtudiant(etudiant.getPrenom(),etudiant.getNom(),salle.getPlaces()[i][j]);
+                try{
+                    boiteDialogue.modifierInformationEtudiant(etudiant.getPrenom(),etudiant.getNom(),salle.getPlaces()[i][j],etudiant.getGroupe());
+                }catch(NullPointerException exception){
+                    boiteDialogue.modifierInformationEtudiant("Non occupée","Non occupée",salle.getPlaces()[i][j],"Non occupée");
+                }
             }
 
             @Override
@@ -97,9 +118,13 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
 
                    Place place = salle.getPlaces()[i][j];
                    System.out.println("ID PLace : "+place.getIdPlace());
-                   ModificationNomPlaceDialog dialog = new ModificationNomPlaceDialog(null,"Changement de nom",true,place.getNom());
+                   ModificationNomPlaceDialog dialog = new ModificationNomPlaceDialog(null,"Changement de nom",true,place);
                    ModificationNomPlaceDialogInfo infos = dialog.afficherDialog();
-                   salle.modifierNomPlace(i,j,infos.getNouveauNom());
+                   try {
+                       salle.modifierNomPlace(i, j, infos.getNouveauNom(), infos.getNomColonne(), infos.getNomRangee());
+                   }catch(NullPointerException ex){
+                       System.out.println("Aucun changement");
+                   }
                    /*place.setNom(infos.getNouveauNom());
                    place.save();
                    salle.save();*/
@@ -247,6 +272,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
             this.setCouleurCase(this.couleurCaseBase);
             this.changementCouleur=true;
         }
+        repaint();
     }
 
     public void setCouleurCase(Color couleurCase) {

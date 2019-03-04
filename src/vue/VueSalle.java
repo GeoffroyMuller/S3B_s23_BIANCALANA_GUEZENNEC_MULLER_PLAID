@@ -5,6 +5,7 @@ import controleur.ControleurModuleSalle.ControleurCaseSalle;
 import controleur.ControleurModuleSalle.ControleurModifierNomSalle;
 import controleur.ControleurModuleSalle.ControleurRadioBoutons;
 import controleur.ControleurModuleSalle.ControleurSauvegardeSalle;
+import controleur.OutilsSalleDialog;
 import modele.BDD.Etudiant;
 import modele.BDD.Place;
 import modele.BDD.Salle;
@@ -132,7 +133,7 @@ public class VueSalle extends JPanel implements Observer {
 		this.salleConstruite = this.construireSalle(this.salle);
 		this.visualisationSalle = new JScrollPane(this.salleConstruite);
 		//this.visualisationSalle = this.construireSalle(this.salle);
-		this.visualisationSalle.setPreferredSize(new Dimension(1000,600));
+		this.visualisationSalle.setPreferredSize(new Dimension(900,600));
 		//this.visualisationSalle.setPreferredSize(new Dimension(800,500));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
@@ -172,7 +173,7 @@ public class VueSalle extends JPanel implements Observer {
 		//Partie selection (Partie de droite)
 		//Composant Indications
 		JPanel indications = new Indicateur();
-		indications.setPreferredSize(new Dimension(300,200));
+		indications.setPreferredSize(new Dimension(400,200));
 		//Composant Edition
 		JPanel editionPan = new JPanel();
 		editionPan.setLayout(new BorderLayout());
@@ -190,14 +191,34 @@ public class VueSalle extends JPanel implements Observer {
 		JButton sauvegarde = new ControleurSauvegardeSalle(salle);
 		JButton modifierInfo = new ControleurModifierNomSalle(salle);
 
+		sauvegarde.setPreferredSize(new Dimension(200,20));
+
 		JPanel containerBouton = new JPanel();
 		JPanel panelBoutons = new JPanel();
-		panelBoutons.setLayout(new GridLayout(2,0));
-		panelBoutons.add(sauvegarde);
-		panelBoutons.add(modifierInfo);
+		panelBoutons.setLayout(new GridBagLayout());
+		JButton outils = new JButton("Outils");
+		outils.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				OutilsSalleDialog outilsSalleDialog = new OutilsSalleDialog(null,"Outils Salle",true,salle);
+				outilsSalleDialog.afficherDialog();
+			}
+		});
+		GridBagConstraints gbcv2 = new GridBagConstraints();
+
+		gbcv2.gridx = 0;
+		gbcv2.gridy = 0;
+		gbcv2.anchor = GridBagConstraints.LINE_START;
+		panelBoutons.add(sauvegarde,gbcv2);
+		gbcv2.gridy=1;
+		panelBoutons.add(modifierInfo,gbcv2);
+
+		gbcv2.insets = new Insets(10,0,5,0);
+		gbcv2.gridy=2;
+		panelBoutons.add(outils,gbcv2);
 
 		containerBouton.setLayout(new BorderLayout());
-		containerBouton.setPreferredSize(new Dimension(200,460));
+		containerBouton.setPreferredSize(new Dimension(250,460));
 		containerBouton.add(panelBoutons,BorderLayout.NORTH);
 
 		editionPan.add(edition, BorderLayout.NORTH);
@@ -275,6 +296,7 @@ public class VueSalle extends JPanel implements Observer {
 				Color couleurPlace = null;
 				couleurPlace = TypePlace.trouverCouleurPlace(typePlace.getNom());
 				ControleurCaseSalle controleur = new ControleurCaseSalle(couleurPlace,i,j,salle,dialog,examen);
+				liste.add(controleur);
 				place.addObserver(controleur);
 				jpBouton.add(controleur);
 				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));

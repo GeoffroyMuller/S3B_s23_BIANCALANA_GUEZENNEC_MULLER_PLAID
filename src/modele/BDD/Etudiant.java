@@ -131,6 +131,16 @@ public class Etudiant implements Comparable<Etudiant>  {
 		
 	}
 
+	public ArrayList<Particularite> getParticularites(){
+		ArrayList<Particularite> res = new ArrayList<Particularite>();
+		try {
+			res = ParticulariteEtudiant.listParticularitePourEtudiant(this.idEtu);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 
 	/**
 	 * Creates the table.
@@ -343,7 +353,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
 		for (int i = 0; i < listParticularite.size(); i++) {
 			if(listParticularite.get(i).getIdParticularite()!=-1) {
-				ParticulariteEtudiant.ajouterParticulariteAUnEtudiant(listParticularite.get(i).getIdParticularite(), this.idEtu);;
+				ParticulariteEtudiant.ajouterParticulariteAUnEtudiant(listParticularite.get(i).getIdParticularite(), this.idEtu);
 			}
 		}
 	}

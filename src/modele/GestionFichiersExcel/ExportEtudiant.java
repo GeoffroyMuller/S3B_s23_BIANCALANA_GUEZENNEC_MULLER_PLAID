@@ -7,6 +7,10 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -145,11 +149,11 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         Sheet feuillePlacement = wb.getSheet(ExportEtudiant.nomFeuilleEtudiantPlace);
 
         //Création de l'enTete
-        this.creerEntete(1,3,1,7,examen,feuillePlacement);
+        this.creerEntete(0,3,0,6,examen,feuillePlacement,wb);
 
 
         //Création de la premiére ligne
-        Row row = feuillePlacement.createRow((short)4);
+        Row row = feuillePlacement.createRow((short)6);
 
 
 
@@ -161,14 +165,14 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         row = creerCellules(row,valeurs.length,valeurs,cellStyle);
 
         //Ajout des étudiants a la feuille Excel
-        int nbLignePlace = 1;
-        int nbLigneSignature = 1;
+        int nbLignePlace = 4;
+        int nbLigneSignature = 4;
         for(Salle salle : placement.keySet()){
 
             Sheet feuilleSalle = wb.getSheet(ExportEtudiant.nomFeuilleSignature+"_"+salle.getNom());
 
             //Création de l'en tête
-            this.creerEntete(1,3,1,8,examen,feuilleSalle);
+            this.creerEntete(0,3,0,6,examen,feuilleSalle,wb);
 
 
 
@@ -201,7 +205,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
                 nbLignePlace++;
                 nbLigneSignature++;
             }
-            nbLigneSignature = 0;
+            nbLigneSignature = 4;
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -221,15 +225,21 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
     }
 
-    private void creerEntete(int firstCell,int lastCell,int firstColumn, int lastColumn,Examen examen,Sheet feuille){
-        Row ligneEntete = feuille.createRow(1);
-        Cell celluleEntete = ligneEntete.createCell(1);
-        String texteEntete = "Examen -"+examen.getMatiere()+" - "+examen.getDate()+"\n";
+    private void creerEntete(int firstCell,int lastCell,int firstColumn, int lastColumn,Examen examen,Sheet feuille,XSSFWorkbook wb){
+        Row ligneEntete = feuille.createRow(0);
+        Cell celluleEntete = ligneEntete.createCell(0);
+        String texteEntete = "Examen -"+examen.getMatiere()+" - "+examen.getDate()+"Groupe(s) participant(s) :";
         for(String nomGroupe : examen.groupeParticipant()){
-            texteEntete+=nomGroupe+" ";
+            texteEntete+=nomGroupe.toUpperCase()+" ";
         }
         celluleEntete.setCellValue(texteEntete);
         feuille.addMergedRegion(new CellRangeAddress(firstCell,lastCell,firstColumn,lastColumn));
+        XSSFCellStyle cellStyle = wb.createCellStyle();
+        Font font = wb.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short)20);
+        cellStyle.setFont(font);
+        celluleEntete.setCellStyle(cellStyle);
     }
 
     private Row creerCellules(Row row, int nb,String[] valeur,XSSFCellStyle cellStyle){

@@ -1,5 +1,7 @@
 package controleur;
 
+import modele.BDD.Place;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,21 +10,21 @@ import java.awt.event.ActionListener;
 public class ModificationNomPlaceDialog extends JDialog {
     private boolean sendData;
     private ModificationNomPlaceDialogInfo dialogInfo;
-    private JLabel labelNomPlace,labelOldPlaceName;
-    private JTextField nomPlace;
+    private JLabel labelNomPlace,labelOldPlaceName,oldColonne,oldRangee,labelcolonne,labelrangee;
+    private JTextField nomPlace,nomColonne,nomRangee;
     private JButton valider,annuler;
 
-    public ModificationNomPlaceDialog(JFrame parent, String title, boolean modal,String oldName){
+    public ModificationNomPlaceDialog(JFrame parent, String title, boolean modal, Place place){
         super(parent,title,modal);
 
         this.setSize(new Dimension(300,130));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        this.initComponent(oldName);
+        this.initComponent(place);
     }
 
-    private void initComponent(String oldName){
+    private void initComponent(Place place){
         JPanel container = new JPanel();
         container.setLayout(new GridBagLayout());
 
@@ -34,20 +36,31 @@ public class ModificationNomPlaceDialog extends JDialog {
 
 
         //JLabel
-        this.labelOldPlaceName = new JLabel("Nom actuel :  "+oldName);
+        this.labelOldPlaceName = new JLabel("Nom actuel :  "+place.getNomRangee()+""+place.getNomColonne());
         container.add(this.labelOldPlaceName,gbc);
 
-        this.labelNomPlace = new JLabel("Nouveau nom : ");
+        this.labelcolonne = new JLabel("Nouveau nom colonne : ");
         gbc.gridx=0;
         gbc.gridy=1;
-        container.add(this.labelNomPlace,gbc);
+        container.add(this.labelcolonne,gbc);
 
-        this.nomPlace = new JTextField();
-        this.nomPlace.setPreferredSize(new Dimension(100,20));
+        this.nomColonne = new JTextField();
+        this.nomColonne.setPreferredSize(new Dimension(100,20));
         gbc.gridx=1;
         gbc.gridy=1;
         gbc.gridwidth = 3;
-        container.add(this.nomPlace,gbc);
+        container.add(this.nomColonne,gbc);
+
+        gbc.gridx=0;
+        gbc.gridy=2;
+        this.labelrangee = new JLabel("Nouveau nom rangee : ");
+        container.add(this.labelrangee,gbc);
+        gbc.gridx=1;
+        gbc.gridy=2;
+        this.nomRangee = new JTextField();
+        this.nomRangee.setPreferredSize(new Dimension(100,20));
+        container.add(this.nomRangee,gbc);
+
 
 
 
@@ -56,7 +69,7 @@ public class ModificationNomPlaceDialog extends JDialog {
         this.valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dialogInfo = new ModificationNomPlaceDialogInfo(nomPlace.getText());
+                dialogInfo = new ModificationNomPlaceDialogInfo(nomColonne.getText(),nomRangee.getText());
                 setVisible(false);
             }
         });
@@ -64,7 +77,6 @@ public class ModificationNomPlaceDialog extends JDialog {
         this.annuler.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dialogInfo = new ModificationNomPlaceDialogInfo(oldName);
                 setVisible(false);
             }
         });

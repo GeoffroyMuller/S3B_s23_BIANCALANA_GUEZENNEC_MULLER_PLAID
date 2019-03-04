@@ -35,6 +35,10 @@ public class Place extends Observable {
 
 	private int disponnible;
 
+	private String nomColonne;
+
+	private String nomRangee;
+
 
 	/**
 	 * Instantiates a new place.
@@ -44,7 +48,7 @@ public class Place extends Observable {
 	 * @param j the j
 	 * @param idSalle the id salle
 	 */
-	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle) {
+/*	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle) {
 		this.idPlace=-1;
 		this.nom=nom;
 		this.idTypePlace=idTypePlace;
@@ -57,12 +61,29 @@ public class Place extends Observable {
 		}
 		this.j=j;
 		this.i=i;
+	}*/
+
+	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle, String nomColonne, String nomRangee) {
+		this.idPlace=-1;
+		this.nom=nom;
+		this.idTypePlace=idTypePlace;
+		this.idSalle=idSalle;
+		if(disponnible==0||disponnible==1) {
+			this.disponnible=disponnible;
+		}
+		else {
+			this.disponnible=0;
+		}
+		this.j=j;
+		this.i=i;
+		this.nomColonne = nomColonne;
+		this.nomRangee = nomRangee;
 	}
 
 
 
 
-	public Place(String nom,int i, int j, int idSalle) {
+	public Place(String nom,int i, int j, int idSalle, String nomColonne,String nomRangee) {
 		this.idPlace=-1;
 		this.nom=nom;
 		this.idTypePlace=1;
@@ -70,6 +91,8 @@ public class Place extends Observable {
 		this.disponnible=1;
 		this.j=j;
 		this.i=i;
+		this.nomColonne=nomColonne;
+		this.nomRangee=nomRangee;
 	}
 
 
@@ -82,7 +105,7 @@ public class Place extends Observable {
 	 * @return the nom
 	 */
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
 
@@ -218,7 +241,7 @@ public class Place extends Observable {
 	 * @param j the j
 	 * @param idPlace the id place
 	 */
-	private Place(String nom, int idTypePlace, int idSalle,int i, int j,int disponnible, int idPlace) {
+	private Place(String nom, int idTypePlace, int idSalle,int i, int j,int disponnible, int idPlace,String nomColonne, String nomRangee) {
 		this.idTypePlace=idTypePlace;
 		this.nom=nom;
 		this.j=j;
@@ -231,6 +254,8 @@ public class Place extends Observable {
 		}
 		this.idPlace=idPlace;
 		this.idSalle=idSalle;
+		this.nomRangee = nomRangee;
+		this.nomColonne = nomColonne;
 	}
 
 
@@ -244,7 +269,7 @@ public class Place extends Observable {
 			Connection connect=DBConnection.getConnection();
 
 			String nomBase = DBConnection.getNomDB();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Place` ( `idPlace` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL,`IdTypePlace` INT(1) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,`j` INT(11) NOT NULL, `idSalle` INT(11) NOT NULL, PRIMARY KEY (`idPlace`)) ENGINE = InnoDB;";
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Place` ( `idPlace` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL,`IdTypePlace` INT(1) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,`j` INT(11) NOT NULL, `idSalle` INT(11) NOT NULL,`NomColonne` VARCHAR(100) NOT NULL,`NomRangee` VARCHAR(100) NOT NULL, PRIMARY KEY (`idPlace`)) ENGINE = InnoDB;";
 
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -296,7 +321,9 @@ public class Place extends Observable {
 			int resJ = rs.getInt("j");
 			int resIdSalle = rs.getInt("idSalle");
 			int resDisponnible = rs.getInt("disponnible");
-			res = new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, id);
+			String resColonne = rs.getString("NomColonne");
+			String resRangee = rs.getString("NomRangee");
+			res = new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, id,resColonne,resRangee);
 		}
 		return res;
 	}
@@ -324,7 +351,9 @@ public class Place extends Observable {
 			int resIdSalle = rs.getInt("idSalle");
 			int resId = rs.getInt("idPlace");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, resId));
+			String resColonne = rs.getString("NomColonne");
+			String resRangee = rs.getString("NomRangee");
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, resId,resColonne,resRangee));
 		}
 		return res;
 	}
@@ -354,7 +383,9 @@ public class Place extends Observable {
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, resId));
+			String resColonne = rs.getString("NomColonne");
+			String resRangee = rs.getString("NomRangee");
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, resId,resColonne,resRangee));
 		}
 		return res;
 	}
@@ -431,8 +462,8 @@ public class Place extends Observable {
 	private void saveNew() {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO Place (`NOM`, `IdTypePlace`, `i`, `j`, `disponnible`, `idSalle`) VALUES" + 
-					"('"+this.nom+"', '"+this.idTypePlace+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"')";
+			String SQLPrep0 = "INSERT INTO Place (`NOM`, `IdTypePlace`, `i`, `j`, `disponnible`, `idSalle`, `NomColonne`, `NomRangee`) VALUES" +
+					"('"+this.nom+"', '"+this.idTypePlace+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"', '"+this.nomColonne+"','"+this.nomRangee+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND IdtypePlace ="
@@ -456,11 +487,10 @@ public class Place extends Observable {
 	 * Update.
 	 */
 	private void update() {
-		System.out.println("Mise a jour de la place "+this.disponnible);
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Place " + 
-					"SET NOM = '"+this.nom+"', IdTypePlace = '"+this.idTypePlace+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"'" + 
+					"SET NOM = '"+this.nom+"', IdTypePlace = '"+this.idTypePlace+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"', NomColonne = '"+this.nomColonne+"', NomRangee = '"+this.nomRangee+"'" +
 					"WHERE IDPlace ='"+this.idPlace+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -536,5 +566,21 @@ public class Place extends Observable {
 		int result = i;
 		result = 31 * result + j;
 		return result;
+	}
+
+	public String getNomColonne() {
+		return nomColonne;
+	}
+
+	public void setNomColonne(String nomColonne) {
+		this.nomColonne = nomColonne;
+	}
+
+	public String getNomRangee() {
+		return nomRangee;
+	}
+
+	public void setNomRangee(String nomRangee) {
+		this.nomRangee = nomRangee;
 	}
 }

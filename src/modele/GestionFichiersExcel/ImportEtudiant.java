@@ -1,9 +1,9 @@
 package modele.GestionFichiersExcel;
 
-import modele.BDD.Categorie;
-import modele.BDD.Etudiant;
-import modele.BDD.EtudiantGroupe;
-import modele.BDD.Groupe;
+import modele.BDD.*;
+import org.apache.poi.hssf.usermodel.HSSFPalette;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.sl.usermodel.Line;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -12,11 +12,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import barre_chargement.VueChargement;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.List;
 
 public class ImportEtudiant extends Observable {
     /**
@@ -93,7 +95,7 @@ public class ImportEtudiant extends Observable {
         int indexNom = this.trouverIndex("nom");
         int indexPrenom = this.trouverIndex("prenom");
         int indexGroupe = this.trouverIndex("grp");
-
+        int indexHandicap = indexGroupe+1;
         try{
             Etudiant etudiant = new Etudiant(ligne.getCell(indexNom).getStringCellValue().toUpperCase(),
                     ligne.getCell(indexPrenom).getStringCellValue().toLowerCase());
@@ -107,6 +109,7 @@ public class ImportEtudiant extends Observable {
             if(indexOfGroupe != -1){
                 int idGroupe =  this.groupeTrouveDansLeDernierFichier.get(indexOfGroupe).getIdGroupe();
                 int idEtudiant = etudiant.getIdEtu();
+                System.out.println("Ajout etudiant a un groupe");
                 EtudiantGroupe.ajouterEtudiantAUnGroupe(idEtudiant,idGroupe);
             }else{
                 Groupe gr = new Groupe(nomDuGroupe);
@@ -118,6 +121,13 @@ public class ImportEtudiant extends Observable {
                 EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(),gr.getIdGroupe());
 
                 this.groupeTrouveDansLeDernierFichier.add(gr);
+            }
+
+            if(ligne.getCell(indexHandicap).getStringCellValue().toLowerCase().contains("x")){
+                ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+                Particularite particularite = Particularite.findByNom("Situation de handicap (Prise en compte)");
+                particularites.add(particularite);
+                etudiant.ajouterParticularite(particularites);
             }
         }catch(NullPointerException e){
             /*
@@ -131,6 +141,26 @@ public class ImportEtudiant extends Observable {
         Groupe groupe = new Groupe(nom);
         if(this.groupeTrouveDansLeDernierFichier.contains(groupe)){
             res = this.groupeTrouveDansLeDernierFichier.indexOf(groupe);
+        }
+        return res;
+    }
+
+    private static short[] getColorPattern(short colorIdx){
+        short[] triplet = null;
+        HSSFWorkbook workbook=new HSSFWorkbook();
+        HSSFPalette palette = workbook.getCustomPalette();
+        HSSFColor color = palette.getColor(colorIdx);
+        triplet = color.getTriplet();
+        System.out.println("color : " + triplet[0] +"," + triplet[1] + "," +     triplet[2]);
+        return triplet;
+    }
+
+    private boolean comparerCouleur(short[] a, Color b){
+        boolean res = false;
+        if(a[0] == b.getBlue() &&
+        a[1] == b.getGreen() &&
+        a[2] == b.getRed()){
+            res=true;
         }
         return res;
     }
