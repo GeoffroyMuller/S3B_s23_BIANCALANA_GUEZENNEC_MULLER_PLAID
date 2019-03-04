@@ -30,60 +30,40 @@ import modele.BDD.Groupe;
 public class ControleurExamen {
 
 	private Examen examen;
-	private JButton chsalle;
+
 
 	private String exam_nom;
 	private String exam_matiere;
 	private String exam_date;
+	private JTextField jtf_nom;		//JTextField : gere le nom de l'examen
+	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
+	private JTextField jtf_date;	//JTextField : gere la date de l'examen
+	
 	private HashMap<JButton, Groupe> mapBoutton_groupe;
 	private HashMap<JButton, Categorie> mapButton_categorie;
 	private ArrayList<JComboBox<String>> listeComboSalle;
 
-	private JTextField jtf_nom;		//JTextField : gere le nom de l'examen
-	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
-	private JTextField jtf_date;	//JTextField : gere la date de l'examen
 	private JButton jb_creerExam;	//JButton : creer un Examen
 	
 	//private JButton jb_groupe;
 	//private JButton jb_categorie;
 	private ArrayList<ArrayList<Groupe>> liste_listegrp;
+	
 
 	public ControleurExamen(Examen examenp)  {
 		listeComboSalle = new ArrayList<JComboBox<String>>();
+		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
+
 		examen = examenp;
+		
 		jtf_nom = new JTextField();
 		jtf_matiere = new JTextField();
 		jtf_date = new JTextField();
+		
 		jb_creerExam = new JButton("Créer l'Examen");
 		jb_creerExam.setEnabled(false);
-		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
-		//dev
-		chsalle = new JButton("Choisir Salle 1 (test)");
-		chsalle.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Salle 1 (test) selectionner");
-				try {
-					Salle salle = Salle.findById(1);
-					salle.getTableauPlaces(salle.getIdSalle());
-					System.out.println("Salle" + salle.getNom());
-					examen.ajouterSalle(salle);
-					if(!examen.vérifierLeNombreDePlace()){
-						jb_creerExam.setEnabled(false);
-					}else{
-						jb_creerExam.setEnabled(true);
-					}
 
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-				chsalle.setText("Retirer Salle 1 (test) ");
-				chsalle.setBackground(Color.gray);
-			}
-		});
-		//findev
+
 
 		mapBoutton_groupe = new HashMap<>();
 		mapButton_categorie = new HashMap<>();
@@ -129,6 +109,8 @@ public class ControleurExamen {
 				System.out.println("CtrlExam_jtf_Date: "+((JTextField)e.getSource()).getText());
 			}
 		});
+		
+		
 		jb_creerExam.addActionListener(new ActionListener() {
 
 			@Override
@@ -283,7 +265,7 @@ public class ControleurExamen {
 			for(int i=0;i<Salle.listSalle().size();i++) {
 				nomSalle[i] = Salle.listSalle().get(i).getNom();
 			}
-			JComboBox<String> combres = new JComboBox<String>(nomSalle);
+			JComboBox combres = new JComboBox (nomSalle);
 			this.listeComboSalle.add(combres);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -312,6 +294,8 @@ public class ControleurExamen {
 	public JTextField getJtf_Date() {
 		return jtf_date;
 	}
+	
+
 
 
 	public JButton getJb_creerExam() {
@@ -319,9 +303,6 @@ public class ControleurExamen {
 	}
 
 
-	public JButton getChsalle() {
-		return chsalle;
-	}
 
 
 
