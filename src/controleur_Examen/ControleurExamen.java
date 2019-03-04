@@ -65,20 +65,16 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Salle 1 (test) selectionner");
-				try {
-					Salle salle = Salle.findById(1);
-					salle.getTableauPlaces(salle.getIdSalle());
-					System.out.println("Salle" + salle.getNom());
-					examen.ajouterSalle(salle);
-					if(!examen.vérifierLeNombreDePlace()){
-						jb_creerExam.setEnabled(false);
-					}else{
-						jb_creerExam.setEnabled(true);
-					}
-
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				Salle salle = Salle.findById(1);
+				salle.getTableauPlaces(salle.getIdSalle());
+				System.out.println("Salle" + salle.getNom());
+				examen.ajouterSalle(salle);
+				if(!examen.vérifierLeNombreDePlace()){
+					jb_creerExam.setEnabled(false);
+				}else{
+					jb_creerExam.setEnabled(true);
 				}
+
 				chsalle.setText("Retirer Salle 1 (test) ");
 				chsalle.setBackground(Color.gray);
 			}

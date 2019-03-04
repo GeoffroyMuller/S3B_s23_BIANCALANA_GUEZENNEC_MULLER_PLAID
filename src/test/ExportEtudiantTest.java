@@ -158,7 +158,7 @@ public class ExportEtudiantTest {
     public void testExporterPlacement(){
         ExportEtudiant export = new ExportEtudiant();
 
-        export.exporterPlacement(examen.getPlacement());
+        export.exporterPlacement(examen.getPlacement(),examen);
 
         try {
             FileInputStream fichier = new FileInputStream(ExportEtudiant.nomDuDernierFichier);

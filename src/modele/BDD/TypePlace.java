@@ -121,6 +121,23 @@ public class TypePlace {
 
 		return res;
 	}
+
+	public static Color trouverCouleurPlace(String nomTypePlace){
+		Color couleurDeLaPlace = Color.black;
+		switch(nomTypePlace){
+			case "place":
+			case "chaise":
+				couleurDeLaPlace = TypePlace.couleurPlace;
+				break;
+			case "placeInutillisable":
+				couleurDeLaPlace = TypePlace.couleurPlaceInutilisable;
+				break;
+			case "allee":
+				couleurDeLaPlace = TypePlace.couleurAllee;
+				break;
+		}
+		return couleurDeLaPlace;
+	}
 	
 	/**
 	 * Find by nom.

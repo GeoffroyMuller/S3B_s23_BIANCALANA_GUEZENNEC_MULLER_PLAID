@@ -66,7 +66,7 @@ public class Salle extends Observable {
 		for(int i = 0; i < places.length; i++){
 			for(int j = 0; j < places[0].length; j++){
 				try {
-					this.places[i][j] = new Place(i+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
+					this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -95,12 +95,17 @@ public class Salle extends Observable {
 		this.idSalle=idSalle;
 		this.nbCaseHauteur=nbCaseHauteur;
 		this.nbCaseLargeur=nbCaseLargeur;
+	}
 
-		/*try {
-			this.places = Place.tableauPlace(idSalle);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}*/
+	public void modifierNomPlace(int i, int j, String nomPlace){
+		System.out.println("NOUVEAU NOM :"+nomPlace);
+		Place place = this.places[i][j];
+		System.out.println("ANCIEN NOM : "+place.getNom()+" ID : "+place.getIdPlace());
+		this.places[i][j].setNom(nomPlace);
+		System.out.println("APRES CHANGEMENT : "+this.places[i][j].getNom());
+		setChanged();
+		notifyObservers();
+		this.save();
 	}
 
 	public String toString(){
@@ -186,21 +191,24 @@ public class Salle extends Observable {
 	 * @return the salle
 	 * @throws SQLException the SQL exception
 	 */
-	public static Salle findById(int id) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM Salle WHERE IdSalle ='"+id+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static Salle findById(int id){
 		Salle res = null;
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
-			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
-			
-			res = new Salle(resNom,id,resNbCaseHauteur,resNbCaseLargeur);
+		try{
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM Salle WHERE IdSalle ='"+id+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
+				int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
+
+				res = new Salle(resNom,id,resNbCaseHauteur,resNbCaseLargeur);
+			}
+		}catch(SQLException e){
+			//EXCEPTION A GERER
 		}
 		return res;
 	}
@@ -292,6 +300,8 @@ public class Salle extends Observable {
 		else {
 			this.update();
 		}
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -346,10 +356,11 @@ public class Salle extends Observable {
 			//Mise a jour des places
 			for(int i = 0; i < this.places.length;i++){
 				for(int j = 0; j < this.places[i].length;j++){
-
+					System.out.println("Mise a jour de la plce");
 					String SQLPrep1 = "UPDATE Place " +
-							"SET NOM = '"+this.places[i][j].getNom()+"', IdTypePlace = '"+this.places[i][j].getIdTypePlace()+"', i = '"+this.places[i][j].getI()+"', j = '"+this.places[i][j].getJ()+"', Disponnible = '"+this.places[i][j].getDisponnible()+"', idSalle = '"+this.places[i][j].getIdSalle()
+							"SET NOM = '"+this.places[i][j].getNom()+"', IdTypePlace = '"+this.places[i][j].getIdTypePlace()+"', i = '"+this.places[i][j].getI()+"', j = '"+this.places[i][j].getJ()+"', Disponnible = '"+this.places[i][j].getDisponibleIntVersion()+"', idSalle = '"+this.places[i][j].getIdSalle()
 							+"'"+ "WHERE idPlace ='"+this.places[i][j].getIdPlace()+"';";
+					System.out.println(this.places[i][j].getIdPlace()+" - "+this.places[i][j].getNom());
 
 					PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 					prep1.execute();
@@ -514,7 +525,7 @@ public class Salle extends Observable {
 			for(int i = 0; i < hauteur; i++){
 				for(int j = 0; j < largeur; j++){
 					try {
-						this.places[i][j] = new Place(i+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
+						this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}

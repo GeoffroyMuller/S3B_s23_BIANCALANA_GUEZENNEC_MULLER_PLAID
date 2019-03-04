@@ -6,13 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Observable;
 
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Place.
  */
-public class Place {
+public class Place extends Observable {
 
 	/** The nom. */
 	private String nom;
@@ -31,20 +32,6 @@ public class Place {
 	
 	/** The i. */
 	private int i;
-
-	public boolean getDisponnible() {
-		boolean res = false;
-		TypePlace typeDeLaPlace = TypePlace.findById(this.idTypePlace);
-		if(typeDeLaPlace.getDisponnible() == 1){
-			res= true;
-		}
-
-		return res;
-	}
-
-	public void setDisponnible(int disponnible) {
-		this.disponnible = disponnible;
-	}
 
 	private int disponnible;
 
@@ -71,6 +58,8 @@ public class Place {
 		this.j=j;
 		this.i=i;
 	}
+
+
 
 
 	public Place(String nom,int i, int j, int idSalle) {
@@ -104,7 +93,9 @@ public class Place {
 	 * @param nom the nom to set
 	 */
 	public void setNom(String nom) {
+
 		this.nom = nom;
+		this.save();
 	}
 
 
@@ -355,14 +346,15 @@ public class Place {
 
 		ArrayList<Place> res = new ArrayList<Place>();
 		while (rs.next()) {
-			
+
+			int resId = rs.getInt("idPlace");
 			String resNom = rs.getString("nom");
 			int resIdTypePlace = rs.getInt("idTypePlace");
 			int resIdSalle = rs.getInt("idSalle");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, id));
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, resId));
 		}
 		return res;
 	}
@@ -411,6 +403,26 @@ public class Place {
 		else {
 			this.update();
 		}
+		setChanged();
+		notifyObservers();
+	}
+
+	public int getDisponibleIntVersion(){
+		return this.disponnible;
+	}
+
+	public boolean getDisponnible() {
+		boolean res = false;
+		TypePlace typeDeLaPlace = TypePlace.findById(this.idTypePlace);
+		if(typeDeLaPlace.getDisponnible() == 1){
+			res= true;
+		}
+
+		return res;
+	}
+
+	public void setDisponnible(int disponnible) {
+		this.disponnible = disponnible;
 	}
 
 	/**
@@ -444,6 +456,7 @@ public class Place {
 	 * Update.
 	 */
 	private void update() {
+		System.out.println("Mise a jour de la place "+this.disponnible);
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Place " + 
@@ -489,6 +502,7 @@ public class Place {
 	public static Place[][] tableauPlace(int idsalle) throws SQLException{
 
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
+
 		Salle salle = Salle.findById(idsalle);
 		int imax = salle.getNbCaseHauteur();
 		int jmax = salle.getNbCaseLargeur();

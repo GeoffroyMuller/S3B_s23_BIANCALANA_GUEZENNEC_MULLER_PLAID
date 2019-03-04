@@ -15,7 +15,7 @@ public class ModificationNomPlaceDialog extends JDialog {
     public ModificationNomPlaceDialog(JFrame parent, String title, boolean modal,String oldName){
         super(parent,title,modal);
 
-        this.setSize(new Dimension(550,270));
+        this.setSize(new Dimension(300,130));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -29,27 +29,27 @@ public class ModificationNomPlaceDialog extends JDialog {
         //Création des contraintes
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = gbc.gridy = 0;
-        gbc.gridwidth = gbc.gridheight = 1;
+        gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(0,0,5,0);
-        gbc.anchor = GridBagConstraints.BASELINE_TRAILING;
+
 
         //JLabel
-        this.labelOldPlaceName = new JLabel("Nom actuel : "+oldName);
+        this.labelOldPlaceName = new JLabel("Nom actuel :  "+oldName);
         container.add(this.labelOldPlaceName,gbc);
 
         this.labelNomPlace = new JLabel("Nouveau nom : ");
+        gbc.gridx=0;
         gbc.gridy=1;
-        gbc.insets = new Insets(0,0,0,5);
-        container.add(this.labelNomPlace);
+        container.add(this.labelNomPlace,gbc);
 
         this.nomPlace = new JTextField();
+        this.nomPlace.setPreferredSize(new Dimension(100,20));
         gbc.gridx=1;
-        gbc.insets = new Insets(0,0,0,0);
+        gbc.gridy=1;
+        gbc.gridwidth = 3;
         container.add(this.nomPlace,gbc);
 
-        JPanel global= new JPanel();
-        global.setLayout(new BorderLayout());
-        global.add(container,BorderLayout.CENTER);
+
 
         //JButton
         this.valider = new JButton("Valider");
@@ -64,12 +64,18 @@ public class ModificationNomPlaceDialog extends JDialog {
         this.annuler.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dialogInfo = new ModificationNomPlaceDialogInfo(oldName);
                 setVisible(false);
             }
         });
 
-        global.add(this.valider,BorderLayout.SOUTH);
-        global.add(this.annuler,BorderLayout.SOUTH);
+
+        JPanel boutons = new JPanel();
+        boutons.setLayout(new GridLayout(1,2));
+        boutons.add(this.valider);
+        boutons.add(this.annuler);
+        this.getContentPane().add(container,BorderLayout.CENTER);
+        this.getContentPane().add(boutons,BorderLayout.SOUTH);
     }
 
     public ModificationNomPlaceDialogInfo afficherDialog(){

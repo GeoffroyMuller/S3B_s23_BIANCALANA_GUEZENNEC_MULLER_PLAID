@@ -34,8 +34,8 @@ public class Principal {
 
 
 
-        //Barre d'outil
-        BarreOutils barreOutils = new BarreOutils();
+
+
         JFrame fenetre = new JFrame("EtuPlacement");
 
         //Panneau onglets modules
@@ -44,7 +44,6 @@ public class Principal {
 
         fenetre.getContentPane().setLayout(new BorderLayout());
         fenetre.getContentPane().add(onglets,BorderLayout.CENTER);
-        fenetre.setJMenuBar(barreOutils);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setMinimumSize(new Dimension(1500,830));
         fenetre.setSize(new Dimension(1200,830));

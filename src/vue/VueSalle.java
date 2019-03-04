@@ -9,7 +9,10 @@ import modele.BDD.Etudiant;
 import modele.BDD.Place;
 import modele.BDD.Salle;
 import modele.BDD.TypePlace;
+import modele.Examen;
+import modele.ProprietesCaseSalle;
 import vue.ComposantVueSalle.Indicateur;
+import vue_Examen.DialogVerificationPlacement;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -22,6 +25,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -29,10 +34,12 @@ import java.util.Observer;
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
 public class VueSalle extends JPanel implements Observer {
-	private JScrollPane containerDeLaListeJScroll, visualisationSalle;
+	private JScrollPane containerDeLaListeJScroll;
+	private /*JPanel*/JScrollPane visualisationSalle;
 	private JPanel contenantPartieGauche;
 	private JPanel contenantMilieu;
 	private Salle salle;
+	private JPanel salleConstruite;
 
 
 	private DefaultListModel<Salle> dlm;
@@ -91,7 +98,11 @@ public class VueSalle extends JPanel implements Observer {
 		}
 
 		this.listeDesSalles = new JList<Salle>(dlm);
-		VueSalle.salleSelectionne = dlm.firstElement();
+		try{
+			VueSalle.salleSelectionne = dlm.firstElement();
+		}catch(NoSuchElementException e){
+			VueSalle.salleSelectionne = null;
+		}
 		listeDesSalles.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -118,9 +129,11 @@ public class VueSalle extends JPanel implements Observer {
 		ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle(this.salle);
 
 		//Partie visualisation de la liste (Partie du milieux)
-		this.visualisationSalle = new JScrollPane(this.construireSalle(this.salle));
-
-		this.visualisationSalle.setPreferredSize(new Dimension(800,500));
+		this.salleConstruite = this.construireSalle(this.salle);
+		this.visualisationSalle = new JScrollPane(this.salleConstruite);
+		//this.visualisationSalle = this.construireSalle(this.salle);
+		this.visualisationSalle.setPreferredSize(new Dimension(1000,600));
+		//this.visualisationSalle.setPreferredSize(new Dimension(800,500));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
 		this.contenantMilieu.setLayout(new GridBagLayout());
@@ -209,7 +222,7 @@ public class VueSalle extends JPanel implements Observer {
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		//this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/5, this.getParent().getHeight()));
-		this.visualisationSalle.setPreferredSize(new Dimension((this.getWidth()-(480)),(this.getHeight()-130)));
+		//this.visualisationSalle.setPreferredSize(new Dimension((this.getWidth()-(480)),(this.getHeight()-130)));
 
 	}
 
@@ -222,58 +235,19 @@ public class VueSalle extends JPanel implements Observer {
 	 * @return
 	 *      JPanel contenant la représentation de la salle
 	 */
-	 private JPanel construireSalle(int x, int y){
-	 	Salle salle = new Salle("Sans nom",x,y);
-        JPanel contenant = new JPanel();
-		 contenant.setLayout(new GridBagLayout());
-		 GridBagConstraints gbc = new GridBagConstraints();
-		 gbc.gridx= gbc.gridy = 0;
-		 gbc.gridheight = gbc.gridwidth = 1;
-		gbc.insets = new Insets(2,2,0,2);
-		 for(int i = 0; i < y;i++){
-            for(int j = 0; j < x;j++){
-            	JPanel jpBouton = new JPanel();
-            	jpBouton.setLayout(new BorderLayout());
-            	jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j,this.salle));
-            	jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
-                contenant.add(jpBouton,gbc);
-                gbc.gridx++;
-            }
-            gbc.gridy++;
-            gbc.gridx=0;
-        }
-        return contenant;
-    }
-
-    private JPanel construireSalle(Salle salle){
+	private JPanel construireSalle(int x, int y){
+		Salle salle = new Salle("Sans nom",x,y);
 		JPanel contenant = new JPanel();
 		contenant.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx= gbc.gridy = 0;
 		gbc.gridheight = gbc.gridwidth = 1;
 		gbc.insets = new Insets(2,2,0,2);
-		System.out.println("PLACE [] :"+salle.getPlaces().length);
-		System.out.println("PLACE [][] :"+salle.getPlaces()[0].length);
-		for(int i = 0; i < salle.getNbCaseHauteur();i++){
-			for(int j = 0; j < salle.getNbCaseLargeur();j++){
-				System.out.println("Affichage d'une salle de hauteur : "+salle.getNbCaseHauteur());
+		for(int i = 0; i < y;i++){
+			for(int j = 0; j < x;j++){
 				JPanel jpBouton = new JPanel();
 				jpBouton.setLayout(new BorderLayout());
-				TypePlace typePlace = TypePlace.findById(salle.getPlaces()[i][j].getIdTypePlace());
-				Color couleurPlace = null;
-				switch(typePlace.getNom()){
-					case "place":
-					case "chaise":
-						couleurPlace = TypePlace.couleurPlace;
-						break;
-					case "placeInutillisable":
-						couleurPlace = TypePlace.couleurPlaceInutilisable;
-						break;
-					case "allee":
-						couleurPlace = TypePlace.couleurAllee;
-						break;
-				}
-				jpBouton.add(new ControleurCaseSalle(couleurPlace,i,j,this.salle));
+				jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j,this.salle));
 				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
 				contenant.add(jpBouton,gbc);
 				gbc.gridx++;
@@ -284,56 +258,91 @@ public class VueSalle extends JPanel implements Observer {
 		return contenant;
 	}
 
-    /**
+	public static ProprietesCaseSalle construireSalleDialogBox(Salle salle, DialogVerificationPlacement dialog, Examen examen){
+		JPanel contenant = new JPanel();
+		contenant.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx= gbc.gridy = 0;
+		gbc.gridheight = gbc.gridwidth = 1;
+		gbc.insets = new Insets(2,2,0,2);
+		ArrayList<ControleurCaseSalle> liste= new ArrayList<ControleurCaseSalle>();
+		for(int i = 0; i < salle.getNbCaseHauteur();i++){
+			for(int j = 0; j < salle.getNbCaseLargeur();j++){
+				JPanel jpBouton = new JPanel();
+				jpBouton.setLayout(new BorderLayout());
+				Place place = salle.getPlaces()[i][j];
+				TypePlace typePlace = TypePlace.findById(place.getIdTypePlace());
+				Color couleurPlace = null;
+				couleurPlace = TypePlace.trouverCouleurPlace(typePlace.getNom());
+				ControleurCaseSalle controleur = new ControleurCaseSalle(couleurPlace,i,j,salle,dialog,examen);
+				place.addObserver(controleur);
+				jpBouton.add(controleur);
+				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
+				contenant.add(jpBouton,gbc);
+				gbc.gridx++;
+			}
+			gbc.gridy++;
+			gbc.gridx=0;
+		}
+		return new ProprietesCaseSalle(contenant,liste);
+	}
+
+	private JPanel construireSalle(Salle salle){
+		JPanel contenant = new JPanel();
+		contenant.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx= gbc.gridy = 0;
+		gbc.gridheight = gbc.gridwidth = 1;
+		gbc.insets = new Insets(2,2,0,2);
+		for(int i = 0; i < salle.getNbCaseHauteur();i++){
+			for(int j = 0; j < salle.getNbCaseLargeur();j++){
+				JPanel jpBouton = new JPanel();
+				jpBouton.setLayout(new BorderLayout());
+				Place place = salle.getPlaces()[i][j];
+				int idTypePlace = place.getIdTypePlace();
+				TypePlace typePlace = TypePlace.findById(place.getIdTypePlace());
+				Color couleurPlace = null;
+				couleurPlace = TypePlace.trouverCouleurPlace(typePlace.getNom());
+				ControleurCaseSalle controleur = new ControleurCaseSalle(couleurPlace,i,j,this.salle);
+				place.addObserver(controleur);
+				jpBouton.add(controleur);
+				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
+				contenant.add(jpBouton,gbc);
+				gbc.gridx++;
+			}
+			gbc.gridy++;
+			gbc.gridx=0;
+		}
+		return contenant;
+	}
+
+	/**
 	 * Applique les styles de polices aux labels
 	 * @param label
 	 * @return
 	 */
-	 private JLabel applicationStylePolice(JLabel label){
-        label.setFont(new Font("Serial",Font.PLAIN,14));
-        label.setBorder(BorderFactory.createLineBorder(new Color(0),1));
-        label.setOpaque(true);
-        label.setBackground(new Color(0x656565));
-        label.setForeground(new Color(0xFAFFF1));
-        return label;
-    }
+	private JLabel applicationStylePolice(JLabel label){
+		label.setFont(new Font("Serial",Font.PLAIN,14));
+		label.setBorder(BorderFactory.createLineBorder(new Color(0),1));
+		label.setOpaque(true);
+		label.setBackground(new Color(0x656565));
+		label.setForeground(new Color(0xFAFFF1));
+		return label;
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-	 	this.salle = (Salle)o;
+		this.salle = (Salle)o;
+		int oldValueScrollBarH = this.visualisationSalle.getHorizontalScrollBar().getValue();
+		int oldValueScrollBarV = this.visualisationSalle.getVerticalScrollBar().getValue();
 
-	 	if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL) {
-			this.remove(this.contenantMilieu);
-			this.visualisationSalle = new JScrollPane(this.construireSalle(this.salle));
-			this.visualisationSalle.setPreferredSize(new Dimension(500, 500));
-			//Mise en place du controlleur
-			this.contenantMilieu = new JPanel();
-			this.contenantMilieu.setLayout(new GridBagLayout());
-			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.gridx = gbc.gridy = 0;
-			gbc.gridwidth = GridBagConstraints.REMAINDER;
-			gbc.anchor = GridBagConstraints.PAGE_START;
-			gbc.weightx = 1;
-			gbc.weighty = 0;
-			gbc.fill = GridBagConstraints.HORIZONTAL;
-			gbc.insets = new Insets(20, 10, 20, 0);
-
-			JLabel titrePartieMilieu = new JLabel("Visualisation de la salle :", SwingConstants.CENTER);
-			titrePartieMilieu = applicationStylePolice(titrePartieMilieu);
-
-			this.contenantMilieu.add(titrePartieMilieu, gbc);
-
-			gbc = new GridBagConstraints();
-			gbc.gridx = 0;
-			gbc.gridy = 1;
-			gbc.gridwidth = gbc.gridheight = GridBagConstraints.REMAINDER;
-			gbc.anchor = GridBagConstraints.PAGE_START;
-			gbc.weightx = 1;
-			gbc.weighty = 1;
-			this.contenantMilieu.add(visualisationSalle, gbc);
-			this.add(this.contenantMilieu, BorderLayout.CENTER);
-			this.revalidate();
-			this.repaint();
+		if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL) {
+			this.salleConstruite = this.construireSalle(this.salle);
+			this.visualisationSalle.setViewportView(this.salleConstruite);
+			this.visualisationSalle.getHorizontalScrollBar().setValue(oldValueScrollBarH);
+			this.visualisationSalle.getVerticalScrollBar().setValue(oldValueScrollBarV);
+			/*this.revalidate();
+			this.repaint();*/
 		}
 
 
