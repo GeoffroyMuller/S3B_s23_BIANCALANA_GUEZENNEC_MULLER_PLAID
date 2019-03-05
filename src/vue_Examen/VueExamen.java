@@ -46,7 +46,7 @@ public class VueExamen extends JPanel implements Observer{
 	private JPanel jpp_affichListEtu_marge = new JPanel(new BorderLayout());		//JPanel principal contient le JPanel de liste d'etudiant et contour
 
 	private JPanel jp2_affichListEtu = new JPanel();	//JPanel 2 contient la Liste les Etudiants participant a l'Examen
-	private JPanel jp2_creation;			//JPanel 2 contient les JPanel qui concerne la creation d'un Examen
+	private VueCreation jp2_creation;			//JPanel 2 contient les JPanel qui concerne la creation d'un Examen
 
 
 	private JPanel contour_creation_South = new JPanel();

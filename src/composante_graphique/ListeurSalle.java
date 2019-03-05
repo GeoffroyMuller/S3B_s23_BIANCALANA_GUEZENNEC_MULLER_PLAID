@@ -30,6 +30,7 @@ import modele.BDD.Salle;
 //import sun.net.www.content.image.jpeg;
 
 public class ListeurSalle extends JPanel{
+	private static Color color = new Color(100, 190, 251);
 	private static class ActionSupprElemComboSalle implements ActionListener{
 		private int nb;
 		private JPanel jp;
@@ -66,7 +67,7 @@ public class ListeurSalle extends JPanel{
 	
 	public ListeurSalle(ControleurExamen ctrlexamp) throws SQLException {
 		ctrlexam = ctrlexamp;
-		this.setBackground(new Color(162, 190, 251));
+		this.setBackground(color);
 
 		controleur_Exam = ctrlexamp;
 		jp_all = new JPanel();

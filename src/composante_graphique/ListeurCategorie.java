@@ -36,6 +36,7 @@ public class ListeurCategorie extends JPanel{
 	private GridBagConstraints gbc = new GridBagConstraints();
 
 	public ListeurCategorie(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
+		
 		controleur_Exam = ctrlexamp;
 		jp_all = new JPanel();
 		jp_all.setBackground(Color.darkGray);

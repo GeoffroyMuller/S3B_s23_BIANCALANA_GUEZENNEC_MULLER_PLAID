@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.3" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="vue_Examen.VueContrainte" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/vue_Examen/VueContrainte.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="263" x="694" y="507"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="vue_Examen.VueCreation" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/vue_Examen/VueCreation.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="229" x="1093" y="296"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="vue_Examen.VueGroupeParticipant" 
+    project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/vue_Examen/VueGroupeParticipant.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="254" x="696" y="268"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="vue_Examen.VueInfoExamen" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/vue_Examen/VueInfoExamen.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="256" x="689" y="125"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="vue_Examen.VueSallePriorite" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/vue_Examen/VueSallePriorite.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="264" x="688" y="377"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="composante_graphique.ListeurCategorie" 
+    project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/composante_graphique/ListeurCategorie.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="309" x="205" y="184"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="composante_graphique.ListeurSalle" 
+    project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/composante_graphique/ListeurSalle.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="314" x="200" y="335"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="vue_Examen.VueExamen" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/vue_Examen/VueExamen.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="56" width="206" x="1400" y="557"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="composante_graphique.PanelDev_Afficheur" 
+    project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/composante_graphique/PanelDev_Afficheur.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="228" x="1113" y="726"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="composante_graphique.PanelListeurCategorie" 
+    project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/composante_graphique/PanelListeurCategorie.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="240" x="101" y="25"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="11">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="12" name="vue_grpParticip"/>      
+      <multiplicity id="13" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="14">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="15" name="paneldev">        
+        <position height="18" width="54" x="1230" y="685"/>      
+      </attribute>      
+      <multiplicity id="16" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1288" y="688"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="17">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="18" name="pl_courant">        
+        <position height="18" width="59" x="318" y="89"/>      
+      </attribute>      
+      <multiplicity id="19" minimum="0" maximum="1">        
+        <position height="16" width="23" x="219" y="88"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="20">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="21" name="vue_infoExam">        
+        <position height="18" width="76" x="936" y="183"/>      
+      </attribute>      
+      <multiplicity id="22" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="23">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="24" name="listeur"/>      
+      <multiplicity id="25" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="26">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="27" name="vue_contrainte">        
+        <position height="18" width="80" x="918" y="475"/>      
+      </attribute>      
+      <multiplicity id="28" minimum="0" maximum="1">        
+        <position height="16" width="23" x="874" y="476"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="30" name="vue_sallePrio">        
+        <position height="18" width="72" x="939" y="351"/>      
+      </attribute>      
+      <multiplicity id="31" minimum="0" maximum="1">        
+        <position height="16" width="23" x="914" y="358"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="33" name="jp2_creation">        
+        <position height="18" width="67" x="1216" y="392"/>      
+      </attribute>      
+      <multiplicity id="34" minimum="0" maximum="1">        
+        <position height="16" width="23" x="1271" y="364"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="35">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="36" name="listeur">        
+        <position height="18" width="37" x="533" y="252"/>      
+      </attribute>      
+      <multiplicity id="37" minimum="0" maximum="1">        
+        <position height="16" width="23" x="505" y="249"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="38">    
+    <bendpoint x="390" y="146"/>    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="39" name="liste_panelListeur">        
+        <position height="18" width="92" x="161" y="105"/>      
+      </attribute>      
+      <multiplicity id="40" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="381" y="89"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

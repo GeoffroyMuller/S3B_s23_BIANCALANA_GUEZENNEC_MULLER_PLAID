@@ -26,7 +26,7 @@ import modele.Examen;
 import modele.BDD.Categorie;
 
 public class VueSallePriorite extends JPanel{
-	private static Color color = new Color(162, 190, 251);
+	private static Color color = new Color(100, 190, 251);
 	private ControleurExamen ctrlexam;
 	private JLabel label = new JLabel("Salle Priorité");
 	private ListeurSalle listeur;
@@ -67,7 +67,7 @@ public class VueSallePriorite extends JPanel{
 		
 		
 		JPanel miseformejb= new JPanel();
-		JButton jb_ajouterSalle = new JButton("Ajouter une salle");
+		JButton jb_ajouterSalle = new JButton("Ajouter une prioritée");
 		jb_ajouterSalle.addActionListener(new ActionListener() {
 			
 			@Override

@@ -64,7 +64,7 @@ public class VueGroupeParticipant extends JPanel{
 		gbc.weighty = 2;
 		this.add(listeur, gbc);
 		//repaint();
-		colorer(new Color(206, 221, 253));
+		colorer(new Color(255,255,255));
 	}
 	
 	public void colorer(Color color) {
