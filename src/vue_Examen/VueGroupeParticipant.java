@@ -25,7 +25,7 @@ import modele.BDD.Categorie;
 
 public class VueGroupeParticipant extends JPanel{
 	private ControleurExamen controleur_Exam;
-
+	private static Color color = new Color(236, 241, 245);
 	private static ListeurCategorie listeur;
 	private GridBagConstraints gbc;
 	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 
@@ -64,7 +64,7 @@ public class VueGroupeParticipant extends JPanel{
 		gbc.weighty = 2;
 		this.add(listeur, gbc);
 		//repaint();
-		colorer(new Color(255,255,255));
+		colorer(color);
 	}
 	
 	public void colorer(Color color) {

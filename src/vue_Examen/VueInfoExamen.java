@@ -16,7 +16,7 @@ import modele.Examen;
 
 public class VueInfoExamen extends JPanel{
 	private Examen examen;
-	private static Color color = new Color(100, 190, 251);
+	private static Color color = new Color(236, 241, 245);
 	private ControleurExamen controleur_Exam;
 	
 	private JLabel jl_nom = new JLabel("Nom");							//JLabel Nom

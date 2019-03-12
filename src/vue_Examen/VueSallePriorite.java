@@ -26,7 +26,7 @@ import modele.Examen;
 import modele.BDD.Categorie;
 
 public class VueSallePriorite extends JPanel{
-	private static Color color = new Color(100, 190, 251);
+	private static Color color = new Color(236, 241, 245);
 	private ControleurExamen ctrlexam;
 	private JLabel label = new JLabel("Salle Priorité");
 	private ListeurSalle listeur;

@@ -30,7 +30,7 @@ import modele.BDD.Salle;
 //import sun.net.www.content.image.jpeg;
 
 public class ListeurSalle extends JPanel{
-	private static Color color = new Color(100, 190, 251);
+	private static Color color = new Color(236, 241, 245);
 	private static class ActionSupprElemComboSalle implements ActionListener{
 		private int nb;
 		private JPanel jp;

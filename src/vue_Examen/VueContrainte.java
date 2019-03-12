@@ -16,7 +16,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 public class VueContrainte extends JPanel{
-
+	private static Color color = new Color(236, 241, 245);
 	private JLabel jl_containte;
 	private JPanel jp_espacement;
 	private JPanel jp_grpEtudiant;
@@ -25,7 +25,7 @@ public class VueContrainte extends JPanel{
 	private String[] tab_espacement = {"0", "1", "2", "3", "4", "5"};;
 	
 	public VueContrainte() {
-		this.setBackground(new Color(255, 255, 255));
+		this.setBackground(new Color(236, 241, 245));
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
 		jl_containte = new JLabel("   Contrainte");
@@ -59,12 +59,14 @@ public class VueContrainte extends JPanel{
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0.154;
 		gbc.weighty = 0.1;
+		jp_espacement.setBackground(color);
 		this.add(jp_espacement, gbc);
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1;
 		gbc.weighty = 0.1;
+		jp_grpEtudiant.setBackground(color);
 		this.add(jp_grpEtudiant, gbc);
 		
 		

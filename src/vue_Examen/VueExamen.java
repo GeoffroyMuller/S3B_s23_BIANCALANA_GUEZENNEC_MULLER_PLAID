@@ -35,7 +35,7 @@ public class VueExamen extends JPanel implements Observer{
 
 	public static Examen examen;
 	private ControleurExamen controleur_Exam;
-
+	private static Color color = new Color(40, 73, 92);//40, 73, 92
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
 	 */
@@ -85,7 +85,7 @@ public class VueExamen extends JPanel implements Observer{
 
 		creerZoneCreation();
 		creerZoneAffichageEtu();
-		colorer(new Color(138, 138, 138));
+		colorer(color);
 		placerElementPrincipaux();
 		this.add(jp_all);
 		definirTaille(1000, 300);
@@ -171,7 +171,7 @@ public class VueExamen extends JPanel implements Observer{
 	private void creerZoneAffichageEtu() {
 
 		//ajout de couleur de font au JPanel
-		jpp_affichListEtu_marge.setBackground(Color.darkGray);
+		jpp_affichListEtu_marge.setBackground(color);
 		jp2_affichListEtu.setBackground(Color.white);
 
 		//jp2_affichListEtu.setPreferredSize(new Dimension(200, 200));
@@ -221,7 +221,7 @@ public class VueExamen extends JPanel implements Observer{
 					System.out.println("ERROOOOOOOOR");
 				}
 
-				colorer(new Color(138, 138, 138));
+				colorer(Color.red);
 				/*try {
 					((VueCreation) jp2_creation).creerVueGroupeParticipant(Categorie.getlistCategorie());
 				} catch (SQLException e1) {
@@ -233,7 +233,7 @@ public class VueExamen extends JPanel implements Observer{
 			}
 
 		});
-		jp2_creation.add(jb_dev_up);
+		//jp2_creation.add(jb_dev_up);
 	}
 
 
@@ -338,7 +338,7 @@ public class VueExamen extends JPanel implements Observer{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		colorer(new Color(138, 138, 138));
+		colorer(color);
 	}
 
 
