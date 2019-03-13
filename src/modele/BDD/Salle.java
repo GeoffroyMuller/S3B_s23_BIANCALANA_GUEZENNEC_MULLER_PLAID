@@ -666,7 +666,6 @@ public class Salle extends Observable {
 		 */
 		@Override
 		public boolean hasPrevious(int pas) {
-			System.out.println("Coordonnée du bug : "+i+"-"+j);
 			if(j-pas<0){
 				if(i<=0){
 					return false;
@@ -770,7 +769,7 @@ public class Salle extends Observable {
 
 				//On vérifie que la place n'est pas une allee ou une place cassé
 				//Si la place n'est pas disponible alors on recule d'une case
-				if(!(places[this.i][this.j].getDisponnible())){
+				if(!(places[this.i][this.j].getDisponnible()) && !places[this.i][this.j].verifiersiPlaceCassee()){
 					place = (Place)this.previous();
 				}
 			}

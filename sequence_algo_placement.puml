@@ -1,0 +1,21 @@
+@startuml
+actor Acteur
+participant Examen
+activate Acteur
+Acteur --> Examen : Générer le placement
+activate Examen
+Examen --> Examen : VérifierParametresExamen
+alt Parametre OK
+loop resultat != margeErreur
+Examen-->Examen : placerEtudiant()
+Examen-->Examen : resultat=verifierSolution()
+Examen-->Examen : nbTentative+1
+alt nbTentative == 2000
+Examen-->Examen : margeErreur+1
+Examen-->Examen : nbTentative=0
+end
+end
+else Parametre ERROR
+Examen --> Acteur : Throw Exception
+end
+@enduml

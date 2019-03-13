@@ -77,7 +77,9 @@ public class DialogVerificationPlacement extends JDialog {
         contenantJTable.setLayout(new GridLayout(this.modele.getSalles().size(),1));
 
         int index = this.labelNomSalles.size()-1;
+        System.out.println("INDEX : "+index);
         for(JTable tableau : this.placement) {
+            System.out.println("tourne");
             JPanel tableauAvecJLabel = new JPanel();
             tableauAvecJLabel.setLayout(new BorderLayout());
             tableauAvecJLabel.add(this.labelNomSalles.get(index),BorderLayout.NORTH);
@@ -224,7 +226,6 @@ public class DialogVerificationPlacement extends JDialog {
                 //Assombrir toutes les cases sauf celle de l'étudiant
                 Salle salleActuelle = informationsPlacement.getSalle();
                 ArrayList<ControleurCaseSalle> casesSalle = proprietesSalle.get(salleActuelle).getListeControleurs();
-                System.out.println("TAILLE CONTROLEURSALLE : "+casesSalle.size());
 
                 if(rechercherEtudiantNom.getText().isEmpty() || rechercherEtudiantPrenom.getText().isEmpty()){
                     for(ControleurCaseSalle controleur : casesSalle){
