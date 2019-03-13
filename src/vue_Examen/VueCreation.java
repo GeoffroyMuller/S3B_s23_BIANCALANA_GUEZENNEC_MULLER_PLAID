@@ -21,6 +21,7 @@ import modele.BDD.Categorie;
 public class VueCreation extends JPanel{
 	private ControleurExamen controleur_Exam;
 	
+	private static Color color = new Color(40, 73, 92);
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private ArrayList<Categorie> listecateg = new ArrayList<>();
 	
@@ -36,7 +37,7 @@ public class VueCreation extends JPanel{
 		vue_infoExam = new VueInfoExamen(controleur_Exam);
 		vue_sallePrio = new VueSallePriorite(controleur_Exam);
 		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, listecateg);
-		this.setBackground(new Color(138, 138, 138));
+		this.setBackground(color);
 		creerZoneCreation();
 	}
 	
@@ -77,7 +78,7 @@ public class VueCreation extends JPanel{
 		gbc.weightx = 0.2;
 		gbc.weighty = 0;
 		this.add(vue_contrainte, gbc);
-		jp_bouttonexam.setBackground(new Color(138, 138, 138));
+		jp_bouttonexam.setBackground(color);
 		controleur_Exam.getJb_creerExam().setPreferredSize(new Dimension(200, 40));
 		jp_bouttonexam.add(controleur_Exam.getJb_creerExam(), BorderLayout.WEST);
 		jp_bouttonexam.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));

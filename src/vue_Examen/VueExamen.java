@@ -33,9 +33,9 @@ import modele.Examen;
 
 public class VueExamen extends JPanel implements Observer{
 
-	private Examen examen;
+	public static Examen examen;
 	private ControleurExamen controleur_Exam;
-
+	private static Color color = new Color(40, 73, 92);//40, 73, 92
 	/**
 	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
 	 */
@@ -46,7 +46,7 @@ public class VueExamen extends JPanel implements Observer{
 	private JPanel jpp_affichListEtu_marge = new JPanel(new BorderLayout());		//JPanel principal contient le JPanel de liste d'etudiant et contour
 
 	private JPanel jp2_affichListEtu = new JPanel();	//JPanel 2 contient la Liste les Etudiants participant a l'Examen
-	private JPanel jp2_creation;			//JPanel 2 contient les JPanel qui concerne la creation d'un Examen
+	private VueCreation jp2_creation;			//JPanel 2 contient les JPanel qui concerne la creation d'un Examen
 
 
 	private JPanel contour_creation_South = new JPanel();
@@ -68,8 +68,8 @@ public class VueExamen extends JPanel implements Observer{
 	 * Constructeur principale
 	 * @throws SQLException 
 	 */
-	public VueExamen() throws SQLException{
-		examen = new Examen();
+	public VueExamen(Examen exam) throws SQLException{
+		examen = exam;
 		controleur_Exam = new ControleurExamen(examen);
 		//this.setPreferredSize(new Dimension(1500, 800));
 		jpp_creation_marge.setBackground(Color.red);
@@ -82,13 +82,16 @@ public class VueExamen extends JPanel implements Observer{
 			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");
 			jp2_creation = new VueCreation(controleur_Exam, new ArrayList<Categorie>());
 		}*/
-		
+
 		creerZoneCreation();
 		creerZoneAffichageEtu();
-		colorer(new Color(138, 138, 138));
+		colorer(color);
 		placerElementPrincipaux();
 		this.add(jp_all);
 		definirTaille(1000, 300);
+	}
+	static public Examen getModeleExamen() {
+		return examen;
 	}
 
 	private void testlisteur() {
@@ -168,7 +171,7 @@ public class VueExamen extends JPanel implements Observer{
 	private void creerZoneAffichageEtu() {
 
 		//ajout de couleur de font au JPanel
-		jpp_affichListEtu_marge.setBackground(Color.darkGray);
+		jpp_affichListEtu_marge.setBackground(color);
 		jp2_affichListEtu.setBackground(Color.white);
 
 		//jp2_affichListEtu.setPreferredSize(new Dimension(200, 200));
@@ -217,8 +220,8 @@ public class VueExamen extends JPanel implements Observer{
 					e1.printStackTrace();
 					System.out.println("ERROOOOOOOOR");
 				}
-	
-				colorer(new Color(138, 138, 138));
+
+				colorer(Color.red);
 				/*try {
 					((VueCreation) jp2_creation).creerVueGroupeParticipant(Categorie.getlistCategorie());
 				} catch (SQLException e1) {
@@ -230,7 +233,7 @@ public class VueExamen extends JPanel implements Observer{
 			}
 
 		});
-		jp2_creation.add(jb_dev_up);
+		//jp2_creation.add(jb_dev_up);
 	}
 
 
@@ -316,7 +319,9 @@ public class VueExamen extends JPanel implements Observer{
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		VueExamen vuec = new VueExamen();
+		Examen examen = new Examen();
+
+		VueExamen vuec = new VueExamen(examen);
 		fenetre.add(vuec);
 		fenetre.setMinimumSize(new Dimension(1155,700));
 		fenetre.setPreferredSize(new Dimension(1155,700));
@@ -333,7 +338,7 @@ public class VueExamen extends JPanel implements Observer{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		colorer(new Color(138, 138, 138));
+		colorer(color);
 	}
 
 

@@ -28,12 +28,23 @@ public class ControleurRadioBoutons extends JPanel implements ActionListener {
         JRadioButton place = new JRadioButton();
         place.setName("place");
         place.addActionListener(choixBouton);
-        place.setSelected(true);
 
 
         JRadioButton placeInutilisable = new JRadioButton();
         placeInutilisable.setName("placeInutillisable");
         placeInutilisable.addActionListener(choixBouton);
+
+        switch(ControleurRadioBoutons.placeSelectionnee){
+            case "allee":
+                allee.setSelected(true);
+                break;
+            case "place":
+                place.setSelected(true);
+                break;
+            case "placeInutilisable":
+                placeInutilisable.setSelected(true);
+                break;
+        }
 
 
         ButtonGroup bg = new ButtonGroup();

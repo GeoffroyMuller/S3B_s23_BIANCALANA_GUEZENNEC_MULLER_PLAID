@@ -16,6 +16,7 @@ import modele.Examen;
 
 public class VueInfoExamen extends JPanel{
 	private Examen examen;
+	private static Color color = new Color(236, 241, 245);
 	private ControleurExamen controleur_Exam;
 	
 	private JLabel jl_nom = new JLabel("Nom");							//JLabel Nom
@@ -27,7 +28,7 @@ public class VueInfoExamen extends JPanel{
 	private JPanel jp_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
 	
 	public VueInfoExamen(ControleurExamen ctrlexamp) {
-		colorer(new Color(162, 190, 251));
+		colorer(color);
 		controleur_Exam = ctrlexamp;                                     
 		creerZoneInfo();
 	}
@@ -68,11 +69,11 @@ public class VueInfoExamen extends JPanel{
 		
 	}
 	
-	public void colorer(Color color) {
-		this.setBackground(color);
-		jp_dateExamen.setBackground(color);
-		jp_matiereExamen.setBackground(color);
-		jp_nomExamen.setBackground(color);
+	public void colorer(Color colorp) {
+		this.setBackground(colorp);
+		jp_dateExamen.setBackground(colorp);
+		jp_matiereExamen.setBackground(colorp);
+		jp_nomExamen.setBackground(colorp);
 	}
 	
 	/**

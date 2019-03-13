@@ -36,6 +36,7 @@ public class ListeurCategorie extends JPanel{
 	private GridBagConstraints gbc = new GridBagConstraints();
 
 	public ListeurCategorie(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
+		
 		controleur_Exam = ctrlexamp;
 		jp_all = new JPanel();
 		jp_all.setBackground(Color.darkGray);
@@ -137,9 +138,9 @@ public class ListeurCategorie extends JPanel{
 	 */
 	public void definirTaille(int w, int h) {
 		scrollpane.setPreferredSize(new Dimension(w, h));
-		/*for(PanelListeur plp : liste_panelListeur) {
+		for(PanelListeurCategorie plp : liste_panelListeur) {
 			plp.definirTaille(w-200, 30);
-		}*/
+		}
 	}
 	
 	public void colorer(Color color) {

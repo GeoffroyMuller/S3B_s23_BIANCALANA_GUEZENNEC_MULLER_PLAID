@@ -6,13 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Observable;
 
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Place.
  */
-public class Place {
+public class Place extends Observable {
 
 	/** The nom. */
 	private String nom;
@@ -32,25 +33,11 @@ public class Place {
 	/** The i. */
 	private int i;
 
-	public boolean getDisponnible() {
-		boolean res = false;
-		try {
-			TypePlace typeDeLaPlace = TypePlace.findById(this.idTypePlace);
-			if(typeDeLaPlace.getDisponnible() == 1){
-				res= true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return res;
-	}
-
-	public void setDisponnible(int disponnible) {
-		this.disponnible = disponnible;
-	}
-
 	private int disponnible;
+
+	private String nomColonne;
+
+	private String nomRangee;
 
 
 	/**
@@ -61,7 +48,7 @@ public class Place {
 	 * @param j the j
 	 * @param idSalle the id salle
 	 */
-	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle) {
+/*	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle) {
 		this.idPlace=-1;
 		this.nom=nom;
 		this.idTypePlace=idTypePlace;
@@ -74,10 +61,29 @@ public class Place {
 		}
 		this.j=j;
 		this.i=i;
+	}*/
+
+	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle, String nomColonne, String nomRangee) {
+		this.idPlace=-1;
+		this.nom=nom;
+		this.idTypePlace=idTypePlace;
+		this.idSalle=idSalle;
+		if(disponnible==0||disponnible==1) {
+			this.disponnible=disponnible;
+		}
+		else {
+			this.disponnible=0;
+		}
+		this.j=j;
+		this.i=i;
+		this.nomColonne = nomColonne;
+		this.nomRangee = nomRangee;
 	}
 
 
-	public Place(String nom,int i, int j, int idSalle) {
+
+
+	public Place(String nom,int i, int j, int idSalle, String nomColonne,String nomRangee) {
 		this.idPlace=-1;
 		this.nom=nom;
 		this.idTypePlace=1;
@@ -85,6 +91,8 @@ public class Place {
 		this.disponnible=1;
 		this.j=j;
 		this.i=i;
+		this.nomColonne=nomColonne;
+		this.nomRangee=nomRangee;
 	}
 
 
@@ -97,7 +105,7 @@ public class Place {
 	 * @return the nom
 	 */
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
 
@@ -108,7 +116,9 @@ public class Place {
 	 * @param nom the nom to set
 	 */
 	public void setNom(String nom) {
+
 		this.nom = nom;
+		this.save();
 	}
 
 
@@ -231,7 +241,7 @@ public class Place {
 	 * @param j the j
 	 * @param idPlace the id place
 	 */
-	private Place(String nom, int idTypePlace, int idSalle,int i, int j,int disponnible, int idPlace) {
+	private Place(String nom, int idTypePlace, int idSalle,int i, int j,int disponnible, int idPlace,String nomColonne, String nomRangee) {
 		this.idTypePlace=idTypePlace;
 		this.nom=nom;
 		this.j=j;
@@ -244,6 +254,8 @@ public class Place {
 		}
 		this.idPlace=idPlace;
 		this.idSalle=idSalle;
+		this.nomRangee = nomRangee;
+		this.nomColonne = nomColonne;
 	}
 
 
@@ -257,7 +269,7 @@ public class Place {
 			Connection connect=DBConnection.getConnection();
 
 			String nomBase = DBConnection.getNomDB();
-			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Place` ( `idPlace` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL,`IdTypePlace` INT(1) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,`j` INT(11) NOT NULL, `idSalle` INT(11) NOT NULL, PRIMARY KEY (`idPlace`)) ENGINE = InnoDB;";
+			String SQLPrep0 = "CREATE TABLE IF NOT EXISTS `"+nomBase+"`.`Place` ( `idPlace` INT(11) NOT NULL AUTO_INCREMENT , `nom` VARCHAR(40) NOT NULL,`IdTypePlace` INT(1) NOT NULL,`i` INT(11) NOT NULL,`Disponnible` INT(1) NOT NULL,`j` INT(11) NOT NULL, `idSalle` INT(11) NOT NULL,`NomColonne` VARCHAR(100) NOT NULL,`NomRangee` VARCHAR(100) NOT NULL, PRIMARY KEY (`idPlace`)) ENGINE = InnoDB;";
 
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -309,7 +321,9 @@ public class Place {
 			int resJ = rs.getInt("j");
 			int resIdSalle = rs.getInt("idSalle");
 			int resDisponnible = rs.getInt("disponnible");
-			res = new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, id);
+			String resColonne = rs.getString("NomColonne");
+			String resRangee = rs.getString("NomRangee");
+			res = new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, id,resColonne,resRangee);
 		}
 		return res;
 	}
@@ -337,7 +351,9 @@ public class Place {
 			int resIdSalle = rs.getInt("idSalle");
 			int resId = rs.getInt("idPlace");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, resId));
+			String resColonne = rs.getString("NomColonne");
+			String resRangee = rs.getString("NomRangee");
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle,resI, resJ, resDisponnible, resId,resColonne,resRangee));
 		}
 		return res;
 	}
@@ -359,14 +375,17 @@ public class Place {
 
 		ArrayList<Place> res = new ArrayList<Place>();
 		while (rs.next()) {
-			
+
+			int resId = rs.getInt("idPlace");
 			String resNom = rs.getString("nom");
 			int resIdTypePlace = rs.getInt("idTypePlace");
 			int resIdSalle = rs.getInt("idSalle");
 			int resI= rs.getInt("i");
 			int resJ = rs.getInt("j");
 			int resDisponnible = rs.getInt("disponnible");
-			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, id));
+			String resColonne = rs.getString("NomColonne");
+			String resRangee = rs.getString("NomRangee");
+			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, resId,resColonne,resRangee));
 		}
 		return res;
 	}
@@ -415,6 +434,37 @@ public class Place {
 		else {
 			this.update();
 		}
+		setChanged();
+		notifyObservers();
+	}
+
+	public int getDisponibleIntVersion(){
+		return this.disponnible;
+	}
+
+	public boolean getDisponnible() {
+		boolean res = false;
+		TypePlace typeDeLaPlace = TypePlace.findById(this.idTypePlace);
+		if(typeDeLaPlace.getDisponnible() == 1){
+			res= true;
+		}
+
+		return res;
+	}
+
+public boolean verifiersiPlaceCassee(){
+		TypePlace tp = TypePlace.findById(this.getIdTypePlace());
+		boolean res=true;
+		if(tp.getNom().equals("placeInutillisable")){
+			res = true;
+		}else{
+			res=false;
+		}
+		return res;
+}
+
+	public void setDisponnible(int disponnible) {
+		this.disponnible = disponnible;
 	}
 
 	/**
@@ -423,8 +473,8 @@ public class Place {
 	private void saveNew() {
 		try {
 			Connection connect=DBConnection.getConnection();
-			String SQLPrep0 = "INSERT INTO Place (`NOM`, `IdTypePlace`, `i`, `j`, `disponnible`, `idSalle`) VALUES" + 
-					"('"+this.nom+"', '"+this.idTypePlace+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"')";
+			String SQLPrep0 = "INSERT INTO Place (`NOM`, `IdTypePlace`, `i`, `j`, `disponnible`, `idSalle`, `NomColonne`, `NomRangee`) VALUES" +
+					"('"+this.nom+"', '"+this.idTypePlace+"', '"+this.i+"', '"+this.j+"', '"+this.disponnible+"', '"+this.idSalle+"', '"+this.nomColonne+"','"+this.nomRangee+"')";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
 			String SQLPrep = "SELECT * FROM Place WHERE NOM ='"+this.nom+"' AND IdtypePlace ="
@@ -451,7 +501,7 @@ public class Place {
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Place " + 
-					"SET NOM = '"+this.nom+"', IdTypePlace = '"+this.idTypePlace+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"'" + 
+					"SET NOM = '"+this.nom+"', IdTypePlace = '"+this.idTypePlace+"', i = '"+this.i+"', j = '"+this.j+"', Disponnible = '"+this.disponnible+"', idSalle = '"+this.idSalle+"', NomColonne = '"+this.nomColonne+"', NomRangee = '"+this.nomRangee+"'" +
 					"WHERE IDPlace ='"+this.idPlace+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
@@ -493,12 +543,19 @@ public class Place {
 	public static Place[][] tableauPlace(int idsalle) throws SQLException{
 
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
+
 		Salle salle = Salle.findById(idsalle);
 		int imax = salle.getNbCaseHauteur();
 		int jmax = salle.getNbCaseLargeur();
 
 		Place res[][] = new Place[imax][jmax];
+		System.out.println("IMAX : "+imax);
+		System.out.println("JMAX : "+jmax);
+
+		int coordI,coordJ;
 		for(int i=0; i<temp.size(); i++) {
+			coordI = temp.get(i).getI();
+			coordJ = temp.get(i).getJ();
 			res[temp.get(i).getI()][temp.get(i).getJ()] = temp.get(i);
 		}
 		return res;
@@ -520,5 +577,21 @@ public class Place {
 		int result = i;
 		result = 31 * result + j;
 		return result;
+	}
+
+	public String getNomColonne() {
+		return nomColonne;
+	}
+
+	public void setNomColonne(String nomColonne) {
+		this.nomColonne = nomColonne;
+	}
+
+	public String getNomRangee() {
+		return nomRangee;
+	}
+
+	public void setNomRangee(String nomRangee) {
+		this.nomRangee = nomRangee;
 	}
 }

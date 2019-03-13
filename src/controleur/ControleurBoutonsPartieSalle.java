@@ -1,15 +1,64 @@
 package controleur;
 
+import modele.BDD.Salle;
+import vue.CreationSalleDialog;
+import vue.CreationSalleDialogInfos;
+import vue.VueSalle;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ControleurBoutonsPartieSalle extends JPanel {
     private JButton boutonAjouterSalle;
     private JButton boutonSupprimerSalle;
+    private Salle modele;
 
-    public ControleurBoutonsPartieSalle(){
+    public ControleurBoutonsPartieSalle(Salle modele){
         this.boutonAjouterSalle = new JButton("Ajouter");
         this.boutonSupprimerSalle = new JButton("Supprimer");
+        this.modele = modele;
+
+        //Ajout des actions listener
+        this.boutonAjouterSalle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //Création d'une fenetre contextuelle
+                CreationSalleDialog dialogBox = new CreationSalleDialog(null,"Création d'une salle",true,false,null);
+                CreationSalleDialogInfos infos = dialogBox.afficherDialog();
+                JOptionPane jop = new JOptionPane();
+                jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
+                VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
+                modele.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur());
+            }
+        });
+
+        this.boutonSupprimerSalle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] choix = {"Oui","Non"};
+                JOptionPane confirmerSuppression = new JOptionPane();
+                int rang = confirmerSuppression.showOptionDialog(null,"Êtes vous du de vouloir supprimer la salle : "+ VueSalle.salleSelectionne +" ? Cette action est irréversible",
+                        "Confirmer la suppression",
+                        JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,choix,choix[1]);
+
+                if(choix[rang].equals("Oui")){
+                    Salle salle = Salle.findByNom(VueSalle.salleSelectionne.getNom());
+                    salle.delete();
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null,"La salle à bien été supprimer !","Supression effectuée avec succés",JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null,"La suppression de la salle à été annulée !","Supression annulée",JOptionPane.INFORMATION_MESSAGE);
+
+
+                }
+
+            }
+        });
+
         //Mise en place des tailles minimales
         this.boutonAjouterSalle.setPreferredSize(new Dimension(90,30));
         this.boutonSupprimerSalle.setPreferredSize(new Dimension(90,30));

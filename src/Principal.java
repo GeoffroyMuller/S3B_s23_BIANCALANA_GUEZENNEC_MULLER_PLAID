@@ -1,3 +1,5 @@
+import modele.BDD.Salle;
+import modele.Examen;
 import vue.BarreOutils;
 import vue.VueOngletModules;
 
@@ -26,19 +28,25 @@ public class Principal {
             // handle exception
         }
 
-        //Barre d'outil
-        BarreOutils barreOutils = new BarreOutils();
+        //Modeles
+        Examen examen = new Examen();
+        Salle salle = new Salle("Sans nom",Salle.DEFAULT_SIZE_ROOM_HEIGHT,Salle.DEFAULT_SIZE_ROOM_WIDTH);
+
+
+
+
+
         JFrame fenetre = new JFrame("EtuPlacement");
+
         //Panneau onglets modules
-       VueOngletModules onglets = new VueOngletModules();
+       VueOngletModules onglets = new VueOngletModules(examen,salle);
 
 
         fenetre.getContentPane().setLayout(new BorderLayout());
         fenetre.getContentPane().add(onglets,BorderLayout.CENTER);
-        fenetre.setJMenuBar(barreOutils);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setMinimumSize(new Dimension(1200,550));
-        fenetre.setSize(new Dimension(1155,900));
+        fenetre.setMinimumSize(new Dimension(1400,830));
+        fenetre.setSize(new Dimension(1400,830));
         fenetre.setVisible(true);
     }
 }

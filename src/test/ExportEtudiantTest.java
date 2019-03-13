@@ -74,10 +74,10 @@ public class ExportEtudiantTest {
             for(int i = 0; i < 10;i++){
                 for(int j = 0; j < 10;j++){
                     if(j == 7 || j == 4){
-                        Place place = new Place(i+""+j,typePlaceAllee.getIdTypePlace(),i,j,0,salle.getIdSalle());
+                        Place place = new Place(i+""+j,typePlaceAllee.getIdTypePlace(),i,j,0,salle.getIdSalle(),j+"",i+"");
                         place.save();
                     }else{
-                        Place place = new Place(i+""+j,typePlace.getIdTypePlace(),i,j,1,salle.getIdSalle());
+                        Place place = new Place(i+""+j,typePlace.getIdTypePlace(),i,j,1,salle.getIdSalle(),j+"",i+"");
                         place.save();
                     }
 
@@ -158,7 +158,7 @@ public class ExportEtudiantTest {
     public void testExporterPlacement(){
         ExportEtudiant export = new ExportEtudiant();
 
-        export.exporterPlacement(examen.getPlacement());
+        export.exporterPlacement(examen.getPlacement(),examen);
 
         try {
             FileInputStream fichier = new FileInputStream(ExportEtudiant.nomDuDernierFichier);

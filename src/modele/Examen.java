@@ -1,4 +1,4 @@
-package modele;
+ package modele;
 
 import modele.BDD.*;
 import modele.BDD.Etudiant;
@@ -17,7 +17,9 @@ import java.util.*;
 
 import modele.BDD.Categorie;
 
-public class Examen extends Observable{
+import javax.swing.*;
+
+ public class Examen extends Observable{
 	
 	private String nom;
 	private String matiere;
@@ -54,7 +56,7 @@ public class Examen extends Observable{
         this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
         this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
         this.salles = new ArrayList<Salle>();
-        this.pas = 1;
+        this.pas = 2;
     }
 
     /**
@@ -62,8 +64,18 @@ public class Examen extends Observable{
      * @param salle
      */
     public void ajouterSalle(modele.BDD.Salle salle){
-        this.placement.put(salle, new HashMap<modele.BDD.Place, modele.BDD.Etudiant>());
+        System.out.println("Ajout d'une salle : "+salle.getNom());
         this.salles.add(salle);
+        this.placement.put(salle,new HashMap<Place, Etudiant>());
+
+		setChanged();
+		notifyObservers();
+    }
+
+    public void retirerSalle(Salle salle){
+        System.out.println("Retire salle : "+salle.getNom());
+        //this.placement.remove(salle);
+        this.salles.remove(salle);
     }
 
 
@@ -73,14 +85,6 @@ public class Examen extends Observable{
      */
     public void enleverUnEtudiantDeExamen(Etudiant etudiant){
         this.etudiants.remove(etudiant);
-       /* HashMap<Etudiant, String> etudiants = new HashMap<Etudiant,String>();
-        Set<Etudiant> listeEtudiant = this.etudiants.keySet();
-        for(Etudiant etu : listeEtudiant){
-            if(etudiant != etu){
-                etudiants.put(etu,etu.getGroupe());
-            }
-        }
-        this.etudiants = etudiants;*/
     }
 
     /**
@@ -91,6 +95,7 @@ public class Examen extends Observable{
         for (Etudiant etudiant: etudiants) {
             this.etudiants.remove(etudiant);
         }
+
     }
 
     /**
@@ -149,7 +154,6 @@ public class Examen extends Observable{
             resultat = this.verifierSolution();
             nbTentative++;
             if(nbTentative== 20000){
-                System.out.println("TENTNATIVE");
                 margeErreur++;
                 nbTentative = 0;
             }
@@ -208,7 +212,7 @@ public class Examen extends Observable{
      * Méthode permettant de placer tout les éléves dans les salles choisies
      */
     public void placerEleve(){
-        //On récupére d'abord tout les éléve dans une seule et même liste
+        //On récupére d'abord tout les éléves dans une seule et même liste
         ArrayList<modele.BDD.Etudiant> listeEtu = new ArrayList<Etudiant>(this.etudiants.keySet());
         //On filtre les étudiant particulier qui ne sont pas à placer
         listeEtu= this.filtrerEleveParticulier(listeEtu);
@@ -217,7 +221,6 @@ public class Examen extends Observable{
         //Pour qu'il soit placer en premier
         Collections.sort(listeEtu);
 
-        //On suppose qu'il y a déja assez de place pour placer tout les éléves
 
         //On initialise le debut du placement (Ici on commence en bas à droite de la salle)
         int i = salles.get(0).getNbCaseHauteur()-1;
@@ -227,14 +230,13 @@ public class Examen extends Observable{
         int nombreEssai = 0;
         modele.BDD.Etudiant etudiantTeste=null;
         modele.BDD.Salle salle = salles.get(iterateurChangementSalle);
-
         Iterateur iterateurSalle = salle.getIterateur(i,j,salle);
 
         //Tant qu'il y a des Etudiant non place
         while(listeEtu.size()!=0){
             Random r = new Random();
             int nbAlea = r.nextInt((listeEtu.size()-1) + 1);
-            //On prend le premier étudiant de la liste (celui-ci change dés qu'un étudiant est placé)
+
 
             ArrayList<Particularite> particularites = new ArrayList<Particularite>();
             try {
@@ -270,11 +272,14 @@ public class Examen extends Observable{
                         iterateurSalle.previous(this.pas);
                     }else if(listeEtu.size()>0){
                         //Sinon on change de salle
-                        i = salles.get(0).getNbCaseHauteur()-1;
-                        j = salles.get(0).getNbCaseLargeur()-1;
-
                         iterateurChangementSalle++;
+                        System.out.println("Changement de salle");
+                        System.out.println("Iterateur : "+iterateurChangementSalle);
+                        i = salles.get(iterateurChangementSalle).getNbCaseHauteur()-1;
+                        j = salles.get(iterateurChangementSalle).getNbCaseLargeur()-1;
+
                         salle =salles.get(iterateurChangementSalle);
+                        salle.getTableauPlaces(salle.getIdSalle());
                         iterateurSalle = salle.getIterateur(i,j,salle);
                     }
 
@@ -284,8 +289,20 @@ public class Examen extends Observable{
                 }
             }else{
                 //La place n'est pas disponible donc on en teste une autre
+
+
                 if(iterateurSalle.hasPrevious(this.pas)){
                     iterateurSalle.previous(this.pas);
+                }else{
+                    System.out.println("Changement de salle_Previous");
+                    iterateurChangementSalle++;
+                    System.out.println("Iterateur : "+iterateurChangementSalle);
+                    i = salles.get(iterateurChangementSalle).getNbCaseHauteur()-1;
+                    j = salles.get(iterateurChangementSalle).getNbCaseLargeur()-1;
+
+                    salle =salles.get(iterateurChangementSalle);
+                    salle.getTableauPlaces(salle.getIdSalle());
+                    iterateurSalle = salle.getIterateur(i,j,salle);
                 }
             }
         }
@@ -310,14 +327,14 @@ public class Examen extends Observable{
                 int[] tabValeurJ = {(p.getJ())+1,(p.getJ())-1};
 
                 for(int i = 0; i < tabValeurI.length;i++){
-                    modele.BDD.Place placeTestee = new modele.BDD.Place(tabValeurI[i]+""+p.getJ(),tabValeurI[i],p.getJ(),salle.getIdSalle());
+                    modele.BDD.Place placeTestee = new modele.BDD.Place(tabValeurI[i]+""+p.getJ(),tabValeurI[i],p.getJ(),salle.getIdSalle(),p.getJ()+"",tabValeurI[i]+"");
                     if(!testerPlace(placeTestee,etudiant,salle)){
                         resultat++;
                     }
                 }
 
                 for(int i = 0; i < tabValeurJ.length;i++){
-                    modele.BDD.Place placeTestee = new Place(p.getI()+""+tabValeurJ[i],p.getI(),tabValeurJ[i],salle.getIdSalle());
+                    modele.BDD.Place placeTestee = new Place(p.getI()+""+tabValeurJ[i],p.getI(),tabValeurJ[i],salle.getIdSalle(),p.getI()+"",tabValeurJ[i]+"");
                     if(!(testerPlace(placeTestee,etudiant,salle))){
                         resultat++;
                     }
@@ -449,8 +466,81 @@ public class Examen extends Observable{
         return res;
     }
 
+    public InformationsPlacementEtudiant trouverPlaceEtudiant(CritereRechercheEtudiant cre){
+        InformationsPlacementEtudiant resultat= new InformationsPlacementEtudiant(null,new Place("Non trouve",-1,-1,-2,"Non trouve","Non trouve"),new Etudiant("Non trouve","Non trouve"));
+        Set<Salle> clesSalle = this.placement.keySet();
+
+        for(Salle salle : clesSalle){
+            Set<Place> clesPlaces = this.placement.get(salle).keySet();
+
+            for(Place place : clesPlaces){
+                Etudiant etudiant = this.placement.get(salle).get(place);
+                if(etudiant.getNom().toLowerCase().equals(cre.getNom().toLowerCase())
+                && etudiant.getPrenom().toLowerCase().equals(cre.getPrenom().toLowerCase())
+                && etudiant.getGroupe().toLowerCase().equals(cre.getGroupe().toLowerCase())){
+                    resultat = new InformationsPlacementEtudiant(salle,place,etudiant);
+                }
+            }
+        }
 
 
+        return resultat;
+    }
+
+     /**
+      * Permet de générer la prévisualisation d'un placementsous forme d'un JTable
+      * @return
+      */
+    public ArrayList<JTable> genererPrevisualisationFiche(){
+        ArrayList<JTable> resultat = new ArrayList<JTable>();
+        String column[]={"ID","GROUPE","NOM","PRENOM","SALLE","RANG","PLACE"};
+
+        Set<Salle> clesSalle= this.placement.keySet();
+        for(Salle salle : this.salles){
+            Set<Place> clesPlaces = this.placement.get(salle).keySet();
+            String data[][] = new String[clesPlaces.size()][7];
+            int iterateur = 0;
+            for(Place place : clesPlaces){
+                Etudiant etudiant = this.placement.get(salle).get(place);
+                data[iterateur][0] = iterateur+"";
+                data[iterateur][1] = etudiant.getGroupe();
+                data[iterateur][2] = etudiant.getNom();
+                data[iterateur][3] = etudiant.getPrenom();
+                data[iterateur][4] = salle.getNom();
+                data[iterateur][5] = place.getI()+"";
+                data[iterateur][6] = place.getJ()+"";
+                iterateur++;
+            }
+            JTable tableau= new JTable(data,column);
+            resultat.add(tableau);
+        }
+
+        return resultat;
+    }
+
+
+     /**
+      *  Retourne tout les groupes participants
+      * @return
+      */
+    public String[] groupeParticipant(){
+        ArrayList<String> groupes = new ArrayList<String>();
+
+        Set<Salle> clesSalles = this.placement.keySet();
+        for(Salle salle : clesSalles){
+            Set<Place> clesPlace = this.placement.get(salle).keySet();
+            for(Place place : clesPlace){
+                Etudiant etudiant = this.placement.get(salle).get(place);
+                if(!(groupes.contains(etudiant.getGroupe().toLowerCase()))){
+                    groupes.add(etudiant.getGroupe().toLowerCase());
+                }
+            }
+        }
+        String[] resultat = groupes.toArray(new String[groupes.size()]);
+
+
+        return resultat;
+    }
 	
 	
 	
@@ -504,6 +594,11 @@ public class Examen extends Observable{
 
     public void setPas(int pas) {
         this.pas = pas;
+    }
+    
+    public void refresh() {
+    	this.setChanged();
+    	this.notifyObservers();
     }
 
 

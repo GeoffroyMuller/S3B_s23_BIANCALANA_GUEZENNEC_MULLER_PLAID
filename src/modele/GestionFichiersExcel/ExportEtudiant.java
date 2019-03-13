@@ -1,10 +1,16 @@
 package modele.GestionFichiersExcel;
 
 import modele.BDD.*;
+import modele.Examen;
 import org.apache.commons.math3.analysis.function.Exp;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -126,7 +132,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
      * Méthode permettant de créer le fichier excel associant chaque étudiant à sa place ainsi que les feuilles de signature présent dans ce même Excel
      * @param placement
      */
-    public void exporterPlacement(HashMap<modele.BDD.Salle, HashMap<Place, Etudiant>> placement) {
+    public void exporterPlacement(HashMap<modele.BDD.Salle, HashMap<Place, Etudiant>> placement, Examen examen) {
         //Création du fichier et des feuilles
         ArrayList<String> nomFeuille = new ArrayList<String>();
         nomFeuille.add(ExportEtudiant.nomFeuilleEtudiantPlace);
@@ -142,9 +148,12 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         //Debut par association place=>Etudiant
         Sheet feuillePlacement = wb.getSheet(ExportEtudiant.nomFeuilleEtudiantPlace);
 
+        //Création de l'enTete
+        this.creerEntete(0,3,0,6,examen,feuillePlacement,wb);
+
 
         //Création de la premiére ligne
-        Row row = feuillePlacement.createRow((short)0);
+        Row row = feuillePlacement.createRow((short)6);
 
 
 
@@ -156,12 +165,18 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         row = creerCellules(row,valeurs.length,valeurs,cellStyle);
 
         //Ajout des étudiants a la feuille Excel
-        int nbLignePlace = 1;
-        int nbLigneSignature = 1;
+        int nbLignePlace = 4;
+        int nbLigneSignature = 4;
         for(Salle salle : placement.keySet()){
 
             Sheet feuilleSalle = wb.getSheet(ExportEtudiant.nomFeuilleSignature+"_"+salle.getNom());
-            Row rowFeuilleSalle = feuilleSalle.createRow(0);
+
+            //Création de l'en tête
+            this.creerEntete(0,3,0,6,examen,feuilleSalle,wb);
+
+
+
+            Row rowFeuilleSalle = feuilleSalle.createRow(4);
             String[] valeursPremiereLigneSalle = {"ID","GRP","NOM","PRENOM","SALLE","RANG","PLACE","SIGNATURE"};
             rowFeuilleSalle = creerCellules(rowFeuilleSalle,valeursPremiereLigneSalle.length,valeursPremiereLigneSalle,cellStyle);
 
@@ -190,7 +205,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
                 nbLignePlace++;
                 nbLigneSignature++;
             }
-            nbLigneSignature = 0;
+            nbLigneSignature = 4;
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -208,6 +223,23 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
 
 
+    }
+
+    private void creerEntete(int firstCell,int lastCell,int firstColumn, int lastColumn,Examen examen,Sheet feuille,XSSFWorkbook wb){
+        Row ligneEntete = feuille.createRow(0);
+        Cell celluleEntete = ligneEntete.createCell(0);
+        String texteEntete = "Examen -"+examen.getMatiere()+" - "+examen.getDate()+"Groupe(s) participant(s) :";
+        for(String nomGroupe : examen.groupeParticipant()){
+            texteEntete+=nomGroupe.toUpperCase()+" ";
+        }
+        celluleEntete.setCellValue(texteEntete);
+        feuille.addMergedRegion(new CellRangeAddress(firstCell,lastCell,firstColumn,lastColumn));
+        XSSFCellStyle cellStyle = wb.createCellStyle();
+        Font font = wb.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short)20);
+        cellStyle.setFont(font);
+        celluleEntete.setCellStyle(cellStyle);
     }
 
     private Row creerCellules(Row row, int nb,String[] valeur,XSSFCellStyle cellStyle){

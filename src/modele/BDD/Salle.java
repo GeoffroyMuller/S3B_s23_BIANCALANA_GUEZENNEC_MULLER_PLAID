@@ -2,20 +2,24 @@ package modele.BDD;
 
 
 import modele.Iterateur;
+import vue.VueSalle;
 
+import javax.swing.*;
 import java.net.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Observable;
 
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class Salle.
  */
-public class Salle {
+public class Salle extends Observable {
 
 	/** The nom. */
 	private String nom;
@@ -31,6 +35,15 @@ public class Salle {
 
 	/** The places. */
 	protected Place[][] places;
+
+	/**
+	 * Définition de la largeur par défaut d'une salle dans la visualisation
+	 */
+	public static int DEFAULT_SIZE_ROOM_WIDTH = 10;
+	/**
+	 * Définition de la hauteur par défaut d'une salle dans la visualisation
+	 */
+	public static int DEFAULT_SIZE_ROOM_HEIGHT = 10;
 
 	/**
 	 * Correspond au nombre de place disponible d'une salle, les places indisponible ne sont pas comptées.
@@ -54,12 +67,20 @@ public class Salle {
 		for(int i = 0; i < places.length; i++){
 			for(int j = 0; j < places[0].length; j++){
 				try {
-					this.places[i][j] = new Place(i+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle);
+					this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle,j+"",i+"");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
 		}
+	}
+
+	public Salle(Salle salle){
+		this.nom = salle.getNom();
+		this.nbCaseLargeur = salle.getNbCaseLargeur();
+		this.nbCaseHauteur = salle.getNbCaseHauteur();
+		this.places = salle.places;
+		this.idSalle = salle.getIdSalle();
 	}
 
 	/**
@@ -75,12 +96,20 @@ public class Salle {
 		this.idSalle=idSalle;
 		this.nbCaseHauteur=nbCaseHauteur;
 		this.nbCaseLargeur=nbCaseLargeur;
+	}
 
-		/*try {
-			this.places = Place.tableauPlace(idSalle);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}*/
+	public void modifierNomPlace(int i, int j, String nomPlace,String nomColonne,String nomRangee){
+		Place place = this.places[i][j];
+		this.places[i][j].setNom(nomPlace);
+		this.places[i][j].setNomColonne(nomColonne);
+		this.places[i][j].setNomRangee(nomRangee);
+		setChanged();
+		notifyObservers();
+		this.save();
+	}
+
+	public String toString(){
+		return this.nom;
 	}
 
 	public int compterLeNombreDePlaceDisponible(){
@@ -107,7 +136,7 @@ public class Salle {
 	 */
 	public void getTableauPlaces(int idSalle){
 		try {
-			this.places = new Place[this.nbCaseHauteur][this.nbCaseLargeur];
+			this.places = new Place[this.nbCaseLargeur][this.nbCaseHauteur];
 			this.places = Place.tableauPlace(idSalle);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -162,21 +191,24 @@ public class Salle {
 	 * @return the salle
 	 * @throws SQLException the SQL exception
 	 */
-	public static Salle findById(int id) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM Salle WHERE IdSalle ='"+id+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static Salle findById(int id){
 		Salle res = null;
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
-			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
-			
-			res = new Salle(resNom,id,resNbCaseHauteur,resNbCaseLargeur);
+		try{
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM Salle WHERE IdSalle ='"+id+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
+				int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
+
+				res = new Salle(resNom,id,resNbCaseHauteur,resNbCaseLargeur);
+			}
+		}catch(SQLException e){
+			//EXCEPTION A GERER
 		}
 		return res;
 	}
@@ -188,23 +220,31 @@ public class Salle {
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Salle> findByNom(String nom) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM Salle WHERE nom ='"+nom+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
+	public static Salle findByNom(String nom){
+		Salle res = null;
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM Salle WHERE nom ='"+nom+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
 
-		ArrayList<Salle> res = new ArrayList<Salle>();
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
-			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
-			int resId = rs.getInt("IdSalle");
-			
-			res.add(new Salle(resNom,resId,resNbCaseHauteur,resNbCaseLargeur));
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
+				int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
+				int resId = rs.getInt("IdSalle");
+
+				res=new Salle(resNom,resId,resNbCaseHauteur,resNbCaseLargeur);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			JOptionPane jop = new JOptionPane();
+			jop.showMessageDialog(null,"La connexion à la base de donnée n'a pas pu être établie !","Erreur",JOptionPane.INFORMATION_MESSAGE);
 		}
+
 		return res;
 	}
 	
@@ -260,6 +300,8 @@ public class Salle {
 		else {
 			this.update();
 		}
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -295,6 +337,8 @@ public class Salle {
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
 		}
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -308,10 +352,26 @@ public class Salle {
 					"WHERE IDSalle ='"+this.idSalle+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
+
+			//Mise a jour des places
+			for(int i = 0; i < this.places.length;i++){
+				for(int j = 0; j < this.places[i].length;j++){
+					System.out.println("Mise a jour de la plce");
+					String SQLPrep1 = "UPDATE Place " +
+							"SET NOM = '"+this.places[i][j].getNom()+"', IdTypePlace = '"+this.places[i][j].getIdTypePlace()+"', i = '"+this.places[i][j].getI()+"', j = '"+this.places[i][j].getJ()+"', Disponnible = '"+this.places[i][j].getDisponibleIntVersion()+"', idSalle = '"+this.places[i][j].getIdSalle()
+							+"'"+ "WHERE idPlace ='"+this.places[i][j].getIdPlace()+"';";
+					System.out.println(this.places[i][j].getIdPlace()+" - "+this.places[i][j].getNom());
+
+					PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
+					prep1.execute();
+				}
+			}
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -338,6 +398,8 @@ public class Salle {
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -366,6 +428,8 @@ public class Salle {
 	 */
 	public void setNbCaseLargeur(int nbCaseLargeur) {
 		this.nbCaseLargeur = nbCaseLargeur;
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -380,6 +444,8 @@ public class Salle {
 	 */
 	public void setNbCaseHauteur(int nbCaseHauteur) {
 		this.nbCaseHauteur = nbCaseHauteur;
+		setChanged();
+		notifyObservers();
 	}
 
 	/**
@@ -394,9 +460,141 @@ public class Salle {
 	 */
 	public void setPlaces(Place[][] places) {
 		this.places = places;
+		setChanged();
+		notifyObservers();
 	}
 
 
+	/**
+	 * Permet de changer le Type d'une place de la salle
+	 * @param coordX
+	 * @param coordY
+	 * @param nouveauTypeId
+	 */
+	public void changerLeTypePlace(int coordX, int coordY, int nouveauTypeId){
+		this.places[coordX][coordY].setTypePlace(nouveauTypeId);
+		setChanged();
+		notifyObservers();
+	}
+
+	/**
+	 * Permet de changer la salle actuel par une autre
+	 * @param salle
+	 */
+	public void  changerSalle(Salle salle){
+		this.nom = salle.getNom();
+		this.idSalle = salle.getIdSalle();
+		this.nbCaseLargeur = salle.getNbCaseLargeur();
+		this.nbCaseHauteur=salle.getNbCaseHauteur();
+		salle.getTableauPlaces(salle.idSalle);
+		this.places=salle.getPlaces();
+		setChanged();
+		notifyObservers();
+	}
+
+
+	/**
+	 * Permet de changer les informations de la salle
+	 * @param nom
+	 * @param hauteur
+	 * @param largeur
+	 */
+    public void changerInformation(String nom, int hauteur, int largeur) {
+    	boolean changementDimension = false;
+    	if(!this.nom.contains(nom)){
+			this.nom =nom;
+			VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
+		}
+		if(this.nbCaseHauteur != hauteur){
+			this.nbCaseHauteur = hauteur;
+			 changementDimension = true;
+			VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
+		}
+		if(this.nbCaseLargeur!=largeur){
+			this.nbCaseLargeur = largeur;
+			 changementDimension = true;
+
+			VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
+		}
+		this.idSalle = -1;
+
+		System.out.println("Création de la salle");
+		if(changementDimension){
+			this.places = new Place[hauteur][largeur];
+
+			for(int i = 0; i < hauteur; i++){
+				for(int j = 0; j < largeur; j++){
+					try {
+						this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle,j+"",i+"");
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		setChanged();
+		notifyObservers();
+    }
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Salle salle = (Salle) o;
+		return idSalle == salle.idSalle;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(idSalle);
+	}
+
+	public void renommerLigneAlpha(boolean bashaut){
+    	String[] alpha = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y","Z"};
+    	int nbPassage=1;
+    	String nom="";
+    	int index=0;
+    	if(bashaut){
+    		index = this.nbCaseHauteur-1;
+		}
+    	for(int i = 0; i < this.getPlaces().length;i++){
+    		for(int j = 0; j < this.getPlaces()[i].length;j++){
+				for(int x = 0; x < nbPassage;x++){
+					nom+=alpha[index];
+				}
+				this.getPlaces()[i][j].setNomRangee(nom);
+				this.getPlaces()[i][j].setNom(nom+""+this.getPlaces()[i][j].getNomColonne());
+				this.getPlaces()[i][j].save();
+				nom="";
+				if(alpha.length-1==i){
+					nbPassage++;
+				}
+			}
+			if(bashaut){
+				index--;
+			}else{
+				index++;
+			}
+
+		}
+    	this.save();
+    	this.getTableauPlaces(this.idSalle);
+	}
+
+	public void renommerColonneNumerique(boolean reset){
+    	int numeric = 1;
+		for(int i = 0; i < this.getPlaces().length;i++){
+			for(int j = 0; j < this.getPlaces().length;j++){
+				this.getPlaces()[i][j].setNomColonne(numeric+"");
+				this.getPlaces()[i][j].setNom(this.getPlaces()[i][j].getNomRangee()+""+numeric);
+				this.getPlaces()[i][j].save();
+				numeric++;
+			}
+			if(reset){ numeric=1;}
+		}
+		this.save();
+		this.getTableauPlaces(this.idSalle);
+	}
 
 
 	/**
@@ -469,10 +667,11 @@ public class Salle {
 		@Override
 		public boolean hasPrevious(int pas) {
 			if(j-pas<0){
-				if(i==0){
+				if(i<=0){
 					return false;
 				}
 			}
+
 			return true;
 		}
 
@@ -519,14 +718,13 @@ public class Salle {
 		 */
 		@Override
 		public Object previous() {
-			if(j==0){
+
+			if(j==0 &&!(i==0 && j==0)){
 				this.i--;
 				this.j=nbCaseLargeur-1;
-			}else{
+			}else if(!(i==0 && j==0)){
 				this.j--;
 			}
-
-
 			return places[this.i][this.j];
 		}
 
@@ -571,7 +769,7 @@ public class Salle {
 
 				//On vérifie que la place n'est pas une allee ou une place cassé
 				//Si la place n'est pas disponible alors on recule d'une case
-				if(!(places[this.i][this.j].getDisponnible())){
+				if(!(places[this.i][this.j].getDisponnible()) && !places[this.i][this.j].verifiersiPlaceCassee()){
 					place = (Place)this.previous();
 				}
 			}
@@ -601,7 +799,13 @@ public class Salle {
 		 */
 		@Override
 		public Object actual() {
-			return salle.getPlaces()[i][j];
+			Place place = null;
+			try {
+				place = salle.getPlaces()[i][j];
+			}catch(NullPointerException e){
+				System.out.println("TEST");
+			}
+			return place;
 		}
 
 		/* (non-Javadoc)

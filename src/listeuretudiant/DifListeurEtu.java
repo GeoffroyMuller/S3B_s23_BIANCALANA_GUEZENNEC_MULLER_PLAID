@@ -28,8 +28,8 @@ public class DifListeurEtu extends JSplitPane{
 	private JScrollPane jspRight;
 	private ConstructeurListeModelCategorie constructeurLMC;
 	private ConstructeurDataEtudiant constructeurDATACOL;
-	AfficheurTree afftree;
-	JTable tabledata;
+	private AfficheurTree afftree;
+	private JTable tabledata;
 
 
 

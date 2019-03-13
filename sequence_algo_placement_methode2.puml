@@ -1,0 +1,39 @@
+@startuml
+participant Examen
+
+activate Examen
+--> Examen : placerEleves()
+Examen --> Examen : filtrerEleves() (On enléve les étudiants non pris en compte)
+Examen --> Examen : Collection.sort(listeEtu) (On place les éléves en situation de handicap au début de la liste)
+Examen --> Examen : Initialisation de l'iterateur de salle
+
+loop listeEtu.size() != 0
+alt Il y à encore des étudiants en situation de handicap
+Examen-->Examen : prendre l'étudiant de début de liste
+else
+Examen-->Examen : choix d'un étudiant au hasard
+end
+
+alt La place est disponible et n'est pas attribuée
+
+    alt verifierPlacement(att) || nbEssai>listeEtu.size()
+    Examen --> Examen : Association de la place à l'étudiant
+    Examen --> Examen : On retire l'étudiant de la liste
+    alt La salle posséde encore des places
+    Examen --> Examen : Prendre la prochaine place
+    else La salle n'a plus de place
+    Examen-->Examen : Changer de salle
+    end
+    else Il y a un conflit de groupe
+    Examen --> Examen : On test avec un autre etudiant
+    Examen --> Examen : nbEssai+1
+    end
+else La place n'est pas disponible
+    alt La salle à encore des places
+    Examen --> Examen : Prendre la prochaine place
+    else La salle n'a plus de place
+    Examen --> Examen : Changer de Salle
+    end
+end
+end
+@enduml

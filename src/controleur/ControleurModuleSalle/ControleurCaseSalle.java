@@ -1,36 +1,238 @@
 package controleur.ControleurModuleSalle;
 
-import modele.BDD.Place;
-import modele.BDD.TypePlace;
+import controleur.ModificationNomPlaceDialog;
+import controleur.ModificationNomPlaceDialogInfo;
+import modele.BDD.*;
+import modele.Examen;
+import vue.VueSalle;
+import vue_Examen.DialogVerificationPlacement;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-public class ControleurCaseSalle extends JButton implements ActionListener {
+public class ControleurCaseSalle extends JButton implements ActionListener, Observer {
     private Color couleurCase;
+    private Color couleurCaseBase;
     private int i,j; //i = hauteur / y=largeur
-    public static int WIDTH = 40;
-    public static int HEIGHT = 40;
+    public static int WIDTH = 30;
+    public static int HEIGHT = 30;
+    private Salle salle;
+    private VueSalle vueSalle;
+    private boolean changementCouleur;
+    //Utilisée lors de la verification du placement
+    private DialogVerificationPlacement boiteDialogue;
+    private Examen examen;
 
-    public ControleurCaseSalle(Color c, int i, int j){
+    public static boolean MOUSE_DOWN = false;
+
+    public ControleurCaseSalle(Color c, int i, int j,Salle salle, DialogVerificationPlacement dialog, Examen examen){
         super();
+        this.examen = examen;
+        this.changementCouleur=true;
+        this.salle = salle;
+        this.i = i;
+        this.j = j;
+        this.couleurCase = c;
+        this.couleurCaseBase = c;
+
+
+        //Couleur situation de handicap
+        Etudiant etudiant = examen.placement.get(salle).get(salle.getPlaces()[i][j]);
+        ArrayList<Particularite> particulariteEtudiant = new ArrayList<Particularite>();
+        try{
+            particulariteEtudiant = etudiant.getParticularites();
+            if(particulariteEtudiant.size() == 0){
+                this.couleurCase = new Color(0x11D6FC);
+                this.couleurCaseBase = new Color(0x11D6FC);
+            }else{
+                for(Particularite p : particulariteEtudiant){
+                    if(p.getNom().contains("Situation de handicap (Prise en compte)")){
+                        this.couleurCase = new Color(0x7800AE);
+                        this.couleurCaseBase = new Color(0x7800AE);
+                    }else{
+                        this.couleurCase = new Color(0x11D6FC);
+                        this.couleurCaseBase = new Color(0x11D6FC);
+                    }
+                }
+            }
+
+
+        }catch(NullPointerException e){
+
+        }
+
+
+
+        this.boiteDialogue = dialog;
+        setContentAreaFilled(false);
+        this.setBackground(this.couleurCase);
+
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                Etudiant etudiant = examen.placement.get(salle).get(salle.getPlaces()[i][j]);
+                try{
+                    boiteDialogue.modifierInformationEtudiant(etudiant.getPrenom(),etudiant.getNom(),salle.getPlaces()[i][j],etudiant.getGroupe());
+                }catch(NullPointerException exception){
+                    boiteDialogue.modifierInformationEtudiant("Non occupée","Non occupée",salle.getPlaces()[i][j],"Non occupée");
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+    }
+
+    public ControleurCaseSalle(Color c, int i, int j, Salle salle){
+        super();
+        this.salle = salle;
         this.i = i;
         this.j = j;
         this.couleurCase = c;
         setContentAreaFilled(false);
 
-       /* this.setPreferredSize(new Dimension(WIDTH,HEIGHT));
-        this.setMinimumSize(new Dimension(WIDTH,HEIGHT));
-        this.setMaximumSize(new Dimension(WIDTH,HEIGHT));*/
-       //this.setSize(new Dimension(WIDTH,HEIGHT));
-        // this.setForeground(this.couleurCase);
        this.setBackground(this.couleurCase);
-       this.addActionListener(this);
+
+
+       this.addMouseListener(new MouseListener() {
+           @Override
+           public void mouseClicked(MouseEvent e) {
+
+
+           }
+
+           @Override
+           public void mousePressed(MouseEvent e) {
+
+               if(SwingUtilities.isRightMouseButton(e)){
+
+                   Place place = salle.getPlaces()[i][j];
+                   ModificationNomPlaceDialog dialog = new ModificationNomPlaceDialog(null,"Changement de nom",true,place);
+                   ModificationNomPlaceDialogInfo infos = dialog.afficherDialog();
+                   try {
+                       salle.modifierNomPlace(i, j, infos.getNouveauNom(), infos.getNomColonne(), infos.getNomRangee());
+                   }catch(NullPointerException ex){
+                   }
+               }else{
+                   ControleurCaseSalle.MOUSE_DOWN =true;
+
+                   Color couleur = new Color(0);
+                   String typePlace = ControleurRadioBoutons.placeSelectionnee;
+                   switch(typePlace){
+                       case "place":
+                           couleur = TypePlace.couleurPlace;
+                           break;
+                       case "placeInutillisable":
+                           couleur = TypePlace.couleurPlaceInutilisable;
+                           break;
+                       case "allee":
+                           couleur= TypePlace.couleurAllee;
+                           break;
+                   }
+                   try {
+                       TypePlace tp = TypePlace.findByNom(typePlace);
+                       Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
+                       salle.changerLeTypePlace(i,j,tp.getIdTypePlace());
+                       //VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+                       VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
+                   } catch (SQLException e1) {
+                       e1.printStackTrace();
+                   }
+                   couleurCase = couleur;
+                   repaint();
+
+               }
+
+
+
+           }
+
+           @Override
+           public void mouseReleased(MouseEvent e) {
+            ControleurCaseSalle.MOUSE_DOWN = false;
+               System.out.println("MOUSE RELEASED");
+           }
+
+           @Override
+           public void mouseEntered(MouseEvent e) {
+                int mask = MouseEvent.BUTTON1_DOWN_MASK;
+               if(mask == e.getModifiersEx()){
+                    Color couleur = new Color(0);
+                    String typePlace = ControleurRadioBoutons.placeSelectionnee;
+                    switch(typePlace){
+                        case "place":
+                            couleur = TypePlace.couleurPlace;
+                            break;
+                        case "placeInutillisable":
+                            couleur = TypePlace.couleurPlaceInutilisable;
+                            break;
+                        case "allee":
+                            couleur= TypePlace.couleurAllee;
+                            break;
+                    }
+                    try {
+                        TypePlace tp = TypePlace.findByNom(typePlace);
+                        Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
+                        salle.changerLeTypePlace(i,j,tp.getIdTypePlace());
+                        //VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+                        VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
+
+                    } catch (SQLException e1) {
+                        e1.printStackTrace();
+                    }
+                    couleurCase = couleur;
+
+
+
+                    repaint();
+                }
+
+               try{
+                   vueSalle.mettreAJourInfoPlace(salle.getPlaces()[i][j].getNomRangee(),salle.getPlaces()[i][j].getNomColonne());
+               }catch(NullPointerException exception){
+                   vueSalle.mettreAJourInfoPlace("ERREUR","ERREUR");
+
+               }
+
+           }
+
+           @Override
+           public void mouseExited(MouseEvent e) {
+                ControleurCaseSalle.MOUSE_DOWN = false;
+           }
+       });
+
+    }
+
+
+    public Color getCouleurCaseBase() {
+        return couleurCaseBase;
+    }
+
+    public void setCouleurCaseBase(Color couleurCaseBase) {
+        this.couleurCaseBase = couleurCaseBase;
     }
 
 
@@ -52,12 +254,13 @@ public class ControleurCaseSalle extends JButton implements ActionListener {
         try {
             TypePlace tp = TypePlace.findByNom(typePlace);
             Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
-            places[this.i][this.j].setTypePlace(tp.getIdTypePlace());
+            this.salle.changerLeTypePlace(this.i,this.j,tp.getIdTypePlace());
+            VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
         } catch (SQLException e1) {
             e1.printStackTrace();
         }
         this.couleurCase = couleur;
-        repaint();
+        //repaint();
     }
 
 
@@ -72,5 +275,59 @@ public class ControleurCaseSalle extends JButton implements ActionListener {
         g2.dispose();
 
         super.paintComponent(g);
+    }
+
+    public Color getCouleurCase() {
+        return couleurCase;
+    }
+
+    public void switchColor(Color color){
+        if(this.changementCouleur){
+            this.setCouleurCase(color);
+            this.changementCouleur=false;
+        }else{
+            this.setCouleurCase(this.couleurCaseBase);
+            this.changementCouleur=true;
+        }
+        repaint();
+    }
+
+    public void setCouleurCase(Color couleurCase) {
+        this.couleurCase = couleurCase;
+        repaint();
+    }
+
+    public int getI() {
+        return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
+    }
+
+    public int getJ() {
+        return j;
+    }
+
+    public void setJ(int j) {
+        this.j = j;
+    }
+
+    public Salle getSalle() {
+        return salle;
+    }
+
+    public void setSalle(Salle salle) {
+        this.salle = salle;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("UPDATE");
+        this.salle = Salle.findById(this.salle.getIdSalle());
+    }
+
+    public void ajouterVueSalle(VueSalle vueSalle){
+        this.vueSalle = vueSalle;
     }
 }

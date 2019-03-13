@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Indicateur extends JPanel {
     public static int HAUTEUR = 30;
-    public static int LARGEUR = 100;
+    public static int LARGEUR = 30;
     public static int X = 20;
     public static int Y = 60;
 

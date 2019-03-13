@@ -34,7 +34,6 @@ public class PanelListeurCategorie extends JPanel{
 	private JPanel jp_all;
 	private JPanel jp_categorie;
 	private ArrayList<JPanel> liste_jp_groupe;
-	private ArrayList<JPanel> liste_jb_groupe;
 	private MouseListener ml;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Categorie categorie;	//categorie correspondant a this
@@ -69,7 +68,7 @@ public class PanelListeurCategorie extends JPanel{
 		gbcp.insets = new Insets(0, 0, 0, 45);
 		gbcp.weightx = 0;
 		gbcp.weighty = 0;
-		jp_categorie.add(new JLabel("Groupe Participant : 0/"+categ.getListGroupe().size()+""), gbcp);
+		jp_categorie.add(new JLabel("Groupe Participant : /"+categ.getListGroupe().size()+""), gbcp);
 		
 		jp_categorie.setBackground(Color.WHITE);
 		

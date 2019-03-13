@@ -2,42 +2,75 @@ package vue;
 
 import controleur.ControleurBoutonsPartieSalle;
 import controleur.ControleurModuleSalle.ControleurCaseSalle;
+import controleur.ControleurModuleSalle.ControleurModifierNomSalle;
 import controleur.ControleurModuleSalle.ControleurRadioBoutons;
 import controleur.ControleurModuleSalle.ControleurSauvegardeSalle;
+import controleur.OutilsSalleDialog;
 import modele.BDD.Etudiant;
+import modele.BDD.Place;
 import modele.BDD.Salle;
+import modele.BDD.TypePlace;
+import modele.Examen;
+import modele.ProprietesCaseSalle;
 import vue.ComposantVueSalle.Indicateur;
+import vue_Examen.DialogVerificationPlacement;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
-public class VueSalle extends JPanel {
-	private JScrollPane containerDeLaListeJScroll, visualisationSalle;
+public class VueSalle extends JPanel implements Observer {
+	private JScrollPane containerDeLaListeJScroll;
+	private /*JPanel*/JScrollPane visualisationSalle;
 	private JPanel contenantPartieGauche;
 	private JPanel contenantMilieu;
+	private Salle salle;
+	private JPanel salleConstruite;
+	private JLabel nomRangee,nomColonne;
+
+
+	private DefaultListModel<Salle> dlm;
+
+	private JLabel labelDeLaListe;
+
+	public static Salle salleSelectionne;
 
 	/**
-	 * Définition de la largeur par défaut d'une salle dans la visualisation
+	 * Correspond a la partie qui doit être mise à jour, (1 = partie gauche, 2= milieu, 3=partie de droite)
 	 */
-	public static int DEFAULT_SIZE_ROOM_WIDTH = 10;
-	/**
-	 * Définition de la hauteur par défaut d'une salle dans la visualisation
-	 */
-	public static int DEFAULT_SIZE_ROOM_HEIGHT = 10;
+	public static int partieAUpdate;
+
+	private JList<Salle> listeDesSalles;
+
+	public static int UPDATE_PARTIE_LISTE_SALLE = 1;
+	public static int UPDATE_PARTIE_AFFICHAGE_SALLE = 2;
+	public static int UPDATE_AJOUT_SALLE = 3;
+	public static int UPDATE_ALL = -1;
+	public static int UPDATE_NOTHING = 0;
+
+
+
 
 	/**
 	 * Constructeur de la vue salle, construit également les controleurs necessaires (ControleurCaseSalle et ControleurRadioBoutons)
 	 */
-	public VueSalle(){
+	public VueSalle(Salle salleModele){
+		this.salle = salleModele;
 		this.setLayout(new BorderLayout());
 
 		//Jpanel contenant le JLabel
@@ -49,7 +82,7 @@ public class VueSalle extends JPanel {
 		//Partie de gauche Liste des salles
 
 		//JLABEL
-		JLabel labelDeLaListe = new JLabel("Listes des Salles :",SwingConstants.CENTER);
+		labelDeLaListe = new JLabel("Listes des Salles :",SwingConstants.CENTER);
 		labelDeLaListe.setFont(new Font("Serial",Font.PLAIN,14));
 		labelDeLaListe.setBorder(BorderFactory.createLineBorder(new Color(0),1));
 		labelDeLaListe.setOpaque(true);
@@ -57,23 +90,52 @@ public class VueSalle extends JPanel {
 		labelDeLaListe.setForeground(new Color(0xFAFFF1));
 
 		//Composant de la visualisation des listes des groupes
-		JList<Etudiant> listeDesSalles = new JList<Etudiant>();
+		dlm = new DefaultListModel<Salle>();
+		try {
+			for(Salle s : Salle.listSalle()){
+				dlm.addElement(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		this.listeDesSalles = new JList<Salle>(dlm);
+		try{
+			VueSalle.salleSelectionne = dlm.firstElement();
+		}catch(NoSuchElementException e){
+			VueSalle.salleSelectionne = null;
+		}
+		listeDesSalles.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+				VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
+				String nomSalle = listeDesSalles.getSelectedValue().getNom();
+				System.out.println("Nom de la salle selectionne : "+nomSalle);
+				Salle salleSelectionne = Salle.findByNom(nomSalle);
+				salle.changerSalle(salleSelectionne);
+			}
+		});
+
 		this.containerDeLaListeJScroll = new JScrollPane(listeDesSalles);
 
 		//Ajout dans un conteneur
 		contenantPartieGauche = new JPanel();
 		//contenantPartieGauche.setBorder(new EmptyBorder(0,20,0,0));
 		contenantPartieGauche.setLayout(new BorderLayout());
-		contenantPartieGauche.setPreferredSize(new Dimension(300,this.getHeight()));
+		contenantPartieGauche.setPreferredSize(new Dimension(200,this.getHeight()));
 		contenantPartieGauche.add(labelDeLaListe,BorderLayout.NORTH);
 		contenantPartieGauche.add(containerDeLaListeJScroll,BorderLayout.CENTER);
 
 		//Creation du controleur
-		ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle();
+		ControleurBoutonsPartieSalle boutons = new ControleurBoutonsPartieSalle(this.salle);
 
 		//Partie visualisation de la liste (Partie du milieux)
-		this.visualisationSalle = new JScrollPane(this.construireSalle(DEFAULT_SIZE_ROOM_WIDTH,DEFAULT_SIZE_ROOM_HEIGHT));
-		this.visualisationSalle.setPreferredSize(new Dimension(500,500));
+		this.salleConstruite = this.construireSalle(this.salle);
+		this.visualisationSalle = new JScrollPane(this.salleConstruite);
+		//this.visualisationSalle = this.construireSalle(this.salle);
+		this.visualisationSalle.setPreferredSize(new Dimension(930,600));
+		//this.visualisationSalle.setPreferredSize(new Dimension(800,500));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
 		this.contenantMilieu.setLayout(new GridBagLayout());
@@ -112,7 +174,7 @@ public class VueSalle extends JPanel {
 		//Partie selection (Partie de droite)
 		//Composant Indications
 		JPanel indications = new Indicateur();
-		indications.setPreferredSize(new Dimension(300,200));
+		indications.setPreferredSize(new Dimension(400,200));
 		//Composant Edition
 		JPanel editionPan = new JPanel();
 		editionPan.setLayout(new BorderLayout());
@@ -127,21 +189,57 @@ public class VueSalle extends JPanel {
 		partieEdition.add(editionBoutons,BorderLayout.WEST);
 		partieEdition.add(new Indicateur(), BorderLayout.CENTER);
 
-		JButton sauvegarde = new ControleurSauvegardeSalle();
+		JButton sauvegarde = new ControleurSauvegardeSalle(salle);
+		JButton modifierInfo = new ControleurModifierNomSalle(salle);
+
+		sauvegarde.setPreferredSize(new Dimension(200,20));
 
 		JPanel containerBouton = new JPanel();
+		JPanel panelBoutons = new JPanel();
+		panelBoutons.setLayout(new GridBagLayout());
+		JButton outils = new JButton("Outils");
+		outils.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				OutilsSalleDialog outilsSalleDialog = new OutilsSalleDialog(null,"Outils Salle",true,salle);
+				outilsSalleDialog.afficherDialog();
+			}
+		});
+		GridBagConstraints gbcv2 = new GridBagConstraints();
+
+		gbcv2.gridx = 0;
+		gbcv2.gridy = 0;
+		gbcv2.anchor = GridBagConstraints.LINE_START;
+		panelBoutons.add(sauvegarde,gbcv2);
+		gbcv2.gridy=1;
+		panelBoutons.add(modifierInfo,gbcv2);
+
+		gbcv2.insets = new Insets(10,0,5,0);
+		gbcv2.gridy=2;
+		panelBoutons.add(outils,gbcv2);
+
+		//PARTIE NOM PLACE
+		this.nomColonne = new JLabel("Nom colonne : ");
+		this.nomRangee = new JLabel("Nom rangee : ");
+		//END PARTIE NOM PLACE
+
+		gbcv2.gridy=3;
+		panelBoutons.add(this.nomRangee,gbcv2);
+		gbcv2.gridy=4;
+		panelBoutons.add(this.nomColonne,gbcv2);
+
 		containerBouton.setLayout(new BorderLayout());
-		containerBouton.setPreferredSize(new Dimension(300,460));
-		containerBouton.add(sauvegarde,BorderLayout.NORTH);
+		containerBouton.setPreferredSize(new Dimension(250,460));
+		containerBouton.add(panelBoutons,BorderLayout.NORTH);
+
+
+
 
 		editionPan.add(edition, BorderLayout.NORTH);
 		editionPan.add(partieEdition, BorderLayout.CENTER);
 		editionPan.add(containerBouton,BorderLayout.SOUTH);
-		editionPan.setPreferredSize(new Dimension(300,300));
+		editionPan.setPreferredSize(new Dimension(250,300));
 		editionPan.setBorder(new EmptyBorder(20,10,0,10));
-
-
-
 
 
 
@@ -159,9 +257,9 @@ public class VueSalle extends JPanel {
 
 	@Override
 	public void paintComponent(Graphics g){
-		this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/5, this.getParent().getHeight()));
-		this.visualisationSalle.setPreferredSize(new Dimension(this.getParent().getWidth()/3,this.getParent().getWidth()/3));
 		super.paintComponent(g);
+		//this.contenantPartieGauche.setPreferredSize(new Dimension( (this.getParent().getWidth())/5, this.getParent().getHeight()));
+		//this.visualisationSalle.setPreferredSize(new Dimension((this.getWidth()-(480)),(this.getHeight()-130)));
 
 	}
 
@@ -174,41 +272,130 @@ public class VueSalle extends JPanel {
 	 * @return
 	 *      JPanel contenant la représentation de la salle
 	 */
-	 private JPanel construireSalle(int x, int y){
-	 	Salle salle = new Salle("Sans nom",x,y);
-        JPanel contenant = new JPanel();
-		 contenant.setLayout(new GridBagLayout());
-		 GridBagConstraints gbc = new GridBagConstraints();
-		 gbc.gridx= gbc.gridy = 0;
-		 gbc.gridheight = gbc.gridwidth = 1;
+	private JPanel construireSalle(int x, int y){
+		Salle salle = new Salle("Sans nom",x,y);
+		JPanel contenant = new JPanel();
+		contenant.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx= gbc.gridy = 0;
+		gbc.gridheight = gbc.gridwidth = 1;
 		gbc.insets = new Insets(2,2,0,2);
-		 for(int i = 0; i < y;i++){
-            for(int j = 0; j < x;j++){
-            	JPanel jpBouton = new JPanel();
-            	jpBouton.setLayout(new BorderLayout());
-            	jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j));
-            	jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
-                contenant.add(jpBouton,gbc);
-                gbc.gridx++;
-            }
-            gbc.gridy++;
-            gbc.gridx=0;
-        }
-        return contenant;
-    }
+		for(int i = 0; i < y;i++){
+			for(int j = 0; j < x;j++){
+				JPanel jpBouton = new JPanel();
+				jpBouton.setLayout(new BorderLayout());
+				jpBouton.add(new ControleurCaseSalle(new Color(0xB11000),i,j,this.salle));
+				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
+				contenant.add(jpBouton,gbc);
+				gbc.gridx++;
+			}
+			gbc.gridy++;
+			gbc.gridx=0;
+		}
+		return contenant;
+	}
 
-    /**
+	public static ProprietesCaseSalle construireSalleDialogBox(Salle salle, DialogVerificationPlacement dialog, Examen examen){
+		JPanel contenant = new JPanel();
+		contenant.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx= gbc.gridy = 0;
+		gbc.gridheight = gbc.gridwidth = 1;
+		gbc.insets = new Insets(2,2,0,2);
+		ArrayList<ControleurCaseSalle> liste= new ArrayList<ControleurCaseSalle>();
+		for(int i = 0; i < salle.getNbCaseHauteur();i++){
+			for(int j = 0; j < salle.getNbCaseLargeur();j++){
+				JPanel jpBouton = new JPanel();
+				jpBouton.setLayout(new BorderLayout());
+				Place place = salle.getPlaces()[i][j];
+				TypePlace typePlace = TypePlace.findById(place.getIdTypePlace());
+				Color couleurPlace = null;
+				couleurPlace = TypePlace.trouverCouleurPlace(typePlace.getNom());
+				ControleurCaseSalle controleur = new ControleurCaseSalle(couleurPlace,i,j,salle,dialog,examen);
+				liste.add(controleur);
+				place.addObserver(controleur);
+				jpBouton.add(controleur);
+				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
+				contenant.add(jpBouton,gbc);
+				gbc.gridx++;
+			}
+			gbc.gridy++;
+			gbc.gridx=0;
+		}
+		return new ProprietesCaseSalle(contenant,liste);
+	}
+
+	private JPanel construireSalle(Salle salle){
+		JPanel contenant = new JPanel();
+		contenant.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx= gbc.gridy = 0;
+		gbc.gridheight = gbc.gridwidth = 1;
+		gbc.insets = new Insets(2,2,0,2);
+		for(int i = 0; i < salle.getNbCaseHauteur();i++){
+			for(int j = 0; j < salle.getNbCaseLargeur();j++){
+				JPanel jpBouton = new JPanel();
+				jpBouton.setLayout(new BorderLayout());
+				Place place = salle.getPlaces()[i][j];
+				int idTypePlace = place.getIdTypePlace();
+				TypePlace typePlace = TypePlace.findById(place.getIdTypePlace());
+				Color couleurPlace = TypePlace.trouverCouleurPlace(typePlace.getNom());
+				ControleurCaseSalle controleur = new ControleurCaseSalle(couleurPlace,i,j,this.salle);
+				controleur.ajouterVueSalle(this);
+				place.addObserver(controleur);
+				jpBouton.add(controleur);
+				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
+				contenant.add(jpBouton,gbc);
+				gbc.gridx++;
+			}
+			gbc.gridy++;
+			gbc.gridx=0;
+		}
+		return contenant;
+	}
+
+	/**
 	 * Applique les styles de polices aux labels
 	 * @param label
 	 * @return
 	 */
-	 private JLabel applicationStylePolice(JLabel label){
-        label.setFont(new Font("Serial",Font.PLAIN,14));
-        label.setBorder(BorderFactory.createLineBorder(new Color(0),1));
-        label.setOpaque(true);
-        label.setBackground(new Color(0x656565));
-        label.setForeground(new Color(0xFAFFF1));
-        return label;
-    }
+	private JLabel applicationStylePolice(JLabel label){
+		label.setFont(new Font("Serial",Font.PLAIN,14));
+		label.setBorder(BorderFactory.createLineBorder(new Color(0),1));
+		label.setOpaque(true);
+		label.setBackground(new Color(0x656565));
+		label.setForeground(new Color(0xFAFFF1));
+		return label;
+	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		this.salle = (Salle)o;
+		int oldValueScrollBarH = this.visualisationSalle.getHorizontalScrollBar().getValue();
+		int oldValueScrollBarV = this.visualisationSalle.getVerticalScrollBar().getValue();
+
+		if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL) {
+			this.salleConstruite = this.construireSalle(this.salle);
+			this.visualisationSalle.setViewportView(this.salleConstruite);
+			this.visualisationSalle.getHorizontalScrollBar().setValue(oldValueScrollBarH);
+			this.visualisationSalle.getVerticalScrollBar().setValue(oldValueScrollBarV);
+			/*this.revalidate();
+			this.repaint();*/
+		}
+
+
+		if(partieAUpdate == VueSalle.UPDATE_AJOUT_SALLE){
+			Salle salle = new Salle(this.salle);
+			this.dlm.addElement(salle);
+			listeDesSalles.setSelectedIndex(this.dlm.indexOf(salle));
+			contenantPartieGauche.revalidate();
+			contenantPartieGauche.repaint();
+			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+		}
+	}
+
+	public  void mettreAJourInfoPlace(String nomRangee, String nomColonne){
+		this.nomRangee.setText("Nom rangée : "+nomRangee);
+		this.nomColonne.setText("Nom colonne : "+nomColonne);
+	}
 }
