@@ -2,6 +2,7 @@ package vue;
 
 import modele.BDD.Salle;
 import modele.Examen;
+import module_etudiant.VueModuleEtudiant;
 import vue_Examen.VueExamen;
 
 import javax.swing.*;
@@ -39,7 +40,8 @@ public class VueOngletModules extends JPanel implements Observer {
 		this.setLayout(null);
 		this.onglets.setBounds(0,0,800,1000);
 		this.onglets.add("Examen", moduleExamen);
-		this.onglets.add("Etudiants",moduleEtudiant);
+		//this.onglets.add("Etudiants",moduleEtudiant);
+		this.onglets.add("Etudiants",new VueModuleEtudiant());
 
 		this.moduleSalle = new VueSalle(salle);
 		//salle.addObserver(this);

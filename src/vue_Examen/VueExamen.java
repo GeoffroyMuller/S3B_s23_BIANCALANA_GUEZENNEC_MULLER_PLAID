@@ -213,13 +213,7 @@ public class VueExamen extends JPanel implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
-				try {
-					((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-					System.out.println("ERROOOOOOOOR");
-				}
+				((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
 
 				colorer(Color.red);
 				/*try {
@@ -332,12 +326,7 @@ public class VueExamen extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		try {
-			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
 		colorer(color);
 	}
 
