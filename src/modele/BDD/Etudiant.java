@@ -211,20 +211,27 @@ public class Etudiant implements Comparable<Etudiant>  {
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Etudiant> listEtudiant() throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM ETUDIANT;";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static ArrayList<Etudiant> listEtudiant() {
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			String resPrenom = rs.getString("prenom");
-			int resId = rs.getInt("idEtu");
-			res.add(new Etudiant(resNom, resPrenom, resId));
+
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM ETUDIANT;";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				String resPrenom = rs.getString("prenom");
+				int resId = rs.getInt("idEtu");
+				res.add(new Etudiant(resNom, resPrenom, resId));
+			}
+		}catch(SQLException e){
+			/*
+			TO DO
+			 */
 		}
 		return res;
 	}

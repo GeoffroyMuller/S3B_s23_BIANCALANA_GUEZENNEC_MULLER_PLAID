@@ -1,0 +1,92 @@
+@startuml
+
+class DBConnection{
+String serverName
+String userName
+String password
+String dbName
+String url
+
+private DBConnection()
+public static synchronized getConnection() : Connection
+public static void changerDB(String)
+}
+
+class Categorie{
+findById(int)
+findByName(String)
+createTable()
+deleteTable()
+save()
+update()
+saveDB()
+}
+
+class Etudiant{
+findById(int)
+findByName(String)
+createTable()
+deleteTable()
+save()
+update()
+saveDB()
+}
+
+class Groupe{
+findById(int)
+findByName(String)
+createTable()
+deleteTable()
+save()
+update()
+saveDB()
+}
+
+class Particularite{
+findById(int)
+findByName(String)
+createTable()
+deleteTable()
+save()
+update()
+saveDB()
+}
+
+class Salle{
+findById(int)
+findByName(String)
+createTable()
+deleteTable()
+save()
+update()
+saveDB()
+}
+
+class Place{
+findById(int)
+findByName(String)
+createTable()
+deleteTable()
+save()
+update()
+saveDB()
+}
+
+class TypePlace{
+findById(int)
+findByName(String)
+createTable()
+deleteTable()
+save()
+update()
+saveDB()
+}
+
+Categorie --> DBConnection
+Place --> DBConnection
+TypePlace --> DBConnection
+Etudiant --> DBConnection
+Groupe --> DBConnection
+Particularite --> DBConnection
+Salle --> DBConnection
+@enduml

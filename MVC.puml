@@ -1,0 +1,34 @@
+@startuml
+
+class Salle{
+
+}
+
+class Examen{
+}
+
+class VueSalle{
+}
+
+class VueExamen{
+}
+
+class ControleurSalle{
+}
+
+class ControleurExamen{
+}
+
+
+class Observable <<Java>>
+interface Observer <<Java>>
+
+Salle --> Observable
+Examen --> Observable
+VueSalle ..|> Observer
+VueExamen ..|> Observer
+VueSalle --> Salle
+VueExamen --> Examen
+ControleurExamen --> Examen
+ControleurSalle --> Salle
+@enduml

@@ -201,19 +201,25 @@ public class Categorie{
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Categorie> getlistCategorie() throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM CATEGORIE;";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static ArrayList<Categorie> getlistCategorie() {
 		ArrayList<Categorie> res = new ArrayList<Categorie>();
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			int resId = rs.getInt("idCategorie");
-			res.add(new Categorie(resNom,resId));
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM CATEGORIE;";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resId = rs.getInt("idCategorie");
+				res.add(new Categorie(resNom, resId));
+			}
+		}catch(SQLException e){
+			/*
+			TO DO
+			 */
 		}
 		return res;
 	}

@@ -452,6 +452,17 @@ public class Place extends Observable {
 		return res;
 	}
 
+public boolean verifiersiPlaceCassee(){
+		TypePlace tp = TypePlace.findById(this.getIdTypePlace());
+		boolean res=true;
+		if(tp.getNom().equals("placeInutillisable")){
+			res = true;
+		}else{
+			res=false;
+		}
+		return res;
+}
+
 	public void setDisponnible(int disponnible) {
 		this.disponnible = disponnible;
 	}

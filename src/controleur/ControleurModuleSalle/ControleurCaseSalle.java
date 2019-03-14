@@ -22,6 +22,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
     public static int WIDTH = 30;
     public static int HEIGHT = 30;
     private Salle salle;
+    private VueSalle vueSalle;
     private boolean changementCouleur;
     //Utilisée lors de la verification du placement
     private DialogVerificationPlacement boiteDialogue;
@@ -29,7 +30,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
 
     public static boolean MOUSE_DOWN = false;
 
-    public ControleurCaseSalle(Color c, int i, int j, Salle salle, DialogVerificationPlacement dialog, Examen examen){
+    public ControleurCaseSalle(Color c, int i, int j,Salle salle, DialogVerificationPlacement dialog, Examen examen){
         super();
         this.examen = examen;
         this.changementCouleur=true;
@@ -45,12 +46,22 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         ArrayList<Particularite> particulariteEtudiant = new ArrayList<Particularite>();
         try{
             particulariteEtudiant = etudiant.getParticularites();
-            for(Particularite p : particulariteEtudiant){
-                if(p.getNom().contains("Situation de handicap (Prise en compte)")){
-                    this.couleurCase = new Color(0x7800AE);
-                    this.couleurCaseBase = new Color(0x7800AE);
+            if(particulariteEtudiant.size() == 0){
+                this.couleurCase = new Color(0x11D6FC);
+                this.couleurCaseBase = new Color(0x11D6FC);
+            }else{
+                for(Particularite p : particulariteEtudiant){
+                    if(p.getNom().contains("Situation de handicap (Prise en compte)")){
+                        this.couleurCase = new Color(0x7800AE);
+                        this.couleurCaseBase = new Color(0x7800AE);
+                    }else{
+                        this.couleurCase = new Color(0x11D6FC);
+                        this.couleurCaseBase = new Color(0x11D6FC);
+                    }
                 }
             }
+
+
         }catch(NullPointerException e){
 
         }
@@ -103,6 +114,8 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         setContentAreaFilled(false);
 
        this.setBackground(this.couleurCase);
+
+
        this.addMouseListener(new MouseListener() {
            @Override
            public void mouseClicked(MouseEvent e) {
@@ -114,22 +127,15 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
            public void mousePressed(MouseEvent e) {
 
                if(SwingUtilities.isRightMouseButton(e)){
-                   System.out.println("CLique droit !");
 
                    Place place = salle.getPlaces()[i][j];
-                   System.out.println("ID PLace : "+place.getIdPlace());
                    ModificationNomPlaceDialog dialog = new ModificationNomPlaceDialog(null,"Changement de nom",true,place);
                    ModificationNomPlaceDialogInfo infos = dialog.afficherDialog();
                    try {
                        salle.modifierNomPlace(i, j, infos.getNouveauNom(), infos.getNomColonne(), infos.getNomRangee());
                    }catch(NullPointerException ex){
-                       System.out.println("Aucun changement");
                    }
-                   /*place.setNom(infos.getNouveauNom());
-                   place.save();
-                   salle.save();*/
                }else{
-                   System.out.println("MOUSE PRESSED");
                    ControleurCaseSalle.MOUSE_DOWN =true;
 
                    Color couleur = new Color(0);
@@ -197,8 +203,19 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                         e1.printStackTrace();
                     }
                     couleurCase = couleur;
+
+
+
                     repaint();
                 }
+
+               try{
+                   vueSalle.mettreAJourInfoPlace(salle.getPlaces()[i][j].getNomRangee(),salle.getPlaces()[i][j].getNomColonne());
+               }catch(NullPointerException exception){
+                   vueSalle.mettreAJourInfoPlace("ERREUR","ERREUR");
+
+               }
+
            }
 
            @Override
@@ -308,5 +325,9 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
     public void update(Observable o, Object arg) {
         System.out.println("UPDATE");
         this.salle = Salle.findById(this.salle.getIdSalle());
+    }
+
+    public void ajouterVueSalle(VueSalle vueSalle){
+        this.vueSalle = vueSalle;
     }
 }

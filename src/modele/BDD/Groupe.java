@@ -86,6 +86,37 @@ public class Groupe {
 		}
 	}
 
+	public ArrayList<Etudiant> rechercherEtudiant(String nom, String prenom){
+		ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
+		try{
+			Connection connect = DBConnection.getConnection();
+			ResultSet rs=null;
+			if(null != nom && null != prenom){
+				PreparedStatement nomEtPrenom = connect.prepareStatement("SELECT idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.nom LIKE "+nom+" AND ETUDIANT.prenom LIKE "+prenom+";");
+				nomEtPrenom.execute();
+				 rs = nomEtPrenom.getResultSet();
+
+			}else if(null!=nom){
+				PreparedStatement nomSeulement = connect.prepareStatement("SELECT idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.nom LIKE "+nom+";");
+				nomSeulement.execute();
+				 rs = nomSeulement.getResultSet();
+			}else if(null!=prenom){
+				PreparedStatement prenomSeulement = connect.prepareStatement("SELECT idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.prenom LIKE "+prenom+";");
+				prenomSeulement.execute();
+				 rs = prenomSeulement.getResultSet();
+			}
+
+			while(rs.next()){
+				Etudiant etudiant = Etudiant.findById(rs.getInt("idEtu"));
+				etudiants.add(etudiant);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return etudiants;
+	}
+
 	/**
 	 * Delete table.
 	 */

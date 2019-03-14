@@ -41,6 +41,7 @@ public class VueSalle extends JPanel implements Observer {
 	private JPanel contenantMilieu;
 	private Salle salle;
 	private JPanel salleConstruite;
+	private JLabel nomRangee,nomColonne;
 
 
 	private DefaultListModel<Salle> dlm;
@@ -133,7 +134,7 @@ public class VueSalle extends JPanel implements Observer {
 		this.salleConstruite = this.construireSalle(this.salle);
 		this.visualisationSalle = new JScrollPane(this.salleConstruite);
 		//this.visualisationSalle = this.construireSalle(this.salle);
-		this.visualisationSalle.setPreferredSize(new Dimension(900,600));
+		this.visualisationSalle.setPreferredSize(new Dimension(930,600));
 		//this.visualisationSalle.setPreferredSize(new Dimension(800,500));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
@@ -217,15 +218,30 @@ public class VueSalle extends JPanel implements Observer {
 		gbcv2.gridy=2;
 		panelBoutons.add(outils,gbcv2);
 
+		//PARTIE NOM PLACE
+		this.nomColonne = new JLabel("Nom colonne : ");
+		this.nomRangee = new JLabel("Nom rangee : ");
+		//END PARTIE NOM PLACE
+
+		gbcv2.gridy=3;
+		panelBoutons.add(this.nomRangee,gbcv2);
+		gbcv2.gridy=4;
+		panelBoutons.add(this.nomColonne,gbcv2);
+
 		containerBouton.setLayout(new BorderLayout());
 		containerBouton.setPreferredSize(new Dimension(250,460));
 		containerBouton.add(panelBoutons,BorderLayout.NORTH);
+
+
+
 
 		editionPan.add(edition, BorderLayout.NORTH);
 		editionPan.add(partieEdition, BorderLayout.CENTER);
 		editionPan.add(containerBouton,BorderLayout.SOUTH);
 		editionPan.setPreferredSize(new Dimension(250,300));
 		editionPan.setBorder(new EmptyBorder(20,10,0,10));
+
+
 
 		contenantPartieGauche.add(boutons,BorderLayout.SOUTH);
 		contenantPartieGauche.setBorder(new EmptyBorder(20,20,0,0));
@@ -323,9 +339,9 @@ public class VueSalle extends JPanel implements Observer {
 				Place place = salle.getPlaces()[i][j];
 				int idTypePlace = place.getIdTypePlace();
 				TypePlace typePlace = TypePlace.findById(place.getIdTypePlace());
-				Color couleurPlace = null;
-				couleurPlace = TypePlace.trouverCouleurPlace(typePlace.getNom());
+				Color couleurPlace = TypePlace.trouverCouleurPlace(typePlace.getNom());
 				ControleurCaseSalle controleur = new ControleurCaseSalle(couleurPlace,i,j,this.salle);
+				controleur.ajouterVueSalle(this);
 				place.addObserver(controleur);
 				jpBouton.add(controleur);
 				jpBouton.setPreferredSize(new Dimension(ControleurCaseSalle.WIDTH,ControleurCaseSalle.HEIGHT));
@@ -376,5 +392,10 @@ public class VueSalle extends JPanel implements Observer {
 			contenantPartieGauche.repaint();
 			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
 		}
+	}
+
+	public  void mettreAJourInfoPlace(String nomRangee, String nomColonne){
+		this.nomRangee.setText("Nom rangée : "+nomRangee);
+		this.nomColonne.setText("Nom colonne : "+nomColonne);
 	}
 }

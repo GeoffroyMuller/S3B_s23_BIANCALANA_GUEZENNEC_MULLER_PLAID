@@ -56,7 +56,7 @@ import javax.swing.*;
         this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
         this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
         this.salles = new ArrayList<Salle>();
-        this.pas = 1;
+        this.pas = 2;
     }
 
     /**
@@ -154,7 +154,6 @@ import javax.swing.*;
             resultat = this.verifierSolution();
             nbTentative++;
             if(nbTentative== 20000){
-                System.out.println("TENTNATIVE");
                 margeErreur++;
                 nbTentative = 0;
             }
@@ -237,7 +236,7 @@ import javax.swing.*;
         while(listeEtu.size()!=0){
             Random r = new Random();
             int nbAlea = r.nextInt((listeEtu.size()-1) + 1);
-            //On prend le premier étudiant de la liste (celui-ci change dés qu'un étudiant est placé)
+
 
             ArrayList<Particularite> particularites = new ArrayList<Particularite>();
             try {
@@ -290,6 +289,8 @@ import javax.swing.*;
                 }
             }else{
                 //La place n'est pas disponible donc on en teste une autre
+
+
                 if(iterateurSalle.hasPrevious(this.pas)){
                     iterateurSalle.previous(this.pas);
                 }else{
@@ -495,7 +496,7 @@ import javax.swing.*;
         String column[]={"ID","GROUPE","NOM","PRENOM","SALLE","RANG","PLACE"};
 
         Set<Salle> clesSalle= this.placement.keySet();
-        for(Salle salle : clesSalle){
+        for(Salle salle : this.salles){
             Set<Place> clesPlaces = this.placement.get(salle).keySet();
             String data[][] = new String[clesPlaces.size()][7];
             int iterateur = 0;
