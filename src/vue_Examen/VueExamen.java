@@ -197,15 +197,21 @@ public class VueExamen extends JPanel implements Observer{
 
 	private void devPane() {
 		//Developpeur a suppr
-		JPanel jp_dev = new JPanel();
-		jp_dev.add(paneldev);
+		/*JPanel jp_dev = new JPanel();
+		//jp_dev.add(paneldev);
+		jp_dev.add(new VueEtudiantParticipant());
 		jp_dev.setBackground(Color.white);
 		jscrol_dev = new JScrollPane(jp_dev, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		//jscrol_dev.add(paneldev);
 		jscrol_dev.setPreferredSize(new Dimension(300,120));
 
 
-		jp2_affichListEtu.add(jscrol_dev);
+		jp2_affichListEtu.add(jscrol_dev);*/
+		VueEtudiantParticipant vuetest = new VueEtudiantParticipant();
+		vuetest.setBackground(Color.red);
+		vuetest.setPreferredSize(new Dimension(500, 800));
+		jp2_affichListEtu.add(vuetest);
+		
 		JButton jb_dev_up = new JButton("update");
 		jb_dev_up.addActionListener(new ActionListener() {
 
@@ -295,7 +301,7 @@ public class VueExamen extends JPanel implements Observer{
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//dev
+		/*//dev
 		jscrol_dev.setPreferredSize(new Dimension(jp2_affichListEtu.getWidth()-5, jp2_affichListEtu.getHeight()-20));//dev
 		paneldev.suppliste();
 		paneldev.ajouterInfo(">nombre etudiant participant:: "+examen.getEtudiants().size());
@@ -305,7 +311,7 @@ public class VueExamen extends JPanel implements Observer{
 			compte++;
 		}
 		paneldev.repaint();
-		//findev
+		//findev*/
 	}
 
 	public static void main(String arg[]) throws SQLException {
