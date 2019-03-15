@@ -4,6 +4,7 @@ import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
 import modele.BDD.Groupe;
 import modele.BDD.Particularite;
+import modele.CritereRechercheEtudiant;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -12,9 +13,14 @@ import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Observable;
 
-public class VueModuleEtudiant extends JPanel {
+public class VueModuleEtudiant extends Observable {
 
     public static int TEXTFIELD_WIDTH = 100;
     public static int TEXTFIELD_HEIGHT = 20;
@@ -27,9 +33,13 @@ public class VueModuleEtudiant extends JPanel {
     private JTable etudiants;
     private JButton buttonCreeEtudiant, buttonCreeGroupe, buttonCreeCategorie,buttonRechercher, boutonImporter;
     private ArrayList<Groupe> donneeComboGroupe;
-    private String[] columnJTable={"Nom","Prénom","Groupe","Situation de Handicap","Tier-Temps","Prise en compte"};
+    private String[] columnJTable={"Nom","Prénom","Groupe","Situation de Handicap","Tier-Temps","Prise en compte","ID"};
+    private JLabel labelModifCateg, labelModifGroupe;
+
+    private JPanel mainModuleEtudiant;
 
     public VueModuleEtudiant(){
+        this.mainModuleEtudiant= new JPanel();
         //TOPBAR
         JPanel topbar = new JPanel();
         topbar.setLayout(new GridBagLayout());
@@ -49,6 +59,22 @@ public class VueModuleEtudiant extends JPanel {
         topbar.add(this.combocategorie,gbc);
         this.combocategorie.setSelectedIndex(0);
         this.combocategorie.setPreferredSize(new Dimension(TEXTFIELD_WIDTH,TEXTFIELD_HEIGHT));
+
+        gbc.gridy = 1;
+        gbc.insets = new Insets(-10,10,5,0);
+        this.labelModifCateg = new JLabel("modifier la catégorie");
+        this.labelModifCateg.setFont(new Font("Arial",Font.PLAIN,10));
+        this.labelModifCateg.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        Font font = this.labelModifCateg.getFont();
+        Map attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        this.labelModifCateg.setFont(font.deriveFont(attributes));
+        topbar.add(this.labelModifCateg,gbc);
+        this.labelModifCateg.setForeground(new Color(0x0544ED));
+
+
+        gbc.gridy=0;
+        gbc.insets = new Insets(10,20,10,0);
 
         this.combocategorie.addActionListener(new ActionListener() {
             @Override
@@ -71,6 +97,24 @@ public class VueModuleEtudiant extends JPanel {
         this.combogroupe.setSelectedIndex(0);
         this.combogroupe.setPreferredSize(new Dimension(TEXTFIELD_WIDTH,TEXTFIELD_HEIGHT));
         topbar.add(this.combogroupe,gbc);
+
+        gbc.gridy = 1;
+        gbc.insets = new Insets(-10,10,5,0);
+        this.labelModifGroupe = new JLabel("modifier le groupe");
+        this.labelModifGroupe.setFont(new Font("Arial",Font.PLAIN,10));
+        this.labelModifGroupe.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        font = this.labelModifGroupe.getFont();
+        attributes = font.getAttributes();
+        attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+        this.labelModifGroupe.setFont(font.deriveFont(attributes));
+        topbar.add(this.labelModifGroupe,gbc);
+        this.labelModifGroupe.setForeground(new Color(0x0544ED));
+
+
+        gbc.gridy=0;
+        gbc.insets = new Insets(10,20,10,0);
+
+
 
         gbc.gridx=5;
         this.labNom = new JLabel("Nom : ");
@@ -126,7 +170,37 @@ public class VueModuleEtudiant extends JPanel {
         //CENTRE - VISUALISATION DES ETUDIANT
         JPanel centre = new JPanel();
         ArrayList<Etudiant> etudiants = Etudiant.listEtudiant();
-        this.etudiants = new JTable(infosEtudiants(etudiants),columnJTable);
+        this.etudiants = new JTable(infosEtudiants(etudiants),columnJTable){
+            private static final long serialVersionUID = 1L;
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
+        this.etudiants.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JTable table =(JTable) e.getSource();
+                Point point = e.getPoint();
+                int row = table.rowAtPoint(point);
+                if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    System.out.println("YES"+table.getSelectedRow());
+                    String nom = (String)table.getValueAt(table.getSelectedRow(),0);
+                    String prenom = (String)table.getValueAt(table.getSelectedRow(),1);
+                    String groupe = (String)table.getValueAt(table.getSelectedRow(),2);
+                    String handicap = (String)table.getValueAt(table.getSelectedRow(),3);
+                    String tier = (String)table.getValueAt(table.getSelectedRow(),4);
+                    String priseEnCompte = (String)table.getValueAt(table.getSelectedRow(),5);
+                    int id = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),6));
+
+                    CritereRechercheEtudiant cre = new CritereRechercheEtudiant(id,nom,prenom,groupe,handicap,tier,priseEnCompte);
+                    DialogCreerEtudiant dialog = new DialogCreerEtudiant(null,"Modification d'un étudiant",true,true,cre);
+                    dialog.afficherDialog();
+                    setChanged();
+                    notifyObservers();
+                }
+            }
+        });
         this.etudiants.setBounds(30,40,500,700);
         this.etudiants.setFont(new Font("Arial",Font.PLAIN,15));
         this.etudiants.setRowHeight(20);
@@ -135,6 +209,7 @@ public class VueModuleEtudiant extends JPanel {
             column = this.etudiants.getColumnModel().getColumn(i);
             column.setPreferredWidth(150);
         }
+
 
 
 
@@ -165,6 +240,8 @@ public class VueModuleEtudiant extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 DialogCreerCategorie dialog = new DialogCreerCategorie(null,"Création d'une catégorie",true,false);
                 dialog.afficherDialog();
+                setChanged();
+                notifyObservers();
             }
         });
 
@@ -174,6 +251,8 @@ public class VueModuleEtudiant extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 DialogCreerEtudiant dialog = new DialogCreerEtudiant(null,"Création d'un étudiant",true,false);
                 dialog.afficherDialog();
+                setChanged();
+                notifyObservers();
             }
         });
         gbc.gridx=1;
@@ -187,6 +266,8 @@ public class VueModuleEtudiant extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 DialogCreerGroupe dialog = new DialogCreerGroupe(null,"Création d'un groupe",true,false);
                 dialog.afficherDialog();
+                setChanged();
+                notifyObservers();
             }
         });
 
@@ -199,21 +280,23 @@ public class VueModuleEtudiant extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 DialogImportExcel dialog = new DialogImportExcel(null,"Importer une liste",true);
                 dialog.afficherDialog();
+                setChanged();
+                notifyObservers();
             }
         });
         topbar.setBackground(new Color(236, 241, 245));
         bottomBar.setBackground(new Color(236, 241, 245));
         centre.setBackground(new Color(40, 73, 92));
-        this.setLayout(new BorderLayout());
-        this.add(topbar,BorderLayout.NORTH);
-        this.add(centre,BorderLayout.CENTER);
-        this.add(bottomBar,BorderLayout.SOUTH);
+        this.mainModuleEtudiant.setLayout(new BorderLayout());
+        this.mainModuleEtudiant.add(topbar,BorderLayout.NORTH);
+        this.mainModuleEtudiant.add(centre,BorderLayout.CENTER);
+        this.mainModuleEtudiant.add(bottomBar,BorderLayout.SOUTH);
 
 
     }
 
     private String[][] infosEtudiants(ArrayList<Etudiant> etudiants){
-        String[][] res = new String[etudiants.size()][6];
+        String[][] res = new String[etudiants.size()][7];
         for(int i = 0; i < etudiants.size();i++){
             Etudiant etudiant = etudiants.get(i);
             res[i][0] = etudiant.getNom();
@@ -222,6 +305,7 @@ public class VueModuleEtudiant extends JPanel {
             res[i][3] = "NON";
             res[i][4] = "NON";
             res[i][5] = "OUI";
+            res[i][6] = etudiant.getIdEtu()+"";
 
             ArrayList<Particularite> particularites = etudiant.getParticularites();
 
@@ -253,5 +337,9 @@ public class VueModuleEtudiant extends JPanel {
         }
 
         return res;
+    }
+
+    public JPanel getJPanel(){
+        return this.mainModuleEtudiant;
     }
 }

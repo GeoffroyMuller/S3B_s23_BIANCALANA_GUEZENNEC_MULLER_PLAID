@@ -131,39 +131,51 @@ public class EtudiantGroupe {
 		return res;
 	}
 	
-	public static ArrayList<Integer> listGroupePourEtudiantId(int id) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdGroupe ='"+id+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static ArrayList<Integer> listGroupePourEtudiantId(int id) {
 		ArrayList<Integer> res = new ArrayList<Integer>();
-		int i=0;
-		while (rs.next()) {
-			res.add(rs.getInt("idEtu"));
-			i++;
-		}
-		return res;
-	}
-	
-	public static ArrayList<Groupe> listGroupePourEtudiant(int id) throws SQLException {
-		ArrayList<Integer> list = EtudiantGroupe.listGroupePourEtudiantId(id);
-		Connection connect=DBConnection.getConnection();
-		ArrayList<Groupe> res = new ArrayList<Groupe>();
-		for(int i = 0 ; i < list.size(); i++) {
-			String SQLPrep = "SELECT * FROM Groupe WHERE IdGroupe ='"+list.get(i)+"';";
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdGroupe ='" + id + "';";
 			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
 			prep1.execute();
 			ResultSet rs = prep1.getResultSet();
 			// s'il y a un resultat
 
+			int i = 0;
 			while (rs.next()) {
-				String resNom = rs.getString("nom");
-				int resId = rs.getInt("idGroupe");
-				res.add(new Groupe(resNom, resId));
+				res.add(rs.getInt("idEtu"));
+				i++;
 			}
+		}catch(SQLException e){
+			/*
+			TO DO
+			 */
+		}
+		return res;
+	}
+	
+	public static ArrayList<Groupe> listGroupePourEtudiant(int id) {
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
+		try {
+			ArrayList<Integer> list = EtudiantGroupe.listGroupePourEtudiantId(id);
+			Connection connect = DBConnection.getConnection();
+			for (int i = 0; i < list.size(); i++) {
+				String SQLPrep = "SELECT * FROM Groupe WHERE IdGroupe ='" + list.get(i) + "';";
+				PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+				prep1.execute();
+				ResultSet rs = prep1.getResultSet();
+				// s'il y a un resultat
+
+				while (rs.next()) {
+					String resNom = rs.getString("nom");
+					int resId = rs.getInt("idGroupe");
+					res.add(new Groupe(resNom, resId));
+				}
+			}
+		}catch(SQLException e){
+			/*
+			TO DO
+			 */
 		}
 		return res;
 	}

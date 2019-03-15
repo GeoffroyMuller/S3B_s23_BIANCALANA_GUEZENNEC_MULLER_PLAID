@@ -165,19 +165,25 @@ public class Groupe {
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Groupe> listGroupe() throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM GROUPE;";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static ArrayList<Groupe> listGroupe() {
 		ArrayList<Groupe> res = new ArrayList<Groupe>();
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			int resId = rs.getInt("idGroupe");
-			res.add(new Groupe(resNom, resId));
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM GROUPE;";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				int resId = rs.getInt("idGroupe");
+				res.add(new Groupe(resNom, resId));
+			}
+		}catch(SQLException e){
+			/*
+			TO DO
+			 */
 		}
 		return res;
 	}

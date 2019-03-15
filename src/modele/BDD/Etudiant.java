@@ -180,6 +180,24 @@ public class Etudiant implements Comparable<Etudiant>  {
 		}
 	}
 
+	public ArrayList<Groupe> recupererGroupes(){
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
+		try{
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement requete = connect.prepareStatement("SELECT * FROM GROUPE INNER JOIN ETUDIANTGROUPE ON GROUPE.IdGroupe = ETUDIANTGROUPE.IdGroupe INNER JOIN ETUDIANT ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANT.IdEtu="+this.idEtu+";");
+
+			requete.execute();
+			ResultSet rs = requete.getResultSet();
+			while(rs.next()){
+				System.out.println("GROUPE");
+				res.add(new Groupe(rs.getString("nom"),rs.getInt("IdGroupe")));
+			}
+		}catch(SQLException e){
+
+		}
+
+		return res;
+	}
 
 	/**
 	 * Find by id.
@@ -188,19 +206,26 @@ public class Etudiant implements Comparable<Etudiant>  {
 	 * @return the etudiant
 	 * @throws SQLException the SQL exception
 	 */
-	public static Etudiant findById(int id) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM ETUDIANT WHERE IDETU ='"+id+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static Etudiant findById(int id) {
 		Etudiant res = null;
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			String resPrenom = rs.getString("prenom");
-			res = new Etudiant(resNom, resPrenom, id);
+
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM ETUDIANT WHERE IDETU ='" + id + "';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				String resPrenom = rs.getString("prenom");
+				res = new Etudiant(resNom, resPrenom, id);
+			}
+		}catch(SQLException e){
+			/*
+			TO DO
+			 */
 		}
 		return res;
 	}
