@@ -17,10 +17,23 @@ public class DialogCreerGroupe extends JDialog {
     private JComboBox<Categorie> comboCategorie;
     private JButton valider,annuler;
     private boolean modification;
+    private Groupe groupe;
 
     public DialogCreerGroupe(JFrame parent, String title, boolean modal,boolean modification){
         super(parent,title,modal);
         this.modification = modification;
+        this.setSize(new Dimension(550,270));
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        this.initComponent();
+
+    }
+
+    public DialogCreerGroupe(JFrame parent, String title, boolean modal,boolean modification,Groupe groupe){
+        super(parent,title,modal);
+        this.modification = modification;
+        this.groupe = groupe;
         this.setSize(new Dimension(550,270));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -44,6 +57,9 @@ public class DialogCreerGroupe extends JDialog {
 
         gbc.gridx=1;
         this.textNomGroupe = new JTextField();
+        if(modification){
+            this.textNomGroupe.setText(this.groupe.getNom());
+        }
         this.textNomGroupe.setPreferredSize(new Dimension(VueModuleEtudiant.TEXTFIELD_WIDTH,VueModuleEtudiant.TEXTFIELD_HEIGHT));
 
         containerInfo.add(this.textNomGroupe,gbc);
@@ -56,7 +72,12 @@ public class DialogCreerGroupe extends JDialog {
         gbc.gridx=1;
         ArrayList<Categorie> categories = Categorie.getlistCategorie();
         this.comboCategorie = new JComboBox<Categorie>((Categorie[])categories.toArray(new Categorie[categories.size()]));
-        this.comboCategorie.setSelectedIndex(0);
+        if(modification){
+            Categorie categorieDuGroupe = this.groupe.getCategorie();
+            this.comboCategorie.setSelectedIndex(recupererIndexDansCombo(categorieDuGroupe));
+        }else{
+            this.comboCategorie.setSelectedIndex(0);
+        }
         this.comboCategorie.setPreferredSize(new Dimension(VueModuleEtudiant.COMBOBOX_WIDTH,VueModuleEtudiant.COMBOBOX_HEIGHT));
         containerInfo.add(this.comboCategorie,gbc);
 
@@ -82,11 +103,24 @@ public class DialogCreerGroupe extends JDialog {
         this.valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Groupe groupe = new Groupe(textNomGroupe.getText());
-                groupe.save();
+                if(modification){
+                    groupe.setNom(textNomGroupe.getText());
+                    groupe.save();
 
-                Categorie categorie = (Categorie)comboCategorie.getSelectedItem();
-                categorie.ajouterGroupe(groupe);
+                    Categorie categorie = (Categorie)comboCategorie.getSelectedItem();
+                    Categorie ancienneCategorie = groupe.getCategorie();
+                    if(!categorie.getNom().equals(ancienneCategorie.getNom())){
+                        ancienneCategorie.enleverUnGroupe(groupe);
+                        categorie.ajouterGroupe(groupe);
+                    }
+                }else {
+                    Groupe groupe = new Groupe(textNomGroupe.getText());
+                    groupe.save();
+
+                    Categorie categorie = (Categorie) comboCategorie.getSelectedItem();
+                    categorie.ajouterGroupe(groupe);
+                }
+                setVisible(false);
             }
         });
 
@@ -108,5 +142,16 @@ public class DialogCreerGroupe extends JDialog {
     public void afficherDialog(){
         this.sendData =false;
         this.setVisible(true);
+    }
+
+    private int recupererIndexDansCombo(Categorie categorie){
+        int res=0;
+        for(int i = 0; i < comboCategorie.getItemCount();i++){
+            if(comboCategorie.getItemAt(i).getNom().equals(categorie.getNom())){
+                res=i;
+                break;
+            }
+        }
+        return res;
     }
 }

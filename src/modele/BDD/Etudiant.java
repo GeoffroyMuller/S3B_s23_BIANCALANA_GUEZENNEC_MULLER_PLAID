@@ -189,8 +189,64 @@ public class Etudiant implements Comparable<Etudiant>  {
 			requete.execute();
 			ResultSet rs = requete.getResultSet();
 			while(rs.next()){
-				System.out.println("GROUPE");
 				res.add(new Groupe(rs.getString("nom"),rs.getInt("IdGroupe")));
+			}
+		}catch(SQLException e){
+
+		}
+
+		return res;
+	}
+
+	public String recupererToutLesNomDeGroupe(){
+		String resultat="";
+		ArrayList<Groupe> groupe = this.recupererGroupes();
+
+		for(int i=0; i < groupe.size();i++){
+			resultat+=groupe.get(i).getNom();
+			if(!(i == groupe.size()-1)){
+				resultat+=", ";
+			}
+		}
+		return resultat;
+	}
+
+	public static ArrayList<Etudiant> rechercherEtudiant(String nom, String prenom){
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
+		try{
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement requete = null;
+			if(null==nom){
+				requete = connect.prepareStatement("SELECT * FROM ETUDIANT WHERE ETUDIANT.prenom='"+prenom+"';");
+			}else if(null==prenom){
+				requete = connect.prepareStatement("SELECT * FROM ETUDIANT WHERE ETUDIANT.nom='"+nom+"';");
+
+			}else{
+				requete = connect.prepareStatement("SELECT * FROM ETUDIANT WHERE ETUDIANT.nom='"+nom+"' AND ETUDIANT.prenom='"+prenom+"';");
+			}
+
+			requete.execute();
+			ResultSet rs = requete.getResultSet();
+			while(rs.next()){
+				res.add(new Etudiant(rs.getString("nom"),rs.getString("prenom"),rs.getInt("IdEtu")));
+			}
+		}catch(SQLException e){
+
+		}
+
+		return res;
+	}
+
+	public static ArrayList<Etudiant> rechercherToutLesEtudiants(){
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
+		try{
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement requete = requete = connect.prepareStatement("SELECT * FROM ETUDIANT;");
+
+			requete.execute();
+			ResultSet rs = requete.getResultSet();
+			while(rs.next()){
+				res.add(new Etudiant(rs.getString("nom"),rs.getString("prenom"),rs.getInt("IdEtu")));
 			}
 		}catch(SQLException e){
 

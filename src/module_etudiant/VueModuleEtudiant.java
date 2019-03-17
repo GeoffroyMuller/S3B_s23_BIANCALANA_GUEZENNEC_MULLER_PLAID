@@ -11,10 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.Map;
@@ -35,6 +32,7 @@ public class VueModuleEtudiant extends Observable {
     private ArrayList<Groupe> donneeComboGroupe;
     private String[] columnJTable={"Nom","Prénom","Groupe","Situation de Handicap","Tier-Temps","Prise en compte","ID"};
     private JLabel labelModifCateg, labelModifGroupe;
+    private JScrollPane js;
 
     private JPanel mainModuleEtudiant;
 
@@ -55,7 +53,13 @@ public class VueModuleEtudiant extends Observable {
         gbc.gridx = 1;
         gbc.gridy = 0;
         ArrayList<Categorie> categories = Categorie.getlistCategorie();
-        this.combocategorie = new JComboBox<Categorie>((Categorie[])categories.toArray(new Categorie[categories.size()]));
+        this.combocategorie = new JComboBox<Categorie>();
+        this.combocategorie.addItem("Toutes les catégories");
+
+        for(Categorie categ : categories){
+            combocategorie.addItem(categ);
+        }
+
         topbar.add(this.combocategorie,gbc);
         this.combocategorie.setSelectedIndex(0);
         this.combocategorie.setPreferredSize(new Dimension(TEXTFIELD_WIDTH,TEXTFIELD_HEIGHT));
@@ -71,6 +75,15 @@ public class VueModuleEtudiant extends Observable {
         this.labelModifCateg.setFont(font.deriveFont(attributes));
         topbar.add(this.labelModifCateg,gbc);
         this.labelModifCateg.setForeground(new Color(0x0544ED));
+        this.labelModifCateg.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                DialogCreerCategorie dialog = new DialogCreerCategorie(null,"Modification d'une catégorie",true,true,(Categorie)combocategorie.getSelectedItem());
+                dialog.afficherDialog();
+                setChanged();
+                notifyObservers();
+            }
+        });
 
 
         gbc.gridy=0;
@@ -79,10 +92,22 @@ public class VueModuleEtudiant extends Observable {
         this.combocategorie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                donneeComboGroupe = ((Categorie)combocategorie.getSelectedItem()).getListGroupe();
-                combogroupe.removeAllItems();
-                combogroupe = new JComboBox<Groupe>((Groupe[])donneeComboGroupe.toArray());
-                combogroupe.setSelectedIndex(0);
+                if(combocategorie.getSelectedItem() instanceof Categorie){
+                    ArrayList<Groupe> groupesCateg = ((Categorie)combocategorie.getSelectedItem()).getListGroupe();
+                    combogroupe.removeAllItems();
+                    combogroupe.addItem("Tout les groupes");
+                    for(Groupe group : groupesCateg){
+                        combogroupe.addItem(group);
+                    }
+                    // combogroupe = new JComboBox<Groupe>((Groupe[])groupesCateg.toArray(new Groupe[groupesCateg.size()]));
+                    try {
+                        combogroupe.setSelectedIndex(0);
+                    }catch(IllegalArgumentException exception){
+                        JOptionPane jop = new JOptionPane();
+                        jop.showMessageDialog(null,"La catégorie n'a pas de groupe actuellement. Ceci est un message à caractére informatif uniquement, il ne s'agit pas d'une erreur.","Message Informatif",JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
+
             }
         });
 
@@ -92,8 +117,14 @@ public class VueModuleEtudiant extends Observable {
         topbar.add(this.labGroupe,gbc);
 
         gbc.gridx = 4;
-        ArrayList<Groupe> listGroupes = ((Categorie)combocategorie.getItemAt(0)).getListGroupe();
-        this.combogroupe = new JComboBox<Groupe>((Groupe[])listGroupes.toArray(new Groupe[listGroupes.size()]));
+        ArrayList<Groupe> listGroupes = new ArrayList<Groupe>();//((Categorie)combocategorie.getItemAt(0)).getListGroupe();
+        this.combogroupe = new JComboBox<Groupe>();
+        this.combogroupe.addItem("Tout les groupes");
+        for(Groupe groupe : listGroupes){
+            this.combogroupe.addItem(groupe);
+        }
+
+
         this.combogroupe.setSelectedIndex(0);
         this.combogroupe.setPreferredSize(new Dimension(TEXTFIELD_WIDTH,TEXTFIELD_HEIGHT));
         topbar.add(this.combogroupe,gbc);
@@ -109,6 +140,15 @@ public class VueModuleEtudiant extends Observable {
         this.labelModifGroupe.setFont(font.deriveFont(attributes));
         topbar.add(this.labelModifGroupe,gbc);
         this.labelModifGroupe.setForeground(new Color(0x0544ED));
+        this.labelModifGroupe.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                DialogCreerGroupe dialog = new DialogCreerGroupe(null,"Modification d'un groupe",true,true,(Groupe)combogroupe.getSelectedItem());
+                dialog.afficherDialog();
+                setChanged();
+                notifyObservers();
+            }
+        });
 
 
         gbc.gridy=0;
@@ -141,29 +181,79 @@ public class VueModuleEtudiant extends Observable {
         this.buttonRechercher.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+
                 String prenom = textprenom.getText();
                 String nom = textnom.getText();
-
+                ArrayList<Etudiant> etu = new ArrayList<Etudiant>();
                 if(prenom.length() != 0){
                     if(nom.length() != 0){
                         //On recherche un étudiant ayant le nom y et le prenom x dans le groupe z
-                        ArrayList<Etudiant> etu = groupe.rechercherEtudiant(nom,prenom);
-                        etudiants = new JTable(infosEtudiants(etu),columnJTable);
+
+                        if(combogroupe.getSelectedItem() instanceof Groupe){
+                            Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+                            etu = groupe.rechercherEtudiant(nom,prenom);
+                        }else if(combocategorie.getSelectedItem() instanceof Categorie){
+                            Categorie categorie = (Categorie)combocategorie.getSelectedItem();
+                            for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
+                                etu.addAll(groupeDeLaCateg.rechercherEtudiant(nom,prenom));
+                            }
+                        }else{
+                            //Recherche par nom et prenom sans groupe ni categorie
+                            etu = Etudiant.rechercherEtudiant(nom,prenom);
+                        }
+
                     }else{
                         //Recherche que par prenom
-                        ArrayList<Etudiant> etu = groupe.rechercherEtudiant(null,prenom);
-                        etudiants = new JTable(infosEtudiants(etu),columnJTable);
+                        if(combogroupe.getSelectedItem() instanceof Groupe) {
+                            Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+                            etu = groupe.rechercherEtudiant(null, prenom);
+                        }else if(combocategorie.getSelectedItem() instanceof Categorie){
+                            Categorie categorie = (Categorie)combocategorie.getSelectedItem();
+                            for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
+                                etu.addAll(groupeDeLaCateg.rechercherEtudiant(null,prenom));
+                            }
+                        }else{
+                            etu = Etudiant.rechercherEtudiant(null,prenom);
+
+                        }
                     }
                 }else if(nom.length() != 0){
                     //Recherche que par nom
-                    ArrayList<Etudiant> etu = groupe.rechercherEtudiant(nom,null);
-                    etudiants = new JTable(infosEtudiants(etu),columnJTable);
+                    if(combogroupe.getSelectedItem() instanceof Groupe) {
+                        Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+                        etu = groupe.rechercherEtudiant(nom, null);
+                    }else if(combocategorie.getSelectedItem() instanceof Categorie){
+                        Categorie categorie = (Categorie)combocategorie.getSelectedItem();
+                        for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
+                            etu.addAll(groupeDeLaCateg.rechercherEtudiant(nom,null));
+                        }
+                    }else{
+                        etu = Etudiant.rechercherEtudiant(nom,null);
+                    }
                 }else{
                     //Recherche tout le groupe
-                    ArrayList<Etudiant> etu = groupe.getListeEtudiants();
-                    etudiants = new JTable(infosEtudiants(etu),columnJTable);
+                    if(combogroupe.getSelectedItem() instanceof Groupe) {
+                        Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+                        etu = groupe.getListeEtudiants();
+                    }else if(combocategorie.getSelectedItem() instanceof Categorie){
+                        Categorie categorie = (Categorie)combocategorie.getSelectedItem();
+                        for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
+                            etu.addAll(groupeDeLaCateg.getListeEtudiants());
+                        }
+                    }else{
+                        etu = Etudiant.rechercherToutLesEtudiants();
+                    }
                 }
+                etudiants = new JTable(infosEtudiants(etu),columnJTable){
+                    private static final long serialVersionUID = 1L;
+
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    };
+                };
+                etudiants = setupJTable(etudiants);
+                js.setViewportView(etudiants);
+
             }
         });
 
@@ -177,44 +267,13 @@ public class VueModuleEtudiant extends Observable {
                 return false;
             };
         };
-        this.etudiants.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                JTable table =(JTable) e.getSource();
-                Point point = e.getPoint();
-                int row = table.rowAtPoint(point);
-                if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    System.out.println("YES"+table.getSelectedRow());
-                    String nom = (String)table.getValueAt(table.getSelectedRow(),0);
-                    String prenom = (String)table.getValueAt(table.getSelectedRow(),1);
-                    String groupe = (String)table.getValueAt(table.getSelectedRow(),2);
-                    String handicap = (String)table.getValueAt(table.getSelectedRow(),3);
-                    String tier = (String)table.getValueAt(table.getSelectedRow(),4);
-                    String priseEnCompte = (String)table.getValueAt(table.getSelectedRow(),5);
-                    int id = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),6));
-
-                    CritereRechercheEtudiant cre = new CritereRechercheEtudiant(id,nom,prenom,groupe,handicap,tier,priseEnCompte);
-                    DialogCreerEtudiant dialog = new DialogCreerEtudiant(null,"Modification d'un étudiant",true,true,cre);
-                    dialog.afficherDialog();
-                    setChanged();
-                    notifyObservers();
-                }
-            }
-        });
-        this.etudiants.setBounds(30,40,500,700);
-        this.etudiants.setFont(new Font("Arial",Font.PLAIN,15));
-        this.etudiants.setRowHeight(20);
-        TableColumn column = null;
-        for (int i = 0; i < 5; i++) {
-            column = this.etudiants.getColumnModel().getColumn(i);
-            column.setPreferredWidth(150);
-        }
+        this.etudiants = setupJTable(this.etudiants);
 
 
 
 
 
-        JScrollPane js = new JScrollPane(this.etudiants);
+        js = new JScrollPane(this.etudiants);
         js.setPreferredSize(new Dimension(1000,650));
         js.setBorder(BorderFactory.createEmptyBorder(20,0,0,0));
         js.setBackground(new Color(40, 73, 92));
@@ -240,6 +299,7 @@ public class VueModuleEtudiant extends Observable {
             public void actionPerformed(ActionEvent e) {
                 DialogCreerCategorie dialog = new DialogCreerCategorie(null,"Création d'une catégorie",true,false);
                 dialog.afficherDialog();
+                updateCombobox();
                 setChanged();
                 notifyObservers();
             }
@@ -266,6 +326,7 @@ public class VueModuleEtudiant extends Observable {
             public void actionPerformed(ActionEvent e) {
                 DialogCreerGroupe dialog = new DialogCreerGroupe(null,"Création d'un groupe",true,false);
                 dialog.afficherDialog();
+                updateCombobox();
                 setChanged();
                 notifyObservers();
             }
@@ -301,7 +362,7 @@ public class VueModuleEtudiant extends Observable {
             Etudiant etudiant = etudiants.get(i);
             res[i][0] = etudiant.getNom();
             res[i][1] = etudiant.getPrenom();
-            res[i][2] = etudiant.getGroupe();
+            res[i][2] = etudiant.recupererToutLesNomDeGroupe();
             res[i][3] = "NON";
             res[i][4] = "NON";
             res[i][5] = "OUI";
@@ -341,5 +402,56 @@ public class VueModuleEtudiant extends Observable {
 
     public JPanel getJPanel(){
         return this.mainModuleEtudiant;
+    }
+
+    private void updateCombobox(){
+        //ComboGroupe
+        this.combogroupe.removeAllItems();
+        for(Groupe groupe : Groupe.listGroupe()){
+            this.combogroupe.addItem(groupe);
+        }
+
+        //Combocategorie
+        this.combocategorie.removeAllItems();
+        for(Categorie categorie : Categorie.getlistCategorie()){
+            this.combocategorie.addItem(categorie);
+        }
+    }
+
+    private JTable setupJTable(JTable jTable){
+        jTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                JTable table =(JTable) e.getSource();
+                Point point = e.getPoint();
+                int row = table.rowAtPoint(point);
+                if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    System.out.println("YES"+table.getSelectedRow());
+                    String nom = (String)table.getValueAt(table.getSelectedRow(),0);
+                    String prenom = (String)table.getValueAt(table.getSelectedRow(),1);
+                    String groupe = (String)table.getValueAt(table.getSelectedRow(),2);
+                    String handicap = (String)table.getValueAt(table.getSelectedRow(),3);
+                    String tier = (String)table.getValueAt(table.getSelectedRow(),4);
+                    String priseEnCompte = (String)table.getValueAt(table.getSelectedRow(),5);
+                    int id = Integer.parseInt((String)table.getValueAt(table.getSelectedRow(),6));
+
+                    CritereRechercheEtudiant cre = new CritereRechercheEtudiant(id,nom,prenom,groupe,handicap,tier,priseEnCompte);
+                    DialogCreerEtudiant dialog = new DialogCreerEtudiant(null,"Modification d'un étudiant",true,true,cre);
+                    dialog.afficherDialog();
+                    setChanged();
+                    notifyObservers();
+                }
+            }
+        });
+        jTable.setBounds(30,40,500,700);
+        jTable.setFont(new Font("Arial",Font.PLAIN,15));
+        jTable.setRowHeight(20);
+        TableColumn column = null;
+        for (int i = 0; i < 5; i++) {
+            column = this.etudiants.getColumnModel().getColumn(i);
+            column.setPreferredWidth(150);
+        }
+        jTable.setAutoCreateRowSorter(true);
+        return jTable;
     }
 }

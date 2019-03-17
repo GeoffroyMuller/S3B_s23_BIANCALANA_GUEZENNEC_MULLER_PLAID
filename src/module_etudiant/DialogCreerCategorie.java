@@ -16,9 +16,22 @@ public class DialogCreerCategorie extends JDialog {
     private JTextField textNomCategorie;
     private JButton valider,annuler;
     private boolean modification;
+    private Categorie categorie;
 
     public DialogCreerCategorie(JFrame parent, String title, boolean modal,boolean modification){
         super(parent,title,modal);
+        this.modification = modification;
+        this.setSize(new Dimension(550,270));
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        this.initComponent();
+
+    }
+
+    public DialogCreerCategorie(JFrame parent, String title, boolean modal,boolean modification,Categorie categorie){
+        super(parent,title,modal);
+        this.categorie = categorie;
         this.modification = modification;
         this.setSize(new Dimension(550,270));
         this.setLocationRelativeTo(null);
@@ -42,6 +55,9 @@ public class DialogCreerCategorie extends JDialog {
 
         gbc.gridx=1;
         this.textNomCategorie = new JTextField();
+        if(modification){
+            this.textNomCategorie.setText(this.categorie.getNom());
+        }
         this.textNomCategorie.setPreferredSize(new Dimension(VueModuleEtudiant.TEXTFIELD_WIDTH,VueModuleEtudiant.TEXTFIELD_HEIGHT));
 
         containerInfo.add(this.textNomCategorie,gbc);
@@ -66,14 +82,15 @@ public class DialogCreerCategorie extends JDialog {
         this.valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Categorie categorie = new Categorie(textNomCategorie.getText());
-                if(categorie.checkUniciterNomCategorie()){
-                    categorie.save();
-                    setVisible(false);
+                if(modification){
+
+                    categorie.setNom(textNomCategorie.getText());
+                    verifierLeNouveauNom(categorie);
                 }else{
-                    JOptionPane jop = new JOptionPane();
-                    jop.showMessageDialog(null,"Une catégorie avec ce nom est déja présente","Nom déja utilisé",JOptionPane.INFORMATION_MESSAGE);
+                    Categorie categorieNouvelle = new Categorie(textNomCategorie.getText());
+                    verifierLeNouveauNom(categorieNouvelle);
                 }
+
             }
         });
 
@@ -95,5 +112,15 @@ public class DialogCreerCategorie extends JDialog {
     public void afficherDialog(){
         this.sendData =false;
         this.setVisible(true);
+    }
+
+    public void verifierLeNouveauNom(Categorie categorie){
+        if(categorie.checkUniciterNomCategorie()){
+            categorie.save();
+            setVisible(false);
+        }else{
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Une catégorie avec ce nom est déja présente","Nom déja utilisé",JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }

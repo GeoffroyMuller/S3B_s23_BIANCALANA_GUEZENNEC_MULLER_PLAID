@@ -9,13 +9,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class DialogCreerEtudiant extends JDialog {
     private boolean sendData;
     private JLabel labNom,labPrenom,labCategorie,labGroupe,labPrendreEnComptePlacement;
     private JTextField textNom,textPrenom;
     private JComboBox<Categorie> comboCategorie;
-    private JComboBox<Groupe> comboGroupe;
+    private JComboBox comboGroupe;
     private JButton valider,annuler;
     private boolean modification;
     private ArrayList<Groupe> donneeComboGroupe;
@@ -23,10 +25,22 @@ public class DialogCreerEtudiant extends JDialog {
     private JRadioButton oui,non;
     private CritereRechercheEtudiant cre;
 
+    private JScrollPane containerGroupesCombo;
+    private JButton ajouterUnGroupe,enleverUnGroupe;
+    private ArrayList<JComboBox> listeComboGroupe;
+    private JPanel contenant;
+    private GridBagConstraints gbcScroll;
+    private HashMap<JButton,JComboBox> liaisonEnleverGroupeCombo;
+    private ArrayList<Groupe> groupeARetireDeEtudiant;
+
+
     public DialogCreerEtudiant(JFrame parent, String title, boolean modal,boolean modification){
         super(parent,title,modal);
         this.modification = modification;
-        this.setSize(new Dimension(550,350));
+        this.liaisonEnleverGroupeCombo = new HashMap<JButton, JComboBox>();
+        this.groupeARetireDeEtudiant = new ArrayList<Groupe>();
+
+        this.setSize(new Dimension(550,550));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -37,6 +51,9 @@ public class DialogCreerEtudiant extends JDialog {
         super(parent,title,modal);
         this.modification = modification;
         this.cre = cre;
+        this.liaisonEnleverGroupeCombo = new HashMap<JButton, JComboBox>();
+        this.groupeARetireDeEtudiant = new ArrayList<Groupe>();
+
         this.setSize(new Dimension(850,350));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -77,33 +94,6 @@ public class DialogCreerEtudiant extends JDialog {
         }
         containerInfo.add(this.textPrenom,gbc);
 
-        if(!modification){
-            gbc.gridy=2;
-            gbc.gridx=0;
-            this.labCategorie = new JLabel("Catégorie : ");
-            containerInfo.add(this.labCategorie,gbc);
-
-            gbc.gridx=1;
-            ArrayList<Categorie> categories = Categorie.getlistCategorie();
-            this.comboCategorie = new JComboBox<Categorie>((Categorie[])categories.toArray(new Categorie[categories.size()]));
-            this.comboCategorie.setSelectedIndex(0);
-            this.donneeComboGroupe = this.comboCategorie.getItemAt(0).getListGroupe();
-            this.comboCategorie.setPreferredSize(new Dimension(VueModuleEtudiant.COMBOBOX_WIDTH,VueModuleEtudiant.COMBOBOX_HEIGHT));
-
-            this.comboCategorie.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    donneeComboGroupe = ((Categorie)comboCategorie.getSelectedItem()).getListGroupe();
-                    comboGroupe.removeAllItems();
-                    comboGroupe = new JComboBox<Groupe>((Groupe[])donneeComboGroupe.toArray());
-                    comboGroupe.setSelectedIndex(0);
-                }
-            });
-
-            containerInfo.add(this.comboCategorie,gbc);
-        }
-
-
         gbc.gridy=3;
         gbc.gridx=0;
         this.labGroupe = new JLabel("Groupe : ");
@@ -112,41 +102,78 @@ public class DialogCreerEtudiant extends JDialog {
         }
         containerInfo.add(this.labGroupe,gbc);
 
+        contenant = new JPanel();
+        contenant.setLayout(new GridBagLayout());
+        gbcScroll = new GridBagConstraints();
+        gbcScroll.gridx = 0;
+        gbcScroll.gridy = 0;
+        gbcScroll.insets = new Insets(0,10,10,10);
+        this.containerGroupesCombo = new JScrollPane(contenant);
+        this.listeComboGroupe = new ArrayList<JComboBox>();
+        this.containerGroupesCombo.setPreferredSize(new Dimension(230,100));
 
-
-        //gridx = 1 gridy=3
         if(modification){
-            ArrayList<Groupe> groupesEtu = (Etudiant.findById(cre.getId()).recupererGroupes());
-            ArrayList<JComboBox<Groupe>> groupesCombo = new ArrayList<JComboBox<Groupe>>();
-            ArrayList<Groupe> toutLesGroupes = Groupe.listGroupe();
-            gbc.gridx=1;
-            gbc.gridy=3;
-            System.out.println("Nombre de groupe de l'etu : "+groupesEtu.size());
-            for(Groupe groupe : groupesEtu){
-                JComboBox<Groupe> combo = new JComboBox<Groupe>((Groupe[])toutLesGroupes.toArray(new Groupe[toutLesGroupes.size()]));
-                combo.setSelectedItem(groupe);
-                combo.setPreferredSize(new Dimension(VueModuleEtudiant.COMBOBOX_WIDTH,VueModuleEtudiant.COMBOBOX_HEIGHT));
-                /*
-                TO DO ACTION LISTENER
-                 */
-                containerInfo.add(combo,gbc);
-                if(gbc.gridx==2){
-                    gbc.gridy++;
-                    gbc.gridx=1;
-                }else{
-                    gbc.gridx++;
+                ArrayList<Groupe> groupesDeEtudiant = (Etudiant.findById(cre.getId()).recupererGroupes());
+                boolean premierGroupe = true;
+                for(Groupe groupe : groupesDeEtudiant){
+                    JComboBox comboBox = new JComboBox();
+                    setupComboBox(comboBox);
+                    comboBox.setPreferredSize(new Dimension(VueModuleEtudiant.COMBOBOX_WIDTH+15,VueModuleEtudiant.COMBOBOX_HEIGHT));
+                    comboBox.setSelectedItem(groupe);
+                    listeComboGroupe.add(comboBox);
+                    contenant.add(comboBox,gbcScroll);
+                    if(!premierGroupe){
+                        JButton bouton = new JButton("-");
+                        bouton = ajouterActionListenerSuprressionDuGroupe(bouton);
+                        gbcScroll.gridx=1;
+                        contenant.add(bouton,gbcScroll);
+                        liaisonEnleverGroupeCombo.put(bouton,comboBox);
+                        gbcScroll.gridx=0;
+                        gbcScroll.gridy++;
+                    }
+
                 }
-            }
         }else{
             gbc.gridx=1;
             ArrayList<Groupe> groupes = this.donneeComboGroupe;
-            this.comboGroupe = new JComboBox<Groupe>((Groupe[])groupes.toArray(new Groupe[groupes.size()]));
-            comboGroupe.setSelectedIndex(0);
-            this.comboGroupe.setPreferredSize(new Dimension(VueModuleEtudiant.COMBOBOX_WIDTH,VueModuleEtudiant.COMBOBOX_HEIGHT));
-            gbc.gridx=1;
-            gbc.gridy=3;
-            containerInfo.add(comboGroupe,gbc);
+            this.comboGroupe = new JComboBox(new ComboBoxModel());
+            setupComboBox(this.comboGroupe);
+            this.comboGroupe.setPreferredSize(new Dimension(VueModuleEtudiant.COMBOBOX_WIDTH+15,VueModuleEtudiant.COMBOBOX_HEIGHT));
+            contenant.add(comboGroupe,gbcScroll);
+
+            this.listeComboGroupe.add(this.comboGroupe);
         }
+        //Ajout du JScrollPan
+        gbc.gridx=1;
+        gbc.gridy=3;
+        containerInfo.add(this.containerGroupesCombo,gbc);
+
+        //Ajout d'un bouton permettant l'ajout d'un groupe via une combobox
+        gbc.gridx=4;
+        this.ajouterUnGroupe = new JButton("+");
+        containerInfo.add(this.ajouterUnGroupe,gbc);
+        this.ajouterUnGroupe.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gbcScroll.gridy++;
+                JComboBox nouvelleComboBox = new JComboBox();
+                setupComboBox(nouvelleComboBox);
+                nouvelleComboBox.setPreferredSize(new Dimension(VueModuleEtudiant.COMBOBOX_WIDTH+15,VueModuleEtudiant.COMBOBOX_HEIGHT));
+                listeComboGroupe.add(nouvelleComboBox);
+                contenant.add(nouvelleComboBox,gbcScroll);
+
+                JButton bouton = new JButton("-");
+                bouton = ajouterActionListenerSuprressionDuGroupe(bouton);
+                gbcScroll.gridx=1;
+                contenant.add(bouton,gbcScroll);
+                liaisonEnleverGroupeCombo.put(bouton,nouvelleComboBox);
+                gbcScroll.gridx=0;
+
+
+                containerGroupesCombo.setViewportView(contenant);
+
+            }
+        });
 
 
         gbc.gridy=4;
@@ -215,10 +242,23 @@ public class DialogCreerEtudiant extends JDialog {
         this.valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Création de l'étudiant
-                Etudiant etudiant = new Etudiant(textNom.getText(),textPrenom.getText());
-                etudiant.save();
-                    //Ajout des contraintes
+                Etudiant etudiant=null;
+                if(modification){
+                    etudiant = Etudiant.findById(cre.getId());
+
+                    //Si modification alors on enleve les potentiels groupes
+                    if(modification){
+                        for(Groupe groupe : groupeARetireDeEtudiant){
+                            groupe.retirerEtudiantDuGroupe(cre.getId());
+                        }
+                    }
+                }else{
+                    //Création de l'étudiant
+                    etudiant = new Etudiant(textNom.getText(),textPrenom.getText());
+                    etudiant.save();
+                }
+
+                //Ajout des contraintes
                 ArrayList<Particularite> particularites = new ArrayList<Particularite>();
                 if(checkBoxHandicap.isSelected()){
                     if(oui.isSelected()){
@@ -237,11 +277,21 @@ public class DialogCreerEtudiant extends JDialog {
                 }
                 etudiant.ajouterParticularite(particularites);
 
-                //Ajout à un groupe
-                Groupe groupe = (Groupe)comboGroupe.getSelectedItem();
-                groupe.ajouterEtudiant(etudiant);
+                //Ajout des groupes
+                for(JComboBox combo : listeComboGroupe){
+                    Groupe groupe = (Groupe)combo.getSelectedItem();
+                    groupe.ajouterEtudiant(etudiant);
+                }
+                etudiant.save();
+
                 JOptionPane jop = new JOptionPane();
-                jop.showMessageDialog(null,"Etudiant crée avec succés ! ","Réussite !",JOptionPane.INFORMATION_MESSAGE);
+                if(modification){
+                    jop.showMessageDialog(null,"Etudiant.e modifié.e avec succés ! ","Réussite !",JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    jop.showMessageDialog(null,"Etudiant.e crée avec succés ! ","Réussite !",JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                setVisible(false);
             }
         });
 
@@ -263,5 +313,49 @@ public class DialogCreerEtudiant extends JDialog {
     public void afficherDialog(){
         this.sendData =false;
         this.setVisible(true);
+    }
+
+    private void setupComboBox(JComboBox comboBox){
+        comboBox.addItem("Selectionner un groupe");
+        for(Categorie categorie : Categorie.getlistCategorie()){
+            comboBox.addItem("----"+categorie.getNom());
+            for(Groupe groupe : categorie.getListGroupe()){
+                comboBox.addItem(groupe);
+            }
+        }
+        comboBox.setSelectedIndex(0);
+    }
+
+    private JButton ajouterActionListenerSuprressionDuGroupe(JButton bouton){
+        bouton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               JComboBox combo = liaisonEnleverGroupeCombo.get(bouton);
+               if(combo.getSelectedItem() instanceof Groupe){
+                   groupeARetireDeEtudiant.add((Groupe)combo.getSelectedItem());
+               }
+               listeComboGroupe.remove(combo);
+               refreshScrollGroupe();
+            }
+        });
+        return bouton;
+    }
+
+    private void refreshScrollGroupe(){
+        contenant.removeAll();
+        gbcScroll.gridx = 0;
+        gbcScroll.gridy = 0;
+        for(JComboBox combo : listeComboGroupe){
+            contenant.add(combo,gbcScroll);
+            JButton button = new JButton("-");
+            button = ajouterActionListenerSuprressionDuGroupe(button);
+            gbcScroll.gridx=1;
+            contenant.add(button,gbcScroll);
+            gbcScroll.gridy++;
+            gbcScroll.gridx=0;
+            liaisonEnleverGroupeCombo.clear();
+            liaisonEnleverGroupeCombo.put(button,combo);
+        }
+        containerGroupesCombo.setViewportView(contenant);
     }
 }

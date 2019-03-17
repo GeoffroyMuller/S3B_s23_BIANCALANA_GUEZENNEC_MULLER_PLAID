@@ -17,6 +17,8 @@ import com.mysql.fabric.xmlrpc.base.Array;
  */
 public class Groupe {
 
+
+
 	/** The nom. */
 	private String nom;
 
@@ -55,7 +57,9 @@ public class Groupe {
 		return idGroupe;
 	}
 
-
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
 
 	/**
 	 * Instantiates a new groupe.
@@ -92,16 +96,16 @@ public class Groupe {
 			Connection connect = DBConnection.getConnection();
 			ResultSet rs=null;
 			if(null != nom && null != prenom){
-				PreparedStatement nomEtPrenom = connect.prepareStatement("SELECT idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.nom LIKE "+nom+" AND ETUDIANT.prenom LIKE "+prenom+";");
+				PreparedStatement nomEtPrenom = connect.prepareStatement("SELECT ETUDIANT.idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.nom LIKE '%"+nom+"%' AND ETUDIANT.prenom LIKE '%"+prenom+"';");
 				nomEtPrenom.execute();
 				 rs = nomEtPrenom.getResultSet();
 
 			}else if(null!=nom){
-				PreparedStatement nomSeulement = connect.prepareStatement("SELECT idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.nom LIKE "+nom+";");
+				PreparedStatement nomSeulement = connect.prepareStatement("SELECT ETUDIANT.idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.nom LIKE '"+nom+"';");
 				nomSeulement.execute();
 				 rs = nomSeulement.getResultSet();
 			}else if(null!=prenom){
-				PreparedStatement prenomSeulement = connect.prepareStatement("SELECT idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.prenom LIKE "+prenom+";");
+				PreparedStatement prenomSeulement = connect.prepareStatement("SELECT ETUDIANT.idEtu FROM ETUDIANT INNER JOIN ETUDIANTGROUPE ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANTGROUPE.IdGroupe ="+this.idGroupe+" AND ETUDIANT.prenom LIKE '"+prenom+"';");
 				prenomSeulement.execute();
 				 rs = prenomSeulement.getResultSet();
 			}
@@ -157,6 +161,24 @@ public class Groupe {
 			res = new Groupe(resNom, id);
 		}
 		return res;
+	}
+
+	public Categorie getCategorie(){
+		Categorie categorie = null;
+		try{
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement requete = connect.prepareStatement("SELECT * FROM CATEGORIE INNER JOIN GROUPECATEGORIE on CATEGORIE.IdCategorie = GROUPECATEGORIE.IdCategorie INNER JOIN GROUPE on GROUPE.IdGroupe = GROUPECATEGORIE.IdGroupe WHERE Groupe.IdGroupe="+this.idGroupe+";");
+			requete.execute();
+			ResultSet rs = requete.getResultSet();
+			while(rs.next()){
+				categorie = new Categorie(rs.getString("nom"),rs.getInt("IdCategorie"));
+			}
+		}catch(SQLException e){
+/*
+TO DO
+ */
+		}
+		return categorie;
 	}
 
 	/**
@@ -259,7 +281,20 @@ public class Groupe {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
 	}
-	
+
+
+	public void retirerEtudiantDuGroupe(int idEtudiant){
+		try{
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement requete = connect.prepareStatement("DELETE FROM ETUDIANTGROUPE WHERE IdEtu="+idEtudiant+" AND IdGroupe="+this.idGroupe+";");
+			requete.execute();
+			this.save();
+		}catch(SQLException e){
+/*
+TO DO
+ */
+		}
+	}
 
 	public void setListeEtudiants(ArrayList<Etudiant> le) {
 		for (Etudiant etudiant : le) {

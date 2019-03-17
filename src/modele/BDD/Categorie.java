@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import Popup_Categorie.Frame_Popup;
 
@@ -223,6 +224,18 @@ public class Categorie{
 		}
 		return res;
 	}
+
+	public void enleverUnGroupe(Groupe groupe){
+		try{
+			Connection connect = DBConnection.getConnection();
+			PreparedStatement requete = connect.prepareStatement("DELETE FROM GROUPECATEGORIE WHERE IdCategorie="+this.idCategorie+" AND IdGroupe="+groupe.getIdGroupe());
+			requete.execute();
+		}catch(SQLException e){
+			/*
+			To do
+			 */
+		}
+	}
 	
 	
 	/**
@@ -439,5 +452,16 @@ public class Categorie{
 	}
 
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Categorie categorie = (Categorie) o;
+		return Objects.equals(nom, categorie.nom);
+	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(nom);
+	}
 }
