@@ -176,7 +176,13 @@ public class VueExamen extends JPanel implements Observer{
 
 		//jp2_affichListEtu.setPreferredSize(new Dimension(200, 200));
 		//ajout de "jp2" aux "jp1"
-		jpp_affichListEtu_marge.add(jp2_affichListEtu, BorderLayout.CENTER);
+		
+		VueEtudiantParticipant vuetest = new VueEtudiantParticipant();
+		vuetest.setBackground(Color.red);
+		vuetest.definirTaille(500, 1600);
+		
+		
+		jpp_affichListEtu_marge.add(vuetest, BorderLayout.CENTER);
 
 
 		//contoure de jp2
@@ -207,10 +213,10 @@ public class VueExamen extends JPanel implements Observer{
 
 
 		jp2_affichListEtu.add(jscrol_dev);*/
-		VueEtudiantParticipant vuetest = new VueEtudiantParticipant();
+		/*VueEtudiantParticipant vuetest = new VueEtudiantParticipant();
 		vuetest.setBackground(Color.red);
-		vuetest.setPreferredSize(new Dimension(500, 800));
-		jp2_affichListEtu.add(vuetest);
+		vuetest.definirTaille(500, 1600);
+		jp2_affichListEtu.add(vuetest);*/
 		
 		JButton jb_dev_up = new JButton("update");
 		jb_dev_up.addActionListener(new ActionListener() {
@@ -219,21 +225,15 @@ public class VueExamen extends JPanel implements Observer{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 
+				jp2_creation.getVue_grpParticip().sauvegarder();
 				((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
-
-				colorer(Color.red);
-				/*try {
-					((VueCreation) jp2_creation).creerVueGroupeParticipant(Categorie.getlistCategorie());
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
+				jp2_creation.getVue_grpParticip().charger();
 				repaint();
 
 			}
 
 		});
-		//jp2_creation.add(jb_dev_up);
+		jp2_creation.add(jb_dev_up);
 	}
 
 
@@ -301,6 +301,8 @@ public class VueExamen extends JPanel implements Observer{
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeee:::::::::"+jpp_affichListEtu_marge);
+		
 		/*//dev
 		jscrol_dev.setPreferredSize(new Dimension(jp2_affichListEtu.getWidth()-5, jp2_affichListEtu.getHeight()-20));//dev
 		paneldev.suppliste();
@@ -314,7 +316,7 @@ public class VueExamen extends JPanel implements Observer{
 		//findev*/
 	}
 
-	public static void main(String arg[]) throws SQLException {
+	/*public static void main(String arg[]) throws SQLException {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -328,11 +330,13 @@ public class VueExamen extends JPanel implements Observer{
 		fenetre.setVisible(true);
 		vuec.definirTaille(fenetre.getWidth(),fenetre.getHeight());
 
-	}
+	}*/
 
 	@Override
 	public void update(Observable o, Object arg) {
+		jp2_creation.getVue_grpParticip().sauvegarder();
 		((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
+		jp2_creation.getVue_grpParticip().charger();
 		colorer(color);
 	}
 

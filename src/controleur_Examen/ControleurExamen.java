@@ -199,7 +199,7 @@ public class ControleurExamen {
 		mapButton_categorie.put(jbt, categp);
 		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
-		jbt.setBackground(Color.white);
+		//jbt.setBackground(Color.white);
 		jbt.addActionListener(new ActionListener() {
 
 			@SuppressWarnings("deprecation")
@@ -225,7 +225,7 @@ public class ControleurExamen {
 	private void changeButtonGroupe(JButton jbt, Groupe grp) {
 		if(jbt.getText().equals("Ajouter")) {
 			jbt.setText("Retirer");
-			jbt.setBackground(Color.gray);
+			//jbt.setBackground(Color.gray);
 
 			 examen.ajouterGroupe(grp);
 			System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
@@ -233,7 +233,7 @@ public class ControleurExamen {
 		}else {
 			if(jbt.getText().equals("Retirer")) {
 				jbt.setText("Ajouter");
-				jbt.setBackground(Color.white);
+				//jbt.setBackground(Color.white);
 
 				examen.enleverDesGroupesDeExamen(grp);
 				System.out.println("Retirer> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
@@ -258,7 +258,7 @@ public class ControleurExamen {
 		}
 		if(jbt.getText().equals("Ajouter")) {
 			jbt.setText("Retirer");
-			jbt.setBackground(Color.black);
+			//jbt.setBackground(Color.black);
 			//liste_grp.clear();
 			
 			for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
@@ -273,7 +273,7 @@ public class ControleurExamen {
 		}else {
 			if(jbt.getText().equals("Retirer")) {
 				jbt.setText("Ajouter");
-				jbt.setBackground(Color.white);
+				//jbt.setBackground(Color.white);
 				//liste_grp.clear();
 				for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
 					if(jb_grp.getKey().getText().equals("Retirer")) {
