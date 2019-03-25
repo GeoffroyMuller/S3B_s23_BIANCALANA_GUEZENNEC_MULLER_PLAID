@@ -148,24 +148,23 @@ public class ListeurCategorie extends JPanel{
 		map_Save.clear();
 		for (PanelListeurCategorie pn_save : listeurModif.getListe_panelListeur()) {
 			map_Save.put(pn_save.getNomCategorie(), pn_save.isActiver());
-			System.out.println(">Sauvegarde parametre :: nom panelisteurcateg : "+pn_save.getNomCategorie()+" activateur : "+pn_save.isActiver());
-			////en cours ==========================================================================================================
+			//System.out.println(">Sauvegarde parametre :: nom panelisteurcateg : "+pn_save.getNomCategorie()+" activateur : "+pn_save.isActiver());
 		}
 	}
 	public static void chargerSauvegarde(ListeurCategorie listeurModif) {
 		for (int i=0; i<listeurModif.getListe_panelListeur().size();i++) {
-			System.out.println(">Chargement parametre :: "+i);
+			//System.out.println(">Chargement parametre :: "+i);
 			if(map_Save.containsKey(listeurModif.getListe_panelListeur().get(i).getNomCategorie())) {
-				System.out.println(">C :: contenu");
+				//System.out.println(">C :: contenu");
 				for( String str_save : map_Save.keySet() ) {
-					System.out.println(">C :: Cherche");
+					//System.out.println(">C :: Cherche");
 					if(str_save.equals(listeurModif.getListe_panelListeur().get(i).getNomCategorie())) {
-						System.out.println(">C :: Trouver ");
+						//System.out.println(">C :: Trouver ");
 						listeurModif.getListe_panelListeur().get(i).isActiverAction(map_Save.get(str_save));
 					}
 				}
 			}else {
-				System.out.println(">C :: non contenu");
+				//System.out.println(">C :: non contenu");
 			}
 		}
 	}

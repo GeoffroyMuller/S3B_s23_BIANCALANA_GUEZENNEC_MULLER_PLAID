@@ -43,6 +43,8 @@ public class ControleurExamen {
 	private HashMap<JButton, Groupe> mapBoutton_groupe;
 	private HashMap<JButton, Categorie> mapButton_categorie;
 	private ArrayList<JComboBox<String>> listeComboSalle;
+	
+	private ArrayList<JButton> listeJBSuppr;
 
 	private JButton jb_creerExam;	//JButton : creer un Examen
 	
@@ -319,6 +321,16 @@ public class ControleurExamen {
 
 	}
 	
+
+	public ArrayList<JButton> getListeJBSuppr() {
+		return listeJBSuppr;
+	}
+
+
+	public void addListeJBSuppr() {
+		//this.listeJBSuppr.add();
+	}
+
 
 	public ArrayList<JComboBox<String>> getListeComboSalle() {
 		return listeComboSalle;

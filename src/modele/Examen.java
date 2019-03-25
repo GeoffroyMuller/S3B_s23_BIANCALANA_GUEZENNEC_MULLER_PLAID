@@ -6,6 +6,8 @@ import modele.BDD.Groupe;
 import modele.BDD.Particularite;
 import modele.BDD.Place;
 import modele.BDD.Salle;
+import vue_Examen.VueExamen;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -105,6 +107,8 @@ import javax.swing.*;
     public void enleverDesGroupesDeExamen(Groupe groupe){
         ArrayList<Etudiant> etudiants = groupe.getListeEtudiants();
         this.enleverDesEtudiantsDeExamen(etudiants);
+        setChanged();
+		notifyObservers(VueExamen.VUE_ETU);
     }
 
     /**
@@ -124,6 +128,8 @@ import javax.swing.*;
         for(modele.BDD.Etudiant etu : etudiants){
             this.etudiants.put(etu,groupe.getNom());
         }
+        setChanged();
+		notifyObservers(VueExamen.VUE_ETU);
     }
 
     /**

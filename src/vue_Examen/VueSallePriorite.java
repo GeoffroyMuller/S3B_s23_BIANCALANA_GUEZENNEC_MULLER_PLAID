@@ -74,7 +74,8 @@ public class VueSallePriorite extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Ajouter Salle");
-				ctrlexamp.ajouterComboSalle();
+				//ctrlexamp.ajouterComboSalle();
+				listeur.ajouterPriorite();
 				listeur.creerZonePriorite();
 			}
 		});
