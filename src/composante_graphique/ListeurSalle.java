@@ -14,34 +14,30 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
 import javax.swing.border.Border;
 
 import controleur_Examen.ControleurExamen;
-import modele.Examen;
-import modele.BDD.Categorie;
+
 import modele.BDD.Salle;
 //import sun.net.www.content.image.jpeg;
 
 public class ListeurSalle extends JPanel{
 	private static Color color = new Color(236, 241, 245);
-	private static class ActionSupprElemComboSalle implements ActionListener{
+	private static Color color2 = new Color(40, 73, 92);
+	/*private static class ActionSupprElemComboSalle implements ActionListener{
 		private int nb;
+		private ListeurSalle ls; 
 		private JPanel jp;
 		private ControleurExamen ctrlexam;
-		public ActionSupprElemComboSalle(int i, JPanel jpp, ControleurExamen ctrl) {
+		public ActionSupprElemComboSalle(int i, JPanel jpp, ControleurExamen ctrl, ListeurSalle lsp) {
 			// TODO Auto-generated constructor stub
 			nb = i ;
 			jp = jpp;
+			ls = lsp;
 			ctrlexam = ctrl;
 		}
-		
+
 		public int getNb() {
 			return nb;
 		}
@@ -51,12 +47,16 @@ public class ListeurSalle extends JPanel{
 			// TODO Auto-generated method stub
 			ctrlexam.getListeComboSalle().remove(nb);
 			jp.removeAll();
+			ls.repaint();
+			ls.setVisible(false);
+			ls.setVisible(true);
 			System.out.println("Supprimer "+nb);
 		}
-		
-	}
-	private ControleurExamen ctrlexam;
 
+	}*/
+	private ControleurExamen ctrlexam;
+	private ArrayList<PanelListeurPriorite> listprioritie = new ArrayList<PanelListeurPriorite>();
+	
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
@@ -64,7 +64,7 @@ public class ListeurSalle extends JPanel{
 	private ArrayList<Salle> prioriteSalle;
 
 	private JPanel jptestcomb = new JPanel();
-	
+
 	public ListeurSalle(ControleurExamen ctrlexamp) throws SQLException {
 		ctrlexam = ctrlexamp;
 		this.setBackground(color);
@@ -72,7 +72,7 @@ public class ListeurSalle extends JPanel{
 		controleur_Exam = ctrlexamp;
 		jp_all = new JPanel();
 		jp_all.setLayout(new GridBagLayout());
-		jp_all.setBackground(Color.darkGray);
+		jp_all.setBackground(color2);
 		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollpane.getVerticalScrollBar().setUnitIncrement(15);
 		this.setLayout(new GridBagLayout());
@@ -105,24 +105,49 @@ public class ListeurSalle extends JPanel{
 		gbcp.weightx = 1;
 		gbcp.weighty = 0.5;
 		jp_all.add(jptest, gbcp);
-		*/
+		 */
 		this.controleur_Exam.ajouterComboSalle();
+		ajouterPriorite();
 		creerZonePriorite(); 
 
-		
+
 	}
-	
+	public void ajouterPriorite() {
+		listprioritie.add(new PanelListeurPriorite(listprioritie.size(),this));
+	}
+	public void supprimerPriorite(int idp) {
+		try {
+			listprioritie.remove(idp);
+		}catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane jop = new JOptionPane();
+			jop.showMessageDialog(null,"Une erreur est survenue : Supression Imposible, l'élément n'existe pas.","Erreur",JOptionPane.INFORMATION_MESSAGE);
+		}
+		for(int i=0;i<listprioritie.size();i++) {
+			listprioritie.get(i).setId(i);
+			}
+	}
 	public void creerZonePriorite() {
 		jp_all.removeAll();
 		GridBagConstraints gbcp = new GridBagConstraints();
-		
-		for(int i=0;i<controleur_Exam.getListeComboSalle().size();i++) {
+		for(int i=0;i<listprioritie.size();i++) {
+			gbcp.gridx = 0;
+			gbcp.gridy = i;
+			gbcp.fill = GridBagConstraints.BOTH;
+			gbcp.insets = new Insets(0, 0, 0, 0);
+			gbcp.weightx = 0;
+			gbcp.weighty = 0;
+			jp_all.add(listprioritie.get(i), gbcp);
+		}
+		/*for(int i=0;i<controleur_Exam.getListeComboSalle().size();i++) {
 			JPanel jp_priorite = new JPanel();
+
 			jp_priorite.setName("jpan"+i);
 			jp_priorite.setPreferredSize(new Dimension(WIDTH, 30));
 			jp_priorite.add(new JLabel(""+i));
 			jp_priorite.add(this.controleur_Exam.getListeComboSalle().get(i));//
 			JButton jb_supp = new JButton("Supprimer");
+			//jb_supp.addActionListener(new ActionSupprElemComboSalle(i, jp_priorite, controleur_Exam, this));
 			jp_priorite.add(jb_supp);
 			jp_priorite.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 			gbcp.gridx = 0;
@@ -131,12 +156,13 @@ public class ListeurSalle extends JPanel{
 			gbcp.insets = new Insets(0, 0, 0, 0);
 			gbcp.weightx = 0;
 			gbcp.weighty = 0;
-			jp_all.add(jp_priorite, gbcp);
+			jp_all.add(new PanelListeurPriorite(1), gbcp);
 			//jb_supp.addActionListener(new ActionSupprElemComboSalle(i, jp_priorite, controleur_Exam));
-			
-		}
+
+		}*/
 		JPanel jptest = new JPanel();
-		jptest.add(new JLabel("marge"));
+		jptest.setBackground(color2);
+		//jptest.add(new JLabel("marge"));
 		gbcp.gridx = 0;
 		gbcp.gridy = 10;
 		gbcp.fill = GridBagConstraints.BOTH;
@@ -144,7 +170,7 @@ public class ListeurSalle extends JPanel{
 		gbcp.weightx = 1;
 		gbcp.weighty = 0.5;
 		jp_all.add(jptest, gbcp);
-		
+
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -154,6 +180,7 @@ public class ListeurSalle extends JPanel{
 		scrollpane.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 
 		this.add(scrollpane, gbc);
+
 	}
 
 	/**

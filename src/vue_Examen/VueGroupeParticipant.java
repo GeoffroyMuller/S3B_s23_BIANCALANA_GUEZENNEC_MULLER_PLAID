@@ -65,7 +65,12 @@ public class VueGroupeParticipant extends JPanel{
 		//repaint();
 		colorer(color);
 	}
-	
+	public void sauvegarder() {
+		ListeurCategorie.Sauvegarde(listeur);
+	}
+	public void charger() {
+		ListeurCategorie.chargerSauvegarde(listeur);
+	}
 	public void colorer(Color color) {
 		this.setBackground(color);
 		this.listeur.colorer(color);

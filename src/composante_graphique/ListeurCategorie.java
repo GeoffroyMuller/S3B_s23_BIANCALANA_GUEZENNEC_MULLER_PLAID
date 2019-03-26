@@ -11,10 +11,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,6 +35,7 @@ public class ListeurCategorie extends JPanel{
 	private PanelListeurCategorie pl_courant;
 	private ArrayList<Categorie> listecategorie;
 	private ArrayList<PanelListeurCategorie> liste_panelListeur;
+	public static HashMap<String, Boolean> map_Save = new HashMap<String, Boolean>();
 	private GridBagConstraints gbc = new GridBagConstraints();
 
 	public ListeurCategorie(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
@@ -72,7 +75,6 @@ public class ListeurCategorie extends JPanel{
 		for (Categorie categorie : listecategorie) {
 			pl_courant = new PanelListeurCategorie(categorie, this, controleur_Exam);
 			liste_panelListeur.add(pl_courant);
-			
 		}
 	}
 
@@ -142,11 +144,42 @@ public class ListeurCategorie extends JPanel{
 			plp.definirTaille(w-200, 30);
 		}
 	}
+	public static void Sauvegarde(ListeurCategorie listeurModif) {
+		map_Save.clear();
+		for (PanelListeurCategorie pn_save : listeurModif.getListe_panelListeur()) {
+			map_Save.put(pn_save.getNomCategorie(), pn_save.isActiver());
+			//System.out.println(">Sauvegarde parametre :: nom panelisteurcateg : "+pn_save.getNomCategorie()+" activateur : "+pn_save.isActiver());
+		}
+	}
+	public static void chargerSauvegarde(ListeurCategorie listeurModif) {
+		for (int i=0; i<listeurModif.getListe_panelListeur().size();i++) {
+			//System.out.println(">Chargement parametre :: "+i);
+			if(map_Save.containsKey(listeurModif.getListe_panelListeur().get(i).getNomCategorie())) {
+				//System.out.println(">C :: contenu");
+				for( String str_save : map_Save.keySet() ) {
+					//System.out.println(">C :: Cherche");
+					if(str_save.equals(listeurModif.getListe_panelListeur().get(i).getNomCategorie())) {
+						//System.out.println(">C :: Trouver ");
+						listeurModif.getListe_panelListeur().get(i).isActiverAction(map_Save.get(str_save));
+					}
+				}
+			}else {
+				//System.out.println(">C :: non contenu");
+			}
+		}
+	}
+	
 	
 	public void colorer(Color color) {
 		this.setBackground(color);
 	}
 
+	
+	
+
+	public ArrayList<PanelListeurCategorie> getListe_panelListeur() {
+		return liste_panelListeur;
+	}
 
 	public void paintComponent(Graphics g) {
 		

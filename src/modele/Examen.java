@@ -6,6 +6,8 @@ import modele.BDD.Groupe;
 import modele.BDD.Particularite;
 import modele.BDD.Place;
 import modele.BDD.Salle;
+import vue_Examen.VueExamen;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -64,17 +66,16 @@ import javax.swing.*;
      * @param salle
      */
     public void ajouterSalle(modele.BDD.Salle salle){
-        System.out.println("Ajout d'une salle : "+salle.getNom());
         this.salles.add(salle);
         this.placement.put(salle,new HashMap<Place, Etudiant>());
-
-		setChanged();
+        System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
+        setChanged();
 		notifyObservers();
     }
 
     public void retirerSalle(Salle salle){
-        System.out.println("Retire salle : "+salle.getNom());
         //this.placement.remove(salle);
+        System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
         this.salles.remove(salle);
     }
 
@@ -105,6 +106,8 @@ import javax.swing.*;
     public void enleverDesGroupesDeExamen(Groupe groupe){
         ArrayList<Etudiant> etudiants = groupe.getListeEtudiants();
         this.enleverDesEtudiantsDeExamen(etudiants);
+        setChanged();
+		notifyObservers(VueExamen.VUE_ETU);
     }
 
     /**
@@ -124,6 +127,8 @@ import javax.swing.*;
         for(modele.BDD.Etudiant etu : etudiants){
             this.etudiants.put(etu,groupe.getNom());
         }
+        setChanged();
+		notifyObservers(VueExamen.VUE_ETU);
     }
 
     /**
@@ -144,18 +149,17 @@ import javax.swing.*;
         int margeErreur = 0;
 
         if(!this.verifierLesParametresExamen()){
-            /*
-            To do ouverture fenetre exception
-             */
-        }
-
-        while(resultat !=margeErreur){
-            placerEleve();
-            resultat = this.verifierSolution();
-            nbTentative++;
-            if(nbTentative== 20000){
-                margeErreur++;
-                nbTentative = 0;
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Les paramétres de l'examen ont mal été renseignés.","Erreur",JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            while(resultat !=margeErreur){
+                placerEleve();
+                resultat = this.verifierSolution();
+                nbTentative++;
+                if(nbTentative== 20000){
+                    margeErreur++;
+                    nbTentative = 0;
+                }
             }
         }
         System.out.println("Le placement générer contient une marge d'erreur de :"+margeErreur+" cela peut être du à la présence d'élève ayant un placement spéccifique.");
@@ -254,9 +258,6 @@ import javax.swing.*;
 
             //On vérifie si la place est disponible (chaise cassé,allée...) et qu'aucun n'autre étudiant n'a été placé dessus
             Place placeActuelle = (Place)iterateurSalle.actual();
-            System.out.println(this.placement);
-            System.out.println(iterateurSalle.actual());
-            System.out.println(placeActuelle);
             Place place = placeActuelle;
 
             boolean disponible = placeActuelle.getDisponnible();

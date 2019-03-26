@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import modele.BDD.Salle;
 import modele.GestionFichiersExcel.ExportEtudiant;
@@ -43,6 +40,8 @@ public class ControleurExamen {
 	private HashMap<JButton, Groupe> mapBoutton_groupe;
 	private HashMap<JButton, Categorie> mapButton_categorie;
 	private ArrayList<JComboBox<String>> listeComboSalle;
+	
+	private ArrayList<JButton> listeJBSuppr;
 
 	private JButton jb_creerExam;	//JButton : creer un Examen
 	
@@ -200,7 +199,7 @@ public class ControleurExamen {
 		mapButton_categorie.put(jbt, categp);
 		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
-		jbt.setBackground(Color.white);
+		//jbt.setBackground(Color.white);
 		jbt.addActionListener(new ActionListener() {
 
 			@SuppressWarnings("deprecation")
@@ -226,7 +225,7 @@ public class ControleurExamen {
 	private void changeButtonGroupe(JButton jbt, Groupe grp) {
 		if(jbt.getText().equals("Ajouter")) {
 			jbt.setText("Retirer");
-			jbt.setBackground(Color.gray);
+			//jbt.setBackground(Color.gray);
 
 			 examen.ajouterGroupe(grp);
 			System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
@@ -234,7 +233,7 @@ public class ControleurExamen {
 		}else {
 			if(jbt.getText().equals("Retirer")) {
 				jbt.setText("Ajouter");
-				jbt.setBackground(Color.white);
+				//jbt.setBackground(Color.white);
 
 				examen.enleverDesGroupesDeExamen(grp);
 				System.out.println("Retirer> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
@@ -259,7 +258,7 @@ public class ControleurExamen {
 		}
 		if(jbt.getText().equals("Ajouter")) {
 			jbt.setText("Retirer");
-			jbt.setBackground(Color.black);
+			//jbt.setBackground(Color.black);
 			//liste_grp.clear();
 			
 			for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
@@ -274,7 +273,7 @@ public class ControleurExamen {
 		}else {
 			if(jbt.getText().equals("Retirer")) {
 				jbt.setText("Ajouter");
-				jbt.setBackground(Color.white);
+				//jbt.setBackground(Color.white);
 				//liste_grp.clear();
 				for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
 					if(jb_grp.getKey().getText().equals("Retirer")) {
@@ -303,6 +302,7 @@ public class ControleurExamen {
 			combres.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					System.out.println("Action !");
 					JComboBox comboBox = (JComboBox)e.getSource();
 					String nomSalle = (String)comboBox.getSelectedItem();
 					Salle salle = Salle.findByNom(nomSalle);
@@ -313,13 +313,23 @@ public class ControleurExamen {
 			});
 			this.listeComboSalle.add(combres);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur:: recuperation de Salle impossible");
+			JOptionPane jop = new JOptionPane();
+			jop.showMessageDialog(null,"Une erreur c'est produite : Recuperation de la salle impossible","Erreur",JOptionPane.INFORMATION_MESSAGE);
 			e1.printStackTrace();
 		}
 
 	}
 	
+
+	public ArrayList<JButton> getListeJBSuppr() {
+		return listeJBSuppr;
+	}
+
+
+	public void addListeJBSuppr() {
+		//this.listeJBSuppr.add();
+	}
+
 
 	public ArrayList<JComboBox<String>> getListeComboSalle() {
 		return listeComboSalle;
