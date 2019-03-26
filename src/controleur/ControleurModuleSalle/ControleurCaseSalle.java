@@ -71,7 +71,10 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         this.boiteDialogue = dialog;
         setContentAreaFilled(false);
         this.setBackground(this.couleurCase);
-
+        final Examen examenStatic = this.examen;
+        final Salle salleStatic = this.salle;
+        final int iStatic = this.i;
+        final int jStatic =this.j;
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -90,11 +93,11 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                Etudiant etudiant = examen.placement.get(salle).get(salle.getPlaces()[i][j]);
+                Etudiant etudiant = examenStatic.placement.get(salleStatic).get(salleStatic.getPlaces()[iStatic][jStatic]);
                 try{
-                    boiteDialogue.modifierInformationEtudiant(etudiant.getPrenom(),etudiant.getNom(),salle.getPlaces()[i][j],etudiant.getGroupe());
+                    boiteDialogue.modifierInformationEtudiant(etudiant.getPrenom(),etudiant.getNom(),salleStatic.getPlaces()[iStatic][jStatic],etudiant.getGroupe());
                 }catch(NullPointerException exception){
-                    boiteDialogue.modifierInformationEtudiant("Non occupée","Non occupée",salle.getPlaces()[i][j],"Non occupée");
+                    boiteDialogue.modifierInformationEtudiant("Non occupée","Non occupée",salleStatic.getPlaces()[iStatic][jStatic],"Non occupée");
                 }
             }
 
@@ -115,7 +118,9 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
 
        this.setBackground(this.couleurCase);
 
-
+        final Salle salleStatic = this.salle;
+        final int iStatic = this.i;
+        final int jStatic = this.j;
        this.addMouseListener(new MouseListener() {
            @Override
            public void mouseClicked(MouseEvent e) {
@@ -128,11 +133,11 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
 
                if(SwingUtilities.isRightMouseButton(e)){
 
-                   Place place = salle.getPlaces()[i][j];
+                   Place place = salleStatic.getPlaces()[iStatic][jStatic];
                    ModificationNomPlaceDialog dialog = new ModificationNomPlaceDialog(null,"Changement de nom",true,place);
                    ModificationNomPlaceDialogInfo infos = dialog.afficherDialog();
                    try {
-                       salle.modifierNomPlace(i, j, infos.getNouveauNom(), infos.getNomColonne(), infos.getNomRangee());
+                       salleStatic.modifierNomPlace(iStatic, jStatic, infos.getNouveauNom(), infos.getNomColonne(), infos.getNomRangee());
                    }catch(NullPointerException ex){
                    }
                }else{
@@ -154,7 +159,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                    try {
                        TypePlace tp = TypePlace.findByNom(typePlace);
                        Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
-                       salle.changerLeTypePlace(i,j,tp.getIdTypePlace());
+                       salleStatic.changerLeTypePlace(iStatic,jStatic,tp.getIdTypePlace());
                        //VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
                        VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
                    } catch (SQLException e1) {
@@ -195,7 +200,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                     try {
                         TypePlace tp = TypePlace.findByNom(typePlace);
                         Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
-                        salle.changerLeTypePlace(i,j,tp.getIdTypePlace());
+                        salleStatic.changerLeTypePlace(iStatic,jStatic,tp.getIdTypePlace());
                         //VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
                         VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
 
@@ -210,7 +215,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                 }
 
                try{
-                   vueSalle.mettreAJourInfoPlace(salle.getPlaces()[i][j].getNomRangee(),salle.getPlaces()[i][j].getNomColonne());
+                   vueSalle.mettreAJourInfoPlace(salleStatic.getPlaces()[iStatic][jStatic].getNomRangee(),salleStatic.getPlaces()[iStatic][jStatic].getNomColonne());
                }catch(NullPointerException exception){
                    vueSalle.mettreAJourInfoPlace("ERREUR","ERREUR");
 

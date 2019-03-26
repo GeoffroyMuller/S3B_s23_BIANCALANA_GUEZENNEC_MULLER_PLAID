@@ -7,8 +7,6 @@ import modele.BDD.Particularite;
 import modele.CritereRechercheEtudiant;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.*;
@@ -17,6 +15,9 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Observable;
 
+/**
+ * Classe VueModuleEtudiant
+ */
 public class VueModuleEtudiant extends Observable {
 
     public static int TEXTFIELD_WIDTH = 100;
@@ -24,19 +25,48 @@ public class VueModuleEtudiant extends Observable {
     public static int COMBOBOX_WIDTH = 120;
     public static int COMBOBOX_HEIGHT = 20;
 
+    /**
+     * Ensemble des combobox du module étudiant
+     */
     private JComboBox combocategorie,combogroupe;
+    /**
+     * Ensemble des JtextField pour rentrer les renseignements de l'étudiant
+     */
     private JTextField textnom,textprenom;
-    private JLabel labCategorie, labGroupe, labNom, labPrenom;
+    /**
+     * Ensembles des JLabel du module étudiant
+     */
+    private JLabel labCategorie, labGroupe, labNom, labPrenom, labelModifCateg, labelModifGroupe;
+    /**
+     * JTable permettant d'afficher les informations des étudiants
+     */
     private JTable etudiants;
+    /**
+     * Ensembles des JButton du module étudiant
+     */
     private JButton buttonCreeEtudiant, buttonCreeGroupe, buttonCreeCategorie,buttonRechercher, boutonImporter;
+    /**
+     * Permet de contenir les données de la combobox pour les groupes
+     */
     private ArrayList<Groupe> donneeComboGroupe;
+    /**
+     * En tête de laJTable
+     */
     private String[] columnJTable={"Nom","Prénom","Groupe","Situation de Handicap","Tier-Temps","Prise en compte","ID"};
-    private JLabel labelModifCateg, labelModifGroupe;
+    /**
+     * JScrollPan pour contenir la JTable
+     */
     private JScrollPane js;
 
     private JPanel mainModuleEtudiant;
 
+    private CritereRechercheEtudiant rechercheCourante;
+
+    /**
+     * Permet d'initialiser le module étudiant
+     */
     public VueModuleEtudiant(){
+        this.rechercheCourante = new CritereRechercheEtudiant(null,null);
         this.mainModuleEtudiant= new JPanel();
         //TOPBAR
         JPanel topbar = new JPanel();
@@ -181,78 +211,14 @@ public class VueModuleEtudiant extends Observable {
         this.buttonRechercher.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                rechercheCourante.setNom(null);
+                rechercheCourante.setPrenom(null);
                 String prenom = textprenom.getText();
                 String nom = textnom.getText();
                 ArrayList<Etudiant> etu = new ArrayList<Etudiant>();
-                if(prenom.length() != 0){
-                    if(nom.length() != 0){
-                        //On recherche un étudiant ayant le nom y et le prenom x dans le groupe z
+               //HERE
+                effectuerLaRecherche(nom,prenom);
 
-                        if(combogroupe.getSelectedItem() instanceof Groupe){
-                            Groupe groupe = (Groupe)combogroupe.getSelectedItem();
-                            etu = groupe.rechercherEtudiant(nom,prenom);
-                        }else if(combocategorie.getSelectedItem() instanceof Categorie){
-                            Categorie categorie = (Categorie)combocategorie.getSelectedItem();
-                            for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
-                                etu.addAll(groupeDeLaCateg.rechercherEtudiant(nom,prenom));
-                            }
-                        }else{
-                            //Recherche par nom et prenom sans groupe ni categorie
-                            etu = Etudiant.rechercherEtudiant(nom,prenom);
-                        }
-
-                    }else{
-                        //Recherche que par prenom
-                        if(combogroupe.getSelectedItem() instanceof Groupe) {
-                            Groupe groupe = (Groupe)combogroupe.getSelectedItem();
-                            etu = groupe.rechercherEtudiant(null, prenom);
-                        }else if(combocategorie.getSelectedItem() instanceof Categorie){
-                            Categorie categorie = (Categorie)combocategorie.getSelectedItem();
-                            for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
-                                etu.addAll(groupeDeLaCateg.rechercherEtudiant(null,prenom));
-                            }
-                        }else{
-                            etu = Etudiant.rechercherEtudiant(null,prenom);
-
-                        }
-                    }
-                }else if(nom.length() != 0){
-                    //Recherche que par nom
-                    if(combogroupe.getSelectedItem() instanceof Groupe) {
-                        Groupe groupe = (Groupe)combogroupe.getSelectedItem();
-                        etu = groupe.rechercherEtudiant(nom, null);
-                    }else if(combocategorie.getSelectedItem() instanceof Categorie){
-                        Categorie categorie = (Categorie)combocategorie.getSelectedItem();
-                        for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
-                            etu.addAll(groupeDeLaCateg.rechercherEtudiant(nom,null));
-                        }
-                    }else{
-                        etu = Etudiant.rechercherEtudiant(nom,null);
-                    }
-                }else{
-                    //Recherche tout le groupe
-                    if(combogroupe.getSelectedItem() instanceof Groupe) {
-                        Groupe groupe = (Groupe)combogroupe.getSelectedItem();
-                        etu = groupe.getListeEtudiants();
-                    }else if(combocategorie.getSelectedItem() instanceof Categorie){
-                        Categorie categorie = (Categorie)combocategorie.getSelectedItem();
-                        for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
-                            etu.addAll(groupeDeLaCateg.getListeEtudiants());
-                        }
-                    }else{
-                        etu = Etudiant.rechercherToutLesEtudiants();
-                    }
-                }
-                etudiants = new JTable(infosEtudiants(etu),columnJTable){
-                    private static final long serialVersionUID = 1L;
-
-                    public boolean isCellEditable(int row, int column) {
-                        return false;
-                    };
-                };
-                etudiants = setupJTable(etudiants);
-                js.setViewportView(etudiants);
 
             }
         });
@@ -313,6 +279,8 @@ public class VueModuleEtudiant extends Observable {
                 dialog.afficherDialog();
                 setChanged();
                 notifyObservers();
+                effectuerLaRecherche(rechercheCourante.getNom(),rechercheCourante.getPrenom());
+
             }
         });
         gbc.gridx=1;
@@ -356,6 +324,12 @@ public class VueModuleEtudiant extends Observable {
 
     }
 
+    /**
+     * Permet de récuperer les informations des étudiants en parametres sous la forme d'un tableau à double entree pour les JTable
+     * @param etudiants
+     *  ArrayList
+     * @return
+     */
     private String[][] infosEtudiants(ArrayList<Etudiant> etudiants){
         String[][] res = new String[etudiants.size()][7];
         for(int i = 0; i < etudiants.size();i++){
@@ -404,6 +378,10 @@ public class VueModuleEtudiant extends Observable {
         return this.mainModuleEtudiant;
     }
 
+
+    /**
+     * Permet de mettre à jour les ComboBox lors de l'ajout d'un groupe ou d'une categorie
+     */
     private void updateCombobox(){
         //ComboGroupe
         this.combogroupe.removeAllItems();
@@ -418,6 +396,11 @@ public class VueModuleEtudiant extends Observable {
         }
     }
 
+    /**
+     * Permet de Setup les JTable avec les parametres voulus
+     * @param jTable
+     * @return
+     */
     private JTable setupJTable(JTable jTable){
         jTable.addMouseListener(new MouseAdapter() {
             @Override
@@ -440,6 +423,7 @@ public class VueModuleEtudiant extends Observable {
                     dialog.afficherDialog();
                     setChanged();
                     notifyObservers();
+                    effectuerLaRecherche(rechercheCourante.getNom(),rechercheCourante.getPrenom());
                 }
             }
         });
@@ -453,5 +437,82 @@ public class VueModuleEtudiant extends Observable {
         }
         jTable.setAutoCreateRowSorter(true);
         return jTable;
+    }
+
+    private void effectuerLaRecherche(String nom,String prenom){
+
+        ArrayList<Etudiant> etu = new ArrayList<Etudiant>();
+        if(null == prenom || prenom.length() != 0){
+
+            if(null == nom || nom.length() != 0){
+                //On recherche un étudiant ayant le nom y et le prenom x dans le groupe z
+                rechercheCourante.setNom(nom);
+                rechercheCourante.setPrenom(prenom);
+                if(combogroupe.getSelectedItem() instanceof Groupe){
+                    Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+                    etu = groupe.rechercherEtudiant(nom,prenom);
+                }else if(combocategorie.getSelectedItem() instanceof Categorie){
+                    Categorie categorie = (Categorie)combocategorie.getSelectedItem();
+                    for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
+                        etu.addAll(groupeDeLaCateg.rechercherEtudiant(nom,prenom));
+                    }
+                }else{
+                    //Recherche par nom et prenom sans groupe ni categorie
+                    etu = Etudiant.rechercherEtudiant(nom,prenom);
+                }
+
+            }else{
+                //Recherche que par prenom
+                rechercheCourante.setPrenom(prenom);
+                if(combogroupe.getSelectedItem() instanceof Groupe) {
+                    Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+                    etu = groupe.rechercherEtudiant(null, prenom);
+                }else if(combocategorie.getSelectedItem() instanceof Categorie){
+                    Categorie categorie = (Categorie)combocategorie.getSelectedItem();
+                    for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
+                        etu.addAll(groupeDeLaCateg.rechercherEtudiant(null,prenom));
+                    }
+                }else{
+                    etu = Etudiant.rechercherEtudiant(null,prenom);
+
+                }
+            }
+        }else if(null == nom || nom.length() != 0){
+            //Recherche que par nom
+            rechercheCourante.setNom(nom);
+            if(combogroupe.getSelectedItem() instanceof Groupe) {
+                Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+                etu = groupe.rechercherEtudiant(nom, null);
+            }else if(combocategorie.getSelectedItem() instanceof Categorie){
+                Categorie categorie = (Categorie)combocategorie.getSelectedItem();
+                for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
+                    etu.addAll(groupeDeLaCateg.rechercherEtudiant(nom,null));
+                }
+            }else{
+                etu = Etudiant.rechercherEtudiant(nom,null);
+            }
+        }else{
+            //Recherche tout le groupe
+            if(combogroupe.getSelectedItem() instanceof Groupe) {
+                Groupe groupe = (Groupe)combogroupe.getSelectedItem();
+                etu = groupe.getListeEtudiants();
+            }else if(combocategorie.getSelectedItem() instanceof Categorie){
+                Categorie categorie = (Categorie)combocategorie.getSelectedItem();
+                for(Groupe groupeDeLaCateg : categorie.getListGroupe()){
+                    etu.addAll(groupeDeLaCateg.getListeEtudiants());
+                }
+            }else{
+                etu = Etudiant.rechercherToutLesEtudiants();
+            }
+        }
+        etudiants = new JTable(infosEtudiants(etu),columnJTable){
+            private static final long serialVersionUID = 1L;
+
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            };
+        };
+        etudiants = setupJTable(etudiants);
+        js.setViewportView(etudiants);
     }
 }

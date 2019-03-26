@@ -76,11 +76,12 @@ public class DialogImportExcel extends JDialog {
         this.valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println(fileChooser.getFilePath());
                 ImportEtudiant ie = new ImportEtudiant(fileChooser.getFilePath(), "Feuil1", (Categorie)comboCategorie.getSelectedItem());
                 ie.importerEtudiant();
                     JOptionPane jop = new JOptionPane();
                     jop.showMessageDialog(null,"Importation réussie !","Réussite !",JOptionPane.INFORMATION_MESSAGE);
-
+                setVisible(false);
             }
         });
 

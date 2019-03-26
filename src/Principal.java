@@ -28,21 +28,23 @@ public class Principal {
             // handle exception
         }
 
-        //Modeles
-        Examen examen = new Examen();
-        Salle salle = new Salle("Sans nom",Salle.DEFAULT_SIZE_ROOM_HEIGHT,Salle.DEFAULT_SIZE_ROOM_WIDTH);
-        
-        JFrame fenetre = new JFrame("EtuPlacement");
+            //Modeles
+            Examen examen = new Examen();
+            Salle salle = new Salle("Sans nom",Salle.DEFAULT_SIZE_ROOM_HEIGHT,Salle.DEFAULT_SIZE_ROOM_WIDTH);
 
-        //Panneau onglets modules
-       VueOngletModules onglets = new VueOngletModules(examen,salle);
+            JFrame fenetre = new JFrame("EtuPlacement");
+
+            //Panneau onglets modules
+            VueOngletModules onglets = new VueOngletModules(examen,salle);
 
 
-        fenetre.getContentPane().setLayout(new BorderLayout());
-        fenetre.getContentPane().add(onglets,BorderLayout.CENTER);
-        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setMinimumSize(new Dimension(1500,830));
-        fenetre.setSize(new Dimension(1400,830));
-        fenetre.setVisible(true);
+            fenetre.getContentPane().setLayout(new BorderLayout());
+            fenetre.getContentPane().add(onglets,BorderLayout.CENTER);
+            fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            fenetre.setMinimumSize(new Dimension(1500,830));
+            fenetre.setSize(new Dimension(1400,830));
+            fenetre.setVisible(true);
+
+
     }
 }

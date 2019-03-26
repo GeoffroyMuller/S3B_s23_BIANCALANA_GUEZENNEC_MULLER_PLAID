@@ -8,6 +8,11 @@ public class CritereRechercheEtudiant {
     private int id;
 
 
+    public CritereRechercheEtudiant(String nom, String prenom){
+        this.prenom = prenom;
+        this.nom =nom;
+    }
+
     public CritereRechercheEtudiant(String nom, String prenom, String groupe){
         this.nom = nom.toLowerCase();
         this.prenom = prenom.toLowerCase();

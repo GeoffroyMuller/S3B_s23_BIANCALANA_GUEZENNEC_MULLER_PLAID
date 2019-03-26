@@ -230,6 +230,7 @@ import javax.swing.*;
         int nombreEssai = 0;
         modele.BDD.Etudiant etudiantTeste=null;
         modele.BDD.Salle salle = salles.get(iterateurChangementSalle);
+        salle.getTableauPlaces(salle.getIdSalle());
         Iterateur iterateurSalle = salle.getIterateur(i,j,salle);
 
         //Tant qu'il y a des Etudiant non place
@@ -253,6 +254,13 @@ import javax.swing.*;
 
             //On vérifie si la place est disponible (chaise cassé,allée...) et qu'aucun n'autre étudiant n'a été placé dessus
             Place placeActuelle = (Place)iterateurSalle.actual();
+            System.out.println(this.placement);
+            System.out.println(iterateurSalle.actual());
+            System.out.println(placeActuelle);
+            Place place = placeActuelle;
+
+            boolean disponible = placeActuelle.getDisponnible();
+            boolean cleContenu = this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual());
 
             if(placeActuelle.getDisponnible() && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
 

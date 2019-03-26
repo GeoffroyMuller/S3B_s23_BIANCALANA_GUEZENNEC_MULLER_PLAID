@@ -1,6 +1,5 @@
 package module_etudiant;
 
-import javafx.stage.FileChooser;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;

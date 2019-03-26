@@ -166,8 +166,8 @@ public class ControleurExamen {
 
 
 	public JButton creerBoutton_UnGroupe(Groupe grp) {
-		
-		JButton jbt = new JButton();
+		final Groupe groupe = grp;
+		final JButton jbt = new JButton();
 		mapBoutton_groupe.put(jbt, grp);
 		jbt.setText("Ajouter");
 		jbt.setBackground(Color.white);
@@ -177,7 +177,7 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				changeButtonGroupe(jbt, grp);
+				changeButtonGroupe(jbt, groupe);
 
 				//On vérifie si le nombre de place est toujours suffisant
 				if(!examen.vérifierLeNombreDePlace()){
@@ -195,7 +195,8 @@ public class ControleurExamen {
 
 	public JButton creerBoutton_UneCategorie(Categorie categp) {
 
-		JButton jbt = new JButton();
+		final JButton jbt = new JButton();
+		final Categorie cate = categp;
 		mapButton_categorie.put(jbt, categp);
 		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
@@ -207,7 +208,7 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 
 				// TODO Auto-generated method stub
-				changeButtonGroupeCategorie(categp, jbt);
+				changeButtonGroupeCategorie(cate, jbt);
 				if(!examen.vérifierLeNombreDePlace()){
 					jb_creerExam.setEnabled(false);
 				}else{

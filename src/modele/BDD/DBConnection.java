@@ -1,5 +1,6 @@
 package modele.BDD;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -38,12 +39,18 @@ public class DBConnection {
 	 *
 	 * @throws SQLException the SQL exception
 	 */
-	private DBConnection() throws SQLException{
-		Properties connectionProps = new Properties();
-		connectionProps.put("user", userName);
-		connectionProps.put("password", password);
-		urlDB += portNumber + "/" + dbName;
-		connect = DriverManager.getConnection(urlDB, connectionProps);
+	private DBConnection(){
+		try{
+			Properties connectionProps = new Properties();
+			connectionProps.put("user", userName);
+			connectionProps.put("password", password);
+			urlDB += portNumber + "/" + dbName;
+			connect = DriverManager.getConnection(urlDB, connectionProps);
+		}catch(SQLException e){
+			JOptionPane jop = new JOptionPane();
+			jop.showMessageDialog(null, "La base de données n'est pas accessible.\n Celle-ci est peut-être hors-ligne ou non démarrer.", "Erreur critique", JOptionPane.INFORMATION_MESSAGE);
+		}
+
 	}
 
 	/**

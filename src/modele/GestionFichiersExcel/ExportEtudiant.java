@@ -109,9 +109,8 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
             }
 
-            Calendar calendar = Calendar.getInstance();
-            ExportEtudiant.nomDuDernierFichier = "fichierPourTest/groupe_"+groupe.getNom()+"_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx";
-            FileOutputStream fileOut = new FileOutputStream("fichierPourTest/groupe_"+groupe.getNom()+"_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx");
+            ExportEtudiant.nomDuDernierFichier = "groupe_"+groupe.getNom()+".xlsx";
+            FileOutputStream fileOut = new FileOutputStream("groupe_"+groupe.getNom()+".xlsx");
             wb.write(fileOut);
             fileOut.close();
         } catch (SQLException e) {
@@ -208,11 +207,10 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
             nbLigneSignature = 4;
         }
 
-        Calendar calendar = Calendar.getInstance();
-        ExportEtudiant.nomDuDernierFichier = "fichierPourTest/placement_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx";
+        ExportEtudiant.nomDuDernierFichier = "placement_examen_"+examen.getNom()+".xlsx";
         FileOutputStream fileOut = null;
         try {
-            fileOut = new FileOutputStream("fichierPourTest/placement_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx");
+            fileOut = new FileOutputStream("placement_examen_"+examen.getNom()+".xlsx");
             wb.write(fileOut);
             fileOut.close();
         } catch (IOException e) {

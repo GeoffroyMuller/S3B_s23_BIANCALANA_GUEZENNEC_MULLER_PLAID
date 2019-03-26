@@ -19,7 +19,6 @@ import composante_graphique.ListeurCategorie;
 //import composante_graphique.Listeur;
 
 import controleur_Examen.ControleurExamen;
-import javafx.beans.Observable;
 import modele.Examen;
 import modele.BDD.Categorie;
 

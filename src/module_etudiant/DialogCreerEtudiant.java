@@ -1,6 +1,6 @@
+
 package module_etudiant;
 
-import javafx.scene.control.ComboBox;
 import modele.BDD.*;
 import modele.CritereRechercheEtudiant;
 
@@ -10,30 +10,85 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
 
+/**
+ * Classe DialogCreerEtudiant
+ */
 public class DialogCreerEtudiant extends JDialog {
     private boolean sendData;
-    private JLabel labNom,labPrenom,labCategorie,labGroupe,labPrendreEnComptePlacement;
+    /**
+     * Ensemble de JLabel de la JDialog
+     */
+    private JLabel labNom,labPrenom,labGroupe,labPrendreEnComptePlacement;
+    /**
+     * Ensemble de JTextFIeld de la JDialog afin de saisir les informations de l'étudiant
+     */
     private JTextField textNom,textPrenom;
-    private JComboBox<Categorie> comboCategorie;
+    /**
+     * ComboBox contenant l'ensemble des groupes disponible
+     */
     private JComboBox comboGroupe;
+    /**
+     * Bouton "valider" et "annuler" de la JDialog
+     */
     private JButton valider,annuler;
+    /**
+     * Permet d'indiquer si il s'agit de la modification d'un étudiant ou de la création d'un nouveau étudiant
+     */
     private boolean modification;
+    /**
+     * Liste contenant les donnees de la combobox
+     */
     private ArrayList<Groupe> donneeComboGroupe;
+    /**
+     * JcheckBox permettant d'indiquer si l'étudiant à une caractéristique particuliere
+     */
     private JCheckBox checkBoxHandicap,checkBoxTierTemps;
+    /**
+     * JRadioBouton pour indiquer si l'étudiant doit être pris en compte dans le placement
+     */
     private JRadioButton oui,non;
+    /**
+     * Si il s'agit d'une modification, contient les informations de l'étudiant concerné par la modification
+     */
     private CritereRechercheEtudiant cre;
-
+    /**
+     * JScrollPan contenant l'ensemble des comboBox de groupe (Un étudiant peut avoir plusieurs groupe)
+     */
     private JScrollPane containerGroupesCombo;
-    private JButton ajouterUnGroupe,enleverUnGroupe;
+    /**
+     * Bouton permettant d'ajouter une combobox de groupe afin d'ajouter un groupe à un étudiant
+     */
+    private JButton ajouterUnGroupe;
+    /**
+     * Liste contenant l'ensemble des combobox crée
+     */
     private ArrayList<JComboBox> listeComboGroupe;
+    /**
+     * JPanel contenant l'ensemble des éléments sauf les boutons "valider" et "annuler"
+     */
     private JPanel contenant;
+    /**
+     * Contraintes pour le layout GridBagLayout
+     */
     private GridBagConstraints gbcScroll;
+    /**
+     * HashMap permettant de faire la liaison entre les boutons pour retirer un groupe (donc une combobox) et leur JComboBox
+     */
     private HashMap<JButton,JComboBox> liaisonEnleverGroupeCombo;
+    /**
+     * Contient les groupes à retirer de l'étudiant lors de la validation
+     */
     private ArrayList<Groupe> groupeARetireDeEtudiant;
 
 
+    /**
+     * Permet d'initialiser la boite de dialogue de création d'étudiant dans le cadre d'une création
+     * @param parent
+     * @param title
+     * @param modal
+     * @param modification
+     */
     public DialogCreerEtudiant(JFrame parent, String title, boolean modal,boolean modification){
         super(parent,title,modal);
         this.modification = modification;
@@ -47,6 +102,14 @@ public class DialogCreerEtudiant extends JDialog {
         this.initComponent();
     }
 
+    /**
+     * Permet d'initialiser la boite de dialogue de création d'étudiant dans le cadre d'une modification
+     * @param parent
+     * @param title
+     * @param modal
+     * @param modification
+     * @param cre
+     */
     public DialogCreerEtudiant(JFrame parent, String title, boolean modal, boolean modification, CritereRechercheEtudiant cre){
         super(parent,title,modal);
         this.modification = modification;
@@ -202,6 +265,7 @@ public class DialogCreerEtudiant extends JDialog {
 
         gbc.gridx = 1;
         this.oui = new JRadioButton("Oui");
+        this.oui.setSelected(true);
 
         containerInfo.add(this.oui,gbc);
 
@@ -238,60 +302,97 @@ public class DialogCreerEtudiant extends JDialog {
         gbc.gridx=1;
         boutons.add(this.annuler,gbc);
 
+        if(modification) {
+            JButton supprimerEtudiant = new JButton("Supprimer l'étudiant");
+            gbc.gridx=2;
+            boutons.add(supprimerEtudiant,gbc);
+            supprimerEtudiant.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int dialogButton = JOptionPane.YES_NO_OPTION;
+                    int dialogResult = JOptionPane.showConfirmDialog (null, "Êtes vous sur de vouloir supprimer l'étudiant ? Cette action est irréversible","Warning",dialogButton);
+
+                    if (dialogResult == JOptionPane.YES_OPTION) { //The ISSUE is here
+                        Etudiant etudiant = Etudiant.findById(cre.getId());
+                        etudiant.delete();
+                        setVisible(false);
+                    }
+                }
+            });
+        }
+
 
         this.valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Etudiant etudiant=null;
-                if(modification){
-                    etudiant = Etudiant.findById(cre.getId());
+                //On verifie si un groupe valide à été selectionne
+                boolean valide = true;
+                for (JComboBox combobox : listeComboGroupe) {
+                    if (!(combobox.getSelectedItem() instanceof Groupe)) {
+                        valide = false;
+                    }
+                }
+                if (!valide) {
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null, "Veuillez selectionner un groupe valide. \n \"Selectionner un groupe\" n'est pas un groupe valide.", "Echec !", JOptionPane.INFORMATION_MESSAGE);
+                } else if(textNom.getText().length() <= 0) {
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null, "Veuillez donner un nom à l'étudiant.", "Echec !", JOptionPane.INFORMATION_MESSAGE);
+                }else if(textPrenom.getText().length() <= 0) {
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null, "Veuillez donner un prénom à l'étudiant.", "Echec !", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    Etudiant etudiant = null;
+                    if (modification) {
+                        etudiant = Etudiant.findById(cre.getId());
 
-                    //Si modification alors on enleve les potentiels groupes
-                    if(modification){
-                        for(Groupe groupe : groupeARetireDeEtudiant){
-                            groupe.retirerEtudiantDuGroupe(cre.getId());
+                        //Si modification alors on enleve les potentiels groupes
+                        if (modification) {
+                            for (Groupe groupe : groupeARetireDeEtudiant) {
+                                groupe.retirerEtudiantDuGroupe(cre.getId());
+                            }
+                        }
+                    } else {
+                        //Création de l'étudiant
+                        etudiant = new Etudiant(textNom.getText(), textPrenom.getText());
+                        etudiant.save();
+                    }
+
+                    //Ajout des contraintes
+                    ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+                    if (checkBoxHandicap.isSelected()) {
+                        if (oui.isSelected()) {
+                            particularites.add(Particularite.findByNom("Situation de handicap (Prise en compte)"));
+                        } else if (non.isSelected()) {
+                            particularites.add(Particularite.findByNom("Situation de handicap (Non pris en compte)"));
                         }
                     }
-                }else{
-                    //Création de l'étudiant
-                    etudiant = new Etudiant(textNom.getText(),textPrenom.getText());
+
+                    if (checkBoxTierTemps.isSelected()) {
+                        if (oui.isSelected()) {
+                            particularites.add(Particularite.findByNom("Tiers-Temps (Prendre en compte)"));
+                        } else if (non.isSelected()) {
+                            particularites.add(Particularite.findByNom("Tiers-Temps (Non pris en compte)"));
+                        }
+                    }
+                    etudiant.ajouterParticularite(particularites);
+
+                    //Ajout des groupes
+                    for (JComboBox combo : listeComboGroupe) {
+                        Groupe groupe = (Groupe) combo.getSelectedItem();
+                        groupe.ajouterEtudiant(etudiant);
+                    }
                     etudiant.save();
-                }
 
-                //Ajout des contraintes
-                ArrayList<Particularite> particularites = new ArrayList<Particularite>();
-                if(checkBoxHandicap.isSelected()){
-                    if(oui.isSelected()){
-                        particularites.add(Particularite.findByNom("Situation de handicap (Prise en compte)"));
-                    }else if(non.isSelected()){
-                        particularites.add(Particularite.findByNom("Situation de handicap (Non pris en compte)"));
+                    JOptionPane jop = new JOptionPane();
+                    if (modification) {
+                        jop.showMessageDialog(null, "Etudiant.e modifié.e avec succés ! ", "Réussite !", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        jop.showMessageDialog(null, "Etudiant.e crée avec succés ! ", "Réussite !", JOptionPane.INFORMATION_MESSAGE);
                     }
-                }
 
-                if(checkBoxTierTemps.isSelected()){
-                    if(oui.isSelected()){
-                        particularites.add(Particularite.findByNom("Tiers-Temps (Prendre en compte)"));
-                    }else if(non.isSelected()){
-                        particularites.add(Particularite.findByNom("Tiers-Temps (Non pris en compte)"));
-                    }
+                    setVisible(false);
                 }
-                etudiant.ajouterParticularite(particularites);
-
-                //Ajout des groupes
-                for(JComboBox combo : listeComboGroupe){
-                    Groupe groupe = (Groupe)combo.getSelectedItem();
-                    groupe.ajouterEtudiant(etudiant);
-                }
-                etudiant.save();
-
-                JOptionPane jop = new JOptionPane();
-                if(modification){
-                    jop.showMessageDialog(null,"Etudiant.e modifié.e avec succés ! ","Réussite !",JOptionPane.INFORMATION_MESSAGE);
-                }else{
-                    jop.showMessageDialog(null,"Etudiant.e crée avec succés ! ","Réussite !",JOptionPane.INFORMATION_MESSAGE);
-                }
-
-                setVisible(false);
             }
         });
 
@@ -310,6 +411,9 @@ public class DialogCreerEtudiant extends JDialog {
 
     }
 
+    /**
+     * Permet l'affichage de la boite de dialogue
+     */
     public void afficherDialog(){
         this.sendData =false;
         this.setVisible(true);
@@ -327,10 +431,11 @@ public class DialogCreerEtudiant extends JDialog {
     }
 
     private JButton ajouterActionListenerSuprressionDuGroupe(JButton bouton){
+        final JButton boutton = bouton;
         bouton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-               JComboBox combo = liaisonEnleverGroupeCombo.get(bouton);
+               JComboBox combo = liaisonEnleverGroupeCombo.get(boutton);
                if(combo.getSelectedItem() instanceof Groupe){
                    groupeARetireDeEtudiant.add((Groupe)combo.getSelectedItem());
                }

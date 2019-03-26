@@ -83,14 +83,7 @@ public class Salle extends Observable {
 		this.idSalle = salle.getIdSalle();
 	}
 
-	/**
-	 * Instantiates a new salle.
-	 *
-	 * @param nom the nom
-	 * @param idSalle the id salle
-	 * @param nbCaseHauteur the nb case hauteur
-	 * @param nbCaseLargeur the nb case largeur
-	 */
+
 	private Salle(String nom, int idSalle, int nbCaseHauteur, int nbCaseLargeur) {
 		this.nom=nom;
 		this.idSalle=idSalle;
@@ -800,10 +793,13 @@ public class Salle extends Observable {
 		@Override
 		public Object actual() {
 			Place place = null;
+			System.out.println(salle.getNom());
+			System.out.println(salle.getPlaces()[0][0].getNom());
 			try {
 				place = salle.getPlaces()[i][j];
 			}catch(NullPointerException e){
-				System.out.println("TEST");
+				System.out.println("Null");
+				e.printStackTrace();
 			}
 			return place;
 		}

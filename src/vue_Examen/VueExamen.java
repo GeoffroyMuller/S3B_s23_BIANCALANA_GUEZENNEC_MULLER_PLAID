@@ -19,11 +19,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
-import javafx.beans.InvalidationListener;
 import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
 import modele.BDD.Groupe;

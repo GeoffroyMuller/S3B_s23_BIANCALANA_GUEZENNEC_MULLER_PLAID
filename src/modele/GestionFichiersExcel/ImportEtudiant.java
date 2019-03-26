@@ -29,7 +29,6 @@ public class ImportEtudiant extends Observable {
     private Categorie categorie;
     private String cheminFichier;
     private String nomDeLaFeuille;
-    private VueChargement vc;
 
 
     public ImportEtudiant(String cheminFichier, String nomDeLaFeuille, Categorie categorie){
@@ -42,7 +41,6 @@ public class ImportEtudiant extends Observable {
 
     public void importerEtudiant(){
         try {
-        	 vc = new VueChargement();
             //Importation du fichier excel
             FileInputStream fichier = new FileInputStream(cheminFichier);
             Workbook workbook = WorkbookFactory.create(fichier);

@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 public class ControleurBoutonsPartieSalle extends JPanel {
     private JButton boutonAjouterSalle;
     private JButton boutonSupprimerSalle;
-    private Salle modele;
+    public static Salle modele;
 
     public ControleurBoutonsPartieSalle(Salle modele){
         this.boutonAjouterSalle = new JButton("Ajouter");
@@ -31,7 +31,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
                 VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
-                modele.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur());
+                ControleurBoutonsPartieSalle.modele.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur());
             }
         });
 

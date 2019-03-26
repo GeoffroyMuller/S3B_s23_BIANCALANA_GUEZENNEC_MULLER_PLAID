@@ -18,7 +18,6 @@ import controleur_Etudiant.DeroulOptionTriCateg;
 
 //import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
-import javafx.scene.Node;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
 

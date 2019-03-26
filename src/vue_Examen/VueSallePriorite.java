@@ -27,7 +27,7 @@ import modele.BDD.Categorie;
 
 public class VueSallePriorite extends JPanel{
 	private static Color color = new Color(236, 241, 245);
-	private ControleurExamen ctrlexam;
+	public static ControleurExamen ctrlexam;
 	private JLabel label = new JLabel("Salle Priorité");
 	private ListeurSalle listeur;
 	private ControleurExamen controleur_Exam;
@@ -36,6 +36,7 @@ public class VueSallePriorite extends JPanel{
 	
 	public VueSallePriorite(ControleurExamen ctrlexamp) {
 		ctrlexam = ctrlexamp;
+
 		try {
 			listeur = new ListeurSalle(ctrlexamp);
 		} catch (SQLException e) {
@@ -74,7 +75,7 @@ public class VueSallePriorite extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Ajouter Salle");
-				ctrlexamp.ajouterComboSalle();
+				VueSallePriorite.ctrlexam.ajouterComboSalle();
 				listeur.creerZonePriorite();
 			}
 		});

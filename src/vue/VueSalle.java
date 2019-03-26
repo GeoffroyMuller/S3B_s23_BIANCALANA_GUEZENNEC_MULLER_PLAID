@@ -35,6 +35,8 @@ import java.util.Observer;
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
 public class VueSalle extends JPanel implements Observer {
+	//public static JLabel ENTREE = new JLabel("Entree");
+	public static JLabel SORTIE = new JLabel("Bureau");
 	private JScrollPane containerDeLaListeJScroll;
 	private /*JPanel*/JScrollPane visualisationSalle;
 	private JPanel contenantPartieGauche;
@@ -70,6 +72,14 @@ public class VueSalle extends JPanel implements Observer {
 	 * Constructeur de la vue salle, construit également les controleurs necessaires (ControleurCaseSalle et ControleurRadioBoutons)
 	 */
 	public VueSalle(Salle salleModele){
+
+		//VueSalle.ENTREE.setVerticalAlignment(SwingConstants.CENTER);
+		//VueSalle.ENTREE.setHorizontalAlignment(SwingConstants.CENTER);
+		VueSalle.SORTIE.setVerticalAlignment(SwingConstants.CENTER);
+		VueSalle.SORTIE.setHorizontalAlignment(SwingConstants.CENTER);
+		//VueSalle.ENTREE.setFont(new Font("Serial",Font.PLAIN,20));
+		VueSalle.SORTIE.setFont(new Font("Serial",Font.PLAIN,20));
+
 		this.salle = salleModele;
 		this.setLayout(new BorderLayout());
 
@@ -326,6 +336,10 @@ public class VueSalle extends JPanel implements Observer {
 	}
 
 	private JPanel construireSalle(Salle salle){
+		JPanel superContenant = new JPanel();
+		superContenant.setLayout(new BorderLayout());
+		//superContenant.add(VueSalle.ENTREE, BorderLayout.NORTH);
+		superContenant.add(VueSalle.SORTIE, BorderLayout.SOUTH);
 		JPanel contenant = new JPanel();
 		contenant.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -351,7 +365,9 @@ public class VueSalle extends JPanel implements Observer {
 			gbc.gridy++;
 			gbc.gridx=0;
 		}
-		return contenant;
+		superContenant.add(contenant,BorderLayout.CENTER);
+		//return contenant;
+		return superContenant;
 	}
 
 	/**
