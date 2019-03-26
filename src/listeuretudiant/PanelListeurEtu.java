@@ -1,4 +1,4 @@
-package listeuretudiant;
+/*package listeuretudiant;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,11 +8,11 @@ import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+/*
 public class PanelListeurEtu extends JPanel{
-	
+	/*
 	DifListeurEtu	dls;
-	
+	/*
 	public PanelListeurEtu() {
 		
 		this.setMinimumSize(new Dimension(500, 600));
@@ -36,4 +36,4 @@ public class PanelListeurEtu extends JPanel{
 		
 	}
 
-}
+}*/

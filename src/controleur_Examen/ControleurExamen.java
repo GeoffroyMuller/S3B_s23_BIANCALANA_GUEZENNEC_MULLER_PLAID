@@ -14,7 +14,6 @@ import javax.swing.*;
 
 import modele.BDD.Salle;
 import modele.GestionFichiersExcel.ExportEtudiant;
-import vue_Etudiant.VueEtudiant;
 import vue_Examen.DialogVerificationPlacement;
 import vue_Examen.VueExamen;
 

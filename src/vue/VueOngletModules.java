@@ -13,7 +13,6 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-import vue_Etudiant.*;
 
 public class VueOngletModules extends JPanel implements Observer {
 	JTabbedPane onglets;
@@ -25,8 +24,7 @@ public class VueOngletModules extends JPanel implements Observer {
 		this.onglets = new JTabbedPane();
 		this.onglets.setFont(new Font("Serial",Font.BOLD,20));
 		this.onglets.setUI(new TabbedPanDesign());
-		//A supprimer
-		VueEtudiant moduleEtudiant = new VueEtudiant();
+
 		try {
 			moduleExamen = new VueExamen(examen);
 			examen.addObserver(moduleExamen);

@@ -1,6 +1,7 @@
 package modele.BDD;
 
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import Popup_Categorie.Frame_Popup;
 
 
 // TODO: Auto-generated Javadoc
@@ -330,8 +330,8 @@ public class Categorie{
 			}
 		}
 		else {
-			Frame_Popup popup = new Frame_Popup(this);
-			
+			JOptionPane jop = new JOptionPane();
+			jop.showMessageDialog(null,"Une catégorie avec ce nom existe déja !","Erreur", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		

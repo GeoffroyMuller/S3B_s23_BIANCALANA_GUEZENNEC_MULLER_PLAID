@@ -1,4 +1,4 @@
-package listeuretudiant;
+/*package listeuretudiant;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -70,4 +70,4 @@ public class PanelGauche extends JPanel{
 		
 	}
 
-}
+}*/

@@ -1,4 +1,4 @@
-package listeuretudiant;
+/*package listeuretudiant;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -196,7 +196,7 @@ public class AfficheurTree extends JPanel{
 	    categorie = new DefaultMutableTreeNode("groupes for Java Implementers");
 	    top.add(categorie); **/
 
-	}
+	/*}
 
 
 
@@ -239,7 +239,7 @@ public class AfficheurTree extends JPanel{
 		category.add(groupe);
 	}*/
 
-	 public static JTree getTree() {
+	/* public static JTree getTree() {
 		return tree;
 	}
-}
+}*/

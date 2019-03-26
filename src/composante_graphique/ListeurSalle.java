@@ -117,6 +117,7 @@ public class ListeurSalle extends JPanel{
 	}
 	public void supprimerPriorite(int idp) {
 		try {
+
 			listprioritie.remove(idp);
 		}catch (Exception e) {
 			// TODO: handle exception

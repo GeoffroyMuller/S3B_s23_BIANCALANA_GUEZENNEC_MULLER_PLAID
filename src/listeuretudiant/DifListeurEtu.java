@@ -1,4 +1,4 @@
-package listeuretudiant;
+/*package listeuretudiant;
 
 
 import java.awt.Dimension;
@@ -20,9 +20,9 @@ import modele.*;
 import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
 import modele.BDD.Groupe;
-
+/*
 public class DifListeurEtu extends JSplitPane{
-
+/*
 	private ArrayList<Etudiant> listeEtu;
 	private JScrollPane jspLeft;
 	private JScrollPane jspRight;
@@ -111,7 +111,7 @@ public class DifListeurEtu extends JSplitPane{
 			System.out.println(lg.get(i).getListeEtudiants());
 			
 		}*/
-		return lg;
+		/*return lg;
 	}
 	
 	public void refresh() {
@@ -144,3 +144,4 @@ public class DifListeurEtu extends JSplitPane{
 
 
 }
+*/
