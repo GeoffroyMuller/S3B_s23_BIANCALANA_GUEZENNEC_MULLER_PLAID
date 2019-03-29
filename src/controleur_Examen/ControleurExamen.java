@@ -36,8 +36,10 @@ public class ControleurExamen {
 	private JTextField jtf_date;	//JTextField : gere la date de l'examen
 
 	private JButton chsalle;
-	private HashMap<JButton, Groupe> mapBoutton_groupe;
-	private HashMap<JButton, Categorie> mapButton_categorie;
+	private HashMap<JButton, String> mapBouton_groupe_save;
+	private HashMap<JButton, String> mapBouton_categorie_save;
+	private HashMap<JButton, Groupe> mapBouton_groupe;
+	private HashMap<JButton, Categorie> mapBouton_categorie;
 	private ArrayList<JComboBox<String>> listeComboSalle;
 	
 	private ArrayList<JButton> listeJBSuppr;
@@ -91,8 +93,8 @@ public class ControleurExamen {
 		//findev
 
 
-		mapBoutton_groupe = new HashMap<>();
-		mapButton_categorie = new HashMap<>();
+		mapBouton_groupe = new HashMap<>();
+		mapBouton_categorie = new HashMap<>();
 		/**
 		 * dimensionne les JTextFields 
 		 */
@@ -166,7 +168,7 @@ public class ControleurExamen {
 	public JButton creerBoutton_UnGroupe(Groupe grp) {
 		final Groupe groupe = grp;
 		final JButton jbt = new JButton();
-		mapBoutton_groupe.put(jbt, grp);
+		mapBouton_groupe.put(jbt, grp);
 		jbt.setText("Ajouter");
 		jbt.setBackground(Color.white);
 		jbt.addActionListener(new ActionListener() {
@@ -195,7 +197,7 @@ public class ControleurExamen {
 
 		final JButton jbt = new JButton();
 		final Categorie cate = categp;
-		mapButton_categorie.put(jbt, categp);
+		mapBouton_categorie.put(jbt, categp);
 		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
 		//jbt.setBackground(Color.white);
@@ -207,6 +209,8 @@ public class ControleurExamen {
 
 				// TODO Auto-generated method stub
 				changeButtonGroupeCategorie(cate, jbt);
+				
+				//desac
 				if(!examen.vérifierLeNombreDePlace()){
 					jb_creerExam.setEnabled(false);
 				}else{
@@ -245,10 +249,10 @@ public class ControleurExamen {
 	
 	
 	private void changeButtonGroupeCategorie(Categorie categp, JButton jbt) {
-		Categorie categcourante = mapButton_categorie.get(jbt);
+		Categorie categcourante = mapBouton_categorie.get(jbt);
 		HashMap<JButton, Groupe> mapBoutton_groupe_categorie = new HashMap<>();
 		ArrayList<Groupe> listegroupe_categorie = categcourante.getListGroupe();
-		for(Map.Entry<JButton, Groupe> mapgrp: mapBoutton_groupe.entrySet()) {
+		for(Map.Entry<JButton, Groupe> mapgrp: mapBouton_groupe.entrySet()) {
 			for(Groupe grp : listegroupe_categorie) {
 				if(grp.getIdGroupe() == mapgrp.getValue().getIdGroupe()) {
 					mapBoutton_groupe_categorie.put(mapgrp.getKey(), mapgrp.getValue());
@@ -277,7 +281,7 @@ public class ControleurExamen {
 				for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
 					if(jb_grp.getKey().getText().equals("Retirer")) {
 						jb_grp.getKey().setText("Ajouter");
-						liste_listegrp.remove(jb_grp.getValue());
+						//liste_listegrp.remove(jb_grp.getValue());
 						examen.enleverDesGroupesDeExamen(jb_grp.getValue());
 					}
 					

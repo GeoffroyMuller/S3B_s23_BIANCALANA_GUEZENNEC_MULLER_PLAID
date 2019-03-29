@@ -122,7 +122,7 @@ public class ListeurSalle extends JPanel{
 		}catch (Exception e) {
 			// TODO: handle exception
 			JOptionPane jop = new JOptionPane();
-			jop.showMessageDialog(null,"Une erreur est survenue : Supression Imposible, l'élément n'existe pas.","Erreur",JOptionPane.INFORMATION_MESSAGE);
+			jop.showMessageDialog(null,"Une erreur est survenue : Supression Impossible, l'élément n'existe pas.","Erreur",JOptionPane.INFORMATION_MESSAGE);
 		}
 		for(int i=0;i<listprioritie.size();i++) {
 			listprioritie.get(i).setId(i);
@@ -182,6 +182,14 @@ public class ListeurSalle extends JPanel{
 
 		this.add(scrollpane, gbc);
 
+	}
+	public void getListeSalle() {
+		int compte = 0;
+		
+		for(PanelListeurPriorite priorite : listprioritie) {
+			System.out.println("P_Salle:"+"compte"+": "+priorite.getTextJCombo());
+			compte++;
+		}
 	}
 
 	/**

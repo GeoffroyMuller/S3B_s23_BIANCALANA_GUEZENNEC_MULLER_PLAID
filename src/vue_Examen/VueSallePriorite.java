@@ -21,6 +21,7 @@ import javax.swing.ScrollPaneConstants;
 import composante_graphique.ListeurCategorie;
 import composante_graphique.ListeurSalle;
 import composante_graphique.PanelListeurCategorie;
+import composante_graphique.PanelListeurPriorite;
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
 import modele.BDD.Categorie;
@@ -75,7 +76,7 @@ public class VueSallePriorite extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Ajouter Salle");
-				VueSallePriorite.ctrlexam.ajouterComboSalle();
+				//VueSallePriorite.ctrlexam.ajouterComboSalle();
 				//ctrlexamp.ajouterComboSalle();
 				listeur.ajouterPriorite();
 				listeur.creerZonePriorite();
@@ -95,6 +96,7 @@ public class VueSallePriorite extends JPanel{
 		
 
 	}
+
 	
 	
 	
