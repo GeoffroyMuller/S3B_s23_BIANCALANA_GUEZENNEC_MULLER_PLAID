@@ -66,6 +66,7 @@ public class Examen extends Observable{
 	 * @param salle
 	 */
 	public void ajouterSalle(modele.BDD.Salle salle){
+        System.out.println("Ajout SALLE");
 		this.salles.add(salle);
 		this.placement.put(salle,new HashMap<Place, Etudiant>());
 		System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
@@ -75,6 +76,7 @@ public class Examen extends Observable{
 
     public void retirerSalle(Salle salle){
         //this.placement.remove(salle);
+        System.out.println("Suppr Salle");
         //Supression dans le placement
         HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>> copiePlacement = new HashMap<>(this.placement);
 
@@ -113,6 +115,7 @@ public class Examen extends Observable{
      * @param groupe
      */
     public void enleverDesGroupesDeExamen(Groupe groupe){
+
         ArrayList<Etudiant> etudiants = groupe.getListeEtudiants();
         this.enleverDesEtudiantsDeExamen(etudiants);
         setChanged();
@@ -124,6 +127,7 @@ public class Examen extends Observable{
 	 * @param groupe
 	 */
 	public void ajouterGroupe(Groupe groupe){
+        System.out.println("AJOUT GROUPE");
 
 		ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
 		try {
@@ -192,6 +196,7 @@ public class Examen extends Observable{
         }else{
             //On Compte le nombre de place disponible dans toutes les salles
             for (Salle salle: this.salles) {
+                System.out.println("Salle dans la verif : "+salle.getNom());
                 nombreDePlacesTotales+=salle.compterLeNombreDePlaceDisponible();
             }
 

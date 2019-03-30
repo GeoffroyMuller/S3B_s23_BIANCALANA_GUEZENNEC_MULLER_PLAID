@@ -32,6 +32,7 @@ public class PanelListeurPriorite extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Supprimer :: "+id);
+				
 				ls.supprimerPriorite(id);
 				ls.creerZonePriorite();
 			}

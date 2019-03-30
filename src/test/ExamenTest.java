@@ -146,7 +146,7 @@ public class ExamenTest {
     @Test
     public void testCompterLeNombreDePlaceVrai(){
         examen.ajouterSalle(salle);
-       assertTrue("Le nombre de place devrait être suffisant",examen.vérifierLeNombreDePlace());
+       assertTrue("Le nombre de place devrait être suffisant",examen.verifierLeNombreDePlace());
     }
 
     @Test
@@ -159,6 +159,6 @@ public class ExamenTest {
             examen.ajouterUnEtudiant(etu);
         }
 
-        assertFalse("Le nombre de place devrait ne pas être suffisant",examen.vérifierLeNombreDePlace());
+        assertFalse("Le nombre de place devrait ne pas être suffisant",examen.verifierLeNombreDePlace());
     }
 }
