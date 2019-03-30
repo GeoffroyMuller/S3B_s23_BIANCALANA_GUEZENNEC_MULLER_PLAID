@@ -30,7 +30,10 @@ import modele.BDD.Groupe;
 import modele.Examen;
 
 public class VueExamen extends JPanel implements Observer{
-	public final static int VUE_ETU = 10;
+	public final static int VUE_ETU = 200;
+	public final static int VUE_CATEG = 100;
+	public final static int VUE_CATEG_SAVE = 101;
+	public final static int INIT = 1;
 	public static Examen examen;
 	private ControleurExamen controleur_Exam;
 	private static Color color = new Color(40, 73, 92);//40, 73, 92
@@ -218,7 +221,7 @@ public class VueExamen extends JPanel implements Observer{
 		vuetest.definirTaille(500, 1600);
 		jp2_affichListEtu.add(vuetest);*/
 		
-		/*JButton jb_dev_up = new JButton("update");
+		JButton jb_dev_up = new JButton("update");
 		jb_dev_up.addActionListener(new ActionListener() {
 
 			@Override
@@ -233,7 +236,7 @@ public class VueExamen extends JPanel implements Observer{
 			}
 
 		});
-		jp2_creation.add(jb_dev_up);*/
+		jp2_creation.add(jb_dev_up);
 	}
 
 
@@ -338,20 +341,30 @@ public class VueExamen extends JPanel implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		int cas =(int)arg;
-		
+		int cas = INIT;
+		if(arg!=null) {
+			cas =(int)arg;
+		}
 		switch(cas) {
 		case VUE_ETU:
 			vue_etudiantparticipant.ajouterListes(examen.getEtudiants());
 			//vue_etudiantparticipant.definirTaille(500, 500);
 			break;
-		default:
+		case VUE_CATEG:
+			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());		
+			break;
+		case VUE_CATEG_SAVE:
 			jp2_creation.getVue_grpParticip().sauvegarder();
 			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
-			jp2_creation.getVue_grpParticip().charger();
-			colorer(color);
+			jp2_creation.getVue_grpParticip().charger();break;
+		default:
+
 			break;
 		}
+		/*jp2_creation.getVue_grpParticip().sauvegarder();
+		//((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
+		jp2_creation.getVue_grpParticip().charger();*/
+		repaint();
 		
 		
 	}

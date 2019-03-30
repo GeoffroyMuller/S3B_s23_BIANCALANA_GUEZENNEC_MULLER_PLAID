@@ -110,15 +110,15 @@ public class PanelListeurCategorie extends JPanel{
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 
-				System.out.print("pressed::"+PanelListeurCategorie.this.categorie.getNom());
+				System.out.println("pressed::"+PanelListeurCategorie.this.categorie.getNom());
 
 				if(activer) {
 					activer = false;
-					System.out.println(" >> desactiver");
+					//System.out.println(" >> desactiver");
 					jp_categorie.setBackground(Color.WHITE);
 
 					for (JPanel jp : liste_jp_groupe) {
-						System.out.println("des::"+liste_jp_groupe.size());
+						//System.out.println("des::"+liste_jp_groupe.size());
 
 						if(jp_all.getComponentCount()>0) {
 							jp_all.remove(jp);
@@ -127,12 +127,12 @@ public class PanelListeurCategorie extends JPanel{
 					repaint();
 				}else {
 					activer = true;
-					System.out.println(" >> activer");
+					//System.out.println(" >> activer");
 					jp_categorie.setBackground(Color.GRAY);
 
 					int i = 1;
 					for (JPanel jp : liste_jp_groupe) {
-						System.out.println("act::"+liste_jp_groupe.size());
+						//System.out.println("act::"+liste_jp_groupe.size());
 						gbc.gridx = 0;
 						gbc.gridy = i;
 						gbc.fill = GridBagConstraints.BOTH;
@@ -180,11 +180,11 @@ public class PanelListeurCategorie extends JPanel{
 		this.activer = activerp;
 		if(!activer) {
 			activer = false;
-			System.out.println(" >> desactiver");
+			//System.out.println(" >> desactiver");
 			jp_categorie.setBackground(Color.WHITE);
 
 			for (JPanel jp : liste_jp_groupe) {
-				System.out.println("des::"+liste_jp_groupe.size());
+				//System.out.println("des::"+liste_jp_groupe.size());
 
 				if(jp_all.getComponentCount()>0) {
 					jp_all.remove(jp);
@@ -193,7 +193,7 @@ public class PanelListeurCategorie extends JPanel{
 			repaint();
 		}else {
 			activer = true;
-			System.out.println(" >> activer");
+			//System.out.println(" >> activer");
 			jp_categorie.setBackground(Color.GRAY);
 
 			int i = 1;

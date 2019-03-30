@@ -54,6 +54,9 @@ public class PanelListeurPriorite extends JPanel{
 		}
 
 	}
+	public String getTextJCombo() {
+		return (String)jcbox.getSelectedItem();
+	}
 	public int getId() {
 		return id;
 	}

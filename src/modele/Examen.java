@@ -1,4 +1,4 @@
- package modele;
+package modele;
 
 import modele.BDD.*;
 import modele.BDD.Etudiant;
@@ -21,55 +21,55 @@ import modele.BDD.Categorie;
 
 import javax.swing.*;
 
- public class Examen extends Observable{
-	
+public class Examen extends Observable{
+
 	private String nom;
 	private String matiere;
 	private String date;
 
-    /**
-     * Attribut HashMap placement lie chaque salle à sa "grille" de placement
-     */
-    public HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>> placement;
+	/**
+	 * Attribut HashMap placement lie chaque salle à sa "grille" de placement
+	 */
+	public HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>> placement;
 
-    /**
-     * Tout les étudiants qui ont été sélectionné
-     */
-    public HashMap<Etudiant,String> etudiants;
+	/**
+	 * Tout les étudiants qui ont été sélectionné
+	 */
+	public HashMap<Etudiant,String> etudiants;
 
-    /**
-     * Toutes les salles sélectionné trié par ordre de priorité
-     */
-    public ArrayList<Salle> salles;
+	/**
+	 * Toutes les salles sélectionné trié par ordre de priorité
+	 */
+	public ArrayList<Salle> salles;
 
-    /**
-     * Distancce entre chaque etudiant
-     */
-    public int pas;
+	/**
+	 * Distancce entre chaque etudiant
+	 */
+	public int pas;
 
 
-    /**
-     * Constructeur Examen
-     */
-    public Examen(){
-        this.nom = "";
-        this.date = "";
-        this.matiere = "";
-        this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
-        this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
-        this.salles = new ArrayList<Salle>();
-        this.pas = 2;
-    }
+	/**
+	 * Constructeur Examen
+	 */
+	public Examen(){
+		this.nom = "";
+		this.date = "";
+		this.matiere = "";
+		this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
+		this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
+		this.salles = new ArrayList<Salle>();
+		this.pas = 2;
+	}
 
-    /**
-     * Permet d'ajouter la salle donnée en paramétre
-     * @param salle
-     */
-    public void ajouterSalle(modele.BDD.Salle salle){
-        this.salles.add(salle);
-        this.placement.put(salle,new HashMap<Place, Etudiant>());
-        System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
-        setChanged();
+	/**
+	 * Permet d'ajouter la salle donnée en paramétre
+	 * @param salle
+	 */
+	public void ajouterSalle(modele.BDD.Salle salle){
+		this.salles.add(salle);
+		this.placement.put(salle,new HashMap<Place, Etudiant>());
+		System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
+		setChanged();
 		notifyObservers();
     }
 
@@ -117,26 +117,26 @@ import javax.swing.*;
         this.enleverDesEtudiantsDeExamen(etudiants);
         setChanged();
 		notifyObservers(VueExamen.VUE_ETU);
-    }
+	}
 
-    /**
-     * Permet d'ajouter un groupe, seuls les étudiants sont ajoutés et pas le groupe en lui-même
-     * @param groupe
-     */
-    public void ajouterGroupe(Groupe groupe){
+	/**
+	 * Permet d'ajouter un groupe, seuls les étudiants sont ajoutés et pas le groupe en lui-même
+	 * @param groupe
+	 */
+	public void ajouterGroupe(Groupe groupe){
 
-        ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
-        try {
-            etudiants = EtudiantGroupe.recupererEtudiantDansGroupe(groupe.getIdGroupe());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
+		try {
+			etudiants = EtudiantGroupe.recupererEtudiantDansGroupe(groupe.getIdGroupe());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 
-        for(modele.BDD.Etudiant etu : etudiants){
-            this.etudiants.put(etu,groupe.getNom());
-        }
-        setChanged();
+		for(modele.BDD.Etudiant etu : etudiants){
+			this.etudiants.put(etu,groupe.getNom());
+		}
+		setChanged();
 		notifyObservers(VueExamen.VUE_ETU);
     }
 
@@ -574,8 +574,8 @@ import javax.swing.*;
         return resultat;
     }
 	
-	
-	
+
+
 	public String getNom() {
 		return nom;
 	}
@@ -596,45 +596,45 @@ import javax.swing.*;
 		this.date = date;
 	}
 
-    public HashMap<Salle, HashMap<Place, Etudiant>> getPlacement() {
-        return placement;
-    }
+	public HashMap<Salle, HashMap<Place, Etudiant>> getPlacement() {
+		return placement;
+	}
 
-    public void setPlacement(HashMap<Salle, HashMap<Place, Etudiant>> placement) {
-        this.placement = placement;
-    }
+	public void setPlacement(HashMap<Salle, HashMap<Place, Etudiant>> placement) {
+		this.placement = placement;
+	}
 
-    public HashMap<Etudiant, String> getEtudiants() {
-        return etudiants;
-    }
+	public HashMap<Etudiant, String> getEtudiants() {
+		return etudiants;
+	}
 
-    public void setEtudiants(HashMap<Etudiant, String> etudiants) {
-        this.etudiants = etudiants;
-    }
+	public void setEtudiants(HashMap<Etudiant, String> etudiants) {
+		this.etudiants = etudiants;
+	}
 
-    public ArrayList<Salle> getSalles() {
-        return salles;
-    }
+	public ArrayList<Salle> getSalles() {
+		return salles;
+	}
 
-    public void setSalles(ArrayList<Salle> salles) {
-        this.salles = salles;
-    }
+	public void setSalles(ArrayList<Salle> salles) {
+		this.salles = salles;
+	}
 
-    public int getPas() {
-        return pas;
-    }
+	public int getPas() {
+		return pas;
+	}
 
-    public void setPas(int pas) {
-        this.pas = pas;
-    }
-    
-    public void refresh() {
-    	this.setChanged();
-    	this.notifyObservers();
-    }
+	public void setPas(int pas) {
+		this.pas = pas;
+	}
+
+	public void refresh() {
+		this.setChanged();
+		this.notifyObservers();
+	}
 
 
-    //Groupe Participant
+	//Groupe Participant
 
 	//Salle par Priorité
 
@@ -647,7 +647,7 @@ import javax.swing.*;
 
 
 
-	
-	
-	
+
+
+
 }
