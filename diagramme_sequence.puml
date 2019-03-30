@@ -1,0 +1,14 @@
+
+
+@startuml
+Utilisateur -> EtuPlacement : Se rendre dans le module Etudiant
+activate EtuPlacement
+activate Utilisateur
+Utilisateur -> EtuPlacement : Importer une liste d'étudiant
+Utilisateur <- EtuPlacement : Demander une liste
+Utilisateur --> EtuPlacement : Donner une liste
+Utilisateur <- EtuPlacement : Ajouter les étudiants de la liste
+
+deactivate Utilisateur
+deactivate EtuPlacement
+@enduml

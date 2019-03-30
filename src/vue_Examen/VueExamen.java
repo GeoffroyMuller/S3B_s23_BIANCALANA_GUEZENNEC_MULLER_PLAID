@@ -76,7 +76,7 @@ public class VueExamen extends JPanel implements Observer{
 
 		//testlisteur();
 		//try {
-		jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie());	
+		jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie(),examen);
 		/*} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");

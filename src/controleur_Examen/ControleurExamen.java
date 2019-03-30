@@ -78,7 +78,7 @@ public class ControleurExamen {
 				salle.getTableauPlaces(salle.getIdSalle());
 				System.out.println("Salle" + salle.getNom());
 				examen.ajouterSalle(salle);
-				if(!examen.vérifierLeNombreDePlace()){
+				if(!examen.verifierLeNombreDePlace()){
 					jb_creerExam.setEnabled(false);
 				}else{
 					jb_creerExam.setEnabled(true);
@@ -127,11 +127,6 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				exam_date = ""+((JTextField)e.getSource()).getText();
-				if(examen.verifierLesParametresExamen() && examen.vérifierLeNombreDePlace()){
-					jb_creerExam.setEnabled(true);
-				}else{
-					jb_creerExam.setEnabled(false);
-				}
 				System.out.println("CtrlExam_jtf_Date: "+((JTextField)e.getSource()).getText());
 			}
 		});
@@ -178,7 +173,7 @@ public class ControleurExamen {
 				changeButtonGroupe(jbt, groupe);
 
 				//On vérifie si le nombre de place est toujours suffisant
-				if(!examen.vérifierLeNombreDePlace()){
+				if(!examen.verifierLesParametresExamen()){
 					jb_creerExam.setEnabled(false);
 				}else{
 					jb_creerExam.setEnabled(true);
@@ -207,7 +202,7 @@ public class ControleurExamen {
 
 				// TODO Auto-generated method stub
 				changeButtonGroupeCategorie(cate, jbt);
-				if(!examen.vérifierLeNombreDePlace()){
+				if(!examen.verifierLesParametresExamen()){
 					jb_creerExam.setEnabled(false);
 				}else{
 					jb_creerExam.setEnabled(true);

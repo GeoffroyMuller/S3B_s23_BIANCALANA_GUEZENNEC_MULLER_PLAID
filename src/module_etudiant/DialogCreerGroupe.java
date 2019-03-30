@@ -11,14 +11,20 @@ import java.util.ArrayList;
 
 public class DialogCreerGroupe extends JDialog {
 
-    private boolean sendData;
     private JLabel labNom,labCategorie;
     private JTextField textNomGroupe;
     private JComboBox<Categorie> comboCategorie;
-    private JButton valider,annuler;
+    private JButton valider,annuler,supprimer;
     private boolean modification;
     private Groupe groupe;
 
+    /**
+     * Permet de créer une boîte de dialogue pour permettre la création d'un nouveau groupe
+     * @param parent
+     * @param title
+     * @param modal
+     * @param modification
+     */
     public DialogCreerGroupe(JFrame parent, String title, boolean modal,boolean modification){
         super(parent,title,modal);
         this.modification = modification;
@@ -30,6 +36,14 @@ public class DialogCreerGroupe extends JDialog {
 
     }
 
+    /**
+     * Permet de créer une boîte de dialogue pour permettre la modification d'un groupe existant
+     * @param parent
+     * @param title
+     * @param modal
+     * @param modification
+     * @param groupe
+     */
     public DialogCreerGroupe(JFrame parent, String title, boolean modal,boolean modification,Groupe groupe){
         super(parent,title,modal);
         this.modification = modification;
@@ -99,6 +113,24 @@ public class DialogCreerGroupe extends JDialog {
         gbc.gridx=1;
         boutons.add(this.annuler,gbc);
 
+        if(modification) {
+            this.supprimer = new JButton("Supprimer");
+            gbc.gridx = 2;
+            boutons.add(this.supprimer, gbc);
+
+            this.supprimer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int dialogButton = JOptionPane.YES_NO_OPTION;
+                    int dialogResult = JOptionPane.showConfirmDialog (null, "Êtes-vous sur de vouloir supprimer le groupe : "+groupe.getNom(),"Confirmation de suppression",dialogButton);
+                    if(dialogResult == JOptionPane.YES_OPTION){
+                        groupe.delete();
+                    }
+                    setVisible(false);
+                }
+            });
+        }
+
 
         this.valider.addActionListener(new ActionListener() {
             @Override
@@ -139,10 +171,13 @@ public class DialogCreerGroupe extends JDialog {
 
     }
 
+    /**
+     * Permet l'affichage de la boîte de dialogue
+     */
     public void afficherDialog(){
-        this.sendData =false;
         this.setVisible(true);
     }
+
 
     private int recupererIndexDansCombo(Categorie categorie){
         int res=0;

@@ -1,10 +1,14 @@
 package vue_Examen;
 
+import modele.Examen;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,9 +26,10 @@ public class VueContrainte extends JPanel{
 	private JPanel jp_grpEtudiant;
 	private GridBagConstraints gbc;
 	private JComboBox jcb_espacement;
-	private String[] tab_espacement = {"0", "1", "2", "3", "4", "5"};;
-	
-	public VueContrainte() {
+	private String[] tab_espacement = {"0", "1", "2", "3", "4", "5"};
+	public static Examen examen;
+	public VueContrainte(Examen examen) {
+		VueContrainte.examen = examen;
 		this.setBackground(new Color(236, 241, 245));
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
@@ -33,6 +38,14 @@ public class VueContrainte extends JPanel{
 		jp_grpEtudiant = new JPanel();
 		
 		jcb_espacement = new JComboBox(tab_espacement);
+		jcb_espacement.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int pas = Integer.parseInt(tab_espacement[jcb_espacement.getSelectedIndex()]);
+				System.out.println("Pas selectionné : "+pas+" "+VueContrainte.examen.getNom());
+				VueContrainte.examen.setPas(pas);
+			}
+		});
 		
 		jp_espacement.setPreferredSize(new Dimension(100, 60));
 		creerZoneContrainte();
@@ -80,15 +93,15 @@ public class VueContrainte extends JPanel{
 		super.paintComponent(g);
 	}
 	
-	public static void main(String arg[]) {
+	/*public static void main(String arg[]) {
 		JFrame fenetre = new JFrame("EtuPlacement");
 
 		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fenetre.setMinimumSize(new Dimension(500,100));
 
-		VueContrainte vuec = new VueContrainte();
+		VueContrainte vuec = new VueContrainte(null);
 		fenetre.add(vuec);
 		fenetre.setVisible(true);
 
-	}
+	}*/
 }

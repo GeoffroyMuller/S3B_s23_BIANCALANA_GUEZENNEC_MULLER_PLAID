@@ -75,6 +75,15 @@ import javax.swing.*;
 
     public void retirerSalle(Salle salle){
         //this.placement.remove(salle);
+        //Supression dans le placement
+        HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>> copiePlacement = new HashMap<>(this.placement);
+
+        this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
+        for(Salle salleKey : copiePlacement.keySet()){
+            if(salleKey != salle){
+                this.placement.put(salleKey,copiePlacement.get(salleKey));
+            }
+        }
         System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
         this.salles.remove(salle);
     }
@@ -170,7 +179,7 @@ import javax.swing.*;
      * Méthode permettant de vérifier si le nombre de places sélectionnées est suffisant pour le nombre d'éléve sélectionnés
      * @return boolean
      */
-    public boolean vérifierLeNombreDePlace(){
+    public boolean verifierLeNombreDePlace(){
         boolean res = false;
         int nombreDePlacesTotales = 0;
 
@@ -186,8 +195,18 @@ import javax.swing.*;
                 nombreDePlacesTotales+=salle.compterLeNombreDePlaceDisponible();
             }
 
+            int test = nombreDePlacesTotales;
 
-
+            //On prend en compte le pas
+            int iteNombreDePLaceLaisse=0;
+            for(int i = 0; i < nombreDePlacesTotales; i++){
+                if(iteNombreDePLaceLaisse!=pas){
+                    nombreDePlacesTotales--;
+                }else{
+                    iteNombreDePLaceLaisse=0;
+                }
+            }
+            System.out.println("Verification du nombre de place : \n Pas = "+pas+"\nNombre de place totales = "+test+"\n Resultat = "+nombreDePlacesTotales);
             //On compare
             if(nombreDePlacesTotales>= nombreEtudiants){
                 res=true;
@@ -205,6 +224,10 @@ import javax.swing.*;
         boolean res=true;
 
         if(this.nom.equals("") || this.date.equals("") || this.matiere.equals("")){
+            res=false;
+        }
+
+        if(!verifierLeNombreDePlace()){
             res=false;
         }
 

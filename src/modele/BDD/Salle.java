@@ -330,6 +330,7 @@ public class Salle extends Observable {
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
 		}
+		VueSalle.partieAUpdate = VueSalle.UPDATE_CREATION_SALLE;
 		setChanged();
 		notifyObservers();
 	}
@@ -511,7 +512,6 @@ public class Salle extends Observable {
 		}
 		this.idSalle = -1;
 
-		System.out.println("Création de la salle");
 		if(changementDimension){
 			this.places = new Place[hauteur][largeur];
 

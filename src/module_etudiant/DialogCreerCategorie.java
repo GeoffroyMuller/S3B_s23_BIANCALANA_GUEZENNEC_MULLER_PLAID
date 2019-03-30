@@ -11,13 +11,19 @@ import java.awt.event.ActionListener;
 
 public class DialogCreerCategorie extends JDialog {
 
-    private boolean sendData;
     private JLabel labNom;
     private JTextField textNomCategorie;
-    private JButton valider,annuler;
+    private JButton valider,annuler,supprimer;
     private boolean modification;
     private Categorie categorie;
 
+    /**
+     * Permet la création d'une boîte de dialogue pour la création d'une nouvelle catégorie
+     * @param parent
+     * @param title
+     * @param modal
+     * @param modification
+     */
     public DialogCreerCategorie(JFrame parent, String title, boolean modal,boolean modification){
         super(parent,title,modal);
         this.modification = modification;
@@ -29,6 +35,14 @@ public class DialogCreerCategorie extends JDialog {
 
     }
 
+    /**
+     * Permet la création d'une boîte de dialogue pour la modification d'une catégorie existante
+     * @param parent
+     * @param title
+     * @param modal
+     * @param modification
+     * @param categorie
+     */
     public DialogCreerCategorie(JFrame parent, String title, boolean modal,boolean modification,Categorie categorie){
         super(parent,title,modal);
         this.categorie = categorie;
@@ -78,6 +92,23 @@ public class DialogCreerCategorie extends JDialog {
         gbc.gridx=1;
         boutons.add(this.annuler,gbc);
 
+        if(modification) {
+            this.supprimer = new JButton("Supprimer");
+            gbc.gridx = 2;
+            boutons.add(this.supprimer, gbc);
+
+            this.supprimer.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int dialogButton = JOptionPane.YES_NO_OPTION;
+                    int dialogResult = JOptionPane.showConfirmDialog (null, "Êtes-vous sur de vouloir supprimer la catégorie : "+categorie.getNom(),"Confirmation de suppression",dialogButton);
+                    if(dialogResult == JOptionPane.YES_OPTION){
+                        categorie.delete();
+                    }
+                    setVisible(false);
+                }
+            });
+        }
 
         this.valider.addActionListener(new ActionListener() {
             @Override
@@ -110,7 +141,6 @@ public class DialogCreerCategorie extends JDialog {
     }
 
     public void afficherDialog(){
-        this.sendData =false;
         this.setVisible(true);
     }
 

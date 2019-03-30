@@ -35,23 +35,17 @@ import java.util.Observer;
  * Classe permettant la création de la vue du module salle, c'est dans cette vue que son crée les controleurs associés (Boutons "Ajouter" et "Supprimer" et les boutons radios
  */
 public class VueSalle extends JPanel implements Observer {
-	//public static JLabel ENTREE = new JLabel("Entree");
 	public static JLabel SORTIE = new JLabel("Bureau");
 	private JScrollPane containerDeLaListeJScroll;
-	private /*JPanel*/JScrollPane visualisationSalle;
+	private JScrollPane visualisationSalle;
 	private JPanel contenantPartieGauche;
 	private JPanel contenantMilieu;
 	private Salle salle;
 	private JPanel salleConstruite;
 	private JLabel nomRangee,nomColonne;
-
-
 	private DefaultListModel<Salle> dlm;
-
 	private JLabel labelDeLaListe;
-
 	public static Salle salleSelectionne;
-
 	/**
 	 * Correspond a la partie qui doit être mise à jour, (1 = partie gauche, 2= milieu, 3=partie de droite)
 	 */
@@ -59,7 +53,7 @@ public class VueSalle extends JPanel implements Observer {
 
 	private JList<Salle> listeDesSalles;
 
-	public static int UPDATE_PARTIE_LISTE_SALLE = 1;
+	public static int UPDATE_CREATION_SALLE = 1;
 	public static int UPDATE_PARTIE_AFFICHAGE_SALLE = 2;
 	public static int UPDATE_AJOUT_SALLE = 3;
 	public static int UPDATE_ALL = -1;
@@ -73,11 +67,8 @@ public class VueSalle extends JPanel implements Observer {
 	 */
 	public VueSalle(Salle salleModele){
 
-		//VueSalle.ENTREE.setVerticalAlignment(SwingConstants.CENTER);
-		//VueSalle.ENTREE.setHorizontalAlignment(SwingConstants.CENTER);
 		VueSalle.SORTIE.setVerticalAlignment(SwingConstants.CENTER);
 		VueSalle.SORTIE.setHorizontalAlignment(SwingConstants.CENTER);
-		//VueSalle.ENTREE.setFont(new Font("Serial",Font.PLAIN,20));
 		VueSalle.SORTIE.setFont(new Font("Serial",Font.PLAIN,20));
 
 		this.salle = salleModele;
@@ -121,7 +112,6 @@ public class VueSalle extends JPanel implements Observer {
 				VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
 				VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
 				String nomSalle = listeDesSalles.getSelectedValue().getNom();
-				System.out.println("Nom de la salle selectionne : "+nomSalle);
 				Salle salleSelectionne = Salle.findByNom(nomSalle);
 				salle.changerSalle(salleSelectionne);
 			}
@@ -143,9 +133,7 @@ public class VueSalle extends JPanel implements Observer {
 		//Partie visualisation de la liste (Partie du milieux)
 		this.salleConstruite = this.construireSalle(this.salle);
 		this.visualisationSalle = new JScrollPane(this.salleConstruite);
-		//this.visualisationSalle = this.construireSalle(this.salle);
 		this.visualisationSalle.setPreferredSize(new Dimension(930,600));
-		//this.visualisationSalle.setPreferredSize(new Dimension(800,500));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
 		this.contenantMilieu.setLayout(new GridBagLayout());
@@ -390,7 +378,9 @@ public class VueSalle extends JPanel implements Observer {
 		int oldValueScrollBarH = this.visualisationSalle.getHorizontalScrollBar().getValue();
 		int oldValueScrollBarV = this.visualisationSalle.getVerticalScrollBar().getValue();
 
-		if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL) {
+		if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL
+				|| partieAUpdate == VueSalle.UPDATE_CREATION_SALLE) {
+			System.out.println("OUIII");
 			this.salleConstruite = this.construireSalle(this.salle);
 			this.visualisationSalle.setViewportView(this.salleConstruite);
 			this.visualisationSalle.getHorizontalScrollBar().setValue(oldValueScrollBarH);
@@ -400,7 +390,8 @@ public class VueSalle extends JPanel implements Observer {
 		}
 
 
-		if(partieAUpdate == VueSalle.UPDATE_AJOUT_SALLE){
+		if(partieAUpdate == VueSalle.UPDATE_AJOUT_SALLE || partieAUpdate == VueSalle.UPDATE_CREATION_SALLE){
+			System.out.println("Oui ca marche");
 			Salle salle = new Salle(this.salle);
 			this.dlm.addElement(salle);
 			listeDesSalles.setSelectedIndex(this.dlm.indexOf(salle));

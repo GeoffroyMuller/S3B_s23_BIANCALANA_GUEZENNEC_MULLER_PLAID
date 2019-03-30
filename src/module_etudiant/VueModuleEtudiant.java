@@ -108,10 +108,16 @@ public class VueModuleEtudiant extends Observable {
         this.labelModifCateg.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                DialogCreerCategorie dialog = new DialogCreerCategorie(null,"Modification d'une catégorie",true,true,(Categorie)combocategorie.getSelectedItem());
-                dialog.afficherDialog();
-                setChanged();
-                notifyObservers();
+                try {
+                    DialogCreerCategorie dialog = new DialogCreerCategorie(null, "Modification d'une catégorie", true, true, (Categorie) combocategorie.getSelectedItem());
+                    dialog.afficherDialog();
+                    updateCombobox();
+                    setChanged();
+                    notifyObservers();
+                }catch(ClassCastException exception){
+                JOptionPane jop = new JOptionPane();
+                jop.showMessageDialog(null,"Veuillez selectionner la catégorie à modifier","Message Informatif",JOptionPane.INFORMATION_MESSAGE);
+            }
             }
         });
 
@@ -173,10 +179,16 @@ public class VueModuleEtudiant extends Observable {
         this.labelModifGroupe.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                DialogCreerGroupe dialog = new DialogCreerGroupe(null,"Modification d'un groupe",true,true,(Groupe)combogroupe.getSelectedItem());
-                dialog.afficherDialog();
-                setChanged();
-                notifyObservers();
+                try {
+                    DialogCreerGroupe dialog = new DialogCreerGroupe(null, "Modification d'un groupe", true, true, (Groupe) combogroupe.getSelectedItem());
+                    dialog.afficherDialog();
+                    updateCombobox();
+                    setChanged();
+                    notifyObservers();
+                }catch(ClassCastException exception){
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null,"Veuillez selectionner le groupe à modifier","Message Informatif",JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         });
 
@@ -388,6 +400,8 @@ public class VueModuleEtudiant extends Observable {
         for(Groupe groupe : Groupe.listGroupe()){
             this.combogroupe.addItem(groupe);
         }
+
+
 
         //Combocategorie
         this.combocategorie.removeAllItems();

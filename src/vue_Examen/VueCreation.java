@@ -28,12 +28,15 @@ public class VueCreation extends JPanel{
 	private VueInfoExamen vue_infoExam;
 	private VueGroupeParticipant vue_grpParticip;
 	private VueSallePriorite vue_sallePrio;
-	private VueContrainte vue_contrainte = new VueContrainte();
+	private VueContrainte vue_contrainte;
 	private JPanel jp_bouttonexam = new JPanel(new BorderLayout());
+	private Examen examen;
 	
-	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp) {
+	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp, Examen examen) {
+		this.examen = examen;
 		controleur_Exam = ctrlexamp;
-		listecateg = listecategp; 
+		listecateg = listecategp;
+		vue_contrainte = new VueContrainte(this.examen);
 		vue_infoExam = new VueInfoExamen(controleur_Exam);
 		vue_sallePrio = new VueSallePriorite(controleur_Exam);
 		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, listecateg);

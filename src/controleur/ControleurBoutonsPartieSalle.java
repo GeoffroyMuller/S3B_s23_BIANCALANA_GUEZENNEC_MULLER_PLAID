@@ -1,6 +1,7 @@
 package controleur;
 
 import modele.BDD.Salle;
+import module_etudiant.DialogTraitement;
 import vue.CreationSalleDialog;
 import vue.CreationSalleDialogInfos;
 import vue.VueSalle;
@@ -30,8 +31,29 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                 CreationSalleDialogInfos infos = dialogBox.afficherDialog();
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
-                VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
+                VueSalle.partieAUpdate = VueSalle.UPDATE_CREATION_SALLE;
                 ControleurBoutonsPartieSalle.modele.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur());
+                final DialogTraitement traitement = new DialogTraitement(null, "Traitement en cours...", true);
+
+                Thread trLoader = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        traitement.afficherDialog();
+                    }
+                });
+                Thread tr = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ControleurBoutonsPartieSalle.modele.save();
+                        traitement.close();
+                    }
+                });
+                tr.start();
+                trLoader.start();
+               // traitement.run();
+                //ControleurBoutonsPartieSalle.modele.save();
+                //traitement.close();
+
             }
         });
 

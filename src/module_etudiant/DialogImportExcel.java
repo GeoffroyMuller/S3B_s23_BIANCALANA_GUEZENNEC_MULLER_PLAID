@@ -15,12 +15,21 @@ import java.util.ArrayList;
 
 public class DialogImportExcel extends JDialog {
 
-    private boolean sendData;
-    private JLabel labChoixFichier,labelCategorie;
+    /**
+     * Label affichant le nom du fichier Excel selectionné
+     */
+    public static JLabel labChoixFichier;
+    private JLabel labelCategorie;
     private JComboBox<Categorie> comboCategorie;
     private FileChooserImport fileChooser;
     private JButton valider,annuler;
 
+    /**
+     * Permet de créer une boîte de dialogue concernant l'import d'un fichier Excel
+     * @param parent
+     * @param title
+     * @param modal
+     */
     public DialogImportExcel(JFrame parent, String title, boolean modal){
         super(parent,title,modal);
         this.setSize(new Dimension(400,170));
@@ -44,6 +53,15 @@ public class DialogImportExcel extends JDialog {
 
         fileChooser = new FileChooserImport();
        containerInfo.add(fileChooser,gbc);
+
+
+       gbc.gridx=1;
+       gbc.gridy=0;
+       this.labChoixFichier = new JLabel("Aucun fichier sélectionné...");
+       containerInfo.add(this.labChoixFichier,gbc);
+
+
+
 
         gbc.gridy=1;
         gbc.gridx=0;
@@ -100,8 +118,10 @@ public class DialogImportExcel extends JDialog {
 
     }
 
+    /**
+     * Cette méthode permet d'afficher la boîte de dialogue
+     */
     public void afficherDialog(){
-        this.sendData =false;
         this.setVisible(true);
     }
 }

@@ -10,17 +10,20 @@ import java.io.File;
 
 public class FileChooserImport extends JButton implements ActionListener {
 
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
+    /**
+     * Chemin vers le fichier selectionné
+     */
     private String filePath;
 
+    /**
+     * Nom du fichier sélectionné
+     */
+    private String fileName;
+
+
+    /**
+     * Permet la création d'un bouton permettant la sélection du fichier Excel
+     */
     public FileChooserImport(){
         this.setText("Sélection du fichier");
         this.addActionListener(this);
@@ -36,8 +39,28 @@ public class FileChooserImport extends JButton implements ActionListener {
             if(i==JFileChooser.APPROVE_OPTION){
                 File f=fileChooser.getSelectedFile();
                  this.filePath=f.getPath();
-
+                 DialogImportExcel.labChoixFichier.setText(this.filePath);
             }
         }
+
+
+
+    public String getFileName() {
+        return fileName;
     }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+
+}
 

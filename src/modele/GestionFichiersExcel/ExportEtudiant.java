@@ -164,8 +164,8 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         row = creerCellules(row,valeurs.length,valeurs,cellStyle);
 
         //Ajout des étudiants a la feuille Excel
-        int nbLignePlace = 4;
-        int nbLigneSignature = 4;
+        int nbLignePlace = 5;
+        int nbLigneSignature = 5;
         for(Salle salle : placement.keySet()){
 
             Sheet feuilleSalle = wb.getSheet(ExportEtudiant.nomFeuilleSignature+"_"+salle.getNom());
