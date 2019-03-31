@@ -110,14 +110,14 @@ public class Salle extends Observable {
 		this.getTableauPlaces(this.getIdSalle());
 
 		for(int i = 0; i < this.getPlaces().length;i++){
-			for(int j = 0; j < this.getPlaces().length;j++){
+			for(int j = 0; j < this.getPlaces()[i].length;j++){
 				Place place = this.getPlaces()[i][j];
 				if(place.getDisponnible()){
 					res++;
 				}
 			}
 		}
-
+		System.out.println("Nombre de place totale !!! : "+res+" place lenght : "+this.getPlaces().length);
 		return res;
 	}
 

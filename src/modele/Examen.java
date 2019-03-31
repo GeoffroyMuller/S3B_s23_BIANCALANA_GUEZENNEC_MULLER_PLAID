@@ -254,17 +254,27 @@ public class Examen extends Observable{
             int test = nombreDePlacesTotales;
 
             //On prend en compte le pas
-            int iteNombreDePLaceLaisse=0;
+
+            /*int iteNombreDePLaceLaisse=0;
             for(int i = 0; i < nombreDePlacesTotales; i++){
                 if(iteNombreDePLaceLaisse!=pas){
                     nombreDePlacesTotales--;
                 }else{
                     iteNombreDePLaceLaisse=0;
                 }
+            }*/
+
+            int nbPlace=1;
+
+            for(int i = 1; i < nombreDePlacesTotales;i++){
+                if(i%this.pas == 0){
+                    nbPlace++;
+                }
             }
-            System.out.println("Verification du nombre de place : \n Pas = "+pas+"\nNombre de place totales = "+test+"\n Resultat = "+nombreDePlacesTotales);
+
+            System.out.println("Verification du nombre de place : \n Pas = "+pas+"\nNombre de place totales = "+test+"\n Resultat = "+nbPlace);
             //On compare
-            if(nombreDePlacesTotales>= nombreEtudiants){
+            if(nbPlace>= nombreEtudiants){
                 res=true;
             }
         }
@@ -285,6 +295,8 @@ public class Examen extends Observable{
 
         if(!verifierLeNombreDePlace()){
             res=false;
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Il y trop d'étudiants pour les salles selectionnées.\n Veuillez ajouter des salles ou enlever des étudiant.","Erreur",JOptionPane.ERROR_MESSAGE);
         }
 
         return res;
@@ -687,7 +699,7 @@ public class Examen extends Observable{
 	}
 
 	public void setPas(int pas) {
-		this.pas = pas;
+		this.pas = pas+1;
 	}
 
 	public void refresh() {
@@ -733,6 +745,21 @@ public class Examen extends Observable{
                 System.out.println(placement.get(salle).get(place).getNom()+"-"+placement.get(salle).get(place).getPrenom());
             }
         }
+    }
+
+
+    /**
+     * Reinitisalise l'examen lorsque celui-ci est généré
+     */
+    public void reinitialiseExamen(){
+        this.nom = "";
+        this.date = "";
+        this.matiere = "";
+        this.groupeSepare = true;
+        this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
+        this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
+        this.salles = new ArrayList<Salle>();
+        this.pas = 2;
     }
 
 

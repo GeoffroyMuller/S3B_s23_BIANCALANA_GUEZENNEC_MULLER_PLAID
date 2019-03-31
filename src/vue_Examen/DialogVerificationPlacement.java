@@ -50,7 +50,7 @@ public class DialogVerificationPlacement extends JDialog {
         this.indexVersSalle = new HashMap<String, Integer>();
         this.modele = examen;
         this.etudiantsSelectionne = new ArrayList<ControleurCaseSalle>();
-        this.setSize(new Dimension(1300,800));
+        this.setSize(new Dimension(1380,800));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -107,6 +107,7 @@ public class DialogVerificationPlacement extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 ExportEtudiant exportEtu = new ExportEtudiant();
                 exportEtu.exporterPlacement(modele.getPlacement(),modele);
+                modele.reinitialiseExamen();
                 setVisible(false);
             }
         });
