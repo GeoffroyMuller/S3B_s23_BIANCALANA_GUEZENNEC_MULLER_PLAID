@@ -74,6 +74,10 @@ public class Examen extends Observable{
 		notifyObservers();
     }
 
+    /**
+     * Permet de retirer une salle d'un examen
+     * @param salle
+     */
     public void retirerSalle(Salle salle){
         //this.placement.remove(salle);
         System.out.println("Suppr Salle");
@@ -88,6 +92,15 @@ public class Examen extends Observable{
         }
         System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
         this.salles.remove(salle);
+    }
+
+    /**
+     * Permet de retirer toutes les salles d'un examen
+     */
+    public void reinitiliserLesSalles(){
+        for(Salle salle : this.salles){
+            retirerSalle(salle);
+        }
     }
 
 
@@ -638,12 +651,45 @@ public class Examen extends Observable{
 		this.notifyObservers();
 	}
 
+    /**
+     * Permet d'échanger la place de deux étudiants
+     * @param etuA
+     * @param etuB
+     */
+    public void echangerPlaceEtudiants(Etudiant etuA, Etudiant etuB){
+        CritereRechercheEtudiant creA = new CritereRechercheEtudiant(etuA.getNom(),etuA.getNom(),etuA.getGroupe());
+        CritereRechercheEtudiant creB = new CritereRechercheEtudiant(etuB.getPrenom(),etuB.getNom(),etuB.getGroupe());
 
-	//Groupe Participant
+        InformationsPlacementEtudiant ifeA = this.trouverPlaceEtudiant(creA);
+        InformationsPlacementEtudiant ifeB = this.trouverPlaceEtudiant(creB);
 
-	//Salle par Priorité
+        Place placeA = ifeA.getPlace();
+        Place placeB = ifeB.getPlace();
 
-	//Contrainte
+        if(ifeA.getSalle() == ifeB.getSalle()){
+            //L'échange s'effectue dans la même salle
+            placement.get(ifeA.getSalle()).put(placeA,etuB);
+            placement.get(ifeB.getSalle()).put(placeB,etuA);
+        }else{
+            //L'échange s'effectue dans des salles différente
+            placement.get(ifeA.getSalle()).remove(ifeA.getPlace());
+            placement.get(ifeB.getSalle()).remove(ifeB.getPlace());
+
+            placement.get(ifeB.getSalle()).put(ifeB.getPlace(),etuA);
+            placement.get(ifeA.getSalle()).put(ifeA.getPlace(),etuB);
+        }
+        verificationNonDoublons();
+    }
+
+    public void verificationNonDoublons(){
+        System.out.println("AFFICHAGE DES ETUDIANTS DEBUG");
+        for(Salle salle : placement.keySet()){
+            System.out.println("___Salle___"+salle.getNom()+"___");
+            for(Place place : placement.get(salle).keySet()){
+                System.out.println(placement.get(salle).get(place).getNom()+"-"+placement.get(salle).get(place).getPrenom());
+            }
+        }
+    }
 
 
 
