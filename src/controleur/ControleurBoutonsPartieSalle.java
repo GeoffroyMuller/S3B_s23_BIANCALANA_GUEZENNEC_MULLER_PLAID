@@ -11,11 +11,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Controleur du module Salle permettant l'ajout et la supression de salle
+ */
 public class ControleurBoutonsPartieSalle extends JPanel {
     private JButton boutonAjouterSalle;
     private JButton boutonSupprimerSalle;
     public static Salle modele;
 
+    /**
+     * Créer le controleur avec les boutons nécessaires
+     * @param modele
+     */
     public ControleurBoutonsPartieSalle(Salle modele){
         this.boutonAjouterSalle = new JButton("Ajouter");
         this.boutonSupprimerSalle = new JButton("Supprimer");

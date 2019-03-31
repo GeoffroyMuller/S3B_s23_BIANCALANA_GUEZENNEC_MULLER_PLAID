@@ -8,13 +8,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boîte de dialogue permettant d'accéder aux différents outils du module Salle
+ */
 public class OutilsSalleDialog extends JDialog {
-    private boolean sendData;
     private JLabel labeldebut,labelExplication;
-    private JButton valider,annuler,alphabetique,numerique,numeriqueReset;
+    private JButton alphabetique,numerique,numeriqueReset;
     private JRadioButton haut,bas;
     private boolean commencerHaut,commencerBas;
 
+    /**
+     * Instancie la boîte de dialogue
+     * @param parent
+     * @param title
+     * @param modal
+     * @param salle
+     */
     public OutilsSalleDialog(JFrame parent, String title, boolean modal, Salle salle){
         super(parent,title,modal);
 
@@ -139,8 +148,10 @@ public class OutilsSalleDialog extends JDialog {
     }
 
 
+    /**
+     * Affiche la boîte de dialogue
+     */
     public void afficherDialog(){
-        this.sendData =false;
         this.setVisible(true);
     }
 }

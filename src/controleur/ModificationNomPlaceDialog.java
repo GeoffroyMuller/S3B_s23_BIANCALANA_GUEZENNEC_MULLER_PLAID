@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boîte de dialogue du module Salle pour modifier le nom d'une place
+ */
 public class ModificationNomPlaceDialog extends JDialog {
     private boolean sendData;
     private ModificationNomPlaceDialogInfo dialogInfo;
@@ -14,6 +17,14 @@ public class ModificationNomPlaceDialog extends JDialog {
     private JTextField nomPlace,nomColonne,nomRangee;
     private JButton valider,annuler;
 
+    /**
+     * Instancie une boîte de dialogue permettant le changement de nom d'une place
+     * @param parent
+     * @param title
+     * @param modal
+     * @param place
+     *      Place que l'on souhaite modifier
+     */
     public ModificationNomPlaceDialog(JFrame parent, String title, boolean modal, Place place){
         super(parent,title,modal);
 
@@ -90,6 +101,10 @@ public class ModificationNomPlaceDialog extends JDialog {
         this.getContentPane().add(boutons,BorderLayout.SOUTH);
     }
 
+    /**
+     * Permet d'afficher la boîte de dialogue
+     * @return
+     */
     public ModificationNomPlaceDialogInfo afficherDialog(){
         this.sendData =false;
         this.setVisible(true);
