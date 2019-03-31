@@ -23,6 +23,8 @@ public class Examen extends Observable{
 	private String matiere;
 	private String date;
 
+	private boolean groupeSepare;
+
 	/**
 	 * Attribut HashMap placement lie chaque salle à sa "grille" de placement
 	 */
@@ -51,6 +53,7 @@ public class Examen extends Observable{
 		this.nom = "";
 		this.date = "";
 		this.matiere = "";
+		this.groupeSepare = true;
 		this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
 		this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
 		this.salles = new ArrayList<Salle>();
@@ -66,6 +69,11 @@ public class Examen extends Observable{
 		this.salles.add(salle);
 		this.placement.put(salle,new HashMap<Place, Etudiant>());
 		System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
+
+		for(Salle salleD :salles){
+            System.out.println("SALLE tous : "+salleD.getNom());
+        }
+
 		setChanged();
 		notifyObservers();
     }
@@ -141,6 +149,8 @@ public class Examen extends Observable{
         for (Etudiant etudiant: etudiants) {
             this.etudiants.remove(etudiant);
         }
+        System.out.println("Nombre d'étudiant : "+etudiants.size());
+
 
     }
 
@@ -152,6 +162,7 @@ public class Examen extends Observable{
 
         ArrayList<Etudiant> etudiants = groupe.getListeEtudiants();
         this.enleverDesEtudiantsDeExamen(etudiants);
+        System.out.println("Nombre d'étudiant : "+etudiants.size());
         setChanged();
 		notifyObservers(VueExamen.VUE_ETU);
 	}
@@ -174,7 +185,9 @@ public class Examen extends Observable{
 		for(modele.BDD.Etudiant etu : etudiants){
 			this.etudiants.put(etu,groupe.getNom());
 		}
-		setChanged();
+        System.out.println("Nombre d'étudiant : "+etudiants.size());
+
+        setChanged();
 		notifyObservers(VueExamen.VUE_ETU);
     }
 
@@ -184,6 +197,8 @@ public class Examen extends Observable{
      */
     public void ajouterUnEtudiant(Etudiant etudiant){
         this.etudiants.put(etudiant,etudiant.getGroupe());
+        System.out.println("Nombre d'étudiant : "+etudiants.size());
+
     }
 
     /**
@@ -507,9 +522,15 @@ public class Examen extends Observable{
     public boolean verifierGroupe(modele.BDD.Etudiant etudiantAPlacer, modele.BDD.Etudiant etudiantPlacer){
         boolean res = false;
 
-        if(this.etudiants.get(etudiantAPlacer).equals(this.etudiants.get(etudiantPlacer))){
-            return true;
+        if(!this.groupeSepare){
+            res=false;
+        }else{
+            if(this.etudiants.get(etudiantAPlacer).equals(this.etudiants.get(etudiantPlacer))){
+                return true;
+            }
         }
+
+
 
         return res;
     }

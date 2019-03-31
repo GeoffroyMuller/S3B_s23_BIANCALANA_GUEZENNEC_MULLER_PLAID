@@ -292,7 +292,7 @@ public class VueModuleEtudiant extends Observable {
                 DialogCreerEtudiant dialog = new DialogCreerEtudiant(null,"Création d'un étudiant",true,false);
                 dialog.afficherDialog();
                 setChanged();
-                notifyObservers();
+                notifyObservers(VueExamen.VUE_CATEG_SAVE);
                 effectuerLaRecherche(rechercheCourante.getNom(),rechercheCourante.getPrenom());
 
             }
@@ -310,7 +310,7 @@ public class VueModuleEtudiant extends Observable {
                 dialog.afficherDialog();
                 updateCombobox();
                 setChanged();
-                notifyObservers();
+                notifyObservers(VueExamen.VUE_CATEG_SAVE);
             }
         });
 
@@ -324,7 +324,7 @@ public class VueModuleEtudiant extends Observable {
                 DialogImportExcel dialog = new DialogImportExcel(null,"Importer une liste",true);
                 dialog.afficherDialog();
                 setChanged();
-                notifyObservers();
+                notifyObservers(VueExamen.VUE_CATEG_SAVE);
             }
         });
         topbar.setBackground(new Color(236, 241, 245));
