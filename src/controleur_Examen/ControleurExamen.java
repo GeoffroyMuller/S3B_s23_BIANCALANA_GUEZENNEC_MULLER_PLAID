@@ -64,7 +64,7 @@ public class ControleurExamen {
 		jtf_date = new JTextField();
 		
 		jb_creerExam = new JButton("Créer l'Examen");
-		jb_creerExam.setEnabled(false);
+		jb_creerExam.setEnabled(true);
 
 		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
 
@@ -173,13 +173,6 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				changeButtonGroupe(jbt, groupe);
-
-				//On vérifie si le nombre de place est toujours suffisant
-				if(!examen.verifierLesParametresExamen()){
-					jb_creerExam.setEnabled(false);
-				}else{
-					jb_creerExam.setEnabled(true);
-				}
 				//VueExamen.paneldev.repaint();//dev
 			}
 		});
@@ -204,12 +197,6 @@ public class ControleurExamen {
 
 				// TODO Auto-generated method stub
 				changeButtonGroupeCategorie(cate, jbt);
-
-				if(!examen.verifierLesParametresExamen()){
-					jb_creerExam.setEnabled(false);
-				}else{
-					jb_creerExam.setEnabled(true);
-				}
 			}
 		});
 		

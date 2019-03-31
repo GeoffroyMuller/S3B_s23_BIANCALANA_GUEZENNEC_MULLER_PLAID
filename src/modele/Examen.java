@@ -279,9 +279,9 @@ public class Examen extends Observable{
     public boolean verifierLesParametresExamen(){
         boolean res=true;
 
-        if(this.nom.equals("") || this.date.equals("") || this.matiere.equals("")){
+      /*  if(this.nom.equals("") || this.date.equals("") || this.matiere.equals("")){
             res=false;
-        }
+        }*/
 
         if(!verifierLeNombreDePlace()){
             res=false;
