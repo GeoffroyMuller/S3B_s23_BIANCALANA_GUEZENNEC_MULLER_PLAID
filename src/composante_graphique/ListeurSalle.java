@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.Border;
 
+import org.apache.poi.util.SystemOutLogger;
+
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
 import modele.BDD.Salle;
@@ -56,7 +58,7 @@ public class ListeurSalle extends JPanel{
 	}*/
 	private ControleurExamen ctrlexam;
 	private ArrayList<PanelListeurPriorite> listprioritie = new ArrayList<PanelListeurPriorite>();
-	
+
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
@@ -115,8 +117,18 @@ public class ListeurSalle extends JPanel{
 	public void ajouterPriorite() {
 		listprioritie.add(new PanelListeurPriorite(listprioritie.size(),this,examen));
 	}
-	public void ajouterSalleExamen() {
-		
+	public void ajouterSalles() {
+		 examen.reinitiliserLesSalles();
+		System.out.println("66666666666666666666666666666666666666666");
+		for(PanelListeurPriorite plp : listprioritie) {
+			
+			if(plp.getTextJCombo().equals("Choisir une salle")) {
+				System.out.println("ccccccccccccccccc::: "+plp.getSalle());
+			}else {
+				System.out.println("dddddddddddddddd::: "+plp.getSalle());
+				examen.ajouterSalle(plp.getSalle());
+			}
+		}
 	}
 	public void supprimerPriorite(int idp) {
 		try {
@@ -129,7 +141,7 @@ public class ListeurSalle extends JPanel{
 		}
 		for(int i=0;i<listprioritie.size();i++) {
 			listprioritie.get(i).setId(i);
-			}
+		}
 	}
 	public void creerZonePriorite() {
 		jp_all.removeAll();
@@ -205,6 +217,10 @@ public class ListeurSalle extends JPanel{
 		return null;
 	}
 
+
+	public ArrayList<PanelListeurPriorite> getListprioritie() {
+		return listprioritie;
+	}
 	/**
 	 * Definie et adapte la taille General
 	 */

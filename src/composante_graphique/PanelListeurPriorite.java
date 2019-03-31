@@ -36,7 +36,11 @@ public class PanelListeurPriorite extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Supprimer :: "+id);
 
+				
+
 				ls.supprimerPriorite(id);
+				System.out.println("===========================1111111111");
+				ls.ajouterSalles();
 				ls.creerZonePriorite();
 			}
 		});
@@ -49,8 +53,8 @@ public class PanelListeurPriorite extends JPanel{
 			ArrayList<Salle> salles = Salle.listSalle();
 			String[] nomSalle = new String[salles.size()+1];
 			nomSalle[0] = "Choisir une salle";
-			for(int i=1;i<salles.size();i++) {
-				nomSalle[i] = salles.get(i).getNom();
+			for(int i=0;i<salles.size();i++) {
+				nomSalle[i+1] = salles.get(i).getNom();
 			}
 			jcbox = new JComboBox<String> (nomSalle);
 			jcbox.addActionListener(new ActionListener() {
@@ -58,9 +62,9 @@ public class PanelListeurPriorite extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					System.out.println("===========================2222222222222");
 					System.out.println("Salle Select: "+(String)jcbox.getSelectedItem());
-
-						ls.ajouterSalleExamen(getId());
+					ls.ajouterSalles();
 				}
 			});
 		} catch (Exception e1) {
