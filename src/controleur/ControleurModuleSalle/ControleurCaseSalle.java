@@ -24,12 +24,22 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
     private Salle salle;
     private VueSalle vueSalle;
     private boolean changementCouleur;
+
     //Utilisée lors de la verification du placement
     private DialogVerificationPlacement boiteDialogue;
     private Examen examen;
 
     public static boolean MOUSE_DOWN = false;
 
+    /**
+     * Permet de construire la visualisation de verification du placement d'un examen
+     * @param c
+     * @param i
+     * @param j
+     * @param salle
+     * @param dialog
+     * @param examen
+     */
     public ControleurCaseSalle(Color c, int i, int j,Salle salle, DialogVerificationPlacement dialog, Examen examen){
         super();
         this.examen = examen;
@@ -75,10 +85,15 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         final Salle salleStatic = this.salle;
         final int iStatic = this.i;
         final int jStatic =this.j;
+        final ControleurCaseSalle controleur = this;
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                if(boiteDialogue.verifierSiDejaSelectionne(controleur)){
+                    setCouleurCase(getCouleurCaseBase());
+                }else{
+                    setCouleurCase(new Color(0x19F10D));
+                }
             }
 
             @Override
@@ -108,6 +123,13 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         });
     }
 
+    /**
+     * Permet de construire la visualisation d'une salle dans le module Salle
+     * @param c
+     * @param i
+     * @param j
+     * @param salle
+     */
     public ControleurCaseSalle(Color c, int i, int j, Salle salle){
         super();
         this.salle = salle;
@@ -334,5 +356,10 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
 
     public void ajouterVueSalle(VueSalle vueSalle){
         this.vueSalle = vueSalle;
+    }
+
+    public Etudiant getEtudiant(){
+        return examen.placement.get(salle).get(salle.getPlaces()[i][j]);
+
     }
 }
