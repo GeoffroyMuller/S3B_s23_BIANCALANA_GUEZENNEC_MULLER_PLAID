@@ -11,15 +11,18 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import modele.Examen;
 import modele.BDD.Salle;
 
 public class PanelListeurPriorite extends JPanel{
 	private int id;
 	private ListeurSalle ls;
+	private Examen examen;
 	private JLabel jl;
 	private JComboBox<String> jcbox;
 	private JButton jb_supp;
-	public PanelListeurPriorite(int idp, ListeurSalle lsp) {
+	public PanelListeurPriorite(int idp, ListeurSalle lsp,Examen examp) {
+		examen = examp;
 		id = idp;
 		ls = lsp;
 		jl = new JLabel(""+id);
@@ -44,16 +47,31 @@ public class PanelListeurPriorite extends JPanel{
 	private void creerComboSalle() {
 		try {
 			ArrayList<Salle> salles = Salle.listSalle();
-			String[] nomSalle = new String[salles.size()];
-			for(int i=0;i<salles.size();i++) {
+			String[] nomSalle = new String[salles.size()+1];
+			nomSalle[0] = "Choisir une salle";
+			for(int i=1;i<salles.size();i++) {
 				nomSalle[i] = salles.get(i).getNom();
 			}
 			jcbox = new JComboBox<String> (nomSalle);
+			jcbox.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					System.out.println("Salle Select: "+(String)jcbox.getSelectedItem());
+
+						ls.ajouterSalleExamen(getId());
+				}
+			});
 		} catch (Exception e1) {
-			System.out.println("Erreur:: recuperation de Salle impossible");
+			System.out.println("Erreur:: recup de Salle impossible");
 			e1.printStackTrace();
 		}
 
+	}
+	
+	public Salle getSalle() {
+		return Salle.findByNom((String)jcbox.getSelectedItem());
 	}
 	public String getTextJCombo() {
 		return (String)jcbox.getSelectedItem();

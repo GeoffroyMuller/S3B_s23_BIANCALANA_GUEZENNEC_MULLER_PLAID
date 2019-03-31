@@ -221,7 +221,7 @@ public class VueExamen extends JPanel implements Observer{
 		vuetest.definirTaille(500, 1600);
 		jp2_affichListEtu.add(vuetest);*/
 		
-		JButton jb_dev_up = new JButton("update");
+		/*JButton jb_dev_up = new JButton("update");
 		jb_dev_up.addActionListener(new ActionListener() {
 
 			@Override
@@ -236,7 +236,7 @@ public class VueExamen extends JPanel implements Observer{
 			}
 
 		});
-		jp2_creation.add(jb_dev_up);
+		jp2_creation.add(jb_dev_up);*/
 	}
 
 
@@ -354,9 +354,11 @@ public class VueExamen extends JPanel implements Observer{
 			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());		
 			break;
 		case VUE_CATEG_SAVE:
+			System.out.println("ooooooooooooooooooooooo");
 			jp2_creation.getVue_grpParticip().sauvegarder();
 			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
-			jp2_creation.getVue_grpParticip().charger();break;
+			jp2_creation.getVue_grpParticip().charger();
+			break;
 		default:
 
 			break;

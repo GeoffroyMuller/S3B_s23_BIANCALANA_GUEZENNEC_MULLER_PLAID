@@ -18,7 +18,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import controleur_Examen.ControleurExamen;
-
+import modele.Examen;
 import modele.BDD.Salle;
 //import sun.net.www.content.image.jpeg;
 
@@ -62,13 +62,13 @@ public class ListeurSalle extends JPanel{
 	private JPanel jp_all;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private ArrayList<Salle> prioriteSalle;
-
+	private Examen examen;
 	private JPanel jptestcomb = new JPanel();
 
-	public ListeurSalle(ControleurExamen ctrlexamp) throws SQLException {
+	public ListeurSalle(ControleurExamen ctrlexamp,Examen examenp) throws SQLException {
 		ctrlexam = ctrlexamp;
 		this.setBackground(color);
-
+		examen = examenp;
 		controleur_Exam = ctrlexamp;
 		jp_all = new JPanel();
 		jp_all.setLayout(new GridBagLayout());
@@ -113,7 +113,10 @@ public class ListeurSalle extends JPanel{
 
 	}
 	public void ajouterPriorite() {
-		listprioritie.add(new PanelListeurPriorite(listprioritie.size(),this));
+		listprioritie.add(new PanelListeurPriorite(listprioritie.size(),this,examen));
+	}
+	public void ajouterSalleExamen() {
+		
 	}
 	public void supprimerPriorite(int idp) {
 		try {
@@ -183,13 +186,23 @@ public class ListeurSalle extends JPanel{
 		this.add(scrollpane, gbc);
 
 	}
-	public void getListeSalle() {
+	public ArrayList<String> getListeTextSalle() {
 		int compte = 0;
-		
+		ArrayList<String> listtextpriorite = new ArrayList<>();
 		for(PanelListeurPriorite priorite : listprioritie) {
 			System.out.println("P_Salle:"+"compte"+": "+priorite.getTextJCombo());
+			listtextpriorite.add(priorite.getTextJCombo());
 			compte++;
 		}
+		return listtextpriorite;
+	}
+	public PanelListeurPriorite getpanelByID(int idp) {
+		for(PanelListeurPriorite plp : listprioritie) {
+			if(plp.getId()==idp) {
+				return plp;
+			}
+		}
+		return null;
 	}
 
 	/**

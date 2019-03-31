@@ -34,12 +34,13 @@ public class VueSallePriorite extends JPanel{
 	private ControleurExamen controleur_Exam;
 	private JPanel jp_all;
 	private GridBagConstraints gbc = new GridBagConstraints();
+	private Examen examen;
 	
-	public VueSallePriorite(ControleurExamen ctrlexamp) {
+	public VueSallePriorite(ControleurExamen ctrlexamp,Examen examp) {
 		ctrlexam = ctrlexamp;
-
+		examen = examp;
 		try {
-			listeur = new ListeurSalle(ctrlexamp);
+			listeur = new ListeurSalle(ctrlexamp, examen);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Erreur:: probleme de recuperation des salles dans la base de données");

@@ -4,6 +4,7 @@ import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
 import modele.BDD.Groupe;
 import modele.BDD.Particularite;
+import vue_Examen.VueExamen;
 import modele.CritereRechercheEtudiant;
 
 import javax.swing.*;
@@ -111,6 +112,7 @@ public class VueModuleEtudiant extends Observable {
                 try {
                     DialogCreerCategorie dialog = new DialogCreerCategorie(null, "Modification d'une catégorie", true, true, (Categorie) combocategorie.getSelectedItem());
                     dialog.afficherDialog();
+                    
                     updateCombobox();
                     setChanged();
                     notifyObservers();
@@ -279,7 +281,7 @@ public class VueModuleEtudiant extends Observable {
                 dialog.afficherDialog();
                 updateCombobox();
                 setChanged();
-                notifyObservers();
+                notifyObservers(VueExamen.VUE_CATEG_SAVE);
             }
         });
 
