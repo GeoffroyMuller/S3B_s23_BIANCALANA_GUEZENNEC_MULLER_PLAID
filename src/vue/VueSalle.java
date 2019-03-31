@@ -12,12 +12,14 @@ import modele.BDD.Salle;
 import modele.BDD.TypePlace;
 import modele.Examen;
 import modele.ProprietesCaseSalle;
+import module_etudiant.VueModuleEtudiant;
 import vue.ComposantVueSalle.Indicateur;
 import vue_Examen.DialogVerificationPlacement;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -52,6 +54,9 @@ public class VueSalle extends JPanel implements Observer {
 	public static int partieAUpdate;
 
 	private JList<Salle> listeDesSalles;
+	private Border bordureJtextFieldBase;
+	private ProprietesCaseSalle proprieteDeLaSalle;
+	private ControleurCaseSalle dernierePlaceRechercher;
 
 	public static int UPDATE_CREATION_SALLE = 1;
 	public static int UPDATE_PARTIE_AFFICHAGE_SALLE = 2;
@@ -65,7 +70,7 @@ public class VueSalle extends JPanel implements Observer {
 	/**
 	 * Constructeur de la vue salle, construit également les controleurs necessaires (ControleurCaseSalle et ControleurRadioBoutons)
 	 */
-	public VueSalle(Salle salleModele){
+	public VueSalle(final Salle salleModele){
 
 		VueSalle.SORTIE.setVerticalAlignment(SwingConstants.CENTER);
 		VueSalle.SORTIE.setHorizontalAlignment(SwingConstants.CENTER);
@@ -159,9 +164,90 @@ public class VueSalle extends JPanel implements Observer {
 		gbc.insets = new Insets(20,10,20,0);
 		this.contenantMilieu.add(titrePartieMilieu,gbc);
 
+		//Champs de recherche d'une place
+		JLabel nomColonne = new JLabel("Nom colonne : ");
+		JLabel nomRangee = new JLabel("Nom rangee : ");
+
+		final JTextField textNomColonne = new JTextField();
+		final JTextField textNomRangee = new JTextField();
+		textNomColonne.setPreferredSize(new Dimension(VueModuleEtudiant.TEXTFIELD_WIDTH,VueModuleEtudiant.TEXTFIELD_HEIGHT));
+		textNomRangee.setPreferredSize(new Dimension(VueModuleEtudiant.TEXTFIELD_WIDTH,VueModuleEtudiant.TEXTFIELD_HEIGHT));
+		this.bordureJtextFieldBase = textNomColonne.getBorder();
+		JButton rechercher = new JButton("Rechercher");
+
+		rechercher.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(null != dernierePlaceRechercher)dernierePlaceRechercher.switchColor(dernierePlaceRechercher.getCouleurCaseBase());
+				if(textNomColonne.getText().isEmpty() || textNomRangee.getText().isEmpty()){
+					if(textNomColonne.getText().isEmpty()) {
+						textNomColonne.setBorder(BorderFactory.createMatteBorder(2,2,2,2,new Color(0xAA0C00)));
+					}else{
+						textNomColonne.setBorder(bordureJtextFieldBase);
+					}
+					if(textNomRangee.getText().isEmpty()) {
+						textNomRangee.setBorder(BorderFactory.createMatteBorder(2,2,2,2,new Color(0xAA0C00)));
+					}else{
+						textNomRangee.setBorder(bordureJtextFieldBase);
+					}
+					JOptionPane jop = new JOptionPane();
+					jop.showMessageDialog(null,"Veuillez renseigner tout les champs","Message Informatif",JOptionPane.INFORMATION_MESSAGE);
+				}else{
+					textNomColonne.setBorder(bordureJtextFieldBase);
+					textNomRangee.setBorder(bordureJtextFieldBase);
+
+					for(ControleurCaseSalle caseSalle : proprieteDeLaSalle.getListeControleurs()){
+						if(caseSalle.getPlace().getNomColonne().toLowerCase().equals(textNomColonne.getText().toLowerCase()) &&
+								caseSalle.getPlace().getNomRangee().toLowerCase().equals(textNomRangee.getText().toLowerCase())){
+							caseSalle.switchColor(new Color(0x23FF00));
+							dernierePlaceRechercher = caseSalle;
+							break;
+						}
+					}
+
+					if(null == dernierePlaceRechercher){
+						JOptionPane jop = new JOptionPane();
+						jop.showMessageDialog(null,"La place demandée n'a pas été trouvé ! \n Veuillez vérifier les informations indiquées","La place n'a pas été trouvée",JOptionPane.INFORMATION_MESSAGE);
+					}
+
+
+				}
+			}
+		});
+
+		JPanel contenantRecherche = new JPanel();
+		contenantRecherche.setLayout(new GridBagLayout());
+		Border bordurecolor = new LineBorder(Color.BLACK);
+		contenantRecherche.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Recherche Place"));
+
+		gbc = new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=0;
+		gbc.anchor = GridBagConstraints.BASELINE;
+		gbc.insets = new Insets(5,10,10,0);
+		contenantRecherche.add(nomRangee,gbc);
+
+		gbc.gridx=1;
+		contenantRecherche.add(textNomRangee,gbc);
+
+		gbc.gridx=2;
+		contenantRecherche.add(nomColonne,gbc);
+
+		gbc.gridx=3;
+		contenantRecherche.add(textNomColonne,gbc);
+
+		gbc.gridx=4;
+		contenantRecherche.add(rechercher,gbc);
+
+		gbc = new GridBagConstraints();
+		gbc.gridx=0;
+		gbc.gridy=1;
+		this.contenantMilieu.add(contenantRecherche,gbc);
+
+
 		gbc = new GridBagConstraints();
 		gbc.gridx = 0;
-		gbc.gridy = 1;
+		gbc.gridy = 2;
 		gbc.gridwidth = gbc.gridheight = GridBagConstraints.REMAINDER;
 		gbc.anchor = GridBagConstraints.PAGE_START;
 		gbc.weightx = 1;
@@ -334,6 +420,7 @@ public class VueSalle extends JPanel implements Observer {
 		gbc.gridx= gbc.gridy = 0;
 		gbc.gridheight = gbc.gridwidth = 1;
 		gbc.insets = new Insets(2,2,0,2);
+		ArrayList<ControleurCaseSalle> listControleur = new ArrayList<ControleurCaseSalle>();
 		for(int i = 0; i < salle.getNbCaseHauteur();i++){
 			for(int j = 0; j < salle.getNbCaseLargeur();j++){
 				JPanel jpBouton = new JPanel();
@@ -343,6 +430,7 @@ public class VueSalle extends JPanel implements Observer {
 				TypePlace typePlace = TypePlace.findById(place.getIdTypePlace());
 				Color couleurPlace = TypePlace.trouverCouleurPlace(typePlace.getNom());
 				ControleurCaseSalle controleur = new ControleurCaseSalle(couleurPlace,i,j,this.salle);
+				listControleur.add(controleur);
 				controleur.ajouterVueSalle(this);
 				place.addObserver(controleur);
 				jpBouton.add(controleur);
@@ -355,6 +443,7 @@ public class VueSalle extends JPanel implements Observer {
 		}
 		superContenant.add(contenant,BorderLayout.CENTER);
 		//return contenant;
+		this.proprieteDeLaSalle = new ProprietesCaseSalle(superContenant,listControleur);
 		return superContenant;
 	}
 

@@ -135,7 +135,10 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         this.salle = salle;
         this.i = i;
         this.j = j;
+        this.changementCouleur=true;
         this.couleurCase = c;
+        this.couleurCaseBase = c;
+
         setContentAreaFilled(false);
 
        this.setBackground(this.couleurCase);
@@ -361,5 +364,13 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
     public Etudiant getEtudiant(){
         return examen.placement.get(salle).get(salle.getPlaces()[i][j]);
 
+    }
+
+    public Place getPlace(){
+        Place place = null;
+
+        place = salle.getPlaces()[this.i][this.j];
+
+        return place;
     }
 }

@@ -8,16 +8,8 @@ import modele.BDD.Place;
 import modele.BDD.Salle;
 import vue_Examen.VueExamen;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.sql.SQLException;
 import java.util.*;
-
-import modele.BDD.Categorie;
 
 import javax.swing.*;
 
@@ -103,6 +95,29 @@ public class Examen extends Observable{
         }
     }
 
+    /**
+     * Permet de vérifier si une salle à été selectionné plusieurs fois
+     */
+    public boolean verificationDoublonSalle(){
+        boolean res = false;
+        int compteur=0;
+        for(int i = 0; i < salles.size();i++){
+            Salle salle = salles.get(i);
+            for(int j = 0; j < salles.size();j++){
+                if(salle.getNom().equals(salles.get(j))){
+                    compteur++;
+                }
+            }
+            if(compteur>1){
+                res=true;
+                JOptionPane jop = new JOptionPane();
+                jop.showMessageDialog(null,"Une même salle à été ajouté plusieurs fois ! \n Veuillez changer les salles ou enlever des priorités.","Message Informatif",JOptionPane.INFORMATION_MESSAGE);
+                break;
+            }
+        }
+        return res;
+    }
+
 
     /**
      * Permet d'enlever un étudiant de la liste des étudiants pris en compte pour l'examen
@@ -174,21 +189,23 @@ public class Examen extends Observable{
 
         int margeErreur = 0;
 
-        if(!this.verifierLesParametresExamen()){
-            JOptionPane jop = new JOptionPane();
-            jop.showMessageDialog(null,"Les paramétres de l'examen ont mal été renseignés.","Erreur",JOptionPane.INFORMATION_MESSAGE);
-        }else{
-            while(resultat !=margeErreur){
-                placerEleve();
-                resultat = this.verifierSolution();
-                nbTentative++;
-                if(nbTentative== 20000){
-                    margeErreur++;
-                    nbTentative = 0;
+        if(!this.verificationDoublonSalle()){
+            if(!this.verifierLesParametresExamen()){
+                JOptionPane jop = new JOptionPane();
+                jop.showMessageDialog(null,"Les paramétres de l'examen ont mal été renseignés.","Erreur",JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                while(resultat !=margeErreur){
+                    placerEleve();
+                    resultat = this.verifierSolution();
+                    nbTentative++;
+                    if(nbTentative== 20000){
+                        margeErreur++;
+                        nbTentative = 0;
+                    }
                 }
             }
+            System.out.println("Le placement générer contient une marge d'erreur de :"+margeErreur+" cela peut être du à la présence d'élève ayant un placement spéccifique.");
         }
-        System.out.println("Le placement générer contient une marge d'erreur de :"+margeErreur+" cela peut être du à la présence d'élève ayant un placement spéccifique.");
     }
 
 

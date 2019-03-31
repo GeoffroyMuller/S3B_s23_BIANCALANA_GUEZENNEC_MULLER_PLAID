@@ -356,6 +356,11 @@ public class DialogVerificationPlacement extends JDialog {
         this.labelGroupe.setText(" Groupe : "+groupe);
     }
 
+    /**
+     * Permet de vérifier si la case à déja été sélectionne
+     * @param etu
+     * @return
+     */
     public boolean verifierSiDejaSelectionne(ControleurCaseSalle etu){
         boolean res = false;
         for(ControleurCaseSalle etudiant : this.etudiantsSelectionne){
@@ -367,6 +372,10 @@ public class DialogVerificationPlacement extends JDialog {
         return res;
     }
 
+    /**
+     * Permet d'ajouter une selection à la liste des selections
+     * @param etudiant
+     */
     public void ajouterSelection(ControleurCaseSalle etudiant){
         if(this.etudiantsSelectionne.size() == 2){
             JOptionPane jop = new JOptionPane();
