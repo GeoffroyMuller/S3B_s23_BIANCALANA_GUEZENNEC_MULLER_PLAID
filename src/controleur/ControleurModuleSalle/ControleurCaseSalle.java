@@ -311,6 +311,10 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         return couleurCase;
     }
 
+    /**
+     * Permet de changer la couleur d'une case et de remettre la couleur de base si la méthode est appelée une seconde fois
+     * @param color
+     */
     public void switchColor(Color color){
         if(this.changementCouleur){
             this.setCouleurCase(color);
@@ -357,9 +361,14 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         this.salle = Salle.findById(this.salle.getIdSalle());
     }
 
+    /**
+     * Permet l'ajout d'une VueSalle au controleur
+     * @param vueSalle
+     */
     public void ajouterVueSalle(VueSalle vueSalle){
         this.vueSalle = vueSalle;
     }
+
 
     public Etudiant getEtudiant(){
         return examen.placement.get(salle).get(salle.getPlaces()[i][j]);

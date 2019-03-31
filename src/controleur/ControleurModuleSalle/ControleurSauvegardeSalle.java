@@ -1,7 +1,6 @@
 package controleur.ControleurModuleSalle;
 
-import controleur.ControleurBoutonsPartieSalle;
-import modele.BDD.Categorie;
+
 import modele.BDD.Salle;
 import module_etudiant.DialogTraitement;
 import vue.VueSalle;
@@ -10,6 +9,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Controleur du Module Salle pour la sauvegarde d'une salle
+ */
 public class ControleurSauvegardeSalle extends JButton implements ActionListener {
     public static Salle salle;
 

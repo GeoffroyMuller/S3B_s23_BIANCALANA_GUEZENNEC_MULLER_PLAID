@@ -8,11 +8,15 @@ import modele.BDD.Place;
 import modele.BDD.Salle;
 import vue_Examen.VueExamen;
 
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
 import javax.swing.*;
 
+/**
+ * Classe du modéle Examen, représente un Examen
+ */
 public class Examen extends Observable{
 
 	private String nom;
@@ -90,7 +94,9 @@ public class Examen extends Observable{
      * Permet de retirer toutes les salles d'un examen
      */
     public void reinitiliserLesSalles(){
-        for(Salle salle : this.salles){
+        ArrayList<Salle> copyListeSalle = new ArrayList<>();
+        copyListeSalle.addAll(this.salles);
+        for(Salle salle : copyListeSalle){
             retirerSalle(salle);
         }
     }
