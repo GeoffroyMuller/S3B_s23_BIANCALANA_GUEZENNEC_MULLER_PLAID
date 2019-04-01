@@ -401,6 +401,7 @@ public class Salle extends Observable {
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
+		VueExamen.rechargerlisteurSalle();
 		setChanged();
 		notifyObservers();
 	}
@@ -491,6 +492,7 @@ public class Salle extends Observable {
 		this.nbCaseHauteur=salle.getNbCaseHauteur();
 		salle.getTableauPlaces(salle.idSalle);
 		this.places=salle.getPlaces();
+		VueExamen.rechargerlisteurSalle();
 		setChanged();
 		notifyObservers();
 	}
@@ -538,7 +540,6 @@ public class Salle extends Observable {
 				}
 			}
 		}
-
 		//Sauvegarde de la salle avec chargement
 		final DialogTraitement traitement = new DialogTraitement(null, "Traitement en cours...", true);
 
@@ -553,6 +554,7 @@ public class Salle extends Observable {
 			public void run() {
 				save();
 				traitement.close();
+				VueExamen.rechargerlisteurSalle();
 				setChanged();
 				notifyObservers(VueExamen.VUE_ETU);
 			}

@@ -5,6 +5,7 @@ import module_etudiant.DialogTraitement;
 import vue.CreationSalleDialog;
 import vue.CreationSalleDialogInfos;
 import vue.VueSalle;
+import vue_Examen.VueExamen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,6 +40,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
                 VueSalle.partieAUpdate = VueSalle.UPDATE_CREATION_SALLE;
+
                 VueSalle.salle.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur(),true);
                // traitement.run();
                 //ControleurBoutonsPartieSalle.modele.save();
@@ -67,6 +69,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
 
 
                 }
+                VueExamen.rechargerlisteurSalle();
 
             }
         });
