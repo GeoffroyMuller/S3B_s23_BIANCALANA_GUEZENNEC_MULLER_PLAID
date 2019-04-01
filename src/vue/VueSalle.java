@@ -42,7 +42,7 @@ public class VueSalle extends JPanel implements Observer {
 	private JScrollPane visualisationSalle;
 	private JPanel contenantPartieGauche;
 	private JPanel contenantMilieu;
-	private Salle salle;
+	public static Salle salle;
 	private JPanel salleConstruite;
 	private JLabel nomRangee,nomColonne;
 	private DefaultListModel<Salle> dlm;
@@ -62,7 +62,9 @@ public class VueSalle extends JPanel implements Observer {
 	public static int UPDATE_PARTIE_AFFICHAGE_SALLE = 2;
 	public static int UPDATE_AJOUT_SALLE = 3;
 	public static int UPDATE_ALL = -1;
+	public static int UPDATE_SALLE = 4;
 	public static int UPDATE_NOTHING = 0;
+	public static int DELETE_SALLE = 5;
 
 
 
@@ -96,14 +98,7 @@ public class VueSalle extends JPanel implements Observer {
 		labelDeLaListe.setForeground(new Color(0xFAFFF1));
 
 		//Composant de la visualisation des listes des groupes
-		dlm = new DefaultListModel<Salle>();
-		try {
-			for(Salle s : Salle.listSalle()){
-				dlm.addElement(s);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		contruireListeSalles();
 
 		this.listeDesSalles = new JList<Salle>(dlm);
 		try{
@@ -118,6 +113,7 @@ public class VueSalle extends JPanel implements Observer {
 				VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
 				String nomSalle = listeDesSalles.getSelectedValue().getNom();
 				Salle salleSelectionne = Salle.findByNom(nomSalle);
+				System.out.println("NOM DE LA SALLE SELEC : "+nomSalle);
 				salle.changerSalle(salleSelectionne);
 			}
 		});
@@ -487,6 +483,40 @@ public class VueSalle extends JPanel implements Observer {
 			contenantPartieGauche.revalidate();
 			contenantPartieGauche.repaint();
 			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+		}
+
+		if(partieAUpdate == VueSalle.UPDATE_SALLE){
+			System.out.println("UPDATE SALLE EN COURS");
+			Salle salle = new Salle(this.salle);
+			int indexElem = this.dlm.indexOf(salle);
+			this.dlm.insertElementAt(salle,indexElem);
+			listeDesSalles.setSelectedIndex(this.dlm.indexOf(salle));
+			this.dlm.removeElementAt(indexElem+1);
+			contenantPartieGauche.revalidate();
+			contenantPartieGauche.repaint();
+			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+		}
+
+		if(partieAUpdate == VueSalle.DELETE_SALLE){
+			System.out.println("UPDATE SUPPR");
+			Salle salle = new Salle(this.salle);
+			int index = dlm.indexOf(salle);
+			listeDesSalles.setSelectedIndex(0);
+			this.dlm.removeElementAt(index);
+			contenantPartieGauche.revalidate();
+			contenantPartieGauche.repaint();
+			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+		}
+	}
+
+	private void contruireListeSalles(){
+		dlm = new DefaultListModel<Salle>();
+		try {
+			for(Salle s : Salle.listSalle()){
+				dlm.addElement(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

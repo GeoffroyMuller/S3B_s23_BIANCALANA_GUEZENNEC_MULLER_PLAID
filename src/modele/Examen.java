@@ -8,11 +8,14 @@ import modele.BDD.Place;
 import modele.BDD.Salle;
 import vue_Examen.VueExamen;
 
+import java.awt.*;
 import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  * Classe du modéle Examen, représente un Examen
@@ -578,7 +581,7 @@ public class Examen extends Observable{
 
         for(Salle salle : clesSalle){
             Set<Place> clesPlaces = this.placement.get(salle).keySet();
-
+            System.out.println("Boucle salle : "+salle.getNom());
             for(Place place : clesPlaces){
                 Etudiant etudiant = this.placement.get(salle).get(place);
                 if(etudiant.getNom().toLowerCase().equals(cre.getNom().toLowerCase())
@@ -613,11 +616,28 @@ public class Examen extends Observable{
                 data[iterateur][2] = etudiant.getNom();
                 data[iterateur][3] = etudiant.getPrenom();
                 data[iterateur][4] = salle.getNom();
-                data[iterateur][5] = place.getI()+"";
-                data[iterateur][6] = place.getJ()+"";
+                data[iterateur][5] = place.getNomRangee()+"";
+                data[iterateur][6] = place.getNomColonne()+"";
                 iterateur++;
             }
-            JTable tableau= new JTable(data,column);
+            DefaultTableModel model = new DefaultTableModel(data, column);
+            JTable tableau = new JTable(model){
+                private static final long serialVersionUID = 1L;
+
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            for(int i=0;i<tableau.getColumnCount();i++)
+            {
+                TableColumn column1 = tableau.getTableHeader().getColumnModel().getColumn(i);
+
+                column1.setHeaderValue(column[i]);
+                column1.setPreferredWidth(150);
+            }
+            tableau.setBounds(30,40,500,700);
+            tableau.setFont(new Font("Arial",Font.PLAIN,15));
+            tableau.setRowHeight(20);
             resultat.add(tableau);
         }
 
@@ -713,28 +733,37 @@ public class Examen extends Observable{
      * @param etuB
      */
     public void echangerPlaceEtudiants(Etudiant etuA, Etudiant etuB){
-        CritereRechercheEtudiant creA = new CritereRechercheEtudiant(etuA.getNom(),etuA.getNom(),etuA.getGroupe());
-        CritereRechercheEtudiant creB = new CritereRechercheEtudiant(etuB.getPrenom(),etuB.getNom(),etuB.getGroupe());
+        try{
+            CritereRechercheEtudiant creA = new CritereRechercheEtudiant(etuA.getNom(),etuA.getPrenom(),etuA.getGroupe());
+            CritereRechercheEtudiant creB = new CritereRechercheEtudiant(etuB.getNom(),etuB.getPrenom(),etuB.getGroupe());
 
-        InformationsPlacementEtudiant ifeA = this.trouverPlaceEtudiant(creA);
-        InformationsPlacementEtudiant ifeB = this.trouverPlaceEtudiant(creB);
+            InformationsPlacementEtudiant ifeA = this.trouverPlaceEtudiant(creA);
+            InformationsPlacementEtudiant ifeB = this.trouverPlaceEtudiant(creB);
 
-        Place placeA = ifeA.getPlace();
-        Place placeB = ifeB.getPlace();
+            Place placeA = ifeA.getPlace();
+            Place placeB = ifeB.getPlace();
 
-        if(ifeA.getSalle() == ifeB.getSalle()){
-            //L'échange s'effectue dans la même salle
-            placement.get(ifeA.getSalle()).put(placeA,etuB);
-            placement.get(ifeB.getSalle()).put(placeB,etuA);
-        }else{
-            //L'échange s'effectue dans des salles différente
-            placement.get(ifeA.getSalle()).remove(ifeA.getPlace());
-            placement.get(ifeB.getSalle()).remove(ifeB.getPlace());
+            if(ifeA.getSalle() == ifeB.getSalle()){
+                //L'échange s'effectue dans la même salle
+                System.out.println(placeA);
+                System.out.println(etuB.getNom());
+                System.out.println(ifeA.getSalle().getNom());
+                placement.get(ifeA.getSalle()).put(placeA,etuB);
+                placement.get(ifeB.getSalle()).put(placeB,etuA);
+            }else{
+                //L'échange s'effectue dans des salles différente
+                placement.get(ifeA.getSalle()).remove(ifeA.getPlace());
+                placement.get(ifeB.getSalle()).remove(ifeB.getPlace());
 
-            placement.get(ifeB.getSalle()).put(ifeB.getPlace(),etuA);
-            placement.get(ifeA.getSalle()).put(ifeA.getPlace(),etuB);
+                placement.get(ifeB.getSalle()).put(ifeB.getPlace(),etuA);
+                placement.get(ifeA.getSalle()).put(ifeA.getPlace(),etuB);
+            }
+            verificationNonDoublons();
+        }catch(NullPointerException e){
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"L'échange n'a pu être effectué. \n Veuillez vérifier que les places sélectionné sont attribuer à des étudiants.","Erreur",JOptionPane.ERROR_MESSAGE);
         }
-        verificationNonDoublons();
+
     }
 
     public void verificationNonDoublons(){
@@ -759,7 +788,6 @@ public class Examen extends Observable{
         this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
         this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
         this.salles = new ArrayList<Salle>();
-        this.pas = 2;
     }
 
 

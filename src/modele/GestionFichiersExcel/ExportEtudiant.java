@@ -152,7 +152,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
 
         //Création de la premiére ligne
-        Row row = feuillePlacement.createRow((short)6);
+        Row row = feuillePlacement.createRow((short)4);
 
 
 
@@ -171,7 +171,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
             Sheet feuilleSalle = wb.getSheet(ExportEtudiant.nomFeuilleSignature+"_"+salle.getNom());
 
             //Création de l'en tête
-            this.creerEntete(0,3,0,6,examen,feuilleSalle,wb);
+            this.creerEntete(0,3,0,7,examen,feuilleSalle,wb);
 
 
 
@@ -187,8 +187,8 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
                 String groupe = placement.get(salle).get(place).getGroupe();
 
                 //Information place
-                String rang = place.getI()+"";
-                String emplacement = place.getJ()+"";
+                String rang = place.getNomRangee()+"";
+                String emplacement = place.getNomColonne()+"";
 
                 //Ajout de la ligne a la feuille de placement
                 Row ligne = feuillePlacement.createRow(nbLignePlace);
@@ -197,7 +197,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
                 //Ajout de la ligne à la feuille de signature
                 ligne = feuilleSalle.createRow(nbLigneSignature);
-                ligne = creerCellules(ligne,valeursLigne.length,valeursLigne,cellStyle);
+                ligne = creerCellules(ligne,valeursLigne.length+1,valeursLigne,cellStyle);
 
 
                 id++;
@@ -205,6 +205,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
                 nbLigneSignature++;
             }
             nbLigneSignature = 4;
+            feuilleSalle.autoSizeColumn(7);
         }
 
         ExportEtudiant.nomDuDernierFichier = "placement_examen_"+examen.getNom()+".xlsx";
@@ -226,11 +227,13 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
     private void creerEntete(int firstCell,int lastCell,int firstColumn, int lastColumn,Examen examen,Sheet feuille,XSSFWorkbook wb){
         Row ligneEntete = feuille.createRow(0);
         Cell celluleEntete = ligneEntete.createCell(0);
+
         String texteEntete = "Examen -"+examen.getMatiere()+" - "+examen.getDate()+"Groupe(s) participant(s) :";
         for(String nomGroupe : examen.groupeParticipant()){
             texteEntete+=nomGroupe.toUpperCase()+" ";
         }
         celluleEntete.setCellValue(texteEntete);
+
         feuille.addMergedRegion(new CellRangeAddress(firstCell,lastCell,firstColumn,lastColumn));
         XSSFCellStyle cellStyle = wb.createCellStyle();
         Font font = wb.createFont();
@@ -238,6 +241,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         font.setFontHeightInPoints((short)20);
         cellStyle.setFont(font);
         celluleEntete.setCellStyle(cellStyle);
+        feuille.autoSizeColumn(0,true);
     }
 
     private Row creerCellules(Row row, int nb,String[] valeur,XSSFCellStyle cellStyle){

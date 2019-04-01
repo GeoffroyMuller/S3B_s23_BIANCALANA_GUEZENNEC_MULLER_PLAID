@@ -89,11 +89,29 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(boiteDialogue.verifierSiDejaSelectionne(controleur)){
-                    setCouleurCase(getCouleurCaseBase());
+
+                if(!getPlace().getDisponnible()){
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null,"La place sélectionné n'est pas disponible. \n Cela est peut-être du au fait qu'il s'agisse d'une allée ou d'une chaise inutilisable.","Place indisponible",JOptionPane.INFORMATION_MESSAGE);
                 }else{
-                    setCouleurCase(new Color(0x19F10D));
+                    if(boiteDialogue.verifierSiSelectionPossible()){
+                        if(boiteDialogue.verifierSiDejaSelectionne(controleur)){
+                            setCouleurCase(getCouleurCaseBase());
+                        }else{
+                            setCouleurCase(new Color(0x19F10D));
+                            boiteDialogue.ajouterSelection(controleur);
+                        }
+                    }else{
+                        if(boiteDialogue.verifierSiDejaSelectionne(controleur)){
+                            setCouleurCase(getCouleurCaseBase());
+                            boiteDialogue.retirerSelection(controleur);
+                        }
+                    }
                 }
+
+
+
+
             }
 
             @Override

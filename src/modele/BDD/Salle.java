@@ -2,7 +2,9 @@ package modele.BDD;
 
 
 import modele.Iterateur;
+import module_etudiant.DialogTraitement;
 import vue.VueSalle;
+import vue_Examen.VueExamen;
 
 import javax.swing.*;
 import java.net.Proxy;
@@ -261,6 +263,7 @@ public class Salle extends Observable {
 			int resId = rs.getInt("idSalle");
 			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
 			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
+			System.out.println("ID SALLE SELECTIONNE :"+resId);
 			res.add(new Salle(resNom,resId,resNbCaseHauteur,resNbCaseLargeur));
 		}
 		return res;
@@ -270,31 +273,37 @@ public class Salle extends Observable {
 	 * Delete.
 	 */
 	public void delete(){
+		System.out.println("SUPRESSION !");
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "DELETE FROM Salle WHERE idSalle ='"+this.idSalle+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
-			this.idSalle=-1;
+			//this.idSalle=-1;
+			VueSalle.partieAUpdate = VueSalle.DELETE_SALLE;
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+" Delete "+e.getErrorCode()+e.toString());
 		}
+		setChanged();
+		notifyObservers(VueExamen.VUE_ETU);
 	}
 
 	/**
 	 * Save.
 	 */
 	public void save() {
-
+		System.out.println("ID DE LA SALLE A SAVE :"+this.idSalle);
 		if(this.idSalle==-1) {
+			System.out.println("NOUVELLE SAVE");
 			this.saveNew();
 		}
 		else {
+			System.out.println("UPDATE");
 			this.update();
 		}
 		setChanged();
-		notifyObservers();
+		notifyObservers(VueExamen.VUE_ETU);
 	}
 
 	/**
@@ -365,7 +374,7 @@ public class Salle extends Observable {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
 		setChanged();
-		notifyObservers();
+		notifyObservers(VueExamen.VUE_ETU);
 	}
 
 	/**
@@ -475,7 +484,7 @@ public class Salle extends Observable {
 	 * Permet de changer la salle actuel par une autre
 	 * @param salle
 	 */
-	public void  changerSalle(Salle salle){
+	public void changerSalle(Salle salle){
 		this.nom = salle.getNom();
 		this.idSalle = salle.getIdSalle();
 		this.nbCaseLargeur = salle.getNbCaseLargeur();
@@ -493,11 +502,16 @@ public class Salle extends Observable {
 	 * @param hauteur
 	 * @param largeur
 	 */
-    public void changerInformation(String nom, int hauteur, int largeur) {
+    public void changerInformation(String nom, int hauteur, int largeur, boolean nouvelleSalle) {
     	boolean changementDimension = false;
+
+    	if(nouvelleSalle){
+    		this.idSalle=-1;
+		}
+
     	if(!this.nom.contains(nom)){
 			this.nom =nom;
-			VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
+			VueSalle.partieAUpdate = VueSalle.UPDATE_SALLE;
 		}
 		if(this.nbCaseHauteur != hauteur){
 			this.nbCaseHauteur = hauteur;
@@ -510,7 +524,6 @@ public class Salle extends Observable {
 
 			VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
 		}
-		this.idSalle = -1;
 
 		if(changementDimension){
 			this.places = new Place[hauteur][largeur];
@@ -525,8 +538,28 @@ public class Salle extends Observable {
 				}
 			}
 		}
-		setChanged();
-		notifyObservers();
+
+		//Sauvegarde de la salle avec chargement
+		final DialogTraitement traitement = new DialogTraitement(null, "Traitement en cours...", true);
+
+		Thread trLoader = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				traitement.afficherDialog();
+			}
+		});
+		Thread tr = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				save();
+				traitement.close();
+				setChanged();
+				notifyObservers(VueExamen.VUE_ETU);
+			}
+		});
+		tr.start();
+		trLoader.start();
+
     }
 
 	@Override

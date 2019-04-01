@@ -115,7 +115,7 @@ public class VueModuleEtudiant extends Observable {
                     
                     updateCombobox();
                     setChanged();
-                    notifyObservers();
+                    notifyObservers(VueExamen.VUE_CATEG_SAVE);
                 }catch(ClassCastException exception){
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,"Veuillez selectionner la catégorie à modifier","Message Informatif",JOptionPane.INFORMATION_MESSAGE);
@@ -186,7 +186,7 @@ public class VueModuleEtudiant extends Observable {
                     dialog.afficherDialog();
                     updateCombobox();
                     setChanged();
-                    notifyObservers();
+                    notifyObservers(VueExamen.VUE_CATEG_SAVE);
                 }catch(ClassCastException exception){
                     JOptionPane jop = new JOptionPane();
                     jop.showMessageDialog(null,"Veuillez selectionner le groupe à modifier","Message Informatif",JOptionPane.INFORMATION_MESSAGE);

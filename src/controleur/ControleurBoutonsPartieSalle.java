@@ -39,24 +39,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
                 VueSalle.partieAUpdate = VueSalle.UPDATE_CREATION_SALLE;
-                ControleurBoutonsPartieSalle.modele.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur());
-                final DialogTraitement traitement = new DialogTraitement(null, "Traitement en cours...", true);
-
-                Thread trLoader = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        traitement.afficherDialog();
-                    }
-                });
-                Thread tr = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ControleurBoutonsPartieSalle.modele.save();
-                        traitement.close();
-                    }
-                });
-                tr.start();
-                trLoader.start();
+                VueSalle.salle.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur(),true);
                // traitement.run();
                 //ControleurBoutonsPartieSalle.modele.save();
                 //traitement.close();
@@ -74,8 +57,8 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                         JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,choix,choix[1]);
 
                 if(choix[rang].equals("Oui")){
-                    Salle salle = Salle.findByNom(VueSalle.salleSelectionne.getNom());
-                    salle.delete();
+                    //Salle salle = Salle.findByNom(VueSalle.salleSelectionne.getNom());
+                    VueSalle.salle.delete();
                     JOptionPane jop = new JOptionPane();
                     jop.showMessageDialog(null,"La salle à bien été supprimer !","Supression effectuée avec succés",JOptionPane.INFORMATION_MESSAGE);
                 }else{

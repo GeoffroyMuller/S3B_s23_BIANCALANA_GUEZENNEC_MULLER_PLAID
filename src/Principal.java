@@ -32,6 +32,7 @@ public class Principal {
             Examen examen = new Examen();
             Salle salle = new Salle("Sans nom",Salle.DEFAULT_SIZE_ROOM_HEIGHT,Salle.DEFAULT_SIZE_ROOM_WIDTH);
 
+
             JFrame fenetre = new JFrame("EtuPlacement");
 
             //Panneau onglets modules
