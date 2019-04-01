@@ -3,6 +3,7 @@ package modele.BDD;
 
 import modele.Iterateur;
 import vue.VueSalle;
+import vue_Examen.VueExamen;
 
 import javax.swing.*;
 import java.net.Proxy;
@@ -392,6 +393,7 @@ public class Salle extends Observable {
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
+		VueExamen.rechargerlisteurSalle();
 		setChanged();
 		notifyObservers();
 	}
@@ -482,6 +484,7 @@ public class Salle extends Observable {
 		this.nbCaseHauteur=salle.getNbCaseHauteur();
 		salle.getTableauPlaces(salle.idSalle);
 		this.places=salle.getPlaces();
+		VueExamen.rechargerlisteurSalle();
 		setChanged();
 		notifyObservers();
 	}
@@ -525,6 +528,7 @@ public class Salle extends Observable {
 				}
 			}
 		}
+		VueExamen.rechargerlisteurSalle();
 		setChanged();
 		notifyObservers();
     }

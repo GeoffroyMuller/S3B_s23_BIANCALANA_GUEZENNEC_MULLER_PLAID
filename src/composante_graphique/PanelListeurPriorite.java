@@ -48,7 +48,7 @@ public class PanelListeurPriorite extends JPanel{
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 		
 	}
-	private void creerComboSalle() {
+	public void creerComboSalle() {
 		try {
 			ArrayList<Salle> salles = Salle.listSalle();
 			String[] nomSalle = new String[salles.size()+1];

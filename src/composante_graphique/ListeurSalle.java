@@ -198,6 +198,13 @@ public class ListeurSalle extends JPanel{
 		this.add(scrollpane, gbc);
 
 	}
+	
+	public void recharger() {
+		examen.reinitiliserLesSalles();
+		listprioritie.removeAll(listprioritie);
+		ajouterPriorite();
+		creerZonePriorite(); 
+	}
 	public ArrayList<String> getListeTextSalle() {
 		int compte = 0;
 		ArrayList<String> listtextpriorite = new ArrayList<>();

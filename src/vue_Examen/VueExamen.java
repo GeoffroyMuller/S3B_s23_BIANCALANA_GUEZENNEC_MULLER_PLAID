@@ -1,6 +1,7 @@
 package vue_Examen;
 
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import composante_graphique.ListeurSalle;
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
 import modele.BDD.Categorie;
@@ -35,6 +37,7 @@ public class VueExamen extends JPanel implements Observer{
 	public final static int VUE_CATEG_SAVE = 101;
 	public final static int INIT = 1;
 	public static Examen examen;
+	public static VueExamen vueExamen;
 	private ControleurExamen controleur_Exam;
 	private static Color color = new Color(40, 73, 92);//40, 73, 92
 	/**
@@ -71,6 +74,7 @@ public class VueExamen extends JPanel implements Observer{
 	 * @throws SQLException 
 	 */
 	public VueExamen(Examen exam) throws SQLException{
+		vueExamen = this;
 		examen = exam;
 		vue_etudiantparticipant = new VueEtudiantParticipant(examen);
 		controleur_Exam = new ControleurExamen(examen);
@@ -227,7 +231,7 @@ public class VueExamen extends JPanel implements Observer{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-
+				rechargerlisteurSalle();
 				jp2_creation.getVue_grpParticip().sauvegarder();
 				((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
 				jp2_creation.getVue_grpParticip().charger();
@@ -338,7 +342,14 @@ public class VueExamen extends JPanel implements Observer{
 		vuec.definirTaille(fenetre.getWidth(),fenetre.getHeight());
 
 	}*/
-
+	
+	/**
+	 * Remet le listeur de salle a zero
+	 */
+	public static void rechargerlisteurSalle() {
+		vueExamen.jp2_creation.getVue_sallePrio().rechargeListeur();
+	}
+	
 	@Override
 	public void update(Observable o, Object arg) {
 		int cas = INIT;

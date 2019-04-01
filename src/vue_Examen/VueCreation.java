@@ -99,6 +99,10 @@ public class VueCreation extends JPanel{
 	}
 
 	
+	public VueSallePriorite getVue_sallePrio() {
+		return vue_sallePrio;
+	}
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//vue_infoExam.definirTaille(this.getWidth()-1000, 25);

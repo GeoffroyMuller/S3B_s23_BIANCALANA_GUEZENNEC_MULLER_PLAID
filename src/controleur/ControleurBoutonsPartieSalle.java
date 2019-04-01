@@ -5,6 +5,7 @@ import module_etudiant.DialogTraitement;
 import vue.CreationSalleDialog;
 import vue.CreationSalleDialogInfos;
 import vue.VueSalle;
+import vue_Examen.VueExamen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,6 +58,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                 });
                 tr.start();
                 trLoader.start();
+                VueExamen.rechargerlisteurSalle();
                // traitement.run();
                 //ControleurBoutonsPartieSalle.modele.save();
                 //traitement.close();
@@ -84,6 +86,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
 
 
                 }
+                VueExamen.rechargerlisteurSalle();
 
             }
         });

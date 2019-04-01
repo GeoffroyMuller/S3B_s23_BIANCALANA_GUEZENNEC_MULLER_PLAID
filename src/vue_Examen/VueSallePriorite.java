@@ -97,6 +97,10 @@ public class VueSallePriorite extends JPanel{
 		
 
 	}
+	public void rechargeListeur() {
+		listeur.recharger();
+		
+	}
 
 	
 	
