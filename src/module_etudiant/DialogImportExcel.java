@@ -2,6 +2,7 @@ package module_etudiant;
 
 import modele.BDD.Categorie;
 import modele.GestionFichiersExcel.ImportEtudiant;
+import vue_Examen.VueExamen;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -95,8 +96,10 @@ public class DialogImportExcel extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(fileChooser.getFilePath());
-                ImportEtudiant ie = new ImportEtudiant(fileChooser.getFilePath(), "Feuil1", (Categorie)comboCategorie.getSelectedItem());
+                final ImportEtudiant ie = new ImportEtudiant(fileChooser.getFilePath(), "Feuil1", (Categorie)comboCategorie.getSelectedItem());
+
                 ie.importerEtudiant();
+
                     JOptionPane jop = new JOptionPane();
                     jop.showMessageDialog(null,"Importation réussie !","Réussite !",JOptionPane.INFORMATION_MESSAGE);
                 setVisible(false);

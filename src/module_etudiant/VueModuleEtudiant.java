@@ -345,6 +345,9 @@ public class VueModuleEtudiant extends Observable {
             public void actionPerformed(ActionEvent e) {
                 DialogImportExcel dialog = new DialogImportExcel(null,"Importer une liste",true);
                 dialog.afficherDialog();
+                updateCombobox();
+                effectuerLaRecherche("","");
+
                 setChanged();
                 notifyObservers(VueExamen.VUE_CATEG_SAVE);
             }
