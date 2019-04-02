@@ -80,11 +80,7 @@ public class ControleurExamen {
 				salle.getTableauPlaces(salle.getIdSalle());
 				System.out.println("Salle" + salle.getNom());
 				examen.ajouterSalle(salle);
-				if(!examen.verifierLeNombreDePlace()){
-					jb_creerExam.setEnabled(false);
-				}else{
-					jb_creerExam.setEnabled(true);
-				}
+
 
 				chsalle.setText("Retirer Salle 1 (test) ");
 				chsalle.setBackground(Color.gray);
@@ -150,8 +146,11 @@ public class ControleurExamen {
 				examen.setNom(jtf_nom.getText());
 				examen.genererUnPlacement();
 				//IMPORTANT ICI LANCER LE DIALOG
-				DialogVerificationPlacement dialog = new DialogVerificationPlacement(null,"Prévisualisation",true,examen);
-				dialog.afficherDialog();
+				if(examen.isFini()){
+					DialogVerificationPlacement dialog = new DialogVerificationPlacement(null,"Prévisualisation",true,examen);
+					dialog.afficherDialog();
+				}
+
 
 			}
 		});
