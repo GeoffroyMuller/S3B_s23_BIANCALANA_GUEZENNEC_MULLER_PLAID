@@ -721,6 +721,16 @@ public class Examen extends Observable{
 	public void setPas(int pas) {
 		this.pas = pas+1;
 	}
+	
+	
+
+	public boolean isGroupeSepare() {
+		return groupeSepare;
+	}
+
+	public void setGroupeSepare(boolean groupeSepare) {
+		this.groupeSepare = groupeSepare;
+	}
 
 	public void refresh() {
 		this.setChanged();
@@ -790,6 +800,7 @@ public class Examen extends Observable{
         this.salles = new ArrayList<Salle>();
     }
 
+    
 
 
 

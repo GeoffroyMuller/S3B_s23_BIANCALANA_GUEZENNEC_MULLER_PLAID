@@ -333,7 +333,7 @@ public class Categorie{
 			JOptionPane jop = new JOptionPane();
 			jop.showMessageDialog(null,"Une catégorie avec ce nom existe déja !","Erreur", JOptionPane.INFORMATION_MESSAGE);
 		}
-
+		System.out.println("=====================================");
 		
 	}
 

@@ -36,7 +36,7 @@ public class VueCreation extends JPanel{
 		this.examen = examen;
 		controleur_Exam = ctrlexamp;
 		listecateg = listecategp;
-		vue_contrainte = new VueContrainte(this.examen);
+		vue_contrainte = new VueContrainte(this.examen,this.controleur_Exam);
 		vue_infoExam = new VueInfoExamen(controleur_Exam);
 		vue_sallePrio = new VueSallePriorite(controleur_Exam,examen);
 		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, listecateg);

@@ -35,6 +35,8 @@ public class ControleurExamen {
 	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
 	private JTextField jtf_date;	//JTextField : gere la date de l'examen
 
+	private Checkbox checkboxc;
+	
 	private JButton chsalle;
 	private HashMap<JButton, String> mapBouton_groupe_save;
 	private HashMap<JButton, String> mapBouton_categorie_save;
@@ -66,6 +68,8 @@ public class ControleurExamen {
 		jb_creerExam = new JButton("Créer l'Examen");
 		jb_creerExam.setEnabled(true);
 
+		checkboxc = new Checkbox();
+		checkboxc.setState(true);
 		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
 
 		//dev
@@ -144,7 +148,9 @@ public class ControleurExamen {
 				System.out.println(">CtrlExam_jtf_Matiere: "+jtf_matiere.getText());
 				System.out.println(">CtrlExam_jtf_Date: "+jtf_date.getText());
 				System.out.println("==================");
-
+				System.out.println("ContrGrp::"+checkboxc.getState());
+				checkboxc.setEnabled(false);
+				examen.setGroupeSepare(checkboxc.getState());
 				examen.setDate(jtf_date.getText());
 				examen.setMatiere(jtf_matiere.getText());
 				examen.setNom(jtf_nom.getText());
@@ -152,7 +158,7 @@ public class ControleurExamen {
 				//IMPORTANT ICI LANCER LE DIALOG
 				DialogVerificationPlacement dialog = new DialogVerificationPlacement(null,"Prévisualisation",true,examen);
 				dialog.afficherDialog();
-
+				checkboxc.setEnabled(true);
 			}
 		});
 
@@ -340,6 +346,12 @@ public class ControleurExamen {
 	public JButton getJb_creerExam() {
 		return jb_creerExam;
 	}
+
+
+	public Checkbox getCheckboxc() {
+		return checkboxc;
+	}
+
 
 
 

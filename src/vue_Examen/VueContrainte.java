@@ -2,6 +2,7 @@ package vue_Examen;
 
 import modele.Examen;
 
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -19,17 +20,22 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import controleur_Examen.ControleurExamen;
+
 public class VueContrainte extends JPanel{
 	private static Color color = new Color(236, 241, 245);
+	private ControleurExamen ctrlExamen;
 	private JLabel jl_containte;
 	private JPanel jp_espacement;
 	private JPanel jp_grpEtudiant;
+	private Checkbox checkGrp;
 	private GridBagConstraints gbc;
 	private JComboBox jcb_espacement;
 	private String[] tab_espacement = {"0", "1", "2", "3", "4", "5"};
 	public static Examen examen;
-	public VueContrainte(Examen examen) {
+	public VueContrainte(Examen examen,ControleurExamen ctrlExamenp) {
 		VueContrainte.examen = examen;
+		ctrlExamen = ctrlExamenp;
 		this.setBackground(new Color(236, 241, 245));
 		this.setLayout(new GridBagLayout());
 		gbc = new GridBagConstraints();
@@ -58,6 +64,10 @@ public class VueContrainte extends JPanel{
 		Border bordurecolor = new LineBorder(Color.BLACK);
 		jp_espacement.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Espacement"));
 		jp_grpEtudiant.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Groupe Etudiant"));
+		checkGrp = ctrlExamen.getCheckboxc();
+		
+		checkGrp.setBackground(color);
+		jp_grpEtudiant.add(checkGrp);
 		
 		jp_espacement.add(jcb_espacement);
 		
@@ -70,24 +80,31 @@ public class VueContrainte extends JPanel{
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.154;
+		gbc.weightx = 0.140;
 		gbc.weighty = 0.1;
 		jp_espacement.setBackground(color);
 		this.add(jp_espacement, gbc);
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+		gbc.weightx = 0.140;
 		gbc.weighty = 0.1;
 		jp_grpEtudiant.setBackground(color);
 		this.add(jp_grpEtudiant, gbc);
+		gbc.gridx = 3;
+		gbc.gridy = 0;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.2;
+		gbc.weighty = 0.1;
+		JPanel jpma = new JPanel();
+		jpma.setBackground(color);
+		this.add(jpma, gbc);
 		
 		
 	
 	}
 	
 	
-
 	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
