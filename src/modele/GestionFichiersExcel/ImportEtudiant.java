@@ -97,7 +97,7 @@ public class ImportEtudiant extends Observable {
         int indexHandicapNonCompte = 4;
         int indexTiersTemps = 5;
         int indexTiersTempsNonCompte = 6;
-        
+
 
         try{
             Etudiant etudiant = new Etudiant(ligne.getCell(indexNom).getStringCellValue().toUpperCase(),
