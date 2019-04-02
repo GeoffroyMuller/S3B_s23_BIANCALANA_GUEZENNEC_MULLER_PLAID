@@ -93,6 +93,7 @@ public class ImportEtudiant extends Observable {
         int indexPrenom = this.trouverIndex("prenom");
         int indexGroupe = this.trouverIndex("grp");
         int indexHandicap = indexGroupe+1;
+        int indexTiersTemps = indexHandicap+2;
         try{
             Etudiant etudiant = new Etudiant(ligne.getCell(indexNom).getStringCellValue().toUpperCase(),
                     ligne.getCell(indexPrenom).getStringCellValue().toLowerCase());
@@ -123,6 +124,27 @@ public class ImportEtudiant extends Observable {
             if(ligne.getCell(indexHandicap).getStringCellValue().toLowerCase().contains("x")){
                 ArrayList<Particularite> particularites = new ArrayList<Particularite>();
                 Particularite particularite = Particularite.findByNom("Situation de handicap (Prise en compte)");
+                particularites.add(particularite);
+                etudiant.ajouterParticularite(particularites);
+            }
+
+            if(ligne.getCell(indexHandicap+1).getStringCellValue().toLowerCase().contains("x")){
+                ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+                Particularite particularite = Particularite.findByNom("Situation de handicap (Non pris en compte)");
+                particularites.add(particularite);
+                etudiant.ajouterParticularite(particularites);
+            }
+
+            if(ligne.getCell(indexTiersTemps).getStringCellValue().toLowerCase().contains("x")){
+                ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+                Particularite particularite = Particularite.findByNom("Tiers-Temps (Prendre en compte)");
+                particularites.add(particularite);
+                etudiant.ajouterParticularite(particularites);
+            }
+
+            if(ligne.getCell(indexTiersTemps+1).getStringCellValue().toLowerCase().contains("x")){
+                ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+                Particularite particularite = Particularite.findByNom("Tiers-Temps (Non pris en compte)");
                 particularites.add(particularite);
                 etudiant.ajouterParticularite(particularites);
             }

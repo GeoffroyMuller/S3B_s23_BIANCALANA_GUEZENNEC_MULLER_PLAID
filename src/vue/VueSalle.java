@@ -110,11 +110,17 @@ public class VueSalle extends JPanel implements Observer {
 		listeDesSalles.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
-				VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
-				VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
-				String nomSalle = listeDesSalles.getSelectedValue().getNom();
-				Salle salleSelectionne = Salle.findByNom(nomSalle);
-				salle.changerSalle(salleSelectionne);
+
+					VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+					try{
+						VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
+						String nomSalle = listeDesSalles.getSelectedValue().getNom();
+						Salle salleSelectionne = Salle.findByNom(nomSalle);
+						salle.changerSalle(salleSelectionne);
+					}catch(NullPointerException exception){
+					}
+
+
 			}
 		});
 
