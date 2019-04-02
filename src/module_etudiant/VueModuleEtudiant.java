@@ -8,7 +8,9 @@ import vue_Examen.VueExamen;
 import modele.CritereRechercheEtudiant;
 
 import javax.swing.*;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.TextAttribute;
@@ -227,8 +229,17 @@ public class VueModuleEtudiant extends Observable {
             public void actionPerformed(ActionEvent e) {
                 rechercheCourante.setNom(null);
                 rechercheCourante.setPrenom(null);
-                String prenom = textprenom.getText();
-                String nom = textnom.getText();
+                String prenom = "";
+                String nom = "";
+
+                if(null != textnom.getText()){
+                    nom = textnom.getText();
+                }
+
+                if(null != textprenom.getText()){
+                    prenom = textprenom.getText();
+                }
+
                 ArrayList<Etudiant> etu = new ArrayList<Etudiant>();
                //HERE
                 effectuerLaRecherche(nom,prenom);
@@ -291,9 +302,20 @@ public class VueModuleEtudiant extends Observable {
             public void actionPerformed(ActionEvent e) {
                 DialogCreerEtudiant dialog = new DialogCreerEtudiant(null,"Création d'un étudiant",true,false);
                 dialog.afficherDialog();
+                String nom = "";
+                String prenom = "";
+                if(null != rechercheCourante.getNom()){
+                    nom = rechercheCourante.getNom();
+                }
+
+                if(null != rechercheCourante.getPrenom()){
+                    prenom = rechercheCourante.getPrenom();
+                }
+
+                effectuerLaRecherche(nom,prenom);
+
                 setChanged();
                 notifyObservers(VueExamen.VUE_CATEG_SAVE);
-                effectuerLaRecherche(rechercheCourante.getNom(),rechercheCourante.getPrenom());
 
             }
         });
@@ -371,9 +393,6 @@ public class VueModuleEtudiant extends Observable {
                 if(particularite.getNom().equals("Tiers-Temps (Non pris en compte)")){
                     res[i][4] = "OUI";
                     res[i][5] = "NON";
-
-
-
                 }
 
                 if(particularite.getNom().equals("Situation de handicap (Non pris en compte)")){
@@ -418,6 +437,7 @@ public class VueModuleEtudiant extends Observable {
      * @return
      */
     private JTable setupJTable(JTable jTable){
+        ArrayList<Etudiant> etudiants = Etudiant.listEtudiant();
         jTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -425,7 +445,6 @@ public class VueModuleEtudiant extends Observable {
                 Point point = e.getPoint();
                 int row = table.rowAtPoint(point);
                 if (e.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    System.out.println("YES"+table.getSelectedRow());
                     String nom = (String)table.getValueAt(table.getSelectedRow(),0);
                     String prenom = (String)table.getValueAt(table.getSelectedRow(),1);
                     String groupe = (String)table.getValueAt(table.getSelectedRow(),2);
@@ -437,9 +456,18 @@ public class VueModuleEtudiant extends Observable {
                     CritereRechercheEtudiant cre = new CritereRechercheEtudiant(id,nom,prenom,groupe,handicap,tier,priseEnCompte);
                     DialogCreerEtudiant dialog = new DialogCreerEtudiant(null,"Modification d'un étudiant",true,true,cre);
                     dialog.afficherDialog();
+                    String nomRecherche="";
+                    String prenomRecherche = "";
+                    if(!(null == rechercheCourante.getNom())){
+                        nomRecherche = rechercheCourante.getNom();
+                    }
+
+                    if(!(null == rechercheCourante.getPrenom())){
+                        prenomRecherche = rechercheCourante.getPrenom();
+                    }
+                    effectuerLaRecherche(nomRecherche,prenomRecherche);
                     setChanged();
                     notifyObservers();
-                    effectuerLaRecherche(rechercheCourante.getNom(),rechercheCourante.getPrenom());
                 }
             }
         });
@@ -456,11 +484,11 @@ public class VueModuleEtudiant extends Observable {
     }
 
     private void effectuerLaRecherche(String nom,String prenom){
-
         ArrayList<Etudiant> etu = new ArrayList<Etudiant>();
-        if(null == prenom || prenom.length() != 0){
+        if(!prenom.isEmpty() || prenom.length() != 0){
+            System.out.println("Prneom OK");
 
-            if(null == nom || nom.length() != 0){
+            if(!nom.isEmpty() || nom.length() != 0){
                 //On recherche un étudiant ayant le nom y et le prenom x dans le groupe z
                 rechercheCourante.setNom(nom);
                 rechercheCourante.setPrenom(prenom);
@@ -493,7 +521,9 @@ public class VueModuleEtudiant extends Observable {
 
                 }
             }
-        }else if(null == nom || nom.length() != 0){
+        }else if(!nom.isEmpty() || nom.length() != 0){
+            System.out.println("Nom OK");
+
             //Recherche que par nom
             rechercheCourante.setNom(nom);
             if(combogroupe.getSelectedItem() instanceof Groupe) {
@@ -518,6 +548,7 @@ public class VueModuleEtudiant extends Observable {
                     etu.addAll(groupeDeLaCateg.getListeEtudiants());
                 }
             }else{
+                System.out.println("TOUT LES ETUDIANTS");
                 etu = Etudiant.rechercherToutLesEtudiants();
             }
         }

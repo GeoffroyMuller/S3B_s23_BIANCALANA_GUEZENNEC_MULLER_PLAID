@@ -323,7 +323,11 @@ TO DO
 	}
 
 	public void ajouterEtudiant(Etudiant etudiant){
-		EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), this.idGroupe);
+		ArrayList<Etudiant> etudiantsGroupe = this.getListeEtudiants();
+		if(!etudiantsGroupe.contains(etudiant)){
+			EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), this.idGroupe);
+
+		}
 
 	}
 

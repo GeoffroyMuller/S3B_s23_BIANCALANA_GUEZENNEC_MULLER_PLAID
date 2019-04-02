@@ -10,7 +10,7 @@ public class Indicateur extends JPanel {
     public static int Y = 60;
 
     public Indicateur(){
-
+        this.setBackground(new Color(236, 241, 245));
     }
 
     @Override

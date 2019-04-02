@@ -28,6 +28,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
         this.boutonAjouterSalle = new JButton("Ajouter");
         this.boutonSupprimerSalle = new JButton("Supprimer");
         this.modele = modele;
+        this.setBackground(new Color(40, 73, 92));
 
         //Ajout des actions listener
         this.boutonAjouterSalle.addActionListener(new ActionListener() {

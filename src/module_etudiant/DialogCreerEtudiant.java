@@ -177,6 +177,7 @@ public class DialogCreerEtudiant extends JDialog {
 
         if(modification){
                 ArrayList<Groupe> groupesDeEtudiant = (Etudiant.findById(cre.getId()).recupererGroupes());
+
                 boolean premierGroupe = true;
                 for(Groupe groupe : groupesDeEtudiant){
                     JComboBox comboBox = new JComboBox();
@@ -274,8 +275,12 @@ public class DialogCreerEtudiant extends JDialog {
         if(modification){
             if(cre.isPriseEncompte()){
                 this.oui.setSelected(true);
+                this.non.setSelected(false);
+
             }else{
                 this.non.setSelected(true);
+                this.oui.setSelected(false);
+
             }
         }
         containerInfo.add(this.non,gbc);
@@ -345,6 +350,8 @@ public class DialogCreerEtudiant extends JDialog {
                     Etudiant etudiant = null;
                     if (modification) {
                         etudiant = Etudiant.findById(cre.getId());
+                        etudiant.setNom(textNom.getText());
+                        etudiant.setPrenom(textPrenom.getText());
 
                         //Si modification alors on enleve les potentiels groupes
                         if (modification) {
@@ -363,19 +370,39 @@ public class DialogCreerEtudiant extends JDialog {
                     if (checkBoxHandicap.isSelected()) {
                         if (oui.isSelected()) {
                             particularites.add(Particularite.findByNom("Situation de handicap (Prise en compte)"));
+                            etudiant.enleverParticularite(Particularite.findByNom("Situation de handicap (Non pris en compte)"));
                         } else if (non.isSelected()) {
                             particularites.add(Particularite.findByNom("Situation de handicap (Non pris en compte)"));
+                            etudiant.enleverParticularite(Particularite.findByNom("Situation de handicap (Prise en compte)"));
+                        }
+                    }else{
+                        if (oui.isSelected()) {
+                            etudiant.enleverParticularite(Particularite.findByNom("Situation de handicap (Prise en compte)"));
+                        } else if (non.isSelected()) {
+                            etudiant.enleverParticularite(Particularite.findByNom("Situation de handicap (Non pris en compte)"));
                         }
                     }
 
                     if (checkBoxTierTemps.isSelected()) {
                         if (oui.isSelected()) {
                             particularites.add(Particularite.findByNom("Tiers-Temps (Prendre en compte)"));
+                            etudiant.enleverParticularite(Particularite.findByNom("Tiers-Temps (Non pris en compte)"));
                         } else if (non.isSelected()) {
                             particularites.add(Particularite.findByNom("Tiers-Temps (Non pris en compte)"));
+                            etudiant.enleverParticularite(Particularite.findByNom("Tiers-Temps (Prendre en compte)"));
+                        }
+                    }else{
+                        if (oui.isSelected()) {
+                            etudiant.enleverParticularite(Particularite.findByNom("Tiers-Temps (Prendre en compte)"));
+                        } else if (non.isSelected()) {
+                            etudiant.enleverParticularite(Particularite.findByNom("Tiers-Temps (Non pris en compte)"));
                         }
                     }
-                    etudiant.ajouterParticularite(particularites);
+
+                    if(!particularites.isEmpty()){
+                        System.out.println("J'ajouyte des particularite");
+                        etudiant.ajouterParticularite(particularites);
+                    }
 
                     //Ajout des groupes
                     for (JComboBox combo : listeComboGroupe) {
@@ -383,6 +410,7 @@ public class DialogCreerEtudiant extends JDialog {
                         groupe.ajouterEtudiant(etudiant);
                     }
                     etudiant.save();
+
 
                     JOptionPane jop = new JOptionPane();
                     if (modification) {

@@ -263,7 +263,6 @@ public class Salle extends Observable {
 			int resId = rs.getInt("idSalle");
 			int resNbCaseHauteur = rs.getInt("NbCaseHauteur");
 			int resNbCaseLargeur = rs.getInt("NbCaseLargeur");
-			System.out.println("ID SALLE SELECTIONNE :"+resId);
 			res.add(new Salle(resNom,resId,resNbCaseHauteur,resNbCaseLargeur));
 		}
 		return res;
@@ -273,7 +272,6 @@ public class Salle extends Observable {
 	 * Delete.
 	 */
 	public void delete(){
-		System.out.println("SUPRESSION !");
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "DELETE FROM Salle WHERE idSalle ='"+this.idSalle+"';";
@@ -293,13 +291,10 @@ public class Salle extends Observable {
 	 * Save.
 	 */
 	public void save() {
-		System.out.println("ID DE LA SALLE A SAVE :"+this.idSalle);
 		if(this.idSalle==-1) {
-			System.out.println("NOUVELLE SAVE");
 			this.saveNew();
 		}
 		else {
-			System.out.println("UPDATE");
 			this.update();
 		}
 		setChanged();
@@ -359,11 +354,9 @@ public class Salle extends Observable {
 			//Mise a jour des places
 			for(int i = 0; i < this.places.length;i++){
 				for(int j = 0; j < this.places[i].length;j++){
-					System.out.println("Mise a jour de la plce");
 					String SQLPrep1 = "UPDATE Place " +
 							"SET NOM = '"+this.places[i][j].getNom()+"', IdTypePlace = '"+this.places[i][j].getIdTypePlace()+"', i = '"+this.places[i][j].getI()+"', j = '"+this.places[i][j].getJ()+"', Disponnible = '"+this.places[i][j].getDisponibleIntVersion()+"', idSalle = '"+this.places[i][j].getIdSalle()
 							+"'"+ "WHERE idPlace ='"+this.places[i][j].getIdPlace()+"';";
-					System.out.println(this.places[i][j].getIdPlace()+" - "+this.places[i][j].getNom());
 
 					PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 					prep1.execute();
@@ -828,12 +821,9 @@ public class Salle extends Observable {
 		@Override
 		public Object actual() {
 			Place place = null;
-			System.out.println(salle.getNom());
-			System.out.println(salle.getPlaces()[0][0].getNom());
 			try {
 				place = salle.getPlaces()[i][j];
 			}catch(NullPointerException e){
-				System.out.println("Null");
 				e.printStackTrace();
 			}
 			return place;

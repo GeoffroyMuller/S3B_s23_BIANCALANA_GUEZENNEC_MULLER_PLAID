@@ -83,6 +83,7 @@ public class VueSalle extends JPanel implements Observer {
 
 		//Jpanel contenant le JLabel
 		JPanel conteneurHaut = new JPanel();
+		conteneurHaut.setBackground(new Color(236, 241, 245));
 		JLabel labelGestionDeSalle = new JLabel("Gestion de salle");
 		labelGestionDeSalle.setFont(new Font("Serial",Font.PLAIN,20));
 		labelGestionDeSalle.setBorder(new EmptyBorder(10,10,0,0));
@@ -94,8 +95,8 @@ public class VueSalle extends JPanel implements Observer {
 		labelDeLaListe.setFont(new Font("Serial",Font.PLAIN,14));
 		labelDeLaListe.setBorder(BorderFactory.createLineBorder(new Color(0),1));
 		labelDeLaListe.setOpaque(true);
-		labelDeLaListe.setBackground(new Color(0x656565));
-		labelDeLaListe.setForeground(new Color(0xFAFFF1));
+		labelDeLaListe.setBackground(new Color(236, 241, 245));
+		labelDeLaListe.setForeground(new Color(0x000000));
 
 		//Composant de la visualisation des listes des groupes
 		contruireListeSalles();
@@ -113,7 +114,6 @@ public class VueSalle extends JPanel implements Observer {
 				VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
 				String nomSalle = listeDesSalles.getSelectedValue().getNom();
 				Salle salleSelectionne = Salle.findByNom(nomSalle);
-				System.out.println("NOM DE LA SALLE SELEC : "+nomSalle);
 				salle.changerSalle(salleSelectionne);
 			}
 		});
@@ -122,6 +122,7 @@ public class VueSalle extends JPanel implements Observer {
 
 		//Ajout dans un conteneur
 		contenantPartieGauche = new JPanel();
+		contenantPartieGauche.setBackground(new Color(40, 73, 92));
 		//contenantPartieGauche.setBorder(new EmptyBorder(0,20,0,0));
 		contenantPartieGauche.setLayout(new BorderLayout());
 		contenantPartieGauche.setPreferredSize(new Dimension(200,this.getHeight()));
@@ -134,9 +135,12 @@ public class VueSalle extends JPanel implements Observer {
 		//Partie visualisation de la liste (Partie du milieux)
 		this.salleConstruite = this.construireSalle(this.salle);
 		this.visualisationSalle = new JScrollPane(this.salleConstruite);
+		this.visualisationSalle.setBackground(new Color(236, 241, 245));
+		this.salleConstruite.setBackground(new Color(236, 241, 245));
 		this.visualisationSalle.setPreferredSize(new Dimension(930,600));
 		//Mise en place du controlleur
 		this.contenantMilieu = new JPanel();
+		this.contenantMilieu.setBackground(new Color(40, 73, 92));
 		this.contenantMilieu.setLayout(new GridBagLayout());
 
 		JLabel titrePartieMilieu = new JLabel("Visualisation de la salle :",SwingConstants.CENTER);
@@ -145,8 +149,8 @@ public class VueSalle extends JPanel implements Observer {
 		titrePartieMilieu.setFont(new Font("Serial",Font.PLAIN,14));
 		titrePartieMilieu.setBorder(BorderFactory.createLineBorder(new Color(0),1));
 		titrePartieMilieu.setOpaque(true);
-		titrePartieMilieu.setBackground(new Color(0x656565));
-		titrePartieMilieu.setForeground(new Color(0xFAFFF1));
+		titrePartieMilieu.setBackground(new Color(236, 241, 245));
+		titrePartieMilieu.setForeground(new Color(0x000000));
 
 
 		// Ajout de contraintes
@@ -212,6 +216,7 @@ public class VueSalle extends JPanel implements Observer {
 		});
 
 		JPanel contenantRecherche = new JPanel();
+		contenantRecherche.setBackground(new Color(236, 241, 245));
 		contenantRecherche.setLayout(new GridBagLayout());
 		Border bordurecolor = new LineBorder(Color.BLACK);
 		contenantRecherche.setBorder(BorderFactory.createTitledBorder(bordurecolor, "Recherche Place"));
@@ -254,9 +259,11 @@ public class VueSalle extends JPanel implements Observer {
 		//Partie selection (Partie de droite)
 		//Composant Indications
 		JPanel indications = new Indicateur();
+		indications.setBackground(new Color(236, 241, 245));
 		indications.setPreferredSize(new Dimension(400,200));
 		//Composant Edition
 		JPanel editionPan = new JPanel();
+		editionPan.setBackground(new Color(236, 241, 245));
 		editionPan.setLayout(new BorderLayout());
 		JLabel edition = new JLabel("Edition",SwingConstants.CENTER);
 		edition = this.applicationStylePolice(edition);
@@ -298,6 +305,7 @@ public class VueSalle extends JPanel implements Observer {
 		gbcv2.gridy=2;
 		panelBoutons.add(outils,gbcv2);
 
+		panelBoutons.setBackground(new Color(236, 241, 245));
 		//PARTIE NOM PLACE
 		this.nomColonne = new JLabel("Nom colonne : ");
 		this.nomRangee = new JLabel("Nom rangee : ");
@@ -312,6 +320,8 @@ public class VueSalle extends JPanel implements Observer {
 		containerBouton.setPreferredSize(new Dimension(250,460));
 		containerBouton.add(panelBoutons,BorderLayout.NORTH);
 
+		containerBouton.setBackground(new Color(236, 241, 245));
+
 
 
 
@@ -320,6 +330,7 @@ public class VueSalle extends JPanel implements Observer {
 		editionPan.add(containerBouton,BorderLayout.SOUTH);
 		editionPan.setPreferredSize(new Dimension(250,300));
 		editionPan.setBorder(new EmptyBorder(20,10,0,10));
+		editionPan.setBackground(new Color(40, 73, 92));
 
 
 
@@ -452,8 +463,8 @@ public class VueSalle extends JPanel implements Observer {
 		label.setFont(new Font("Serial",Font.PLAIN,14));
 		label.setBorder(BorderFactory.createLineBorder(new Color(0),1));
 		label.setOpaque(true);
-		label.setBackground(new Color(0x656565));
-		label.setForeground(new Color(0xFAFFF1));
+		label.setBackground(new Color(236, 241, 245));
+		label.setForeground(new Color(0x000000));
 		return label;
 	}
 
@@ -465,7 +476,7 @@ public class VueSalle extends JPanel implements Observer {
 
 		if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL
 				|| partieAUpdate == VueSalle.UPDATE_CREATION_SALLE) {
-			System.out.println("OUIII");
+
 			this.salleConstruite = this.construireSalle(this.salle);
 			this.visualisationSalle.setViewportView(this.salleConstruite);
 			this.visualisationSalle.getHorizontalScrollBar().setValue(oldValueScrollBarH);
@@ -476,7 +487,7 @@ public class VueSalle extends JPanel implements Observer {
 
 
 		if(partieAUpdate == VueSalle.UPDATE_AJOUT_SALLE || partieAUpdate == VueSalle.UPDATE_CREATION_SALLE){
-			System.out.println("Oui ca marche");
+
 			Salle salle = new Salle(this.salle);
 			this.dlm.addElement(salle);
 			listeDesSalles.setSelectedIndex(this.dlm.indexOf(salle));
@@ -486,7 +497,6 @@ public class VueSalle extends JPanel implements Observer {
 		}
 
 		if(partieAUpdate == VueSalle.UPDATE_SALLE){
-			System.out.println("UPDATE SALLE EN COURS");
 			Salle salle = new Salle(this.salle);
 			int indexElem = this.dlm.indexOf(salle);
 			this.dlm.insertElementAt(salle,indexElem);
@@ -498,7 +508,6 @@ public class VueSalle extends JPanel implements Observer {
 		}
 
 		if(partieAUpdate == VueSalle.DELETE_SALLE){
-			System.out.println("UPDATE SUPPR");
 			Salle salle = new Salle(this.salle);
 			int index = dlm.indexOf(salle);
 			listeDesSalles.setSelectedIndex(0);

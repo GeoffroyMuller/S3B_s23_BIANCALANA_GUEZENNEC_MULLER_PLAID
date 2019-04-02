@@ -22,7 +22,8 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 	/** The nom. */
 	private String nom;
-	
+
+
 	/** The prenom. */
 	private String prenom;
 	
@@ -211,6 +212,21 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return resultat;
 	}
 
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+
+
+	public void enleverParticularite(Particularite particularite){
+		ParticulariteEtudiant.delete(particularite.getIdParticularite(),this.getIdEtu());
+	}
+
+
 	public static ArrayList<Etudiant> rechercherEtudiant(String nom, String prenom){
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		try{
@@ -340,9 +356,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 		//save ou update de l'etudiant
 		if(this.idEtu==-1) {
+			System.out.println("Etudiant nouvelle save");
 			this.saveNew();
 		}
 		else {
+			System.out.println("Etudiant UPDATE");
 			this.update();
 		}
 	}
@@ -376,6 +394,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 	 * Update.
 	 */
 	private void update() {
+		System.out.println(this.getNom());
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Etudiant " + 
@@ -439,11 +458,27 @@ public class Etudiant implements Comparable<Etudiant>  {
 	}
 	
 	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
+
+		ArrayList<Particularite> particularitesEtudiant = this.getParticularites();
+
 		for (int i = 0; i < listParticularite.size(); i++) {
-			if(listParticularite.get(i).getIdParticularite()!=-1) {
+			Particularite particularite = listParticularite.get(i);
+			if(particularite.getIdParticularite()!=-1 && !verifierSiParticularitePossede(particularite)) {
 				ParticulariteEtudiant.ajouterParticulariteAUnEtudiant(listParticularite.get(i).getIdParticularite(), this.idEtu);
 			}
 		}
+	}
+
+	public boolean verifierSiParticularitePossede(Particularite particularite){
+		boolean res=false;
+		ArrayList<Particularite> particularites = this.getParticularites();
+		for(Particularite part : particularites){
+			if(particularite.getNom().equals(part.getNom())){
+				res=true;
+				break;
+			}
+		}
+		return res;
 	}
 
 	@Override
