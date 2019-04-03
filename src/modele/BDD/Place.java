@@ -140,6 +140,7 @@ public class Place extends Observable {
 	 */
 	public void setTypePlace(int idTypePlace) {
 		this.idTypePlace = idTypePlace;
+		save();
 	}
 
 
@@ -585,6 +586,7 @@ public boolean verifiersiPlaceCassee(){
 
 	public void setNomColonne(String nomColonne) {
 		this.nomColonne = nomColonne;
+		save();
 	}
 
 	public String getNomRangee() {
@@ -593,5 +595,6 @@ public boolean verifiersiPlaceCassee(){
 
 	public void setNomRangee(String nomRangee) {
 		this.nomRangee = nomRangee;
+		save();
 	}
 }
