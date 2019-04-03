@@ -544,11 +544,10 @@ public boolean verifiersiPlaceCassee(){
 	public static Place[][] tableauPlace(int idsalle) throws SQLException{
 
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
-
+		System.out.println("Je get un tableau place "+idsalle);
 		Salle salle = Salle.findById(idsalle);
 		int imax = salle.getNbCaseHauteur();
 		int jmax = salle.getNbCaseLargeur();
-
 		Place res[][] = new Place[imax][jmax];
 		System.out.println("IMAX : "+imax);
 		System.out.println("JMAX : "+jmax);

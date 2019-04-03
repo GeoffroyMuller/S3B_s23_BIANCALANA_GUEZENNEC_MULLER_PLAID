@@ -15,10 +15,11 @@ public class CreationSalleDialog extends JDialog {
     private JTextField nomSalle;
     private JSpinner hauteurSalle,largeurSalle;
     private JButton valider,annuler;
+    private boolean modif;
 
     public CreationSalleDialog(JFrame parent, String title, boolean modal,boolean modification,Salle salle){
         super(parent,title,modal);
-
+        modif = modification;
         this.setSize(new Dimension(550,270));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -89,8 +90,21 @@ public class CreationSalleDialog extends JDialog {
         this.valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dialogInfo = new CreationSalleDialogInfos(nomSalle.getText(),(Integer)hauteurSalle.getValue(),(Integer)largeurSalle.getValue());
-                setVisible(false);
+
+                    if(modif){
+                        if(!(VueSalle.salle.getNom().equals(nomSalle.getText())) && ((VueSalle.salle.getNbCaseHauteur() != (Integer)hauteurSalle.getValue()) || (VueSalle.salle.getNbCaseLargeur() != (Integer)largeurSalle.getValue()))){
+                            JOptionPane jop = new JOptionPane();
+                            jop.showMessageDialog(null,"Il n'est pas possible de modifier deux informations en même temps. \n Veuillez choisir entre le nom ou les dimensions","Erreur",JOptionPane.INFORMATION_MESSAGE);
+                        }else{
+                            dialogInfo = new CreationSalleDialogInfos(nomSalle.getText(),(Integer)hauteurSalle.getValue(),(Integer)largeurSalle.getValue());
+                            setVisible(false);
+                        }
+                    }else {
+
+                        dialogInfo = new CreationSalleDialogInfos(nomSalle.getText(), (Integer) hauteurSalle.getValue(), (Integer) largeurSalle.getValue());
+                        setVisible(false);
+                    }
+
             }
         });
 

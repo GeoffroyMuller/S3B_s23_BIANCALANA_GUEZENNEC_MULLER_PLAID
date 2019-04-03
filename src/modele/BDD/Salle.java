@@ -131,7 +131,8 @@ public class Salle extends Observable {
 	 */
 	public void getTableauPlaces(int idSalle){
 		try {
-			this.places = new Place[this.nbCaseLargeur][this.nbCaseHauteur];
+			//this.places = new Place[this.nbCaseLargeur][this.nbCaseHauteur];
+			this.places = new Place[this.nbCaseHauteur][this.nbCaseLargeur];
 			this.places = Place.tableauPlace(idSalle);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -292,9 +293,12 @@ public class Salle extends Observable {
 	 */
 	public void save() {
 		if(this.idSalle==-1) {
+			System.out.println("Nouvelle save de salle");
 			this.saveNew();
 		}
 		else {
+			System.out.println("UPDATE save de salle");
+
 			this.update();
 		}
 		setChanged();
@@ -386,7 +390,7 @@ public class Salle extends Observable {
 	 * @return the nom
 	 */
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
 	/**
@@ -395,8 +399,8 @@ public class Salle extends Observable {
 	public void setNom(String nom) {
 		this.nom = nom;
 		VueExamen.rechargerlisteurSalle();
-		setChanged();
-		notifyObservers();
+		/*setChanged();
+		notifyObservers();*/
 	}
 
 	/**
@@ -479,8 +483,13 @@ public class Salle extends Observable {
 	 * @param salle
 	 */
 	public void changerSalle(Salle salle){
+		System.out.println(salle.getNom());
 		this.nom = salle.getNom();
 		this.idSalle = salle.getIdSalle();
+		System.out.println("ID : "+salle.getIdSalle());
+		System.out.println("Nom : "+salle.getNom());
+		System.out.println("Nb Case Largeur : "+salle.getNbCaseLargeur());
+		System.out.println("Nb Case Hauteur : "+salle.getNbCaseHauteur());
 		this.nbCaseLargeur = salle.getNbCaseLargeur();
 		this.nbCaseHauteur=salle.getNbCaseHauteur();
 		salle.getTableauPlaces(salle.idSalle);
@@ -499,13 +508,15 @@ public class Salle extends Observable {
 	 */
     public void changerInformation(String nom, int hauteur, int largeur, boolean nouvelleSalle) {
     	boolean changementDimension = false;
+    	boolean changementNom = false;
 
     	if(nouvelleSalle){
     		this.idSalle=-1;
 		}
-
-    	if(!this.nom.contains(nom)){
-			this.nom =nom;
+    	if(!this.nom.equals(nom)){
+			//this.nom =nom;
+			changementNom = true;
+			this.setNom(nom);
 			VueSalle.partieAUpdate = VueSalle.UPDATE_SALLE;
 		}
 		if(this.nbCaseHauteur != hauteur){
@@ -515,34 +526,37 @@ public class Salle extends Observable {
 		}
 		if(this.nbCaseLargeur!=largeur){
 			this.nbCaseLargeur = largeur;
-			 changementDimension = true;
+
+			changementDimension = true;
 
 			VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
 		}
 
+		if(changementDimension && changementNom){
+			VueSalle.partieAUpdate = VueSalle.MODIFICATION_SALLE_TOTAL;
+		}
+
 		if(changementDimension){
 			this.places = new Place[hauteur][largeur];
-
+			System.out.println("Crea new place");
 			for(int i = 0; i < hauteur; i++){
 				for(int j = 0; j < largeur; j++){
 					try {
-						this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle,j+"",i+"");
+						Place place = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle,j+"",i+"");
+						this.places[i][j] = place;
+						place.save();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 			}
+			this.getPlaces();
 		}
 		//Sauvegarde de la salle avec chargement
 		final DialogTraitement traitement = new DialogTraitement(null, "Traitement en cours...", true);
+		this.save();
 
-		Thread trLoader = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				traitement.afficherDialog();
-			}
-		});
-		Thread tr = new Thread(new Runnable() {
+		final Thread tr = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				save();
@@ -550,6 +564,17 @@ public class Salle extends Observable {
 				VueExamen.rechargerlisteurSalle();
 				setChanged();
 				notifyObservers(VueExamen.VUE_ETU);
+			}
+		});
+		Thread trLoader = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				traitement.afficherDialog();
+				try {
+					tr.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		tr.start();

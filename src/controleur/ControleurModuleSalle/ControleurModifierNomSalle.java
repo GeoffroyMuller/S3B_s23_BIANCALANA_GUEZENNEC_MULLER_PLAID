@@ -1,8 +1,6 @@
 package controleur.ControleurModuleSalle;
 
-import controleur.ControleurBoutonsPartieSalle;
 import modele.BDD.Salle;
-import module_etudiant.DialogTraitement;
 import vue.CreationSalleDialog;
 import vue.CreationSalleDialogInfos;
 import vue.VueSalle;
@@ -30,6 +28,7 @@ public class ControleurModifierNomSalle extends JButton implements ActionListene
         CreationSalleDialogInfos infos = dialogBox.afficherDialog();
         JOptionPane jop = new JOptionPane();
         jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("Information de la dialog : "+infos.getHauteur()+" - "+infos.getLargeur());
         VueSalle.salle.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur(),false);
 
     }
