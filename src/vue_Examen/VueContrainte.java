@@ -100,7 +100,43 @@ public class VueContrainte extends JPanel{
 		jpma.setBackground(color);
 		this.add(jpma, gbc);
 		
+		JPanel jpmargeb1 = new JPanel();
+		JPanel jpmargeb2 = new JPanel();
+		JPanel jpmargeb3 = new JPanel();
+		JPanel jpmargeb4 = new JPanel();
+	
+		jpmargeb1.setBackground(color);
+		jpmargeb2.setBackground(color);
+		jpmargeb3.setBackground(color);
+		jpmargeb4.setBackground(color);
 		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.2;
+		gbc.weighty = 0.1;
+		this.add(jpmargeb1, gbc);
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.140;
+		gbc.weighty = 0.05;
+		
+		this.add(jpmargeb2, gbc);
+		gbc.gridx = 2;
+		gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.140;
+		gbc.weighty = 0.05;
+		
+		this.add(jpmargeb3, gbc);
+		gbc.gridx = 3;
+		gbc.gridy = 1;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 0.2;
+		gbc.weighty = 0.05;
+		
+		this.add(jpma, gbc);
 	
 	}
 	

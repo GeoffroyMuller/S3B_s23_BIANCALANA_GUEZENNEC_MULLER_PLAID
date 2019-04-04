@@ -49,6 +49,13 @@ public class Examen extends Observable{
 	public int pas;
 
 
+
+    /**
+     * Permet de savoir quand l'examen a finit de se générer
+     */
+	boolean fini;
+
+
 	/**
 	 * Constructeur Examen
 	 */
@@ -61,6 +68,7 @@ public class Examen extends Observable{
 		this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
 		this.salles = new ArrayList<Salle>();
 		this.pas = 2;
+		this.fini = false;
 	}
 
 	/**
@@ -200,8 +208,6 @@ public class Examen extends Observable{
      */
     public void ajouterUnEtudiant(Etudiant etudiant){
         this.etudiants.put(etudiant,etudiant.getGroupe());
-        System.out.println("Nombre d'étudiant : "+etudiants.size());
-
     }
 
     /**
@@ -227,6 +233,7 @@ public class Examen extends Observable{
                         nbTentative = 0;
                     }
                 }
+                this.fini=true;
             }
             System.out.println("Le placement générer contient une marge d'erreur de :"+margeErreur+" cela peut être du à la présence d'élève ayant un placement spéccifique.");
         }
@@ -292,9 +299,23 @@ public class Examen extends Observable{
     public boolean verifierLesParametresExamen(){
         boolean res=true;
 
-      /*  if(this.nom.equals("") || this.date.equals("") || this.matiere.equals("")){
-            res=false;
-        }*/
+        if(this.etudiants.keySet().size() == 0){
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Veuillez ajouter des étudiants à l'examen","Erreur",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+       if(this.nom.isEmpty() || this.matiere.isEmpty() || this.date.isEmpty()){
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Veuillez renseigner les champs : Nom, Matiére et Date","Erreur",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+      if(this.salles.isEmpty()){
+          JOptionPane jop = new JOptionPane();
+          jop.showMessageDialog(null,"Veuillez ajouter des salles à l'examen","Erreur",JOptionPane.ERROR_MESSAGE);
+          return false;
+      }
 
         if(!verifierLeNombreDePlace()){
             res=false;
@@ -538,6 +559,10 @@ public class Examen extends Observable{
         boolean res = false;
 
         if(!this.groupeSepare){
+            return false;
+        }
+
+        if(!this.groupeSepare){
             res=false;
         }else{
             if(this.etudiants.get(etudiantAPlacer).equals(this.etudiants.get(etudiantPlacer))){
@@ -556,8 +581,9 @@ public class Examen extends Observable{
      * @return
      */
     public ArrayList<modele.BDD.Etudiant> filtrerEleveParticulier(ArrayList<modele.BDD.Etudiant> etu){
-        ArrayList<modele.BDD.Etudiant> res = etu;
-        for(modele.BDD.Etudiant etudiant : res){
+        ArrayList<Etudiant> res = etu;
+        ArrayList<Etudiant> resCPY = new ArrayList<>(res);
+        for(Etudiant etudiant : res){
 
             ArrayList<Particularite> particularites = new ArrayList<Particularite>();
             try {
@@ -568,13 +594,18 @@ public class Examen extends Observable{
 
             if(particularites.size()>0){
                 if(!(etudiant.verifierPriseEnCompte())){
-                    res.remove(etudiant);
+                    resCPY.remove(etudiant);
                 }
             }
         }
-        return res;
+        return resCPY;
     }
 
+    /**
+     * Permet de récupérer les informations de placement d'un étudiant
+     * @param cre
+     * @return
+     */
     public InformationsPlacementEtudiant trouverPlaceEtudiant(CritereRechercheEtudiant cre){
         InformationsPlacementEtudiant resultat= new InformationsPlacementEtudiant(null,new Place("Non trouve",-1,-1,-2,"Non trouve","Non trouve"),new Etudiant("Non trouve","Non trouve"));
         Set<Salle> clesSalle = this.placement.keySet();
@@ -800,7 +831,15 @@ public class Examen extends Observable{
         this.salles = new ArrayList<Salle>();
     }
 
-    
+
+    public boolean isFini() {
+        return fini;
+    }
+
+    public void setFini(boolean fini) {
+        this.fini = fini;
+    }
+
 
 
 
