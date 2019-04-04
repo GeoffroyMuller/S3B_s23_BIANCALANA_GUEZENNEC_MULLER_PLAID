@@ -61,7 +61,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                 this.couleurCaseBase = new Color(0x11D6FC);
             }else{
                 for(Particularite p : particulariteEtudiant){
-                    if(p.getNom().contains("Situation de handicap (Prise en compte)")){
+                    if(p.getNom().contains("Situation de handicap (Prise en compte)") || p.getNom().contains("Tiers-Temps (Prendre en compte)") ){
                         this.couleurCase = new Color(0x7800AE);
                         this.couleurCaseBase = new Color(0x7800AE);
                     }else{

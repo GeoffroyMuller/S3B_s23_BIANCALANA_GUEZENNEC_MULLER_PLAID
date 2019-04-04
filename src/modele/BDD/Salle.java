@@ -119,7 +119,6 @@ public class Salle extends Observable {
 				}
 			}
 		}
-		System.out.println("Nombre de place totale !!! : "+res+" place lenght : "+this.getPlaces().length);
 		return res;
 	}
 
@@ -293,11 +292,9 @@ public class Salle extends Observable {
 	 */
 	public void save() {
 		if(this.idSalle==-1) {
-			System.out.println("Nouvelle save de salle");
 			this.saveNew();
 		}
 		else {
-			System.out.println("UPDATE save de salle");
 
 			this.update();
 		}
@@ -483,13 +480,8 @@ public class Salle extends Observable {
 	 * @param salle
 	 */
 	public void changerSalle(Salle salle){
-		System.out.println(salle.getNom());
 		this.nom = salle.getNom();
 		this.idSalle = salle.getIdSalle();
-		System.out.println("ID : "+salle.getIdSalle());
-		System.out.println("Nom : "+salle.getNom());
-		System.out.println("Nb Case Largeur : "+salle.getNbCaseLargeur());
-		System.out.println("Nb Case Hauteur : "+salle.getNbCaseHauteur());
 		this.nbCaseLargeur = salle.getNbCaseLargeur();
 		this.nbCaseHauteur=salle.getNbCaseHauteur();
 		salle.getTableauPlaces(salle.idSalle);
@@ -537,8 +529,17 @@ public class Salle extends Observable {
 		}
 
 		if(changementDimension){
+			//On supprime de la base les places
+			ArrayList<Place> temp = Place.findByIdSalle(this.idSalle);
+			for(Place place : temp){
+				place.delete();
+			}
+
+
+
+
+
 			this.places = new Place[hauteur][largeur];
-			System.out.println("Crea new place");
 			for(int i = 0; i < hauteur; i++){
 				for(int j = 0; j < largeur; j++){
 					try {
@@ -804,6 +805,7 @@ public class Salle extends Observable {
 		 */
 		@Override
 		public Object previous(int pas) {
+			if(pas==0)pas=1;
 			Place place=null;
 			if(j==0 || j-pas<0){
 				this.i--;
