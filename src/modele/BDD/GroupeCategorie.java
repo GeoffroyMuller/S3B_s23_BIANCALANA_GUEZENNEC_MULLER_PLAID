@@ -8,14 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ParticulariteEtudiant.
+ * la Class ParticulariteEtudiant.
  */
 public class GroupeCategorie {
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -51,6 +50,13 @@ public class GroupeCategorie {
 
 
 
+	/**
+	 * List groupe pour categorieid.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Integer> listGroupePourCategorieid(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM GroupeCategorie WHERE IdGroupe ='"+id+"';";
@@ -68,6 +74,13 @@ public class GroupeCategorie {
 		return res;
 	}
 	
+	/**
+	 * List groupe pour categorie.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Groupe> listGroupePourCategorie(int id) throws SQLException {
 		ArrayList<Integer> list = GroupeCategorie.listGroupePourCategorieid(id);
 		Connection connect=DBConnection.getConnection();
@@ -88,6 +101,13 @@ public class GroupeCategorie {
 		return res;
 	}
 	
+	/**
+	 * List categorie pour groupe id.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Integer> listCategoriePourGroupeId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM GroupeCategorie WHERE IdCategorie ='"+id+"';";
@@ -105,6 +125,13 @@ public class GroupeCategorie {
 		return res;
 	}
 	
+	/**
+	 * List categorie pour groupe.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Categorie> listCategoriePourGroupe(int id) throws SQLException {
 		ArrayList<Integer> list = GroupeCategorie.listCategoriePourGroupeId(id);
 		Connection connect=DBConnection.getConnection();
@@ -125,6 +152,12 @@ public class GroupeCategorie {
 		return res;
 	}
 	
+	/**
+	 * Ajouter groupe A une categorie.
+	 *
+	 * @param idGroupe le id groupe
+	 * @param idCategorie le id categorie
+	 */
 	public static void ajouterGroupeAUneCategorie(int idGroupe, int idCategorie) {
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -138,6 +171,12 @@ public class GroupeCategorie {
 		}
 	}
 	
+	/**
+	 * Delete.
+	 *
+	 * @param idGroupe le id groupe
+	 * @param idCategorie le id categorie
+	 */
 	public static void delete(int idGroupe, int idCategorie){
 		try {
 			Connection connect=DBConnection.getConnection();

@@ -10,14 +10,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class ParticulariteEtudiant.
+ * le Class ParticulariteEtudiant.
  */
 public class EtudiantGroupe {
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -55,6 +55,13 @@ public class EtudiantGroupe {
 		}
 	}
 	
+	/**
+	 * List groupe pour un etudiant donnee.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Integer> listEtudiantPourGroupeId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM EtudiantGroupe WHERE IdEtu ='"+id+"';";
@@ -64,21 +71,19 @@ public class EtudiantGroupe {
 		// s'il y a un resultat
 
 		ArrayList<Integer> res = new ArrayList<Integer>();
-		int i=0;
 		while (rs.next()) {
 			res.add(rs.getInt("idGroupe"));
-			i++;
 		}
 		return res;
 	}
 
 
 	/**
-	 * Méthode permettant de recuperer tout les étudiant d'un groupe donnée
-	 * @param id
-	 * 		id du groupe
-	 * @return
-	 * @throws SQLException
+	 * Méthode permettant de recuperer tout les étudiant d'un groupe donnée.
+	 *
+	 * @param id 		id du groupe
+	 * @return le array list
+	 * @throws SQLException le SQL exception
 	 */
 	public static ArrayList<Etudiant> recupererEtudiantDansGroupe(int id) throws SQLException{
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
@@ -110,6 +115,13 @@ public class EtudiantGroupe {
 	}
 
 
+	/**
+	 * Méthode permettant de recuperer tout les étudiant d'un groupe donnée.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Etudiant> listEtudiantPourGroupe(int id) throws SQLException {
 		ArrayList<Integer> list = EtudiantGroupe.listEtudiantPourGroupeId(id);
 		Connection connect=DBConnection.getConnection();
@@ -131,6 +143,12 @@ public class EtudiantGroupe {
 		return res;
 	}
 	
+	/**
+	 * id groupe donner donne tout les etudiant
+	 *
+	 * @param id le id
+	 * @return le array list
+	 */
 	public static ArrayList<Integer> listGroupePourEtudiantId(int id) {
 		ArrayList<Integer> res = new ArrayList<Integer>();
 		try {
@@ -154,6 +172,12 @@ public class EtudiantGroupe {
 		return res;
 	}
 	
+	/**
+	 * donner id groupe donne les etudiants
+	 *
+	 * @param id le id
+	 * @return le array list
+	 */
 	public static ArrayList<Groupe> listGroupePourEtudiant(int id) {
 		ArrayList<Groupe> res = new ArrayList<Groupe>();
 		try {
@@ -181,6 +205,12 @@ public class EtudiantGroupe {
 	}
 	
 
+	/**
+	 * Ajouter etudiant A un groupe.
+	 *
+	 * @param idEtudiant le id etudiant
+	 * @param idGroupe le id groupe
+	 */
 	public static void ajouterEtudiantAUnGroupe(int idEtudiant, int idGroupe) {
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -194,6 +224,12 @@ public class EtudiantGroupe {
 		}
 	}
 	
+	/**
+	 * Delete.
+	 *
+	 * @param idEtu le id etu
+	 * @param idGroupe le id groupe
+	 */
 	public static void delete(int idEtu, int idGroupe){
 		try {
 			Connection connect=DBConnection.getConnection();

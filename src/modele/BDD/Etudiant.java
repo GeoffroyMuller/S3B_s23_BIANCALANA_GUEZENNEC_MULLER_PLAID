@@ -14,31 +14,30 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Etudiant.
+ * La Class Etudiant.
  */
 public class Etudiant implements Comparable<Etudiant>  {
 
-	/** The nom. */
+	/** le nom. */
 	private String nom;
 
 
-	/** The prenom. */
+	/** le prenom. */
 	private String prenom;
 	
-	/** The email. */
+	/** l' email. */
 	private String email;
 	
-	/** The id etu. */
+	/** l' id etu. */
 	private int idEtu;
 
 
 	/**
-	 * Instantiates a new etudiant.
+	 * Instantiates le nouveau etudiant.
 	 *
-	 * @param nom the nom
-	 * @param prenom the prenom
+	 * @param nom le nom
+	 * @param prenom le prenom
 	 */
 	public Etudiant(String nom, String prenom) {
 		this.idEtu=-1;
@@ -49,9 +48,9 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Gets the nom.
+	 * Gets le nom.
 	 *
-	 * @return the nom
+	 * @return le nom
 	 */
 	public String getNom() {
 		return nom;
@@ -59,9 +58,9 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Gets the prenom.
+	 * Gets le prenom.
 	 *
-	 * @return the prenom
+	 * @return le prenom
 	 */
 	public String getPrenom() {
 		return prenom;
@@ -69,9 +68,9 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Gets the email.
+	 * Gets l'email.
 	 *
-	 * @return the email
+	 * @return l' email
 	 */
 	public String getEmail() {
 		return email;
@@ -79,17 +78,18 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Gets the id etu.
+	 * Gets le id etu.
 	 *
-	 * @return the idEtu
+	 * @return le idEtu
 	 */
 	public int getIdEtu() {
 		return idEtu;
 	}
 
 	/**
-	 * Méthode permettant de récupérer le groupe d'un étudiant
-	 * @return
+	 * Méthode permettant de récupérer le groupe d'un étudiant.
+	 *
+	 * @return le groupe
 	 */
 	public String getGroupe(){
 		String res="NON DEFINI";
@@ -119,11 +119,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 	}
 
 	/**
-	 * Instantiates a new etudiant.
+	 * Instantiates un nouveau etudiant.
 	 *
-	 * @param nom the nom
-	 * @param prenom the prenom
-	 * @param idEtu the id etu
+	 * @param nom le nom
+	 * @param prenom le prenom
+	 * @param idEtu l'id etu
 	 */
 	public Etudiant(String nom, String prenom, int idEtu) {
 		this.prenom=prenom;
@@ -132,6 +132,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 		
 	}
 
+	/**
+	 * Gets la particularites.
+	 *
+	 * @return la particularites
+	 */
 	public ArrayList<Particularite> getParticularites(){
 		ArrayList<Particularite> res = new ArrayList<Particularite>();
 		try {
@@ -144,7 +149,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -181,6 +186,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 		}
 	}
 
+	/**
+	 * Recuperer les groupes.
+	 *
+	 * @return une array list
+	 */
 	public ArrayList<Groupe> recupererGroupes(){
 		ArrayList<Groupe> res = new ArrayList<Groupe>();
 		try{
@@ -199,6 +209,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return res;
 	}
 
+	/**
+	 * Recuperer tout les nom de groupe.
+	 *
+	 * @return le string
+	 */
 	public String recupererToutLesNomDeGroupe(){
 		String resultat="";
 		ArrayList<Groupe> groupe = this.recupererGroupes();
@@ -212,21 +227,43 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return resultat;
 	}
 
+	/**
+	 * Sets le nom.
+	 *
+	 * @param nom le new nom
+	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
+	/**
+	 * Sets le prenom.
+	 *
+	 * @param prenom le new prenom
+	 */
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
 	}
 
 
 
+	/**
+	 * Enlever la particularite.
+	 *
+	 * @param particularite particularite
+	 */
 	public void enleverParticularite(Particularite particularite){
 		ParticulariteEtudiant.delete(particularite.getIdParticularite(),this.getIdEtu());
 	}
 
 
+	/**
+	 * Rechercher etudiant.
+	 *
+	 * @param nom le nom
+	 * @param prenom le prenom
+	 * @return une array list etudiant
+	 */
 	public static ArrayList<Etudiant> rechercherEtudiant(String nom, String prenom){
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		try{
@@ -253,6 +290,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return res;
 	}
 
+	/**
+	 * Rechercher tout les etudiants.
+	 *
+	 * @return le array list etudiant
+	 */
 	public static ArrayList<Etudiant> rechercherToutLesEtudiants(){
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
 		try{
@@ -274,9 +316,8 @@ public class Etudiant implements Comparable<Etudiant>  {
 	/**
 	 * Find by id.
 	 *
-	 * @param id the id
-	 * @return the etudiant
-	 * @throws SQLException the SQL exception
+	 * @param id l' id
+	 * @return l' etudiant
 	 */
 	public static Etudiant findById(int id) {
 		Etudiant res = null;
@@ -305,8 +346,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 	/**
 	 * List etudiant.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @return le array list etudiants
 	 */
 	public static ArrayList<Etudiant> listEtudiant() {
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
@@ -410,8 +450,9 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Méthode indiquant si un Etudiant doit être pris en compte
-	 * @return
+	 * Méthode indiquant si un Etudiant doit être pris en compte.
+	 *
+	 * @return true, if successful
 	 */
 	public boolean verifierPriseEnCompte(){
 		boolean res = true;
@@ -432,9 +473,10 @@ public class Etudiant implements Comparable<Etudiant>  {
 	}
 
 	/**
-	 * Compare les étudiant en fonction de leurs particularités
-	 * @param o
-	 * @return
+	 * Compare les étudiant en fonction de leurs particularités.
+	 *
+	 * @param o le o
+	 * @return le int
 	 */
 	@Override
 	public int compareTo(Etudiant o) {
@@ -457,6 +499,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return 1;
 	}
 	
+	/**
+	 * Ajouter particularite.
+	 *
+	 * @param listParticularite le list particularite
+	 */
 	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
 
 		ArrayList<Particularite> particularitesEtudiant = this.getParticularites();
@@ -469,6 +516,12 @@ public class Etudiant implements Comparable<Etudiant>  {
 		}
 	}
 
+	/**
+	 * Verifier si particularite possede.
+	 *
+	 * @param particularite le particularite
+	 * @return true, if successful
+	 */
 	public boolean verifierSiParticularitePossede(Particularite particularite){
 		boolean res=false;
 		ArrayList<Particularite> particularites = this.getParticularites();
@@ -481,6 +534,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return res;
 	}
 
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -489,6 +543,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return idEtu == etudiant.idEtu;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idEtu);

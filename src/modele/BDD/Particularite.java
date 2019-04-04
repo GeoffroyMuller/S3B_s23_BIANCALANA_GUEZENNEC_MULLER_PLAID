@@ -8,27 +8,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class Particularite.
+ * la Class Particularite.
  */
 public class Particularite {
 
-	/** The nom. */
+	/** le nom. */
 	private String nom;
 	
-	/** The prendre en compte placement. */
+	/** prendre en compte placement. */
 	private int prendreEnComptePlacement; //boolean 0 ou 1 dans Sql
 	
-	/** The id particularite. */
+	/** l' id particularite. */
 	private int idParticularite;
 
 
 	/**
-	 * Instantiates a new particularite.
+	 * Instantiates une nouvelle particularite.
 	 *
-	 * @param nom the nom
-	 * @param prendreEnComptePlacement the prendre en compte placement
+	 * @param nom le nom
+	 * @param prendreEnComptePlacement le prendre en compte placement
 	 */
 	public Particularite(String nom, int prendreEnComptePlacement) {
 		this.idParticularite=-1;
@@ -43,9 +43,9 @@ public class Particularite {
 
 
 	/**
-	 * Sets the nom.
+	 * Sets le nom.
 	 *
-	 * @param nom the nom to set
+	 * @param nom le nom to set
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
@@ -53,9 +53,9 @@ public class Particularite {
 
 
 	/**
-	 * Sets the prendre en compte placement.
+	 * Sets prendre en compte placement.
 	 *
-	 * @param prendreEnComptePlacement the prendreEnComptePlacement to set
+	 * @param prendreEnComptePlacement  prendreEnComptePlacement to set
 	 */
 	public void setPrendreEnComptePlacement(int prendreEnComptePlacement) {
 		if((prendreEnComptePlacement==0) || (prendreEnComptePlacement==1)) {
@@ -68,9 +68,9 @@ public class Particularite {
 
 
 	/**
-	 * Sets the id particularite.
+	 * Sets l' id particularite.
 	 *
-	 * @param idParticularite the idParticularite to set
+	 * @param idParticularite l' idParticularite to set
 	 */
 	public void setIdParticularite(int idParticularite) {
 		this.idParticularite = idParticularite;
@@ -78,9 +78,9 @@ public class Particularite {
 
 
 	/**
-	 * Gets the nom.
+	 * Gets le nom.
 	 *
-	 * @return the nom
+	 * @return le nom
 	 */
 	public String getNom() {
 		return nom;
@@ -88,9 +88,9 @@ public class Particularite {
 
 
 	/**
-	 * Gets the prendre en compte placement.
+	 * Gets  prendre en compte placement.
 	 *
-	 * @return the prendreEnComptePlacement
+	 * @return  prendreEnComptePlacement
 	 */
 	public int getPrendreEnComptePlacement() {
 		return prendreEnComptePlacement;
@@ -98,9 +98,9 @@ public class Particularite {
 
 
 	/**
-	 * Gets the id particularite.
+	 * Gets l' id particularite.
 	 *
-	 * @return the idParticularite
+	 * @return l' idParticularite
 	 */
 	public int getIdParticularite() {
 		return idParticularite;
@@ -108,11 +108,11 @@ public class Particularite {
 
 
 	/**
-	 * Instantiates a new particularite.
+	 * Instantiates une nouvelle particularite.
 	 *
-	 * @param nom the nom
-	 * @param prendreEnComptePlacement the prendre en compte placement
-	 * @param idParticularite the id particularite
+	 * @param nom le nom
+	 * @param prendreEnComptePlacement le prendre en compte placement
+	 * @param idParticularite le id particularite
 	 */
 	public Particularite(String nom, int prendreEnComptePlacement, int idParticularite) {
 		this.idParticularite=idParticularite;
@@ -127,7 +127,7 @@ public class Particularite {
 
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -165,9 +165,9 @@ public class Particularite {
 	/**
 	 * Find by id.
 	 *
-	 * @param id the id
-	 * @return the particularite
-	 * @throws SQLException the SQL exception
+	 * @param id le id
+	 * @return le particularite
+	 * @throws SQLException le SQL exception
 	 */
 	public static Particularite findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
@@ -212,10 +212,10 @@ public class Particularite {
 
 	
 	/**
-	 * List particularite.
+	 * renvoie la liste des particularites.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @return le array list
+	 * @throws SQLException le SQL exception
 	 */
 	public static ArrayList<Particularite> listParticularite() throws SQLException {
 		Connection connect=DBConnection.getConnection();

@@ -10,31 +10,38 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class Categorie.
+ * le Class Categorie.
  */
 public class Categorie{
 
+	/**  ALPHA_ASC. */
 	public static final int ALPHA_ASC = 0; 
+	
+	/**  ALPHA_DSC. */
 	public static final int ALPHA_DSC = 1;
+	
+	/**  DATE_ASC. */
 	public static final int DATE_ASC = 2;
+	
+	/**  DATE_DSC. */
 	public static final int DATE_DSC = 3; 
+	
+	/** tri choisit. */
 	private static int TRI_CHOISIT;
 	
 	
 	
-	/** The nom. */
+	/**  nom. */
 	private String nom;
 
-	/** The id categorie. */
+	/** id categorie. */
 	private int idCategorie;
 
 	/**
-	 * Instantiates a new categorie.
+	 * new categorie.
 	 *
-	 * @param nom the nom
+	 * @param nom le nom
 	 */
 	public Categorie(String nom) {
 		this.idCategorie=-1;
@@ -44,8 +51,9 @@ public class Categorie{
 
 
 	/**
-	 * Méthode permettant de récupérer les groupes appartenant à la catégorie courante
-	 * @return
+	 * Méthode permettant de récupérer les groupes appartenant à la catégorie courante.
+	 *
+	 * @return le list groupe
 	 */
 	public ArrayList<Groupe> getListGroupe(){
 		ArrayList<Groupe> res = new ArrayList<Groupe>();
@@ -82,9 +90,9 @@ public class Categorie{
 
 
 	/**
-	 * Sets the nom.
+	 * Sets le nom.
 	 *
-	 * @param nom the nom to set
+	 * @param nom le nom  set
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
@@ -93,9 +101,9 @@ public class Categorie{
 
 
 	/**
-	 * Sets the id categorie.
+	 * Sets l' id categorie.
 	 *
-	 * @param idCategorie the idCategorie to set
+	 * @param idCategorie l' idCategorie set
 	 */
 	public void setIdCategorie(int idCategorie) {
 		this.idCategorie = idCategorie;
@@ -104,9 +112,9 @@ public class Categorie{
 
 
 	/**
-	 * Gets the nom.
+	 * Gets le nom.
 	 *
-	 * @return the nom
+	 * @return le nom
 	 */
 	public String getNom() {
 		return nom;
@@ -115,9 +123,9 @@ public class Categorie{
 
 
 	/**
-	 * Gets the id categorie.
+	 * Gets l' id categorie.
 	 *
-	 * @return the idGroupe
+	 * @return l' idGroupe
 	 */
 	public int getIdCategorie() {
 		return idCategorie;
@@ -126,10 +134,10 @@ public class Categorie{
 
 
 	/**
-	 * Instantiates a new categorie.
+	 * Instantiates la nouvelle categorie.
 	 *
-	 * @param nom the nom
-	 * @param idCategorie the id categorie
+	 * @param nom le nom
+	 * @param idCategorie l' id categorie
 	 */
 	public Categorie(String nom, int idCategorie) {
 		this.nom=nom;
@@ -138,7 +146,7 @@ public class Categorie{
 
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -176,9 +184,9 @@ public class Categorie{
 	/**
 	 * Find by id.
 	 *
-	 * @param id the id
-	 * @return the categorie
-	 * @throws SQLException the SQL exception
+	 * @param id l' id
+	 * @return la categorie
+	 * @throws SQLException le SQL exception
 	 */
 	public static Categorie findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
@@ -199,8 +207,7 @@ public class Categorie{
 	/**
 	 * Get List categorie.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @return l' array list categorie
 	 */
 	public static ArrayList<Categorie> getlistCategorie() {
 		ArrayList<Categorie> res = new ArrayList<Categorie>();
@@ -225,6 +232,11 @@ public class Categorie{
 		return res;
 	}
 
+	/**
+	 * Enlever un groupe.
+	 *
+	 * @param groupe le groupe
+	 */
 	public void enleverUnGroupe(Groupe groupe){
 		try{
 			Connection connect = DBConnection.getConnection();
@@ -241,8 +253,9 @@ public class Categorie{
 	/**
 	 * Get List categorie.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @param tri le tri
+	 * @return le array list
+	 * @throws SQLException le SQL exception
 	 */
 	
 	
@@ -294,7 +307,6 @@ public class Categorie{
 			String resNom = rs.getString("nom");
 			int resId = rs.getInt("idCategorie");
 			res.add(new Categorie(resNom,resId));
-			//System.out.println("eeee"+res);
 		}
 		return res;
 	}
@@ -380,12 +392,22 @@ public class Categorie{
 	}
 	
 
+	/**
+	 * Ajouter groupe.
+	 *
+	 * @param g le g
+	 */
 	public void ajouterGroupe(Groupe g) {
 		GroupeCategorie.ajouterGroupeAUneCategorie(g.getIdGroupe(), this.getIdCategorie());
 	}
 	
 
 
+	/**
+	 * Ajouter groupe.
+	 *
+	 * @param listGroupe le list groupe
+	 */
 	public void ajouterGroupe(ArrayList<Groupe> listGroupe) {
 		for (int i = 0; i < listGroupe.size(); i++) {
 			if(listGroupe.get(i).getIdGroupe()!=-1) {
@@ -395,6 +417,11 @@ public class Categorie{
 
 	}
 	
+	/**
+	 * Check uniciter nom categorie.
+	 *
+	 * @return true, if successful
+	 */
 	public boolean checkUniciterNomCategorie() {
 		boolean res = true;
 		int count = 0;
@@ -420,6 +447,11 @@ public class Categorie{
 		return res;
 	}
 	
+	/**
+	 * Gets l' id doublon.
+	 *
+	 * @return l' id doublon
+	 */
 	public int getIdDoublon() {
 		int res = -1;
 		
@@ -443,15 +475,22 @@ public class Categorie{
 		return res;
 	}
 	
+
 	public String toString() {
 		return this.nom;
 	}
 	
+	/**
+	 * Gets le tri choisit.
+	 *
+	 * @return le tri choisit
+	 */
 	static public int getTriChoisit() {
 		return Categorie.TRI_CHOISIT;
 	}
 
 
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -460,6 +499,7 @@ public class Categorie{
 		return Objects.equals(nom, categorie.nom);
 	}
 
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(nom);

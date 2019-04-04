@@ -9,28 +9,28 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class Place.
+ * la Class Place.
  */
 public class Place extends Observable {
 
-	/** The nom. */
+	/** le nom. */
 	private String nom;
 	
-	/** The type Place. */
+	/** le type Place. */
 	private int idTypePlace;
 	
-	/** The id salle. */
+	/** l' id salle. */
 	private int idSalle;
 	
-	/** The id place. */
+	/** l' id place. */
 	private int idPlace;
 	
-	/** The j. */
+	/** le j. */
 	private int j;
 	
-	/** The i. */
+	/** le i. */
 	private int i;
 
 	private int disponnible;
@@ -41,12 +41,12 @@ public class Place extends Observable {
 
 
 	/**
-	 * Instantiates a new place.
+	 * Instantiates la nouvelle place.
 	 *
-	 * @param nom the nom
-	 * @param i the i
-	 * @param j the j
-	 * @param idSalle the id salle
+	 * @param nom le nom
+	 * @param i le i
+	 * @param j le j
+	 * @param idSalle le id salle
 	 */
 /*	public Place(String nom, int idTypePlace, int i, int j, int disponnible, int idSalle) {
 		this.idPlace=-1;
@@ -100,9 +100,9 @@ public class Place extends Observable {
 	
 
 	/**
-	 * Gets the nom.
+	 * Gets le nom.
 	 *
-	 * @return the nom
+	 * @return le nom
 	 */
 	public String getNom() {
 		return this.nom;
@@ -111,9 +111,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Sets the nom.
+	 * Sets le nom.
 	 *
-	 * @param nom the nom to set
+	 * @param nom le nom to set
 	 */
 	public void setNom(String nom) {
 
@@ -124,9 +124,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Gets the type salle.
+	 * Gets le type salle.
 	 *
-	 * @return the typeSalle
+	 * @return le typeSalle
 	 */
 	public int getIdTypePlace() {
 		return idTypePlace;
@@ -135,7 +135,7 @@ public class Place extends Observable {
 
 
 	/**
-	 * Sets the type salle.
+	 * Sets le type salle.
 	 *
 	 */
 	public void setTypePlace(int idTypePlace) {
@@ -146,9 +146,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Gets the id salle.
+	 * Gets l'id salle.
 	 *
-	 * @return the idSalle
+	 * @return l'idSalle
 	 */
 	public int getIdSalle() {
 		return idSalle;
@@ -157,9 +157,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Sets the id salle.
+	 * Sets l' id salle.
 	 *
-	 * @param idSalle the idSalle to set
+	 * @param idSalle l' idSalle to set
 	 */
 	public void setIdSalle(int idSalle) {
 		this.idSalle = idSalle;
@@ -168,9 +168,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Gets the id place.
+	 * Gets l' id place.
 	 *
-	 * @return the idPlace
+	 * @return l' idPlace
 	 */
 	public int getIdPlace() {
 		return idPlace;
@@ -179,9 +179,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Sets the id place.
+	 * Sets l' id place.
 	 *
-	 * @param idPlace the idPlace to set
+	 * @param idPlace l' idPlace to set
 	 */
 	public void setIdPlace(int idPlace) {
 		this.idPlace = idPlace;
@@ -190,9 +190,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Gets the j.
+	 * Gets l' j.
 	 *
-	 * @return the j
+	 * @return l' j
 	 */
 	public int getJ() {
 		return j;
@@ -201,9 +201,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Sets the j.
+	 * Sets le j.
 	 *
-	 * @param j the j to set
+	 * @param j le j to set
 	 */
 	public void setJ(int j) {
 		this.j = j;
@@ -212,9 +212,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Gets the i.
+	 * Gets le i.
 	 *
-	 * @return the i
+	 * @return le i
 	 */
 	public int getI() {
 		return i;
@@ -223,9 +223,9 @@ public class Place extends Observable {
 
 
 	/**
-	 * Sets the i.
+	 * Sets le i.
 	 *
-	 * @param i the i to set
+	 * @param i le i to set
 	 */
 	public void setI(int i) {
 		this.i = i;
@@ -234,13 +234,13 @@ public class Place extends Observable {
 
 
 	/**
-	 * Instantiates a new place.
+	 * Instantiates une nouvelle place.
 	 *
-	 * @param nom the nom
-	 * @param idSalle the id salle
-	 * @param i the i
-	 * @param j the j
-	 * @param idPlace the id place
+	 * @param nom le nom
+	 * @param idSalle le id salle
+	 * @param i le i
+	 * @param j le j
+	 * @param idPlace le id place
 	 */
 	private Place(String nom, int idTypePlace, int idSalle,int i, int j,int disponnible, int idPlace,String nomColonne, String nomRangee) {
 		this.idTypePlace=idTypePlace;
@@ -261,7 +261,7 @@ public class Place extends Observable {
 
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -302,9 +302,9 @@ public class Place extends Observable {
 	/**
 	 * Find by id.
 	 *
-	 * @param id the id
-	 * @return the place
-	 * @throws SQLException the SQL exception
+	 * @param id le id
+	 * @return le place
+	 * @throws SQLException le SQL exception
 	 */
 	public static Place findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
@@ -330,10 +330,10 @@ public class Place extends Observable {
 	}
 	
 	/**
-	 * List place.
+	 * retourne la List place.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @return le array list
+	 * @throws SQLException le SQL exception
 	 */
 	public static ArrayList<Place> listPlace() throws SQLException {
 		Connection connect=DBConnection.getConnection();
@@ -360,11 +360,11 @@ public class Place extends Observable {
 	}
 	
 	/**
-	 * Find by id salle.
+	 * Find by id salle et retourne les places
 	 *
-	 * @param id the id
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
 	 */
 	public static ArrayList<Place> findByIdSalle(int id){
 		ArrayList<Place> res = new ArrayList<Place>();
@@ -415,7 +415,7 @@ public class Place extends Observable {
 	/**
 	 * DeleteSalle.
 	 *
-	 * @param id the id
+	 * @param id le id
 	 */
 	public void deleteSalle(int id){
 		try {
@@ -540,11 +540,11 @@ public boolean verifiersiPlaceCassee(){
 	}
 
 	/**
-	 * Tableau place.
+	 * retourne le Tableau place.
 	 *
-	 * @param idsalle the idsalle
-	 * @return the place[][]
-	 * @throws SQLException the SQL exception
+	 * @param idsalle le idsalle
+	 * @return le place[][]
+	 * @throws SQLException le SQL exception
 	 */
 	public static Place[][] tableauPlace(int idsalle) throws SQLException{
 

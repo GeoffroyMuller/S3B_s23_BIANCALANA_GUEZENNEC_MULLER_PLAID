@@ -11,24 +11,24 @@ import java.util.Objects;
 import com.mysql.fabric.xmlrpc.base.Array;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class Groupe.
+ * la Class Groupe.
  */
 public class Groupe {
 
 
 
-	/** The nom. */
+	/** le nom. */
 	private String nom;
 
-	/** The id groupe. */
+	/** l' id groupe. */
 	private int idGroupe;
 
 	/**
-	 * Instantiates a new groupe.
+	 * Instantiates un nouveau groupe.
 	 *
-	 * @param nom the nom
+	 * @param nom le nom
 	 */
 	public Groupe(String nom) {
 		this.idGroupe=-1;
@@ -38,9 +38,9 @@ public class Groupe {
 
 
 	/**
-	 * Gets the nom.
+	 * Gets le nom.
 	 *
-	 * @return the nom
+	 * @return le nom
 	 */
 	public String getNom() {
 		return nom;
@@ -49,23 +49,28 @@ public class Groupe {
 
 
 	/**
-	 * Gets the id groupe.
+	 * Gets l' id groupe.
 	 *
-	 * @return the idGroupe
+	 * @return l' idGroupe
 	 */
 	public int getIdGroupe() {
 		return idGroupe;
 	}
 
+	/**
+	 * Sets le nom.
+	 *
+	 * @param nom le new nom
+	 */
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
 
 	/**
-	 * Instantiates a new groupe.
+	 * Instantiates un nouveau groupe.
 	 *
-	 * @param nom the nom
-	 * @param idGroupe the id groupe
+	 * @param nom le nom
+	 * @param idGroupe l' id groupe
 	 */
 	public Groupe(String nom, int idGroupe) {
 		this.nom=nom;
@@ -74,7 +79,7 @@ public class Groupe {
 
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -90,6 +95,13 @@ public class Groupe {
 		}
 	}
 
+	/**
+	 * Rechercher etudiant.
+	 *
+	 * @param nom le nom
+	 * @param prenom le prenom
+	 * @return le array list
+	 */
 	public ArrayList<Etudiant> rechercherEtudiant(String nom, String prenom){
 		ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
 		try{
@@ -143,9 +155,9 @@ public class Groupe {
 	/**
 	 * Find by id.
 	 *
-	 * @param id the id
-	 * @return the groupe
-	 * @throws SQLException the SQL exception
+	 * @param id le id
+	 * @return le groupe
+	 * @throws SQLException le SQL exception
 	 */
 	public static Groupe findById(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
@@ -163,6 +175,11 @@ public class Groupe {
 		return res;
 	}
 
+	/**
+	 * Gets la categorie.
+	 *
+	 * @return la categorie
+	 */
 	public Categorie getCategorie(){
 		Categorie categorie = null;
 		try{
@@ -184,8 +201,7 @@ TO DO
 	/**
 	 * List groupe.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @return le array list
 	 */
 	public static ArrayList<Groupe> listGroupe() {
 		ArrayList<Groupe> res = new ArrayList<Groupe>();
@@ -283,6 +299,11 @@ TO DO
 	}
 
 
+	/**
+	 * Retirer etudiant du groupe.
+	 *
+	 * @param idEtudiant le id etudiant
+	 */
 	public void retirerEtudiantDuGroupe(int idEtudiant){
 		try{
 			Connection connect=DBConnection.getConnection();
@@ -296,12 +317,22 @@ TO DO
 		}
 	}
 
+	/**
+	 * Sets la liste etudiants.
+	 *
+	 * @param la nouvelle liste etudiants
+	 */
 	public void setListeEtudiants(ArrayList<Etudiant> le) {
 		for (Etudiant etudiant : le) {
 			EtudiantGroupe.ajouterEtudiantAUnGroupe(etudiant.getIdEtu(), this.getIdGroupe());
 		}
 	}
 	
+	/**
+	 * Gets le liste etudiants.
+	 *
+	 * @return le liste etudiants
+	 */
 	public ArrayList<Etudiant> getListeEtudiants(){
 		try {
 		return EtudiantGroupe.recupererEtudiantDansGroupe(this.getIdGroupe());
@@ -314,6 +345,11 @@ TO DO
 		
 	}
 
+	/**
+	 * Ajouter etudiants.
+	 *
+	 * @param listEtudiant le list etudiant
+	 */
 	public void ajouterEtudiants(ArrayList<Etudiant> listEtudiant) {
 		for (int i = 0; i < listEtudiant.size(); i++) {
 			if(listEtudiant.get(i).getIdEtu()!=-1) {
@@ -322,6 +358,11 @@ TO DO
 		}
 	}
 
+	/**
+	 * Ajouter etudiant.
+	 *
+	 * @param etudiant le etudiant
+	 */
 	public void ajouterEtudiant(Etudiant etudiant){
 		ArrayList<Etudiant> etudiantsGroupe = this.getListeEtudiants();
 		if(!etudiantsGroupe.contains(etudiant)){
@@ -333,6 +374,7 @@ TO DO
 
 
 
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -341,10 +383,12 @@ TO DO
 		return Objects.equals(nom, groupe.nom);
 	}
 
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(nom);
 	}
+	
 	
 	
 	public String toString() {

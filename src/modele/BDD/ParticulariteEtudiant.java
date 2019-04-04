@@ -8,14 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class ParticulariteEtudiant.
+ * La Class ParticulariteEtudiant.
  */
 public class ParticulariteEtudiant {
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -48,6 +48,13 @@ public class ParticulariteEtudiant {
 		}
 	}
 	
+	/**
+	 * donne la List particularite pour un etudiant donner.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Integer> listParticularitePourEtudiantId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdEtu ='"+id+"';";
@@ -65,6 +72,13 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
+	/**
+	 * donne la List particularite pour un etudiant donner.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Particularite> listParticularitePourEtudiant(int id) throws SQLException {
 		ArrayList<Integer> list = ParticulariteEtudiant.listParticularitePourEtudiantId(id);
 		Connection connect=DBConnection.getConnection();
@@ -89,6 +103,13 @@ public class ParticulariteEtudiant {
 	
 	
 	
+	/**
+	 * donne la liste des etudiant pour une particularites donner.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Integer> listEtudiantPourParticulariteId(int id) throws SQLException {
 		Connection connect=DBConnection.getConnection();
 		String SQLPrep = "SELECT * FROM particulariteEtudiant WHERE IdParticularite ='"+id+"';";
@@ -106,6 +127,13 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
+	/**
+	 * donne la liste des etudiant pour une particularites donner.
+	 *
+	 * @param id le id
+	 * @return le array list
+	 * @throws SQLException le SQL exception
+	 */
 	public static ArrayList<Etudiant> listEtudiantPourParticularite(int id) throws SQLException {
 		ArrayList<Integer> list = ParticulariteEtudiant.listEtudiantPourParticulariteId(id);
 		Connection connect=DBConnection.getConnection();
@@ -127,6 +155,12 @@ public class ParticulariteEtudiant {
 		return res;
 	}
 	
+	/**
+	 * Ajouter particularite A un etudiant.
+	 *
+	 * @param idParticularite le id particularite
+	 * @param idEtudiant le id etudiant
+	 */
 	public static void ajouterParticulariteAUnEtudiant(int idParticularite, int idEtudiant) {
 		try {
 			Connection connect=DBConnection.getConnection();
@@ -140,6 +174,12 @@ public class ParticulariteEtudiant {
 		}
 	}
 	
+	/**
+	 * Delete.
+	 *
+	 * @param idParticularite le id particularite
+	 * @param idEtudiant le id etudiant
+	 */
 	public static void delete(int idParticularite, int idEtudiant){
 		try {
 			Connection connect=DBConnection.getConnection();

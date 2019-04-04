@@ -6,38 +6,37 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-// TODO: Auto-generated Javadoc
+
+
 /**
- * The Class DBConnection.
+ * la Class DBConnection.
  */
 public class DBConnection {
 	
-	/** The connect. */
+	/** connect. */
 	public static Connection connect;
 
-	/** The server name. */
+	/** le server name. */
 	private static String serverName = "localhost";
 	
-	/** The user name. */
+	/** l' user name. */
 	private static String userName = "root";
 	
-	/** The password. */
+	/** le password. */
 	private static String password = "";
 	
-	/** The url DB. */
+	/** l' url DB. */
 	private static String urlDB = "jdbc:mysql://" + serverName + ":";
 	
-	/** The port number. */
+	/** le port number. */
 	private static String portNumber = "3306";
 	
-	/** The db name. */
+	/** la db name. */
 	private static String dbName = "etuplacement";
 
 
 	/**
-	 * Instantiates a new DB connection.
-	 *
-	 * @throws SQLException the SQL exception
+	 * Instantiates une nouvelle DB connection.
 	 */
 	private DBConnection(){
 		try{
@@ -54,10 +53,10 @@ public class DBConnection {
 	}
 
 	/**
-	 * Gets the connection.
+	 * Gets la connection.
 	 *
-	 * @return the connection
-	 * @throws SQLException the SQL exception
+	 * @return la connection
+	 * @throws SQLException  SQL exception
 	 */
 	public static synchronized Connection getConnection() throws SQLException {
 		if(connect==null) {
@@ -67,10 +66,10 @@ public class DBConnection {
 	}
 
 	/**
-	 * Sets the nom DB.
+	 * Sets le nom DB.
 	 *
-	 * @param nomDB the new nom DB
-	 * @throws SQLException the SQL exception
+	 * @param nomDB le nouveaux nom DB
+	 * @throws SQLException SQL exception
 	 */
 	public static void setNomDB(String nomDB) throws SQLException {
 		DBConnection.dbName=nomDB;
@@ -78,9 +77,9 @@ public class DBConnection {
 	}
 
 	/**
-	 * Gets the nom DB.
+	 * Gets le nom DB.
 	 *
-	 * @return the nom DB
+	 * @return le nom DB
 	 */
 	public static String getNomDB() {
 		return dbName;
