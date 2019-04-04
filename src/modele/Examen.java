@@ -150,10 +150,6 @@ public class Examen extends Observable{
         for (Etudiant etudiant: etudiants) {
             this.etudiants.remove(etudiant);
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> 2385fd083cc3329c6f4deb95f4ce971b45667470
 
     }
 

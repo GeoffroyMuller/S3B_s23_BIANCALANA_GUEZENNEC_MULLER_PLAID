@@ -57,34 +57,7 @@ public class ControleurExamen {
 
 		checkboxc = new Checkbox();
 		checkboxc.setState(true);
-<<<<<<< HEAD
 		new ArrayList<ArrayList<Groupe>>();
-=======
-		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
-
-
-
-		//dev
-		chsalle = new JButton("Choisir Salle 1 (test)");
-		chsalle.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Salle 1 (test) selectionner");
-				Salle salle = Salle.findById(1);
-				salle.getTableauPlaces(salle.getIdSalle());
-				System.out.println("Salle" + salle.getNom());
-				examen.ajouterSalle(salle);
-
-
-				chsalle.setText("Retirer Salle 1 (test) ");
-				chsalle.setBackground(Color.gray);
-			}
-		});
-		//findev
-
->>>>>>> 2385fd083cc3329c6f4deb95f4ce971b45667470
 
 		mapBouton_groupe = new HashMap<>();
 		mapBouton_categorie = new HashMap<>();
