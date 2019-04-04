@@ -183,12 +183,12 @@ public class VueExamen extends JPanel implements Observer{
 
 		//jp2_affichListEtu.setPreferredSize(new Dimension(200, 200));
 		//ajout de "jp2" aux "jp1"
-		
+
 		//VueEtudiantParticipant vuetest = new VueEtudiantParticipant();
 		vue_etudiantparticipant.setBackground(Color.blue);
 		vue_etudiantparticipant.definirTaille(500, 500);
-		
-		
+
+
 		jpp_affichListEtu_marge.add(vue_etudiantparticipant, BorderLayout.CENTER);
 
 
@@ -224,7 +224,7 @@ public class VueExamen extends JPanel implements Observer{
 		vuetest.setBackground(Color.red);
 		vuetest.definirTaille(500, 1600);
 		jp2_affichListEtu.add(vuetest);*/
-		
+
 		/*JButton jb_dev_up = new JButton("update");
 		jb_dev_up.addActionListener(new ActionListener() {
 
@@ -303,7 +303,7 @@ public class VueExamen extends JPanel implements Observer{
 		jp2_affichListEtu.setPreferredSize(new Dimension(100, 200));
 		jp_all.add(jpp_affichListEtu_marge, gbc);
 	}
-	
+
 
 
 	public VueEtudiantParticipant getVue_etudiantparticipant() {
@@ -313,7 +313,7 @@ public class VueExamen extends JPanel implements Observer{
 		super.paintComponent(g);
 		vue_etudiantparticipant.definirTaille(jpp_affichListEtu_marge.getWidth()-90, jpp_affichListEtu_marge.getHeight());
 		//System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeee:::::::::"+jpp_affichListEtu_marge);
-		
+
 		/*//dev
 		jscrol_dev.setPreferredSize(new Dimension(jp2_affichListEtu.getWidth()-5, jp2_affichListEtu.getHeight()-20));//dev
 		paneldev.suppliste();
@@ -342,14 +342,26 @@ public class VueExamen extends JPanel implements Observer{
 		vuec.definirTaille(fenetre.getWidth(),fenetre.getHeight());
 
 	}*/
-	
+
 	/**
 	 * Remet le listeur de salle a zero
 	 */
 	public static void rechargerlisteurSalle() {
 		vueExamen.jp2_creation.getVue_sallePrio().rechargeListeur();
 	}
-	
+
+	public static void rechargerlisteurGroupe() {
+		((VueCreation) vueExamen.jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());	
+		ArrayList<Etudiant> liste_supp_etu  = new ArrayList<Etudiant>();
+		if(examen.getEtudiants().size()>=0) {
+			for(Etudiant etu : examen.getEtudiants().keySet()){
+				liste_supp_etu.add(etu);
+			}
+
+			examen.enleverDesEtudiantsDeExamen(liste_supp_etu);
+		}
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		int cas = INIT;
@@ -362,13 +374,33 @@ public class VueExamen extends JPanel implements Observer{
 			//vue_etudiantparticipant.definirTaille(500, 500);
 			break;
 		case VUE_CATEG:
-			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());		
+			ArrayList<Etudiant> liste_supp_etu  = new ArrayList<Etudiant>();
+			if(examen.getEtudiants().size()>=0) {
+				for(Etudiant etu : examen.getEtudiants().keySet()){
+					liste_supp_etu.add(etu);
+				}
+
+				examen.enleverDesEtudiantsDeExamen(liste_supp_etu);
+			}
+			vue_etudiantparticipant.ajouterListes(examen.getEtudiants());
+			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());	
+			
 			break;
 		case VUE_CATEG_SAVE:
 			System.out.println("ooooooooooooooooooooooo");
+			ArrayList<Etudiant> liste_supp_etu1  = new ArrayList<Etudiant>();
+			if(examen.getEtudiants().size()>=0) {
+				for(Etudiant etu : examen.getEtudiants().keySet()){
+					liste_supp_etu1.add(etu);
+				}
+
+				examen.enleverDesEtudiantsDeExamen(liste_supp_etu1);
+			}
+			vue_etudiantparticipant.ajouterListes(examen.getEtudiants());
 			jp2_creation.getVue_grpParticip().sauvegarder();
 			((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
 			jp2_creation.getVue_grpParticip().charger();
+			
 			break;
 		default:
 
@@ -378,8 +410,8 @@ public class VueExamen extends JPanel implements Observer{
 		//((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
 		jp2_creation.getVue_grpParticip().charger();*/
 		repaint();
-		
-		
+
+
 	}
 
 
