@@ -114,12 +114,8 @@ public class PanelListeurCategorie extends JPanel{
 
 				if(activer) {
 					activer = false;
-					//System.out.println(" >> desactiver");
 					jp_categorie.setBackground(Color.WHITE);
-
 					for (JPanel jp : liste_jp_groupe) {
-						//System.out.println("des::"+liste_jp_groupe.size());
-
 						if(jp_all.getComponentCount()>0) {
 							jp_all.remove(jp);
 						}
@@ -127,12 +123,10 @@ public class PanelListeurCategorie extends JPanel{
 					repaint();
 				}else {
 					activer = true;
-					//System.out.println(" >> activer");
 					jp_categorie.setBackground(Color.GRAY);
-
 					int i = 1;
 					for (JPanel jp : liste_jp_groupe) {
-						//System.out.println("act::"+liste_jp_groupe.size());
+
 						gbc.gridx = 0;
 						gbc.gridy = i;
 						gbc.fill = GridBagConstraints.BOTH;
@@ -142,8 +136,7 @@ public class PanelListeurCategorie extends JPanel{
 
 						i++;
 					}
-					//repaint();
-					//listeur.repaint();
+
 				}
 			}
 
@@ -184,7 +177,6 @@ public class PanelListeurCategorie extends JPanel{
 			jp_categorie.setBackground(Color.WHITE);
 
 			for (JPanel jp : liste_jp_groupe) {
-				//System.out.println("des::"+liste_jp_groupe.size());
 
 				if(jp_all.getComponentCount()>0) {
 					jp_all.remove(jp);
@@ -193,7 +185,7 @@ public class PanelListeurCategorie extends JPanel{
 			repaint();
 		}else {
 			activer = true;
-			//System.out.println(" >> activer");
+
 			jp_categorie.setBackground(Color.GRAY);
 
 			int i = 1;
@@ -220,10 +212,7 @@ public class PanelListeurCategorie extends JPanel{
 	}
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*10), (int)(Math.random()*50)));
-		//g.fillRect(0, 10, 10, 10);
-		//jp_categorie.setPreferredSize(new Dimension(400, 30));
-		//this.setBackground(Color.red);
+
 		jp_all.setVisible(false);
 		jp_all.setVisible(true);
 	}

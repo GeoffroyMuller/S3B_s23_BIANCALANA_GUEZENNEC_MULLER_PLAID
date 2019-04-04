@@ -77,8 +77,6 @@ public class VueSallePriorite extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Ajouter Salle");
-				//VueSallePriorite.ctrlexam.ajouterComboSalle();
-				//ctrlexamp.ajouterComboSalle();
 				listeur.ajouterPriorite();
 				listeur.creerZonePriorite();
 			}
@@ -106,7 +104,7 @@ public class VueSallePriorite extends JPanel{
 	
 	
 	public static void setColor_(Color color_) {
-		VueSallePriorite.color = color;
+		VueSallePriorite.color = color_;
 	}
 
 
@@ -115,8 +113,6 @@ public class VueSallePriorite extends JPanel{
 		super.paintComponent(g);
 		this.setBackground(color);
 		listeur.definirTaille(this.getWidth(), this.getHeight());
-		//setVisible(false);
-		//setVisible(true);
 	}
 
 

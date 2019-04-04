@@ -115,6 +115,7 @@ public class DialogVerificationPlacement extends JDialog {
                 exportEtu.exporterPlacement(modele.getPlacement(),modele);
                 modele.reinitialiseExamen();
                 setVisible(false);
+                VueExamen.rechargerAll();
             }
         });
 

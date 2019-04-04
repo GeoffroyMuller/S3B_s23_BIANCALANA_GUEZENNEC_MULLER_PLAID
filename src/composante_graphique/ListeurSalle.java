@@ -27,35 +27,7 @@ import modele.BDD.Salle;
 public class ListeurSalle extends JPanel{
 	private static Color color = new Color(236, 241, 245);
 	private static Color color2 = new Color(40, 73, 92);
-	/*private static class ActionSupprElemComboSalle implements ActionListener{
-		private int nb;
-		private ListeurSalle ls; 
-		private JPanel jp;
-		private ControleurExamen ctrlexam;
-		public ActionSupprElemComboSalle(int i, JPanel jpp, ControleurExamen ctrl, ListeurSalle lsp) {
-			// TODO Auto-generated constructor stub
-			nb = i ;
-			jp = jpp;
-			ls = lsp;
-			ctrlexam = ctrl;
-		}
 
-		public int getNb() {
-			return nb;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			ctrlexam.getListeComboSalle().remove(nb);
-			jp.removeAll();
-			ls.repaint();
-			ls.setVisible(false);
-			ls.setVisible(true);
-			System.out.println("Supprimer "+nb);
-		}
-
-	}*/
 	private ControleurExamen ctrlexam;
 	private ArrayList<PanelListeurPriorite> listprioritie = new ArrayList<PanelListeurPriorite>();
 
@@ -80,34 +52,6 @@ public class ListeurSalle extends JPanel{
 		this.setLayout(new GridBagLayout());
 		jp_all.setLayout(new GridBagLayout());
 
-		/*test
-		GridBagConstraints gbcp = new GridBagConstraints();
-		for(int i=0;i<controleur_Exam.getListeComboSalle().size();i++) {
-			JPanel jptest = new JPanel();
-			jptest.setPreferredSize(new Dimension(WIDTH, 30));
-			jptest.add(new JLabel(""+i));
-			this.controleur_Exam.ajouterComboSalle();
-			this.controleur_Exam.ajouterComboSalle();
-			jptest.add(this.controleur_Exam.getListeComboSalle().get(1));
-			jptest.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
-			gbcp.gridx = 0;
-			gbcp.gridy = i;
-			gbcp.fill = GridBagConstraints.BOTH;
-			gbcp.insets = new Insets(0, 0, 0, 0);
-			gbcp.weightx = 0;
-			gbcp.weighty = 0;
-			jp_all.add(jptest, gbcp);
-		}
-		JPanel jptest = new JPanel();
-		jptest.add(new JLabel("marge"));
-		gbcp.gridx = 0;
-		gbcp.gridy = 10;
-		gbcp.fill = GridBagConstraints.BOTH;
-		gbcp.insets = new Insets(15, 50, 15, 50);
-		gbcp.weightx = 1;
-		gbcp.weighty = 0.5;
-		jp_all.add(jptest, gbcp);
-		 */
 		this.controleur_Exam.ajouterComboSalle();
 		ajouterPriorite();
 		creerZonePriorite(); 
@@ -119,13 +63,10 @@ public class ListeurSalle extends JPanel{
 	}
 	public void ajouterSalles() {
 		 examen.reinitiliserLesSalles();
-		System.out.println("66666666666666666666666666666666666666666");
 		for(PanelListeurPriorite plp : listprioritie) {
 			
 			if(plp.getTextJCombo().equals("Choisir une salle")) {
-				System.out.println("ccccccccccccccccc::: "+plp.getSalle());
 			}else {
-				System.out.println("dddddddddddddddd::: "+plp.getSalle());
 				examen.ajouterSalle(plp.getSalle());
 			}
 		}
@@ -155,30 +96,10 @@ public class ListeurSalle extends JPanel{
 			gbcp.weighty = 0;
 			jp_all.add(listprioritie.get(i), gbcp);
 		}
-		/*for(int i=0;i<controleur_Exam.getListeComboSalle().size();i++) {
-			JPanel jp_priorite = new JPanel();
 
-			jp_priorite.setName("jpan"+i);
-			jp_priorite.setPreferredSize(new Dimension(WIDTH, 30));
-			jp_priorite.add(new JLabel(""+i));
-			jp_priorite.add(this.controleur_Exam.getListeComboSalle().get(i));//
-			JButton jb_supp = new JButton("Supprimer");
-			//jb_supp.addActionListener(new ActionSupprElemComboSalle(i, jp_priorite, controleur_Exam, this));
-			jp_priorite.add(jb_supp);
-			jp_priorite.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
-			gbcp.gridx = 0;
-			gbcp.gridy = i;
-			gbcp.fill = GridBagConstraints.BOTH;
-			gbcp.insets = new Insets(0, 0, 0, 0);
-			gbcp.weightx = 0;
-			gbcp.weighty = 0;
-			jp_all.add(new PanelListeurPriorite(1), gbcp);
-			//jb_supp.addActionListener(new ActionSupprElemComboSalle(i, jp_priorite, controleur_Exam));
-
-		}*/
 		JPanel jptest = new JPanel();
 		jptest.setBackground(color2);
-		//jptest.add(new JLabel("marge"));
+
 		gbcp.gridx = 0;
 		gbcp.gridy = 10;
 		gbcp.fill = GridBagConstraints.BOTH;

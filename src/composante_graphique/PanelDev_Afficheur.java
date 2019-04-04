@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
- * 
+ * Class pour dev
  * Permet l'affichage d'information
  *
  */

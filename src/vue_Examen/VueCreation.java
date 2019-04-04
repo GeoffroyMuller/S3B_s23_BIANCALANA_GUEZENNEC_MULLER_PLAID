@@ -71,10 +71,6 @@ public class VueCreation extends JPanel{
 		gbc.weighty = 0.5;
 		this.add(vue_sallePrio, gbc);
 		
-		/*JSplitPane jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, vue_grpParticip, vue_sallePrio);
-		jsp.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.black));
-		this.add(jsp, gbc);*/
-		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -90,7 +86,7 @@ public class VueCreation extends JPanel{
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0;
 		gbc.weighty = 0.03;
-		//jp_bouttonexam.add(new JLabel("Veuillez selectionner les groupes participants et les Salles"));
+
 		this.add(jp_bouttonexam, gbc);
 	}
 	
@@ -105,20 +101,6 @@ public class VueCreation extends JPanel{
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//vue_infoExam.definirTaille(this.getWidth()-1000, 25);
-		//this.setVisible(false);
-		//this.setVisible(true);
 	}
-	/*public static void main(String arg[]) {
-		JFrame fenetre = new JFrame("EtuPlacement");
-
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setMinimumSize(new Dimension(500,100));
-
-		VueCreation vuec = new VueCreation(new ControleurExamen(new Examen()), new ArrayList<Categorie>());
-		fenetre.add(vuec);
-		fenetre.setVisible(true);
-
-	}*/
 
 }

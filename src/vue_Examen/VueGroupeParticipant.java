@@ -62,7 +62,7 @@ public class VueGroupeParticipant extends JPanel{
 		gbc.weightx = 1;
 		gbc.weighty = 2;
 		this.add(listeur, gbc);
-		//repaint();
+
 		colorer(color);
 	}
 	public void sauvegarder() {

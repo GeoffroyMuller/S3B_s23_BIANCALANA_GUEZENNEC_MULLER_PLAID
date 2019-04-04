@@ -69,6 +69,7 @@ public class VueExamen extends JPanel implements Observer{
 	public static PanelDev_Afficheur paneldev = new PanelDev_Afficheur();
 	JScrollPane jscrol_dev;
 	//fin dev
+	
 	/**
 	 * Constructeur principale
 	 * @throws SQLException 
@@ -78,17 +79,10 @@ public class VueExamen extends JPanel implements Observer{
 		examen = exam;
 		vue_etudiantparticipant = new VueEtudiantParticipant(examen);
 		controleur_Exam = new ControleurExamen(examen);
-		//this.setPreferredSize(new Dimension(1500, 800));
+
 		jpp_creation_marge.setBackground(Color.red);
 
-		//testlisteur();
-		//try {
 		jp2_creation = new VueCreation(controleur_Exam, Categorie.getlistCategorie(),examen);
-		/*} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("ERREUR>>VueExamen::L'importation des catégories via la base de données a échoué.");
-			jp2_creation = new VueCreation(controleur_Exam, new ArrayList<Categorie>());
-		}*/
 
 		creerZoneCreation();
 		creerZoneAffichageEtu();
@@ -181,10 +175,6 @@ public class VueExamen extends JPanel implements Observer{
 		jpp_affichListEtu_marge.setBackground(color);
 		jp2_affichListEtu.setBackground(Color.white);
 
-		//jp2_affichListEtu.setPreferredSize(new Dimension(200, 200));
-		//ajout de "jp2" aux "jp1"
-
-		//VueEtudiantParticipant vuetest = new VueEtudiantParticipant();
 		vue_etudiantparticipant.setBackground(Color.blue);
 		vue_etudiantparticipant.definirTaille(500, 500);
 
@@ -203,48 +193,7 @@ public class VueExamen extends JPanel implements Observer{
 		// ajout de "jps" aux "this"
 		this.jp_all.add(jpp_affichListEtu_marge);
 
-		devPane();
 	}
-
-
-
-	private void devPane() {
-		//Developpeur a suppr
-		/*JPanel jp_dev = new JPanel();
-		//jp_dev.add(paneldev);
-		jp_dev.add(new VueEtudiantParticipant());
-		jp_dev.setBackground(Color.white);
-		jscrol_dev = new JScrollPane(jp_dev, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		//jscrol_dev.add(paneldev);
-		jscrol_dev.setPreferredSize(new Dimension(300,120));
-
-
-		jp2_affichListEtu.add(jscrol_dev);*/
-		/*VueEtudiantParticipant vuetest = new VueEtudiantParticipant();
-		vuetest.setBackground(Color.red);
-		vuetest.definirTaille(500, 1600);
-		jp2_affichListEtu.add(vuetest);*/
-
-		/*JButton jb_dev_up = new JButton("update");
-		jb_dev_up.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				rechargerlisteurSalle();
-				jp2_creation.getVue_grpParticip().sauvegarder();
-				((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
-				jp2_creation.getVue_grpParticip().charger();
-				repaint();
-
-			}
-
-		});
-		jp2_creation.add(jb_dev_up);*/
-	}
-
-
-
 
 	/**
 	 * Met la couleur passer en parametre sur les JPanel jpp_[...]_marge et du jpanel jp_boutton
@@ -312,36 +261,7 @@ public class VueExamen extends JPanel implements Observer{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		vue_etudiantparticipant.definirTaille(jpp_affichListEtu_marge.getWidth()-90, jpp_affichListEtu_marge.getHeight());
-		//System.out.println("eeeeeeeeeeeeeeeeeeeeeeeeeeee:::::::::"+jpp_affichListEtu_marge);
-
-		/*//dev
-		jscrol_dev.setPreferredSize(new Dimension(jp2_affichListEtu.getWidth()-5, jp2_affichListEtu.getHeight()-20));//dev
-		paneldev.suppliste();
-		paneldev.ajouterInfo(">nombre etudiant participant:: "+examen.getEtudiants().size());
-		int compte = 1;
-		for(Entry<Etudiant, String> etul : examen.getEtudiants().entrySet()) {
-			paneldev.ajouterInfo(""+compte+" > "+etul.getKey().getNom());
-			compte++;
-		}
-		paneldev.repaint();
-		//findev*/
 	}
-
-	/*public static void main(String arg[]) throws SQLException {
-		JFrame fenetre = new JFrame("EtuPlacement");
-
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		Examen examen = new Examen();
-
-		VueExamen vuec = new VueExamen(examen);
-		fenetre.add(vuec);
-		fenetre.setMinimumSize(new Dimension(1155,700));
-		fenetre.setPreferredSize(new Dimension(1155,700));
-		fenetre.setVisible(true);
-		vuec.definirTaille(fenetre.getWidth(),fenetre.getHeight());
-
-	}*/
 
 	/**
 	 * Remet le listeur de salle a zero
@@ -350,8 +270,7 @@ public class VueExamen extends JPanel implements Observer{
 		vueExamen.jp2_creation.getVue_sallePrio().rechargeListeur();
 	}
 
-	public static void rechargerlisteurGroupe() {
-		((VueCreation) vueExamen.jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());	
+	public static void rechargerAll() {
 		ArrayList<Etudiant> liste_supp_etu  = new ArrayList<Etudiant>();
 		if(examen.getEtudiants().size()>=0) {
 			for(Etudiant etu : examen.getEtudiants().keySet()){
@@ -360,6 +279,9 @@ public class VueExamen extends JPanel implements Observer{
 
 			examen.enleverDesEtudiantsDeExamen(liste_supp_etu);
 		}
+		vueExamen.vue_etudiantparticipant.ajouterListes(examen.getEtudiants());
+		((VueCreation) vueExamen.jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
+		rechargerlisteurSalle();
 	}
 
 	@Override
@@ -371,7 +293,6 @@ public class VueExamen extends JPanel implements Observer{
 		switch(cas) {
 		case VUE_ETU:
 			vue_etudiantparticipant.ajouterListes(examen.getEtudiants());
-			//vue_etudiantparticipant.definirTaille(500, 500);
 			break;
 		case VUE_CATEG:
 			ArrayList<Etudiant> liste_supp_etu  = new ArrayList<Etudiant>();
@@ -387,7 +308,6 @@ public class VueExamen extends JPanel implements Observer{
 			
 			break;
 		case VUE_CATEG_SAVE:
-			System.out.println("ooooooooooooooooooooooo");
 			ArrayList<Etudiant> liste_supp_etu1  = new ArrayList<Etudiant>();
 			if(examen.getEtudiants().size()>=0) {
 				for(Etudiant etu : examen.getEtudiants().keySet()){
@@ -406,9 +326,6 @@ public class VueExamen extends JPanel implements Observer{
 
 			break;
 		}
-		/*jp2_creation.getVue_grpParticip().sauvegarder();
-		//((VueCreation) jp2_creation).getVue_grpParticip().creerZoneGroupeParticipant(Categorie.getlistCategorie());
-		jp2_creation.getVue_grpParticip().charger();*/
 		repaint();
 
 

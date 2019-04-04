@@ -18,11 +18,14 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 import controleur_Examen.ControleurExamen;
-import modele.Examen;
 import modele.BDD.Categorie;
-import modele.BDD.Groupe;
+
 
 public class ListeurCategorie extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
@@ -39,9 +42,7 @@ public class ListeurCategorie extends JPanel{
 		jp_all.setBackground(Color.darkGray);
 		scrollpane = new JScrollPane(jp_all, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollpane.getVerticalScrollBar().setUnitIncrement(15);
-		//scrollpane.setBackground(Color.BLUE);
 		liste_panelListeur = new ArrayList<PanelListeurCategorie>();
-		//this.setBackground(Color.blue);
 		if(listep == null) {
 			listecategorie = new ArrayList<Categorie>();
 		}else {
@@ -109,14 +110,6 @@ public class ListeurCategorie extends JPanel{
 				gbc.weighty = 0;
 				jp_all.add(pl, gbc);
 
-				/*gbcd.gridx = 0;
-				gbcd.gridy = i;
-				gbcd.fill = GridBagConstraints.BOTH;
-				gbcd.insets = new Insets(0, 0, 0, 0);
-				gbcd.weightx = 1;
-				gbcd.weighty = 0;
-				jp_all.add(pl, gbcd);*/
-
 				i++;
 			}
 			gbcd.gridx = 0;
@@ -142,34 +135,23 @@ public class ListeurCategorie extends JPanel{
 		map_Save.clear();
 		for (PanelListeurCategorie pn_save : listeurModif.getListe_panelListeur()) {
 			map_Save.put(pn_save.getNomCategorie(), pn_save.isActiver());
-			//System.out.println(">Sauvegarde parametre :: nom panelisteurcateg : "+pn_save.getNomCategorie()+" activateur : "+pn_save.isActiver());
 		}
 	}
 	public static void chargerSauvegarde(ListeurCategorie listeurModif) {
 		for (int i=0; i<listeurModif.getListe_panelListeur().size();i++) {
-			//System.out.println(">Chargement parametre :: "+i);
 			if(map_Save.containsKey(listeurModif.getListe_panelListeur().get(i).getNomCategorie())) {
-				//System.out.println(">C :: contenu");
 				for( String str_save : map_Save.keySet() ) {
-					//System.out.println(">C :: Cherche");
 					if(str_save.equals(listeurModif.getListe_panelListeur().get(i).getNomCategorie())) {
-						//System.out.println(">C :: Trouver ");
 						listeurModif.getListe_panelListeur().get(i).isActiverAction(map_Save.get(str_save));
 					}
 				}
-			}else {
-				//System.out.println(">C :: non contenu");
 			}
 		}
 	}
 	
-	
 	public void colorer(Color color) {
 		this.setBackground(color);
 	}
-
-	
-	
 
 	public ArrayList<PanelListeurCategorie> getListe_panelListeur() {
 		return liste_panelListeur;
@@ -178,11 +160,7 @@ public class ListeurCategorie extends JPanel{
 	public void paintComponent(Graphics g) {
 		
 		super.paintComponent(g);
-		//g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*100), (int)(Math.random()*50)));
-		//g.fillRect(0, 10, 10, 10);
 
-		//this.setVisible(false);
-		//this.setVisible(true);
 	}
 
 }

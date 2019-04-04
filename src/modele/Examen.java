@@ -160,8 +160,6 @@ public class Examen extends Observable{
         for (Etudiant etudiant: etudiants) {
             this.etudiants.remove(etudiant);
         }
-        System.out.println("Nombre d'étudiant : "+etudiants.size());
-
 
     }
 
@@ -173,7 +171,6 @@ public class Examen extends Observable{
 
         ArrayList<Etudiant> etudiants = groupe.getListeEtudiants();
         this.enleverDesEtudiantsDeExamen(etudiants);
-        System.out.println("Nombre d'étudiant : "+etudiants.size());
         setChanged();
 		notifyObservers(VueExamen.VUE_ETU);
 	}
@@ -196,7 +193,6 @@ public class Examen extends Observable{
 		for(modele.BDD.Etudiant etu : etudiants){
 			this.etudiants.put(etu,groupe.getNom());
 		}
-        System.out.println("Nombre d'étudiant : "+etudiants.size());
 
         setChanged();
 		notifyObservers(VueExamen.VUE_ETU);

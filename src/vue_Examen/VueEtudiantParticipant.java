@@ -23,15 +23,9 @@ public class VueEtudiantParticipant extends JPanel{
 	private HashMap<Etudiant, String> listetudiants;
 	public VueEtudiantParticipant(Examen examenp) {
 		setLayout( new BorderLayout());
-		/*String[] columns = {"Nom","Prenom","Groupe","Email"};
-		Integer[][] data = new Integer[1000][columns.length];
-		data[0][0]=100;
-		tableau = new JTable(new DefaultTableModel(data, columns));
-		this.add(tableau);*/
 		String data[][]=new String[7][4];      
 		jt=new JTable(data,column);     
 		sp=new JScrollPane(jt);  
-		//sp.setPreferredSize(new Dimension(1500, 800));
 		
 		this.add(sp,BorderLayout.CENTER); 
 		JPanel jpindice = new JPanel();
@@ -43,7 +37,6 @@ public class VueEtudiantParticipant extends JPanel{
 		listetudiants = listetudiantsp;
 		
 		String data[][]=new String[listetudiants.size()+5][4]; 
-		System.out.println("--------------------------"+listetudiants.size()+" ++++"+listetudiantsp);
 		int compte = 0;
 		for(Etudiant etul : listetudiants.keySet()) {
 			data[compte][0] = etul.getNom();

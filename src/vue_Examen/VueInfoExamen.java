@@ -90,17 +90,4 @@ public class VueInfoExamen extends JPanel{
 
 	}
 	
-	
-	
-	/*public static void main(String arg[]) {
-		JFrame fenetre = new JFrame("EtuPlacement");
-
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setMinimumSize(new Dimension(500,100));
-
-		VueInfoExamen vuec = new VueInfoExamen(new ControleurExamen(new Examen()));
-		fenetre.add(vuec);
-		fenetre.setVisible(true);
-
-	}*/
 }

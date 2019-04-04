@@ -36,10 +36,7 @@ public class PanelListeurPriorite extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Supprimer :: "+id);
 
-				
-
 				ls.supprimerPriorite(id);
-				System.out.println("===========================1111111111");
 				ls.ajouterSalles();
 				ls.creerZonePriorite();
 			}
@@ -48,6 +45,7 @@ public class PanelListeurPriorite extends JPanel{
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
 		
 	}
+	
 	public void creerComboSalle() {
 		try {
 			ArrayList<Salle> salles = Salle.listSalle();
@@ -62,7 +60,6 @@ public class PanelListeurPriorite extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					System.out.println("===========================2222222222222");
 					System.out.println("Salle Select: "+(String)jcbox.getSelectedItem());
 					ls.ajouterSalles();
 				}
@@ -77,12 +74,15 @@ public class PanelListeurPriorite extends JPanel{
 	public Salle getSalle() {
 		return Salle.findByNom((String)jcbox.getSelectedItem());
 	}
+	
 	public String getTextJCombo() {
 		return (String)jcbox.getSelectedItem();
 	}
+	
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 		this.jl.setText(""+id);

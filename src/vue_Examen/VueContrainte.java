@@ -140,21 +140,8 @@ public class VueContrainte extends JPanel{
 	
 	}
 	
-	
-	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	}
-	
-	/*public static void main(String arg[]) {
-		JFrame fenetre = new JFrame("EtuPlacement");
 
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setMinimumSize(new Dimension(500,100));
-
-		VueContrainte vuec = new VueContrainte(null);
-		fenetre.add(vuec);
-		fenetre.setVisible(true);
-
-	}*/
 }
