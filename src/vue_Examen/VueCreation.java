@@ -32,6 +32,12 @@ public class VueCreation extends JPanel{
 	private JPanel jp_bouttonexam = new JPanel(new BorderLayout());
 	private Examen examen;
 	
+	/**
+	 * Constructeur
+	 * @param ctrlexamp
+	 * @param listecategp
+	 * @param examen
+	 */
 	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp, Examen examen) {
 		this.examen = examen;
 		controleur_Exam = ctrlexamp;
@@ -44,6 +50,9 @@ public class VueCreation extends JPanel{
 		creerZoneCreation();
 	}
 	
+	/**
+	 * Creer/assemble la zone de Creation
+	 */
 	private void creerZoneCreation() {
 		Color colorp = Color.black;
 		vue_infoExam.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, colorp));
@@ -90,15 +99,25 @@ public class VueCreation extends JPanel{
 		this.add(jp_bouttonexam, gbc);
 	}
 	
+	/**
+	 * Getter Vue_grpParticip
+	 * @return VueGroupeParticipant vue_grpParticip
+	 */
 	public VueGroupeParticipant getVue_grpParticip() {
 		return vue_grpParticip;
 	}
 
-	
+	/**
+	 * Getter Vue_sallePrio
+	 * @return VueSallePriorite vue_sallePrio
+	 */
 	public VueSallePriorite getVue_sallePrio() {
 		return vue_sallePrio;
 	}
 
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	}

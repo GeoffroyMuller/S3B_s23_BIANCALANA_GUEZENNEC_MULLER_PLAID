@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
- * Class pour dev
- * Permet l'affichage d'information
+ * Class de dev
+ * Composante graphique de debugage
+ * @author Geoff
  *
  */
 public class PanelDev_Afficheur extends JPanel{

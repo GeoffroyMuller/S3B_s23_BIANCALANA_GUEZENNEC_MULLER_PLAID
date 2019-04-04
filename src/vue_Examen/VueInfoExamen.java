@@ -27,12 +27,19 @@ public class VueInfoExamen extends JPanel{
 	private JPanel jp_matiereExamen = new JPanel();		//JPanel 4 contient la Matiere de l'Examen
 	private JPanel jp_dateExamen = new JPanel();			//JPanel 4 contient la Date de l'Examen
 	
+	/**
+	 * Constructeur
+	 * @param ctrlexamp
+	 */
 	public VueInfoExamen(ControleurExamen ctrlexamp) {
 		colorer(color);
 		controleur_Exam = ctrlexamp;                                     
 		creerZoneInfo();
 	}
 	
+	/**
+	 * Creer/assemble la zone d'Info
+	 */
 	private void creerZoneInfo() {
 		this.setLayout(new GridBagLayout());
 		jp_nomExamen.add(jl_nom);
@@ -69,6 +76,10 @@ public class VueInfoExamen extends JPanel{
 		
 	}
 	
+	/**
+	 * Color
+	 * @param colorp
+	 */
 	public void colorer(Color colorp) {
 		this.setBackground(colorp);
 		jp_dateExamen.setBackground(colorp);
@@ -85,6 +96,9 @@ public class VueInfoExamen extends JPanel{
 		controleur_Exam.getJtf_Date().setPreferredSize(new Dimension(w, h));
 	}
 
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 

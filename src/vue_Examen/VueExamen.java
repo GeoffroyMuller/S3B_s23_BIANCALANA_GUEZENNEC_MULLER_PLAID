@@ -1,32 +1,24 @@
 package vue_Examen;
 
 import java.awt.BorderLayout;
-import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import composante_graphique.ListeurSalle;
 import composante_graphique.PanelDev_Afficheur;
 import controleur_Examen.ControleurExamen;
 import modele.BDD.Categorie;
 import modele.BDD.Etudiant;
-import modele.BDD.Groupe;
 
 
 import modele.Examen;
@@ -40,9 +32,7 @@ public class VueExamen extends JPanel implements Observer{
 	public static VueExamen vueExamen;
 	private ControleurExamen controleur_Exam;
 	private static Color color = new Color(40, 73, 92);//40, 73, 92
-	/**
-	 * Les JPanel "jp1" contiennent des JPanel "jp2" qui contiennent des "jp3" ...
-	 */
+	
 	private JPanel jp_all = new JPanel(new GridBagLayout());	//JPanel qui contient tous les autre JPanel
 
 	private GridBagConstraints gbc = new GridBagConstraints();
@@ -95,76 +85,20 @@ public class VueExamen extends JPanel implements Observer{
 		return examen;
 	}
 
-	private void testlisteur() {
-		ArrayList<Categorie> listcateg = new ArrayList<>();
-		ArrayList<Groupe> gl1 = new ArrayList<Groupe>();
-		ArrayList<Groupe> gl2 = new ArrayList<Groupe>();
-
-		Categorie c1 = new Categorie("Année 1");
-		Categorie c2 = new Categorie("Année 2");
-		listcateg.add(c1);
-		listcateg.add(c2);
-		c1.save();
-		c2.save();
-		Groupe g1 = new Groupe("groupe a");
-		Groupe g2 = new Groupe("groupe b");
-		Groupe g3 = new Groupe("groupe c");
-		Groupe g4 = new Groupe("groupe d");
-		Groupe g5 = new Groupe("groupe e");
-		g1.save();
-		g2.save();
-		g3.save();
-		g4.save();
-		g5.save();
-
-		gl1.add(g1);
-		gl1.add(g2);
-		gl1.add(g3);
-
-		gl2.add(g4);
-		gl2.add(g5);
-		c1.ajouterGroupe(gl1);
-		c2.ajouterGroupe(gl2);
-
-		Etudiant e1 = new Etudiant("nna", "poilon");
-		Etudiant e2 = new Etudiant("jee", "galo");
-		Etudiant e3 = new Etudiant("gounalou", "lucas");
-
-		e1.save();
-		e2.save();
-		e3.save();
-		ArrayList<Etudiant> listetu = new ArrayList<>();
-		listetu.add(e1);
-		listetu.add(e2);
-		listetu.add(e3);
-		g1.ajouterEtudiants(listetu);
-
-	}
-
-
 	/**
 	 * Créer La zone de creation d' Examen
 	 */
 	private void creerZoneCreation() {
 
-		//ajout de "jp2" aux "jpp"
 		jpp_creation_marge.add(jp2_creation,BorderLayout.CENTER);
 
-		//contoure de jp2
 		jpp_creation_marge.add(contour_creation_South, BorderLayout.SOUTH);
 		jpp_creation_marge.add(contour_creation_North, BorderLayout.NORTH);
 		jpp_creation_marge.add(contour_creation_East, BorderLayout.EAST);
 		jpp_creation_marge.add(contour_creation_West, BorderLayout.WEST);
 
-
-
-		//ajout de "jpp" aux "jp_all"
 		this.jp_all.add(jpp_creation_marge);
 	}
-
-
-
-
 
 	/**
 	 * Créer La zone d'Affichage d'Etudiant
@@ -178,11 +112,8 @@ public class VueExamen extends JPanel implements Observer{
 		vue_etudiantparticipant.setBackground(Color.blue);
 		vue_etudiantparticipant.definirTaille(500, 500);
 
-
 		jpp_affichListEtu_marge.add(vue_etudiantparticipant, BorderLayout.CENTER);
 
-
-		//contoure de jp2
 		jpp_affichListEtu_marge.add(contour_affichContour_South,BorderLayout.SOUTH);
 		jpp_affichListEtu_marge.add(contour_affichContour_North,BorderLayout.NORTH);
 		jpp_affichListEtu_marge.add(contour_affichContour_East,BorderLayout.EAST);
@@ -211,7 +142,10 @@ public class VueExamen extends JPanel implements Observer{
 
 	}
 
-
+	/**
+	 * Color
+	 * @param color
+	 */
 	public void colorer(Color color) {
 		this.setBackground(color);
 		jp_all.setBackground(color);
@@ -237,6 +171,9 @@ public class VueExamen extends JPanel implements Observer{
 
 	}
 
+	/**
+	 * Place les Elements Principaux (les plus Grosse Vues qui compose VueExamen)
+	 */
 	public void placerElementPrincipaux() {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -254,10 +191,17 @@ public class VueExamen extends JPanel implements Observer{
 	}
 
 
-
+	/**
+	 * Getter Vue_etudiantparticipant
+	 * @return VueEtudiantParticipant vue_etudiantparticipant
+	 */
 	public VueEtudiantParticipant getVue_etudiantparticipant() {
 		return vue_etudiantparticipant;
 	}
+	
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		vue_etudiantparticipant.definirTaille(jpp_affichListEtu_marge.getWidth()-90, jpp_affichListEtu_marge.getHeight());
@@ -270,6 +214,9 @@ public class VueExamen extends JPanel implements Observer{
 		vueExamen.jp2_creation.getVue_sallePrio().rechargeListeur();
 	}
 
+	/**
+	 * Recharge toute la Vue
+	 */
 	public static void rechargerAll() {
 		ArrayList<Etudiant> liste_supp_etu  = new ArrayList<Etudiant>();
 		if(examen.getEtudiants().size()>=0) {
@@ -284,6 +231,9 @@ public class VueExamen extends JPanel implements Observer{
 		rechargerlisteurSalle();
 	}
 
+	/**
+	 * Update
+	 */
 	@Override
 	public void update(Observable o, Object arg) {
 		int cas = INIT;

@@ -33,6 +33,12 @@ public class VueContrainte extends JPanel{
 	private JComboBox jcb_espacement;
 	private String[] tab_espacement = {"0", "1", "2", "3", "4", "5"};
 	public static Examen examen;
+	
+	/**
+	 * Constructeur
+	 * @param examen
+	 * @param ctrlExamenp
+	 */
 	public VueContrainte(Examen examen,ControleurExamen ctrlExamenp) {
 		VueContrainte.examen = examen;
 		ctrlExamen = ctrlExamenp;
@@ -58,7 +64,7 @@ public class VueContrainte extends JPanel{
 	}
 	
 	/**
-	 * permet de creer le JPanel de gestion de contrainte 
+	 * Permet de creer le JPanel de gestion de contrainte 
 	 */
 	public void creerZoneContrainte() {
 		Border bordurecolor = new LineBorder(Color.BLACK);
@@ -140,6 +146,9 @@ public class VueContrainte extends JPanel{
 	
 	}
 	
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	}

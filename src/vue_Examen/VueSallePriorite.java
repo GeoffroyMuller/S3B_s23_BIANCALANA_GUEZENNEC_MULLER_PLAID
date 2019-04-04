@@ -36,6 +36,11 @@ public class VueSallePriorite extends JPanel{
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Examen examen;
 	
+	/**
+	 * Constructeur
+	 * @param ctrlexamp
+	 * @param examp
+	 */
 	public VueSallePriorite(ControleurExamen ctrlexamp,Examen examp) {
 		ctrlexam = ctrlexamp;
 		examen = examp;
@@ -95,20 +100,26 @@ public class VueSallePriorite extends JPanel{
 		
 
 	}
+	/**
+	 * Recharge le listeur
+	 */
 	public void rechargeListeur() {
 		listeur.recharger();
 		
 	}
-
 	
-	
-	
+	/**
+	 * Color
+	 * @param color_
+	 */
 	public static void setColor_(Color color_) {
 		VueSallePriorite.color = color_;
 	}
 
 
-
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.setBackground(color);

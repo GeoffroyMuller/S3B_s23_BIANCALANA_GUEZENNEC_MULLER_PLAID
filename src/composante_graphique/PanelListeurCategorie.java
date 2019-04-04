@@ -40,9 +40,19 @@ public class PanelListeurCategorie extends JPanel{
 	private Categorie categorie;	//categorie correspondant a this
 
 
+	/**
+	 * Constructeur vide
+	 */
 	public PanelListeurCategorie() {
 		
 	}
+	
+	/**
+	 * Constructeur
+	 * @param categ
+	 * @param listeur
+	 * @param ctrlexamp
+	 */
 	public PanelListeurCategorie(Categorie categ, ListeurCategorie listeur, ControleurExamen ctrlexamp) {
 		liste_jp_groupe = new ArrayList<JPanel>();
 		ctrlexam = ctrlexamp;
@@ -160,7 +170,10 @@ public class PanelListeurCategorie extends JPanel{
 		};
 		jp_categorie.addMouseListener(this.ml);
 	}
-	
+	/**
+	 * Cetter activer
+	 * @return boolean activer
+	 */
 	public boolean isActiver() {
 		return activer;
 	}
@@ -203,13 +216,24 @@ public class PanelListeurCategorie extends JPanel{
 		}
 	}
 	
+	/**
+	 * Definie et adapte la taille General
+	 */
 	public void definirTaille(int w, int y) {
 		jp_categorie.setPreferredSize(new Dimension(w, y));
 	}
 
+	/**
+	 * Getter NomCategorie
+	 * @return String this.categorie.getNom
+	 */
 	public String getNomCategorie() {
 		return this.categorie.getNom();
 	}
+	
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 

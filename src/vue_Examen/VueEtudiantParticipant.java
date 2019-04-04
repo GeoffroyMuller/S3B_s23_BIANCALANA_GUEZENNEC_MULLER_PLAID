@@ -21,6 +21,11 @@ public class VueEtudiantParticipant extends JPanel{
 	private Examen examen;
 	private String column[]={"Nom","Prenom","Groupe","Prise en compte"};  
 	private HashMap<Etudiant, String> listetudiants;
+	
+	/**
+	 * Constructeur
+	 * @param examenp
+	 */
 	public VueEtudiantParticipant(Examen examenp) {
 		setLayout( new BorderLayout());
 		String data[][]=new String[7][4];      
@@ -32,6 +37,11 @@ public class VueEtudiantParticipant extends JPanel{
 		jpindice.add(new JLabel("Nombre de participants : 0"));
 		this.add(jpindice,BorderLayout.NORTH);
 	}
+	
+	/**
+	 * Ajoute une liste d'etudiant
+	 * @param listetudiantsp liste d'etudiant a ajouter
+	 */
 	public void ajouterListes(HashMap<Etudiant, String> listetudiantsp) {
 		this.removeAll();
 		listetudiants = listetudiantsp;
@@ -62,6 +72,10 @@ public class VueEtudiantParticipant extends JPanel{
 		this.setPreferredSize(new Dimension(w, h));
 		sp.setPreferredSize(new Dimension(w, h));
 	}
+	
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	}

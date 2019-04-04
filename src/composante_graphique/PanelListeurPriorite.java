@@ -21,6 +21,12 @@ public class PanelListeurPriorite extends JPanel{
 	private JLabel jl;
 	private JComboBox<String> jcbox;
 	private JButton jb_supp;
+	/**
+	 * Constructeur
+	 * @param idp
+	 * @param lsp
+	 * @param examp
+	 */
 	public PanelListeurPriorite(int idp, ListeurSalle lsp,Examen examp) {
 		examen = examp;
 		id = idp;
@@ -46,6 +52,9 @@ public class PanelListeurPriorite extends JPanel{
 		
 	}
 	
+	/**
+	 * Creer une Combobox contenant les Salles de la BDD
+	 */
 	public void creerComboSalle() {
 		try {
 			ArrayList<Salle> salles = Salle.listSalle();
@@ -71,18 +80,34 @@ public class PanelListeurPriorite extends JPanel{
 
 	}
 	
+	/**
+	 * Getter Salle
+	 * @return Salle
+	 */
 	public Salle getSalle() {
 		return Salle.findByNom((String)jcbox.getSelectedItem());
 	}
 	
+	/**
+	 * Getter TextJCombo
+	 * @return String
+	 */
 	public String getTextJCombo() {
 		return (String)jcbox.getSelectedItem();
 	}
 	
+	/**
+	 * Getter Id
+	 * @return int 
+	 */
 	public int getId() {
 		return id;
 	}
 	
+	/**
+	 * Setter Id
+	 * @param id int 
+	 */
 	public void setId(int id) {
 		this.id = id;
 		this.jl.setText(""+id);
