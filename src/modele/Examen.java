@@ -67,7 +67,7 @@ public class Examen extends Observable{
 		this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
 		this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
 		this.salles = new ArrayList<Salle>();
-		this.pas = 2;
+		this.pas = 0;
 		this.fini = false;
 	}
 
@@ -76,15 +76,8 @@ public class Examen extends Observable{
 	 * @param salle
 	 */
 	public void ajouterSalle(modele.BDD.Salle salle){
-        System.out.println("Ajout SALLE");
 		this.salles.add(salle);
 		this.placement.put(salle,new HashMap<Place, Etudiant>());
-		System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
-
-		for(Salle salleD :salles){
-            System.out.println("SALLE tous : "+salleD.getNom());
-        }
-
 		setChanged();
 		notifyObservers();
     }
@@ -94,8 +87,6 @@ public class Examen extends Observable{
      * @param salle
      */
     public void retirerSalle(Salle salle){
-        //this.placement.remove(salle);
-        System.out.println("Suppr Salle");
         //Supression dans le placement
         HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>> copiePlacement = new HashMap<>(this.placement);
 
@@ -105,7 +96,6 @@ public class Examen extends Observable{
                 this.placement.put(salleKey,copiePlacement.get(salleKey));
             }
         }
-        System.out.println("La premiere salle est maintenant : "+this.salles.get(0).getNom());
         this.salles.remove(salle);
     }
 
@@ -160,7 +150,6 @@ public class Examen extends Observable{
         for (Etudiant etudiant: etudiants) {
             this.etudiants.remove(etudiant);
         }
-        System.out.println("Nombre d'étudiant : "+etudiants.size());
 
 
     }
@@ -173,7 +162,6 @@ public class Examen extends Observable{
 
         ArrayList<Etudiant> etudiants = groupe.getListeEtudiants();
         this.enleverDesEtudiantsDeExamen(etudiants);
-        System.out.println("Nombre d'étudiant : "+etudiants.size());
         setChanged();
 		notifyObservers(VueExamen.VUE_ETU);
 	}
@@ -183,7 +171,6 @@ public class Examen extends Observable{
 	 * @param groupe
 	 */
 	public void ajouterGroupe(Groupe groupe){
-        System.out.println("AJOUT GROUPE");
 
 		ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
 		try {
@@ -196,7 +183,6 @@ public class Examen extends Observable{
 		for(modele.BDD.Etudiant etu : etudiants){
 			this.etudiants.put(etu,groupe.getNom());
 		}
-        System.out.println("Nombre d'étudiant : "+etudiants.size());
 
         setChanged();
 		notifyObservers(VueExamen.VUE_ETU);
@@ -228,7 +214,7 @@ public class Examen extends Observable{
                     placerEleve();
                     resultat = this.verifierSolution();
                     nbTentative++;
-                    if(nbTentative== 20000){
+                    if(nbTentative == 30000){
                         margeErreur++;
                         nbTentative = 0;
                     }
@@ -257,7 +243,6 @@ public class Examen extends Observable{
         }else{
             //On Compte le nombre de place disponible dans toutes les salles
             for (Salle salle: this.salles) {
-                System.out.println("Salle dans la verif : "+salle.getNom());
                 nombreDePlacesTotales+=salle.compterLeNombreDePlaceDisponible();
             }
 
@@ -265,22 +250,20 @@ public class Examen extends Observable{
 
             //On prend en compte le pas
 
-            /*int iteNombreDePLaceLaisse=0;
-            for(int i = 0; i < nombreDePlacesTotales; i++){
-                if(iteNombreDePLaceLaisse!=pas){
-                    nombreDePlacesTotales--;
-                }else{
-                    iteNombreDePLaceLaisse=0;
-                }
-            }*/
 
             int nbPlace=1;
 
-            for(int i = 1; i < nombreDePlacesTotales;i++){
-                if(i%this.pas == 0){
-                    nbPlace++;
+            try{
+                for(int i = 1; i < nombreDePlacesTotales;i++){
+                    if(i%this.pas == 0){
+                        nbPlace++;
+                    }
                 }
+            }catch(ArithmeticException e){
+                nbPlace=nombreDePlacesTotales;
+
             }
+
 
             System.out.println("Verification du nombre de place : \n Pas = "+pas+"\nNombre de place totales = "+test+"\n Resultat = "+nbPlace);
             //On compare
@@ -562,15 +545,9 @@ public class Examen extends Observable{
             return false;
         }
 
-        if(!this.groupeSepare){
-            res=false;
-        }else{
-            if(this.etudiants.get(etudiantAPlacer).equals(this.etudiants.get(etudiantPlacer))){
-                return true;
+        if(this.etudiants.get(etudiantAPlacer).equals(this.etudiants.get(etudiantPlacer))){
+                res=true;
             }
-        }
-
-
 
         return res;
     }
@@ -750,7 +727,11 @@ public class Examen extends Observable{
 	}
 
 	public void setPas(int pas) {
-		this.pas = pas+1;
+        if(pas == 0){
+            this.pas=0;
+        }else{
+            this.pas = pas+1;
+        }
 	}
 	
 	
@@ -799,7 +780,6 @@ public class Examen extends Observable{
                 placement.get(ifeB.getSalle()).put(ifeB.getPlace(),etuA);
                 placement.get(ifeA.getSalle()).put(ifeA.getPlace(),etuB);
             }
-            verificationNonDoublons();
         }catch(NullPointerException e){
             JOptionPane jop = new JOptionPane();
             jop.showMessageDialog(null,"L'échange n'a pu être effectué. \n Veuillez vérifier que les places sélectionné sont attribuer à des étudiants.","Erreur",JOptionPane.ERROR_MESSAGE);
@@ -807,15 +787,7 @@ public class Examen extends Observable{
 
     }
 
-    public void verificationNonDoublons(){
-        System.out.println("AFFICHAGE DES ETUDIANTS DEBUG");
-        for(Salle salle : placement.keySet()){
-            System.out.println("___Salle___"+salle.getNom()+"___");
-            for(Place place : placement.get(salle).keySet()){
-                System.out.println(placement.get(salle).get(place).getNom()+"-"+placement.get(salle).get(place).getPrenom());
-            }
-        }
-    }
+
 
 
     /**

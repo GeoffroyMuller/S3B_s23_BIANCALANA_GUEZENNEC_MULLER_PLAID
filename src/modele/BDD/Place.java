@@ -366,28 +366,33 @@ public class Place extends Observable {
 	 * @return the array list
 	 * @throws SQLException the SQL exception
 	 */
-	public static ArrayList<Place> findByIdSalle(int id) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM Place WHERE IDSalle ='"+id+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static ArrayList<Place> findByIdSalle(int id){
 		ArrayList<Place> res = new ArrayList<Place>();
-		while (rs.next()) {
+		try{
+			Connection connect=DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM Place WHERE IDSalle ='"+id+"';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
 
-			int resId = rs.getInt("idPlace");
-			String resNom = rs.getString("nom");
-			int resIdTypePlace = rs.getInt("idTypePlace");
-			int resIdSalle = rs.getInt("idSalle");
-			int resI= rs.getInt("i");
-			int resJ = rs.getInt("j");
-			int resDisponnible = rs.getInt("disponnible");
-			String resColonne = rs.getString("NomColonne");
-			String resRangee = rs.getString("NomRangee");
-			res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, resId,resColonne,resRangee));
+			while (rs.next()) {
+
+				int resId = rs.getInt("idPlace");
+				String resNom = rs.getString("nom");
+				int resIdTypePlace = rs.getInt("idTypePlace");
+				int resIdSalle = rs.getInt("idSalle");
+				int resI= rs.getInt("i");
+				int resJ = rs.getInt("j");
+				int resDisponnible = rs.getInt("disponnible");
+				String resColonne = rs.getString("NomColonne");
+				String resRangee = rs.getString("NomRangee");
+				res.add(new Place(resNom, resIdTypePlace, resIdSalle, resI, resJ, resDisponnible, resId,resColonne,resRangee));
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
 		}
+
 		return res;
 	}
 
@@ -544,13 +549,11 @@ public boolean verifiersiPlaceCassee(){
 	public static Place[][] tableauPlace(int idsalle) throws SQLException{
 
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
-		System.out.println("Je get un tableau place "+idsalle);
 		Salle salle = Salle.findById(idsalle);
 		int imax = salle.getNbCaseHauteur();
 		int jmax = salle.getNbCaseLargeur();
 		Place res[][] = new Place[imax][jmax];
-		System.out.println("IMAX : "+imax);
-		System.out.println("JMAX : "+jmax);
+
 
 		int coordI,coordJ;
 		for(int i=0; i<temp.size(); i++) {

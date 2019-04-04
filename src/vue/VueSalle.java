@@ -117,7 +117,6 @@ public class VueSalle extends JPanel implements Observer {
 						VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
 						String nomSalle = listeDesSalles.getSelectedValue().getNom();
 						Salle salleSelectionneR = Salle.findByNom(nomSalle);
-						System.out.println("Nom de la salle selec : "+nomSalle);
 						salle.changerSalle(salleSelectionneR);
 					//}catch(NullPointerException exception){
 					//}
@@ -478,12 +477,12 @@ public class VueSalle extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.salle = (Salle)o;
+		VueSalle.salle = (Salle)o;
 		int oldValueScrollBarH = this.visualisationSalle.getHorizontalScrollBar().getValue();
 		int oldValueScrollBarV = this.visualisationSalle.getVerticalScrollBar().getValue();
 
 		if(partieAUpdate == VueSalle.UPDATE_SALLE || partieAUpdate == VueSalle.MODIFICATION_SALLE_TOTAL){
-			Salle salle = new Salle(this.salle);
+			Salle salle = new Salle(VueSalle.salle);
 			int indexElem = this.dlm.indexOf(salle);
 			this.dlm.insertElementAt(salle,indexElem);
 			listeDesSalles.setSelectedIndex(this.dlm.indexOf(salle));
@@ -494,9 +493,9 @@ public class VueSalle extends JPanel implements Observer {
 		}
 
 		if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL
-				|| partieAUpdate == VueSalle.UPDATE_CREATION_SALLE || partieAUpdate == VueSalle.MODIFICATION_SALLE_TOTAL) {
+				|| partieAUpdate == VueSalle.UPDATE_CREATION_SALLE) {
 
-			this.salleConstruite = this.construireSalle(this.salle);
+			this.salleConstruite = this.construireSalle(VueSalle.salle);
 			this.visualisationSalle.setViewportView(this.salleConstruite);
 			this.visualisationSalle.getHorizontalScrollBar().setValue(oldValueScrollBarH);
 			this.visualisationSalle.getVerticalScrollBar().setValue(oldValueScrollBarV);

@@ -72,6 +72,8 @@ public class ControleurExamen {
 		checkboxc.setState(true);
 		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
 
+
+
 		//dev
 		chsalle = new JButton("Choisir Salle 1 (test)");
 		chsalle.addActionListener(new ActionListener() {

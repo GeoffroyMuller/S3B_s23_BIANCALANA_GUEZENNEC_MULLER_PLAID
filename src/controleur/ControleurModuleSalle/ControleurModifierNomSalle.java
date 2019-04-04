@@ -28,7 +28,6 @@ public class ControleurModifierNomSalle extends JButton implements ActionListene
         CreationSalleDialogInfos infos = dialogBox.afficherDialog();
         JOptionPane jop = new JOptionPane();
         jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
-        System.out.println("Information de la dialog : "+infos.getHauteur()+" - "+infos.getLargeur());
         VueSalle.salle.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur(),false);
 
     }

@@ -91,19 +91,8 @@ public class CreationSalleDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                    if(modif){
-                        if(!(VueSalle.salle.getNom().equals(nomSalle.getText())) && ((VueSalle.salle.getNbCaseHauteur() != (Integer)hauteurSalle.getValue()) || (VueSalle.salle.getNbCaseLargeur() != (Integer)largeurSalle.getValue()))){
-                            JOptionPane jop = new JOptionPane();
-                            jop.showMessageDialog(null,"Il n'est pas possible de modifier deux informations en même temps. \n Veuillez choisir entre le nom ou les dimensions","Erreur",JOptionPane.INFORMATION_MESSAGE);
-                        }else{
-                            dialogInfo = new CreationSalleDialogInfos(nomSalle.getText(),(Integer)hauteurSalle.getValue(),(Integer)largeurSalle.getValue());
-                            setVisible(false);
-                        }
-                    }else {
-
                         dialogInfo = new CreationSalleDialogInfos(nomSalle.getText(), (Integer) hauteurSalle.getValue(), (Integer) largeurSalle.getValue());
                         setVisible(false);
-                    }
 
             }
         });
