@@ -1,46 +1,47 @@
 package composante_graphique;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-
-import org.apache.poi.util.SystemOutLogger;
-
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
-import modele.BDD.Salle;
-//import sun.net.www.content.image.jpeg;
 
+/**
+ * Composante graphique permettant d'ajouter/retirer des priorites (PanelListeurPriorite)
+ * Les Priorites de type PanelListeurPriorite la compose
+ * @author Geoff
+ *
+ */
 public class ListeurSalle extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static Color color = new Color(236, 241, 245);
 	private static Color color2 = new Color(40, 73, 92);
 
-	private ControleurExamen ctrlexam;
 	private ArrayList<PanelListeurPriorite> listprioritie = new ArrayList<PanelListeurPriorite>();
 
 	private ControleurExamen controleur_Exam;
 	private JScrollPane scrollpane;
 	private JPanel jp_all;
 	private GridBagConstraints gbc = new GridBagConstraints();
-	private ArrayList<Salle> prioriteSalle;
 	private Examen examen;
-	private JPanel jptestcomb = new JPanel();
 
+	/**
+	 * Constructeur
+	 * @param ctrlexamp
+	 * @param examenp
+	 * @throws SQLException
+	 */
 	public ListeurSalle(ControleurExamen ctrlexamp,Examen examenp) throws SQLException {
-		ctrlexam = ctrlexamp;
 		this.setBackground(color);
 		examen = examenp;
 		controleur_Exam = ctrlexamp;
@@ -58,19 +59,32 @@ public class ListeurSalle extends JPanel{
 
 
 	}
+	
+	/**
+	 * Ajoute une Priorite
+	 */
 	public void ajouterPriorite() {
 		listprioritie.add(new PanelListeurPriorite(listprioritie.size(),this,examen));
 	}
+	
+	/**
+	 * Ajoute les Salles (contenue dans le listeurSalle) a l'examen
+	 */
 	public void ajouterSalles() {
-		 examen.reinitiliserLesSalles();
+		examen.reinitiliserLesSalles();
 		for(PanelListeurPriorite plp : listprioritie) {
-			
+
 			if(plp.getTextJCombo().equals("Choisir une salle")) {
 			}else {
 				examen.ajouterSalle(plp.getSalle());
 			}
 		}
 	}
+	
+	/**
+	 * Supprime une Priorite par son id
+	 * @param idp : id de la Priorite a supprimer
+	 */
 	public void supprimerPriorite(int idp) {
 		try {
 
@@ -84,6 +98,10 @@ public class ListeurSalle extends JPanel{
 			listprioritie.get(i).setId(i);
 		}
 	}
+	
+	/**
+	 * Creer la zone du listeur de salle contenant les Priorites
+	 */
 	public void creerZonePriorite() {
 		jp_all.removeAll();
 		GridBagConstraints gbcp = new GridBagConstraints();
@@ -119,13 +137,21 @@ public class ListeurSalle extends JPanel{
 		this.add(scrollpane, gbc);
 
 	}
-	
+
+	/**
+	 * Recharge a zero le listeur 
+	 */
 	public void recharger() {
 		examen.reinitiliserLesSalles();
 		listprioritie.removeAll(listprioritie);
 		ajouterPriorite();
 		creerZonePriorite(); 
 	}
+	
+	/**
+	 * Getter ListeTextSalle
+	 * @return ArrayList<String> listtextpriorite 
+	 */
 	public ArrayList<String> getListeTextSalle() {
 		int compte = 0;
 		ArrayList<String> listtextpriorite = new ArrayList<>();
@@ -136,6 +162,12 @@ public class ListeurSalle extends JPanel{
 		}
 		return listtextpriorite;
 	}
+	
+	/**
+	 * Getter de PanelListeurPriorite contenu dans listprioritie par id 
+	 * @param idp du PanelListeurPriorite souhaiter
+	 * @return PanelListeurPriorite contenu dans listprioritie
+	 */
 	public PanelListeurPriorite getpanelByID(int idp) {
 		for(PanelListeurPriorite plp : listprioritie) {
 			if(plp.getId()==idp) {
@@ -145,10 +177,14 @@ public class ListeurSalle extends JPanel{
 		return null;
 	}
 
-
+	/**
+	 * Getter listprioritie
+	 * @return ArrayList<PanelListeurPriorite> listprioritie
+	 */
 	public ArrayList<PanelListeurPriorite> getListprioritie() {
 		return listprioritie;
 	}
+	
 	/**
 	 * Definie et adapte la taille General
 	 */
@@ -156,6 +192,10 @@ public class ListeurSalle extends JPanel{
 		scrollpane.setPreferredSize(new Dimension(w, h));
 
 	}
+	
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	}

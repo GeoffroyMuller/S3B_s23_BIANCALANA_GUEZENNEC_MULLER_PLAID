@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -20,7 +19,13 @@ import javax.swing.ScrollPaneConstants;
 import controleur_Examen.ControleurExamen;
 import modele.BDD.Categorie;
 
-
+/**
+ * Composante graphique permettant de lister les catégories
+ * et d'accéder à leurs groupes via des menus deroulant.
+ * les PanelListeurCategorie("menu deroulant") compose le listeur de categorie.
+ * @author Geoff
+ *
+ */
 public class ListeurCategorie extends JPanel{
 	/**
 	 * 
@@ -35,6 +40,11 @@ public class ListeurCategorie extends JPanel{
 	public static HashMap<String, Boolean> map_Save = new HashMap<String, Boolean>();
 	private GridBagConstraints gbc = new GridBagConstraints();
 
+	/**
+	 * Constructeur
+	 * @param listep : liste des categories à lister
+	 * @param ctrlexamp : controleur d'examen permet d'acceder à divers listener
+	 */
 	public ListeurCategorie(ArrayList<Categorie> listep, ControleurExamen ctrlexamp) {
 		
 		controleur_Exam = ctrlexamp;
@@ -64,6 +74,9 @@ public class ListeurCategorie extends JPanel{
 		this.add(scrollpane, gbc);
 	}
 
+	/**
+	 * Permet de generer les PanelListeurCategorie qui compose le listeur de categorie 
+	 */
 	private void genererPanelCategorie(){
 		liste_panelListeur.clear();
 		pl_courant = new PanelListeurCategorie();
@@ -73,10 +86,9 @@ public class ListeurCategorie extends JPanel{
 		}
 	}
 
-	public void setListecategorie(ArrayList<Categorie> listecategorie) {
-		this.listecategorie = listecategorie;
-	}
-
+	/**
+	 * Permet de creer/assembler le listeur de categorie
+	 */
 	public void creerZoneListeur() {
 		genererPanelCategorie();
 		int i = 0;
@@ -122,6 +134,7 @@ public class ListeurCategorie extends JPanel{
 		}
 		repaint();
 	}
+	
 	/**
 	 * Definie et adapte la taille General
 	 */
@@ -131,12 +144,22 @@ public class ListeurCategorie extends JPanel{
 			plp.definirTaille(w-200, 30);
 		}
 	}
+	
+	/**
+	 * Sauvegarde la position des PanelListeurCategorie
+	 * @param listeurModif
+	 */
 	public static void Sauvegarde(ListeurCategorie listeurModif) {
 		map_Save.clear();
 		for (PanelListeurCategorie pn_save : listeurModif.getListe_panelListeur()) {
 			map_Save.put(pn_save.getNomCategorie(), pn_save.isActiver());
 		}
 	}
+	
+	/**
+	 * Charge la sauvegarde des PanelListeurCategorie
+	 * @param listeurModif
+	 */
 	public static void chargerSauvegarde(ListeurCategorie listeurModif) {
 		for (int i=0; i<listeurModif.getListe_panelListeur().size();i++) {
 			if(map_Save.containsKey(listeurModif.getListe_panelListeur().get(i).getNomCategorie())) {
@@ -149,18 +172,36 @@ public class ListeurCategorie extends JPanel{
 		}
 	}
 	
+	/**
+	 * Color le listeur de categorie
+	 * @param color
+	 */
 	public void colorer(Color color) {
 		this.setBackground(color);
 	}
 
+	/**
+	 * Getter liste_panelListeur
+	 * @return ArrayList<PanelListeurCategorie> liste_panelListeur
+	 */
 	public ArrayList<PanelListeurCategorie> getListe_panelListeur() {
 		return liste_panelListeur;
 	}
-
-	public void paintComponent(Graphics g) {
-		
-		super.paintComponent(g);
-
+	
+	/**
+	 * Setter listecategorie
+	 * @param listecategorie
+	 */
+	public void setListecategorie(ArrayList<Categorie> listecategorie) {
+		this.listecategorie = listecategorie;
 	}
+
+	/**
+	 * paintComponent
+	 */
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
+	
 
 }

@@ -41,7 +41,10 @@ public class ControleurExamen {
 	
 	private String ancienneSelectionJComboBox;
 	
-
+	/**
+	 * Constructeur
+	 * @param examenp
+	 */
 	public ControleurExamen(Examen examenp)  {
 		listeComboSalle = new ArrayList<JComboBox<String>>();
 		new ArrayList<ArrayList<Groupe>>();
@@ -61,14 +64,14 @@ public class ControleurExamen {
 
 		mapBouton_groupe = new HashMap<>();
 		mapBouton_categorie = new HashMap<>();
-		/**
+		/*
 		 * dimensionne les JTextFields 
 		 */
 		jtf_nom.setPreferredSize(new Dimension(150, 25));
 		jtf_matiere.setPreferredSize(new Dimension(150, 25));
 		jtf_date.setPreferredSize(new Dimension(150, 25));
 
-		/**
+		/*
 		 * ajout d'ActionListener sur les JTextFields
 		 */
 		jtf_nom.addActionListener(new ActionListener() {
@@ -118,8 +121,9 @@ public class ControleurExamen {
 				examen.setMatiere(jtf_matiere.getText());
 				examen.setNom(jtf_nom.getText());
 				examen.genererUnPlacement();
+				checkboxc.setEnabled(true);
 				//IMPORTANT ICI LANCER LE DIALOG
-
+				
 				if(examen.isFini()){
 					DialogVerificationPlacement dialog = new DialogVerificationPlacement(null,"Prévisualisation",true,examen);
 					dialog.afficherDialog();
@@ -131,7 +135,11 @@ public class ControleurExamen {
 
 	}
 
-
+	/**
+	 * Creer/associe un bouton pour un Groupe
+	 * @param grp Groupe
+	 * @return JButton 
+	 */
 	public JButton creerBoutton_UnGroupe(Groupe grp) {
 		final Groupe groupe = grp;
 		final JButton jbt = new JButton();
@@ -151,7 +159,12 @@ public class ControleurExamen {
 		
 		return jbt;
 	}
-
+	
+	/**
+	 * Creer/associe un bouton pour une Categorie
+	 * @param categp Categorie
+	 * @return JButton
+	 */
 	public JButton creerBoutton_UneCategorie(Categorie categp) {
 
 		final JButton jbt = new JButton();
@@ -173,7 +186,11 @@ public class ControleurExamen {
 		return jbt;
 	}
 	
-	
+	/**
+	 * Change l'etat du bouton de Groupe et ajoute / retire en fonction de son etat
+	 * @param jbt
+	 * @param grp
+	 */
 	private void changeButtonGroupe(JButton jbt, Groupe grp) {
 		if(jbt.getText().equals("Ajouter")) {
 			jbt.setText("Retirer");
@@ -194,7 +211,11 @@ public class ControleurExamen {
 	
 	
 	
-	
+	/**
+	 * Change l'etat du bouton de Categorie et ajoute / retire en fonction de son etat
+	 * @param jbt
+	 * @param grp
+	 */
 	private void changeButtonGroupeCategorie(Categorie categp, JButton jbt) {
 		Categorie categcourante = mapBouton_categorie.get(jbt);
 		HashMap<JButton, Groupe> mapBoutton_groupe_categorie = new HashMap<>();
@@ -235,6 +256,10 @@ public class ControleurExamen {
 			}
 		}
 	}
+	
+	/**
+	 * Ajoute une Combobox
+	 */
 	public void ajouterComboSalle() {
 
 		try {
@@ -266,31 +291,58 @@ public class ControleurExamen {
 
 	}
 	
+	/**
+	 * Getter
+	 * @return
+	 */
 	public ArrayList<JButton> getListeJBSuppr() {
 		return listeJBSuppr;
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public ArrayList<JComboBox<String>> getListeComboSalle() {
 		return listeComboSalle;
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public JTextField getJtf_nom() {
 		return jtf_nom;
 	}
 
-
+	/**
+	 * Getter
+	 * @return
+	 */
 	public JTextField getJtf_matiere() {
 		return jtf_matiere;
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public JTextField getJtf_Date() {
 		return jtf_date;
 	}
 	
+	/**
+	 * Getter
+	 * @return
+	 */
 	public JButton getJb_creerExam() {
 		return jb_creerExam;
 	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public Checkbox getCheckboxc() {
 		return checkboxc;
 	}
