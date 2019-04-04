@@ -140,6 +140,7 @@ public class Place extends Observable {
 	 */
 	public void setTypePlace(int idTypePlace) {
 		this.idTypePlace = idTypePlace;
+		save();
 	}
 
 
@@ -543,11 +544,10 @@ public boolean verifiersiPlaceCassee(){
 	public static Place[][] tableauPlace(int idsalle) throws SQLException{
 
 		ArrayList<Place> temp = Place.findByIdSalle(idsalle);
-
+		System.out.println("Je get un tableau place "+idsalle);
 		Salle salle = Salle.findById(idsalle);
 		int imax = salle.getNbCaseHauteur();
 		int jmax = salle.getNbCaseLargeur();
-
 		Place res[][] = new Place[imax][jmax];
 		System.out.println("IMAX : "+imax);
 		System.out.println("JMAX : "+jmax);
@@ -585,6 +585,7 @@ public boolean verifiersiPlaceCassee(){
 
 	public void setNomColonne(String nomColonne) {
 		this.nomColonne = nomColonne;
+		save();
 	}
 
 	public String getNomRangee() {
@@ -593,5 +594,6 @@ public boolean verifiersiPlaceCassee(){
 
 	public void setNomRangee(String nomRangee) {
 		this.nomRangee = nomRangee;
+		save();
 	}
 }

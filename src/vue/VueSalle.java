@@ -65,6 +65,7 @@ public class VueSalle extends JPanel implements Observer {
 	public static int UPDATE_SALLE = 4;
 	public static int UPDATE_NOTHING = 0;
 	public static int DELETE_SALLE = 5;
+	public static int MODIFICATION_SALLE_TOTAL = 6;
 
 
 
@@ -112,13 +113,14 @@ public class VueSalle extends JPanel implements Observer {
 			public void valueChanged(ListSelectionEvent e) {
 
 					VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
-					try{
+					//try{
 						VueSalle.salleSelectionne = listeDesSalles.getSelectedValue();
 						String nomSalle = listeDesSalles.getSelectedValue().getNom();
-						Salle salleSelectionne = Salle.findByNom(nomSalle);
-						salle.changerSalle(salleSelectionne);
-					}catch(NullPointerException exception){
-					}
+						Salle salleSelectionneR = Salle.findByNom(nomSalle);
+						System.out.println("Nom de la salle selec : "+nomSalle);
+						salle.changerSalle(salleSelectionneR);
+					//}catch(NullPointerException exception){
+					//}
 
 
 			}
@@ -480,8 +482,19 @@ public class VueSalle extends JPanel implements Observer {
 		int oldValueScrollBarH = this.visualisationSalle.getHorizontalScrollBar().getValue();
 		int oldValueScrollBarV = this.visualisationSalle.getVerticalScrollBar().getValue();
 
+		if(partieAUpdate == VueSalle.UPDATE_SALLE || partieAUpdate == VueSalle.MODIFICATION_SALLE_TOTAL){
+			Salle salle = new Salle(this.salle);
+			int indexElem = this.dlm.indexOf(salle);
+			this.dlm.insertElementAt(salle,indexElem);
+			listeDesSalles.setSelectedIndex(this.dlm.indexOf(salle));
+			this.dlm.removeElementAt(indexElem+1);
+			contenantPartieGauche.revalidate();
+			contenantPartieGauche.repaint();
+			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
+		}
+
 		if(VueSalle.partieAUpdate == VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE || VueSalle.partieAUpdate == VueSalle.UPDATE_ALL
-				|| partieAUpdate == VueSalle.UPDATE_CREATION_SALLE) {
+				|| partieAUpdate == VueSalle.UPDATE_CREATION_SALLE || partieAUpdate == VueSalle.MODIFICATION_SALLE_TOTAL) {
 
 			this.salleConstruite = this.construireSalle(this.salle);
 			this.visualisationSalle.setViewportView(this.salleConstruite);
@@ -502,16 +515,7 @@ public class VueSalle extends JPanel implements Observer {
 			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
 		}
 
-		if(partieAUpdate == VueSalle.UPDATE_SALLE){
-			Salle salle = new Salle(this.salle);
-			int indexElem = this.dlm.indexOf(salle);
-			this.dlm.insertElementAt(salle,indexElem);
-			listeDesSalles.setSelectedIndex(this.dlm.indexOf(salle));
-			this.dlm.removeElementAt(indexElem+1);
-			contenantPartieGauche.revalidate();
-			contenantPartieGauche.repaint();
-			partieAUpdate=VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
-		}
+
 
 		if(partieAUpdate == VueSalle.DELETE_SALLE){
 			Salle salle = new Salle(this.salle);
