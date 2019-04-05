@@ -109,9 +109,8 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
             }
 
-            Calendar calendar = Calendar.getInstance();
-            ExportEtudiant.nomDuDernierFichier = "fichierPourTest/groupe_"+groupe.getNom()+"_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx";
-            FileOutputStream fileOut = new FileOutputStream("fichierPourTest/groupe_"+groupe.getNom()+"_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx");
+            ExportEtudiant.nomDuDernierFichier = "groupe_"+groupe.getNom()+".xlsx";
+            FileOutputStream fileOut = new FileOutputStream("groupe_"+groupe.getNom()+".xlsx");
             wb.write(fileOut);
             fileOut.close();
         } catch (SQLException e) {
@@ -153,7 +152,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
 
         //Création de la premiére ligne
-        Row row = feuillePlacement.createRow((short)6);
+        Row row = feuillePlacement.createRow((short)4);
 
 
 
@@ -165,14 +164,14 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         row = creerCellules(row,valeurs.length,valeurs,cellStyle);
 
         //Ajout des étudiants a la feuille Excel
-        int nbLignePlace = 4;
-        int nbLigneSignature = 4;
+        int nbLignePlace = 5;
+        int nbLigneSignature = 5;
         for(Salle salle : placement.keySet()){
 
             Sheet feuilleSalle = wb.getSheet(ExportEtudiant.nomFeuilleSignature+"_"+salle.getNom());
 
             //Création de l'en tête
-            this.creerEntete(0,3,0,6,examen,feuilleSalle,wb);
+            this.creerEntete(0,3,0,7,examen,feuilleSalle,wb);
 
 
 
@@ -188,8 +187,8 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
                 String groupe = placement.get(salle).get(place).getGroupe();
 
                 //Information place
-                String rang = place.getI()+"";
-                String emplacement = place.getJ()+"";
+                String rang = place.getNomRangee()+"";
+                String emplacement = place.getNomColonne()+"";
 
                 //Ajout de la ligne a la feuille de placement
                 Row ligne = feuillePlacement.createRow(nbLignePlace);
@@ -198,21 +197,21 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
 
                 //Ajout de la ligne à la feuille de signature
                 ligne = feuilleSalle.createRow(nbLigneSignature);
-                ligne = creerCellules(ligne,valeursLigne.length,valeursLigne,cellStyle);
+                ligne = creerCellules(ligne,valeursLigne.length+1,valeursLigne,cellStyle);
 
 
                 id++;
                 nbLignePlace++;
                 nbLigneSignature++;
             }
-            nbLigneSignature = 4;
+            nbLigneSignature = 5;
+            feuilleSalle.autoSizeColumn(7);
         }
 
-        Calendar calendar = Calendar.getInstance();
-        ExportEtudiant.nomDuDernierFichier = "fichierPourTest/placement_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx";
+        ExportEtudiant.nomDuDernierFichier = "placement_examen_"+examen.getNom()+".xlsx";
         FileOutputStream fileOut = null;
         try {
-            fileOut = new FileOutputStream("fichierPourTest/placement_"+calendar.DAY_OF_MONTH+"-"+calendar.MONTH+"-"+calendar.YEAR+".xlsx");
+            fileOut = new FileOutputStream("placement_examen_"+examen.getNom()+".xlsx");
             wb.write(fileOut);
             fileOut.close();
         } catch (IOException e) {
@@ -228,11 +227,13 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
     private void creerEntete(int firstCell,int lastCell,int firstColumn, int lastColumn,Examen examen,Sheet feuille,XSSFWorkbook wb){
         Row ligneEntete = feuille.createRow(0);
         Cell celluleEntete = ligneEntete.createCell(0);
+
         String texteEntete = "Examen -"+examen.getMatiere()+" - "+examen.getDate()+"Groupe(s) participant(s) :";
         for(String nomGroupe : examen.groupeParticipant()){
             texteEntete+=nomGroupe.toUpperCase()+" ";
         }
         celluleEntete.setCellValue(texteEntete);
+
         feuille.addMergedRegion(new CellRangeAddress(firstCell,lastCell,firstColumn,lastColumn));
         XSSFCellStyle cellStyle = wb.createCellStyle();
         Font font = wb.createFont();
@@ -240,6 +241,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
         font.setFontHeightInPoints((short)20);
         cellStyle.setFont(font);
         celluleEntete.setCellStyle(cellStyle);
+        feuille.autoSizeColumn(0,true);
     }
 
     private Row creerCellules(Row row, int nb,String[] valeur,XSSFCellStyle cellStyle){

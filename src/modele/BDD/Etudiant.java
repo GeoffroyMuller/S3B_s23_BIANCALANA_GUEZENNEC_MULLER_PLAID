@@ -14,30 +14,30 @@ import java.util.Observable;
 import java.util.Observer;
 
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Etudiant.
+ * La Class Etudiant.
  */
 public class Etudiant implements Comparable<Etudiant>  {
 
-	/** The nom. */
+	/** le nom. */
 	private String nom;
-	
-	/** The prenom. */
+
+
+	/** le prenom. */
 	private String prenom;
 	
-	/** The email. */
+	/** l' email. */
 	private String email;
 	
-	/** The id etu. */
+	/** l' id etu. */
 	private int idEtu;
 
 
 	/**
-	 * Instantiates a new etudiant.
+	 * Instantiates le nouveau etudiant.
 	 *
-	 * @param nom the nom
-	 * @param prenom the prenom
+	 * @param nom le nom
+	 * @param prenom le prenom
 	 */
 	public Etudiant(String nom, String prenom) {
 		this.idEtu=-1;
@@ -48,9 +48,9 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Gets the nom.
+	 * Gets le nom.
 	 *
-	 * @return the nom
+	 * @return le nom
 	 */
 	public String getNom() {
 		return nom;
@@ -58,9 +58,9 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Gets the prenom.
+	 * Gets le prenom.
 	 *
-	 * @return the prenom
+	 * @return le prenom
 	 */
 	public String getPrenom() {
 		return prenom;
@@ -68,9 +68,9 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Gets the email.
+	 * Gets l'email.
 	 *
-	 * @return the email
+	 * @return l' email
 	 */
 	public String getEmail() {
 		return email;
@@ -78,17 +78,18 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Gets the id etu.
+	 * Gets le id etu.
 	 *
-	 * @return the idEtu
+	 * @return le idEtu
 	 */
 	public int getIdEtu() {
 		return idEtu;
 	}
 
 	/**
-	 * Méthode permettant de récupérer le groupe d'un étudiant
-	 * @return
+	 * Méthode permettant de récupérer le groupe d'un étudiant.
+	 *
+	 * @return le groupe
 	 */
 	public String getGroupe(){
 		String res="NON DEFINI";
@@ -118,11 +119,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 	}
 
 	/**
-	 * Instantiates a new etudiant.
+	 * Instantiates un nouveau etudiant.
 	 *
-	 * @param nom the nom
-	 * @param prenom the prenom
-	 * @param idEtu the id etu
+	 * @param nom le nom
+	 * @param prenom le prenom
+	 * @param idEtu l'id etu
 	 */
 	public Etudiant(String nom, String prenom, int idEtu) {
 		this.prenom=prenom;
@@ -131,6 +132,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 		
 	}
 
+	/**
+	 * Gets la particularites.
+	 *
+	 * @return la particularites
+	 */
 	public ArrayList<Particularite> getParticularites(){
 		ArrayList<Particularite> res = new ArrayList<Particularite>();
 		try {
@@ -143,7 +149,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Creates the table.
+	 * Creates la table.
 	 */
 	public static void createTable(){
 		try {
@@ -180,27 +186,159 @@ public class Etudiant implements Comparable<Etudiant>  {
 		}
 	}
 
+	/**
+	 * Recuperer les groupes.
+	 *
+	 * @return une array list
+	 */
+	public ArrayList<Groupe> recupererGroupes(){
+		ArrayList<Groupe> res = new ArrayList<Groupe>();
+		try{
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement requete = connect.prepareStatement("SELECT * FROM GROUPE INNER JOIN ETUDIANTGROUPE ON GROUPE.IdGroupe = ETUDIANTGROUPE.IdGroupe INNER JOIN ETUDIANT ON ETUDIANT.IdEtu = ETUDIANTGROUPE.IdEtu WHERE ETUDIANT.IdEtu="+this.idEtu+";");
+
+			requete.execute();
+			ResultSet rs = requete.getResultSet();
+			while(rs.next()){
+				res.add(new Groupe(rs.getString("nom"),rs.getInt("IdGroupe")));
+			}
+		}catch(SQLException e){
+
+		}
+
+		return res;
+	}
+
+	/**
+	 * Recuperer tout les nom de groupe.
+	 *
+	 * @return le string
+	 */
+	public String recupererToutLesNomDeGroupe(){
+		String resultat="";
+		ArrayList<Groupe> groupe = this.recupererGroupes();
+
+		for(int i=0; i < groupe.size();i++){
+			resultat+=groupe.get(i).getNom();
+			if(!(i == groupe.size()-1)){
+				resultat+=", ";
+			}
+		}
+		return resultat;
+	}
+
+	/**
+	 * Sets le nom.
+	 *
+	 * @param nom le new nom
+	 */
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	/**
+	 * Sets le prenom.
+	 *
+	 * @param prenom le new prenom
+	 */
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+
+
+	/**
+	 * Enlever la particularite.
+	 *
+	 * @param particularite particularite
+	 */
+	public void enleverParticularite(Particularite particularite){
+		ParticulariteEtudiant.delete(particularite.getIdParticularite(),this.getIdEtu());
+	}
+
+
+	/**
+	 * Rechercher etudiant.
+	 *
+	 * @param nom le nom
+	 * @param prenom le prenom
+	 * @return une array list etudiant
+	 */
+	public static ArrayList<Etudiant> rechercherEtudiant(String nom, String prenom){
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
+		try{
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement requete = null;
+			if(null==nom){
+				requete = connect.prepareStatement("SELECT * FROM ETUDIANT WHERE ETUDIANT.prenom='"+prenom+"';");
+			}else if(null==prenom){
+				requete = connect.prepareStatement("SELECT * FROM ETUDIANT WHERE ETUDIANT.nom='"+nom+"';");
+
+			}else{
+				requete = connect.prepareStatement("SELECT * FROM ETUDIANT WHERE ETUDIANT.nom='"+nom+"' AND ETUDIANT.prenom='"+prenom+"';");
+			}
+
+			requete.execute();
+			ResultSet rs = requete.getResultSet();
+			while(rs.next()){
+				res.add(new Etudiant(rs.getString("nom"),rs.getString("prenom"),rs.getInt("IdEtu")));
+			}
+		}catch(SQLException e){
+
+		}
+
+		return res;
+	}
+
+	/**
+	 * Rechercher tout les etudiants.
+	 *
+	 * @return le array list etudiant
+	 */
+	public static ArrayList<Etudiant> rechercherToutLesEtudiants(){
+		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
+		try{
+			Connection connect=DBConnection.getConnection();
+			PreparedStatement requete = requete = connect.prepareStatement("SELECT * FROM ETUDIANT;");
+
+			requete.execute();
+			ResultSet rs = requete.getResultSet();
+			while(rs.next()){
+				res.add(new Etudiant(rs.getString("nom"),rs.getString("prenom"),rs.getInt("IdEtu")));
+			}
+		}catch(SQLException e){
+
+		}
+
+		return res;
+	}
 
 	/**
 	 * Find by id.
 	 *
-	 * @param id the id
-	 * @return the etudiant
-	 * @throws SQLException the SQL exception
+	 * @param id l' id
+	 * @return l' etudiant
 	 */
-	public static Etudiant findById(int id) throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM ETUDIANT WHERE IDETU ='"+id+"';";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static Etudiant findById(int id) {
 		Etudiant res = null;
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			String resPrenom = rs.getString("prenom");
-			res = new Etudiant(resNom, resPrenom, id);
+
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM ETUDIANT WHERE IDETU ='" + id + "';";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				String resPrenom = rs.getString("prenom");
+				res = new Etudiant(resNom, resPrenom, id);
+			}
+		}catch(SQLException e){
+			/*
+			TO DO
+			 */
 		}
 		return res;
 	}
@@ -208,23 +346,29 @@ public class Etudiant implements Comparable<Etudiant>  {
 	/**
 	 * List etudiant.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @return le array list etudiants
 	 */
-	public static ArrayList<Etudiant> listEtudiant() throws SQLException {
-		Connection connect=DBConnection.getConnection();
-		String SQLPrep = "SELECT * FROM ETUDIANT;";
-		PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
-		prep1.execute();
-		ResultSet rs = prep1.getResultSet();
-		// s'il y a un resultat
-
+	public static ArrayList<Etudiant> listEtudiant() {
 		ArrayList<Etudiant> res = new ArrayList<Etudiant>();
-		while (rs.next()) {
-			String resNom = rs.getString("nom");
-			String resPrenom = rs.getString("prenom");
-			int resId = rs.getInt("idEtu");
-			res.add(new Etudiant(resNom, resPrenom, resId));
+
+		try {
+			Connection connect = DBConnection.getConnection();
+			String SQLPrep = "SELECT * FROM ETUDIANT;";
+			PreparedStatement prep1 = connect.prepareStatement(SQLPrep);
+			prep1.execute();
+			ResultSet rs = prep1.getResultSet();
+			// s'il y a un resultat
+
+			while (rs.next()) {
+				String resNom = rs.getString("nom");
+				String resPrenom = rs.getString("prenom");
+				int resId = rs.getInt("idEtu");
+				res.add(new Etudiant(resNom, resPrenom, resId));
+			}
+		}catch(SQLException e){
+			/*
+			TO DO
+			 */
 		}
 		return res;
 	}
@@ -252,9 +396,11 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 		//save ou update de l'etudiant
 		if(this.idEtu==-1) {
+			System.out.println("Etudiant nouvelle save");
 			this.saveNew();
 		}
 		else {
+			System.out.println("Etudiant UPDATE");
 			this.update();
 		}
 	}
@@ -288,6 +434,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 	 * Update.
 	 */
 	private void update() {
+		System.out.println(this.getNom());
 		try {
 			Connection connect=DBConnection.getConnection();
 			String SQLPrep0 = "UPDATE Etudiant " + 
@@ -303,8 +450,9 @@ public class Etudiant implements Comparable<Etudiant>  {
 
 
 	/**
-	 * Méthode indiquant si un Etudiant doit être pris en compte
-	 * @return
+	 * Méthode indiquant si un Etudiant doit être pris en compte.
+	 *
+	 * @return true, if successful
 	 */
 	public boolean verifierPriseEnCompte(){
 		boolean res = true;
@@ -325,9 +473,10 @@ public class Etudiant implements Comparable<Etudiant>  {
 	}
 
 	/**
-	 * Compare les étudiant en fonction de leurs particularités
-	 * @param o
-	 * @return
+	 * Compare les étudiant en fonction de leurs particularités.
+	 *
+	 * @param o le o
+	 * @return le int
 	 */
 	@Override
 	public int compareTo(Etudiant o) {
@@ -350,14 +499,42 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return 1;
 	}
 	
+	/**
+	 * Ajouter particularite.
+	 *
+	 * @param listParticularite le list particularite
+	 */
 	public void ajouterParticularite(ArrayList<Particularite> listParticularite) {
+
+		ArrayList<Particularite> particularitesEtudiant = this.getParticularites();
+
 		for (int i = 0; i < listParticularite.size(); i++) {
-			if(listParticularite.get(i).getIdParticularite()!=-1) {
+			Particularite particularite = listParticularite.get(i);
+			if(particularite.getIdParticularite()!=-1 && !verifierSiParticularitePossede(particularite)) {
 				ParticulariteEtudiant.ajouterParticulariteAUnEtudiant(listParticularite.get(i).getIdParticularite(), this.idEtu);
 			}
 		}
 	}
 
+	/**
+	 * Verifier si particularite possede.
+	 *
+	 * @param particularite le particularite
+	 * @return true, if successful
+	 */
+	public boolean verifierSiParticularitePossede(Particularite particularite){
+		boolean res=false;
+		ArrayList<Particularite> particularites = this.getParticularites();
+		for(Particularite part : particularites){
+			if(particularite.getNom().equals(part.getNom())){
+				res=true;
+				break;
+			}
+		}
+		return res;
+	}
+
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -366,6 +543,7 @@ public class Etudiant implements Comparable<Etudiant>  {
 		return idEtu == etudiant.idEtu;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idEtu);

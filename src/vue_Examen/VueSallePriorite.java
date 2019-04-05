@@ -21,23 +21,31 @@ import javax.swing.ScrollPaneConstants;
 import composante_graphique.ListeurCategorie;
 import composante_graphique.ListeurSalle;
 import composante_graphique.PanelListeurCategorie;
+import composante_graphique.PanelListeurPriorite;
 import controleur_Examen.ControleurExamen;
 import modele.Examen;
 import modele.BDD.Categorie;
 
 public class VueSallePriorite extends JPanel{
 	private static Color color = new Color(236, 241, 245);
-	private ControleurExamen ctrlexam;
+	public static ControleurExamen ctrlexam;
 	private JLabel label = new JLabel("Salle Priorité");
 	private ListeurSalle listeur;
 	private ControleurExamen controleur_Exam;
 	private JPanel jp_all;
 	private GridBagConstraints gbc = new GridBagConstraints();
+	private Examen examen;
 	
-	public VueSallePriorite(ControleurExamen ctrlexamp) {
+	/**
+	 * Constructeur
+	 * @param ctrlexamp
+	 * @param examp
+	 */
+	public VueSallePriorite(ControleurExamen ctrlexamp,Examen examp) {
 		ctrlexam = ctrlexamp;
+		examen = examp;
 		try {
-			listeur = new ListeurSalle(ctrlexamp);
+			listeur = new ListeurSalle(ctrlexamp, examen);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Erreur:: probleme de recuperation des salles dans la base de données");
@@ -74,7 +82,7 @@ public class VueSallePriorite extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				System.out.println("Ajouter Salle");
-				ctrlexamp.ajouterComboSalle();
+				listeur.ajouterPriorite();
 				listeur.creerZonePriorite();
 			}
 		});
@@ -92,21 +100,30 @@ public class VueSallePriorite extends JPanel{
 		
 
 	}
+	/**
+	 * Recharge le listeur
+	 */
+	public void rechargeListeur() {
+		listeur.recharger();
+		
+	}
 	
-	
-	
+	/**
+	 * Color
+	 * @param color_
+	 */
 	public static void setColor_(Color color_) {
-		VueSallePriorite.color = color;
+		VueSallePriorite.color = color_;
 	}
 
 
-
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		this.setBackground(color);
 		listeur.definirTaille(this.getWidth(), this.getHeight());
-		//setVisible(false);
-		//setVisible(true);
 	}
 
 

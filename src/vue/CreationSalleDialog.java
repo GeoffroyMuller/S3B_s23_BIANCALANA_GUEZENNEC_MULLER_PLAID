@@ -15,10 +15,11 @@ public class CreationSalleDialog extends JDialog {
     private JTextField nomSalle;
     private JSpinner hauteurSalle,largeurSalle;
     private JButton valider,annuler;
+    private boolean modif;
 
     public CreationSalleDialog(JFrame parent, String title, boolean modal,boolean modification,Salle salle){
         super(parent,title,modal);
-
+        modif = modification;
         this.setSize(new Dimension(550,270));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
@@ -89,8 +90,10 @@ public class CreationSalleDialog extends JDialog {
         this.valider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dialogInfo = new CreationSalleDialogInfos(nomSalle.getText(),(Integer)hauteurSalle.getValue(),(Integer)largeurSalle.getValue());
-                setVisible(false);
+
+                        dialogInfo = new CreationSalleDialogInfos(nomSalle.getText(), (Integer) hauteurSalle.getValue(), (Integer) largeurSalle.getValue());
+                        setVisible(false);
+
             }
         });
 

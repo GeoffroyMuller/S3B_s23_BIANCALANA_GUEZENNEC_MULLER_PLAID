@@ -33,18 +33,29 @@ public class PanelListeurCategorie extends JPanel{
 	private boolean activer;
 	private JPanel jp_all;
 	private JPanel jp_categorie;
+	private ControleurExamen ctrlexam;
 	private ArrayList<JPanel> liste_jp_groupe;
 	private MouseListener ml;
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Categorie categorie;	//categorie correspondant a this
 
 
+	/**
+	 * Constructeur vide
+	 */
 	public PanelListeurCategorie() {
 		
 	}
+	
+	/**
+	 * Constructeur
+	 * @param categ
+	 * @param listeur
+	 * @param ctrlexamp
+	 */
 	public PanelListeurCategorie(Categorie categ, ListeurCategorie listeur, ControleurExamen ctrlexamp) {
 		liste_jp_groupe = new ArrayList<JPanel>();
-
+		ctrlexam = ctrlexamp;
 		jp_all = new JPanel();
 		jp_categorie = new JPanel();
 		jp_categorie.setLayout(new GridBagLayout());
@@ -78,7 +89,7 @@ public class PanelListeurCategorie extends JPanel{
 		gbcp.insets = new Insets(0, 0, 0, 30);
 		gbcp.weightx = 0;
 		gbcp.weighty = 0;
-		jp_categorie.add(ctrlexamp.creerBoutton_UneCategorie(categ), gbcp);
+		jp_categorie.add(ctrlexam.creerBoutton_UneCategorie(categ), gbcp);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -94,7 +105,7 @@ public class PanelListeurCategorie extends JPanel{
 		for (Groupe groupe : listegroupe) {
 			jpp = new JPanel();
 			jpp.add(new JLabel(groupe.getNom()));
-			jpp.add(ctrlexamp.creerBoutton_UnGroupe(groupe));
+			jpp.add(ctrlexam.creerBoutton_UnGroupe(groupe));
 			liste_jp_groupe.add(jpp);
 		}
 		this.add(jp_all, gbc);
@@ -109,16 +120,12 @@ public class PanelListeurCategorie extends JPanel{
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 
-				System.out.print("pressed::"+PanelListeurCategorie.this.categorie.getNom());
+				System.out.println("pressed::"+PanelListeurCategorie.this.categorie.getNom());
 
 				if(activer) {
 					activer = false;
-					System.out.println(" >> desactiver");
 					jp_categorie.setBackground(Color.WHITE);
-
 					for (JPanel jp : liste_jp_groupe) {
-						System.out.println("des::"+liste_jp_groupe.size());
-
 						if(jp_all.getComponentCount()>0) {
 							jp_all.remove(jp);
 						}
@@ -126,12 +133,10 @@ public class PanelListeurCategorie extends JPanel{
 					repaint();
 				}else {
 					activer = true;
-					System.out.println(" >> activer");
 					jp_categorie.setBackground(Color.GRAY);
-
 					int i = 1;
 					for (JPanel jp : liste_jp_groupe) {
-						System.out.println("act::"+liste_jp_groupe.size());
+
 						gbc.gridx = 0;
 						gbc.gridy = i;
 						gbc.fill = GridBagConstraints.BOTH;
@@ -141,8 +146,7 @@ public class PanelListeurCategorie extends JPanel{
 
 						i++;
 					}
-					//repaint();
-					//listeur.repaint();
+
 				}
 			}
 
@@ -166,18 +170,73 @@ public class PanelListeurCategorie extends JPanel{
 		};
 		jp_categorie.addMouseListener(this.ml);
 	}
+	/**
+	 * Cetter activer
+	 * @return boolean activer
+	 */
+	public boolean isActiver() {
+		return activer;
+	}
 	
+	/**
+	 * active/desactive le PanelListeurCategorie this 
+	 * @param activerp
+	 */
+	public void isActiverAction(Boolean activerp) {
+		this.activer = activerp;
+		if(!activer) {
+			activer = false;
+			//System.out.println(" >> desactiver");
+			jp_categorie.setBackground(Color.WHITE);
+
+			for (JPanel jp : liste_jp_groupe) {
+
+				if(jp_all.getComponentCount()>0) {
+					jp_all.remove(jp);
+				}
+			}
+			repaint();
+		}else {
+			activer = true;
+
+			jp_categorie.setBackground(Color.GRAY);
+
+			int i = 1;
+			for (JPanel jp : liste_jp_groupe) {
+				System.out.println("act::"+liste_jp_groupe.size());
+				gbc.gridx = 0;
+				gbc.gridy = i;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.weightx = 0;
+				gbc.weighty = 0;
+				jp_all.add(jp, gbc);
+
+				i++;
+			}
+		}
+	}
+	
+	/**
+	 * Definie et adapte la taille General
+	 */
 	public void definirTaille(int w, int y) {
 		jp_categorie.setPreferredSize(new Dimension(w, y));
 	}
 
-
+	/**
+	 * Getter NomCategorie
+	 * @return String this.categorie.getNom
+	 */
+	public String getNomCategorie() {
+		return this.categorie.getNom();
+	}
+	
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//g.setColor(new Color((int)(Math.random()*200), (int)(Math.random()*10), (int)(Math.random()*50)));
-		//g.fillRect(0, 10, 10, 10);
-		//jp_categorie.setPreferredSize(new Dimension(400, 30));
-		//this.setBackground(Color.red);
+
 		jp_all.setVisible(false);
 		jp_all.setVisible(true);
 	}

@@ -1,6 +1,5 @@
 package controleur.ControleurModuleSalle;
 
-import vue.ComposantVueSalle.Indicateur;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +10,9 @@ public class ControleurRadioBoutons extends JPanel implements ActionListener {
 
     public static String placeSelectionnee="place";
 
+    /**
+     * Créer un JPanel correspondant à la sélection du type de place désiré
+     */
     public ControleurRadioBoutons(){
         this.setLayout(new GridBagLayout());
 

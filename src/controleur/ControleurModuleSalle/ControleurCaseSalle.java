@@ -24,12 +24,22 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
     private Salle salle;
     private VueSalle vueSalle;
     private boolean changementCouleur;
+
     //Utilisée lors de la verification du placement
     private DialogVerificationPlacement boiteDialogue;
     private Examen examen;
 
     public static boolean MOUSE_DOWN = false;
 
+    /**
+     * Permet de construire la visualisation de verification du placement d'un examen
+     * @param c
+     * @param i
+     * @param j
+     * @param salle
+     * @param dialog
+     * @param examen
+     */
     public ControleurCaseSalle(Color c, int i, int j,Salle salle, DialogVerificationPlacement dialog, Examen examen){
         super();
         this.examen = examen;
@@ -51,7 +61,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                 this.couleurCaseBase = new Color(0x11D6FC);
             }else{
                 for(Particularite p : particulariteEtudiant){
-                    if(p.getNom().contains("Situation de handicap (Prise en compte)")){
+                    if(p.getNom().contains("Situation de handicap (Prise en compte)") || p.getNom().contains("Tiers-Temps (Prendre en compte)") ){
                         this.couleurCase = new Color(0x7800AE);
                         this.couleurCaseBase = new Color(0x7800AE);
                     }else{
@@ -71,10 +81,36 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         this.boiteDialogue = dialog;
         setContentAreaFilled(false);
         this.setBackground(this.couleurCase);
-
+        final Examen examenStatic = this.examen;
+        final Salle salleStatic = this.salle;
+        final int iStatic = this.i;
+        final int jStatic =this.j;
+        final ControleurCaseSalle controleur = this;
         this.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+
+                if(!getPlace().getDisponnible()){
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null,"La place sélectionné n'est pas disponible. \n Cela est peut-être du au fait qu'il s'agisse d'une allée ou d'une chaise inutilisable.","Place indisponible",JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    if(boiteDialogue.verifierSiSelectionPossible()){
+                        if(boiteDialogue.verifierSiDejaSelectionne(controleur)){
+                            setCouleurCase(getCouleurCaseBase());
+                        }else{
+                            setCouleurCase(new Color(0x19F10D));
+                            boiteDialogue.ajouterSelection(controleur);
+                        }
+                    }else{
+                        if(boiteDialogue.verifierSiDejaSelectionne(controleur)){
+                            setCouleurCase(getCouleurCaseBase());
+                            boiteDialogue.retirerSelection(controleur);
+                        }
+                    }
+                }
+
+
+
 
             }
 
@@ -90,11 +126,11 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                Etudiant etudiant = examen.placement.get(salle).get(salle.getPlaces()[i][j]);
+                Etudiant etudiant = examenStatic.placement.get(salleStatic).get(salleStatic.getPlaces()[iStatic][jStatic]);
                 try{
-                    boiteDialogue.modifierInformationEtudiant(etudiant.getPrenom(),etudiant.getNom(),salle.getPlaces()[i][j],etudiant.getGroupe());
+                    boiteDialogue.modifierInformationEtudiant(etudiant.getPrenom(),etudiant.getNom(),salleStatic.getPlaces()[iStatic][jStatic],etudiant.getGroupe());
                 }catch(NullPointerException exception){
-                    boiteDialogue.modifierInformationEtudiant("Non occupée","Non occupée",salle.getPlaces()[i][j],"Non occupée");
+                    boiteDialogue.modifierInformationEtudiant("Non occupée","Non occupée",salleStatic.getPlaces()[iStatic][jStatic],"Non occupée");
                 }
             }
 
@@ -105,17 +141,29 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         });
     }
 
+    /**
+     * Permet de construire la visualisation d'une salle dans le module Salle
+     * @param c
+     * @param i
+     * @param j
+     * @param salle
+     */
     public ControleurCaseSalle(Color c, int i, int j, Salle salle){
         super();
         this.salle = salle;
         this.i = i;
         this.j = j;
+        this.changementCouleur=true;
         this.couleurCase = c;
+        this.couleurCaseBase = c;
+
         setContentAreaFilled(false);
 
        this.setBackground(this.couleurCase);
 
-
+        final Salle salleStatic = this.salle;
+        final int iStatic = this.i;
+        final int jStatic = this.j;
        this.addMouseListener(new MouseListener() {
            @Override
            public void mouseClicked(MouseEvent e) {
@@ -128,11 +176,11 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
 
                if(SwingUtilities.isRightMouseButton(e)){
 
-                   Place place = salle.getPlaces()[i][j];
+                   Place place = salleStatic.getPlaces()[iStatic][jStatic];
                    ModificationNomPlaceDialog dialog = new ModificationNomPlaceDialog(null,"Changement de nom",true,place);
                    ModificationNomPlaceDialogInfo infos = dialog.afficherDialog();
                    try {
-                       salle.modifierNomPlace(i, j, infos.getNouveauNom(), infos.getNomColonne(), infos.getNomRangee());
+                       salleStatic.modifierNomPlace(iStatic, jStatic, infos.getNouveauNom(), infos.getNomColonne(), infos.getNomRangee());
                    }catch(NullPointerException ex){
                    }
                }else{
@@ -154,7 +202,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                    try {
                        TypePlace tp = TypePlace.findByNom(typePlace);
                        Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
-                       salle.changerLeTypePlace(i,j,tp.getIdTypePlace());
+                       salleStatic.changerLeTypePlace(iStatic,jStatic,tp.getIdTypePlace());
                        //VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
                        VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
                    } catch (SQLException e1) {
@@ -195,7 +243,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                     try {
                         TypePlace tp = TypePlace.findByNom(typePlace);
                         Place[][] places = ControleurSauvegardeSalle.salle.getPlaces();
-                        salle.changerLeTypePlace(i,j,tp.getIdTypePlace());
+                        salleStatic.changerLeTypePlace(iStatic,jStatic,tp.getIdTypePlace());
                         //VueSalle.partieAUpdate = VueSalle.UPDATE_PARTIE_AFFICHAGE_SALLE;
                         VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
 
@@ -210,7 +258,7 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
                 }
 
                try{
-                   vueSalle.mettreAJourInfoPlace(salle.getPlaces()[i][j].getNomRangee(),salle.getPlaces()[i][j].getNomColonne());
+                   vueSalle.mettreAJourInfoPlace(salleStatic.getPlaces()[iStatic][jStatic].getNomRangee(),salleStatic.getPlaces()[iStatic][jStatic].getNomColonne());
                }catch(NullPointerException exception){
                    vueSalle.mettreAJourInfoPlace("ERREUR","ERREUR");
 
@@ -281,6 +329,10 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         return couleurCase;
     }
 
+    /**
+     * Permet de changer la couleur d'une case et de remettre la couleur de base si la méthode est appelée une seconde fois
+     * @param color
+     */
     public void switchColor(Color color){
         if(this.changementCouleur){
             this.setCouleurCase(color);
@@ -327,7 +379,25 @@ public class ControleurCaseSalle extends JButton implements ActionListener, Obse
         this.salle = Salle.findById(this.salle.getIdSalle());
     }
 
+    /**
+     * Permet l'ajout d'une VueSalle au controleur
+     * @param vueSalle
+     */
     public void ajouterVueSalle(VueSalle vueSalle){
         this.vueSalle = vueSalle;
+    }
+
+
+    public Etudiant getEtudiant(){
+        return examen.placement.get(salle).get(salle.getPlaces()[i][j]);
+
+    }
+
+    public Place getPlace(){
+        Place place = null;
+
+        place = salle.getPlaces()[this.i][this.j];
+
+        return place;
     }
 }

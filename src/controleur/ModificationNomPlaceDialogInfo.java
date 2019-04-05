@@ -1,16 +1,18 @@
 package controleur;
 
+/**
+ * Classe permettant de stocker les données rentrer par l'utilisateur lors du modification du nom de la place
+ */
 public class ModificationNomPlaceDialogInfo {
-    public String getNouveauNom() {
-        return nouveauNom;
-    }
 
-    public void setNouveauNom(String nouveauNom) {
-        this.nouveauNom = nouveauNom;
-    }
 
     private String nouveauNom,nomColonne,nomRangee;
 
+    /**
+     * Instancie la classe
+     * @param nomColonne
+     * @param nomRangee
+     */
     public ModificationNomPlaceDialogInfo(String nomColonne,String nomRangee){
         this.nouveauNom = nomRangee+""+nomColonne;
         this.nomColonne = nomColonne;
@@ -31,5 +33,13 @@ public class ModificationNomPlaceDialogInfo {
 
     public void setNomRangee(String nomRangee) {
         this.nomRangee = nomRangee;
+    }
+
+    public String getNouveauNom() {
+        return nouveauNom;
+    }
+
+    public void setNouveauNom(String nouveauNom) {
+        this.nouveauNom = nouveauNom;
     }
 }

@@ -19,7 +19,6 @@ import composante_graphique.ListeurCategorie;
 //import composante_graphique.Listeur;
 
 import controleur_Examen.ControleurExamen;
-import javafx.beans.Observable;
 import modele.Examen;
 import modele.BDD.Categorie;
 
@@ -31,6 +30,11 @@ public class VueGroupeParticipant extends JPanel{
 	private JLabel jl_grpParticip = new JLabel("Groupe Participant"); 
 	private ArrayList<Categorie> listecateg;
 
+	/**
+	 * Constructeur
+	 * @param ctrlexamp
+	 * @param listecategp
+	 */
 	public VueGroupeParticipant(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp) {
 		controleur_Exam = ctrlexamp;
 		listecateg = listecategp;
@@ -63,21 +67,36 @@ public class VueGroupeParticipant extends JPanel{
 		gbc.weightx = 1;
 		gbc.weighty = 2;
 		this.add(listeur, gbc);
-		//repaint();
+
 		colorer(color);
 	}
 	
+	/**
+	 * Sauvegarde la position du listeur
+	 */
+	public void sauvegarder() {
+		ListeurCategorie.Sauvegarde(listeur);
+	}
+	
+	/**
+	 * Charge la position du listeur
+	 */
+	public void charger() {
+		ListeurCategorie.chargerSauvegarde(listeur);
+	}
+	
+	/**
+	 * Coolr la Vue
+	 * @param color
+	 */
 	public void colorer(Color color) {
 		this.setBackground(color);
 		this.listeur.colorer(color);
 	}
-	
-	
-	/*public static Listeur getListeur() {
-		return listeur;
-	}*/
 
-
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
@@ -85,21 +104,5 @@ public class VueGroupeParticipant extends JPanel{
 		setVisible(false);
 		setVisible(true);
 	}
-
-
-	public static void main(String arg[]) {
-		JFrame fenetre = new JFrame("EtuPlacement");
-
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setMinimumSize(new Dimension(500,100));
-
-		VueGroupeParticipant vuec = new VueGroupeParticipant(new ControleurExamen(new Examen()), new ArrayList<Categorie>());
-		fenetre.add(vuec);
-		fenetre.setVisible(true);
-
-	}
-
-
-
 
 }

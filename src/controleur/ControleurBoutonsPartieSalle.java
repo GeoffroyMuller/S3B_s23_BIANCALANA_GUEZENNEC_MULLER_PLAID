@@ -1,24 +1,34 @@
 package controleur;
 
 import modele.BDD.Salle;
+import module_etudiant.DialogTraitement;
 import vue.CreationSalleDialog;
 import vue.CreationSalleDialogInfos;
 import vue.VueSalle;
+import vue_Examen.VueExamen;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Controleur du module Salle permettant l'ajout et la supression de salle
+ */
 public class ControleurBoutonsPartieSalle extends JPanel {
     private JButton boutonAjouterSalle;
     private JButton boutonSupprimerSalle;
-    private Salle modele;
+    public static Salle modele;
 
+    /**
+     * Créer le controleur avec les boutons nécessaires
+     * @param modele
+     */
     public ControleurBoutonsPartieSalle(Salle modele){
         this.boutonAjouterSalle = new JButton("Ajouter");
         this.boutonSupprimerSalle = new JButton("Supprimer");
         this.modele = modele;
+        this.setBackground(new Color(40, 73, 92));
 
         //Ajout des actions listener
         this.boutonAjouterSalle.addActionListener(new ActionListener() {
@@ -30,8 +40,13 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                 CreationSalleDialogInfos infos = dialogBox.afficherDialog();
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,infos.toString(),"Récapitulatif de la salle",JOptionPane.INFORMATION_MESSAGE);
-                VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
-                modele.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur());
+                VueSalle.partieAUpdate = VueSalle.UPDATE_CREATION_SALLE;
+
+                VueSalle.salle.changerInformation(infos.getNom(),infos.getHauteur(),infos.getLargeur(),true);
+               // traitement.run();
+                //ControleurBoutonsPartieSalle.modele.save();
+                //traitement.close();
+
             }
         });
 
@@ -45,8 +60,8 @@ public class ControleurBoutonsPartieSalle extends JPanel {
                         JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,choix,choix[1]);
 
                 if(choix[rang].equals("Oui")){
-                    Salle salle = Salle.findByNom(VueSalle.salleSelectionne.getNom());
-                    salle.delete();
+                    //Salle salle = Salle.findByNom(VueSalle.salleSelectionne.getNom());
+                    VueSalle.salle.delete();
                     JOptionPane jop = new JOptionPane();
                     jop.showMessageDialog(null,"La salle à bien été supprimer !","Supression effectuée avec succés",JOptionPane.INFORMATION_MESSAGE);
                 }else{
@@ -55,6 +70,7 @@ public class ControleurBoutonsPartieSalle extends JPanel {
 
 
                 }
+                VueExamen.rechargerlisteurSalle();
 
             }
         });

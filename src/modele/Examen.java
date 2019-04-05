@@ -1,4 +1,4 @@
- package modele;
+package modele;
 
 import modele.BDD.*;
 import modele.BDD.Etudiant;
@@ -6,76 +6,131 @@ import modele.BDD.Groupe;
 import modele.BDD.Particularite;
 import modele.BDD.Place;
 import modele.BDD.Salle;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import vue_Examen.VueExamen;
 
+import java.awt.*;
+import java.sql.Array;
 import java.sql.SQLException;
 import java.util.*;
 
-import modele.BDD.Categorie;
-
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
- public class Examen extends Observable{
-	
+/**
+ * Classe du modéle Examen, représente un Examen
+ */
+public class Examen extends Observable{
+
 	private String nom;
 	private String matiere;
 	private String date;
 
-    /**
-     * Attribut HashMap placement lie chaque salle à sa "grille" de placement
-     */
-    public HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>> placement;
+	private boolean groupeSepare;
+
+	/**
+	 * Attribut HashMap placement lie chaque salle à sa "grille" de placement
+	 */
+	public HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>> placement;
+
+	/**
+	 * Tout les étudiants qui ont été sélectionné
+	 */
+	public HashMap<Etudiant,String> etudiants;
+
+	/**
+	 * Toutes les salles sélectionné trié par ordre de priorité
+	 */
+	public ArrayList<Salle> salles;
+
+	/**
+	 * Distancce entre chaque etudiant
+	 */
+	public int pas;
+
+
 
     /**
-     * Tout les étudiants qui ont été sélectionné
+     * Permet de savoir quand l'examen a finit de se générer
      */
-    public HashMap<Etudiant,String> etudiants;
-
-    /**
-     * Toutes les salles sélectionné trié par ordre de priorité
-     */
-    public ArrayList<Salle> salles;
-
-    /**
-     * Distancce entre chaque etudiant
-     */
-    public int pas;
+	boolean fini;
 
 
-    /**
-     * Constructeur Examen
-     */
-    public Examen(){
-        this.nom = "";
-        this.date = "";
-        this.matiere = "";
-        this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
-        this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
-        this.salles = new ArrayList<Salle>();
-        this.pas = 2;
-    }
+	/**
+	 * Constructeur Examen
+	 */
+	public Examen(){
+		this.nom = "";
+		this.date = "";
+		this.matiere = "";
+		this.groupeSepare = true;
+		this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
+		this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
+		this.salles = new ArrayList<Salle>();
+		this.pas = 0;
+		this.fini = false;
+	}
 
-    /**
-     * Permet d'ajouter la salle donnée en paramétre
-     * @param salle
-     */
-    public void ajouterSalle(modele.BDD.Salle salle){
-        System.out.println("Ajout d'une salle : "+salle.getNom());
-        this.salles.add(salle);
-        this.placement.put(salle,new HashMap<Place, Etudiant>());
-
+	/**
+	 * Permet d'ajouter la salle donnée en paramétre
+	 * @param salle
+	 */
+	public void ajouterSalle(modele.BDD.Salle salle){
+		this.salles.add(salle);
+		this.placement.put(salle,new HashMap<Place, Etudiant>());
 		setChanged();
 		notifyObservers();
     }
 
+    /**
+     * Permet de retirer une salle d'un examen
+     * @param salle
+     */
     public void retirerSalle(Salle salle){
-        System.out.println("Retire salle : "+salle.getNom());
-        //this.placement.remove(salle);
+        //Supression dans le placement
+        HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>> copiePlacement = new HashMap<>(this.placement);
+
+        this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
+        for(Salle salleKey : copiePlacement.keySet()){
+            if(salleKey != salle){
+                this.placement.put(salleKey,copiePlacement.get(salleKey));
+            }
+        }
         this.salles.remove(salle);
+    }
+
+    /**
+     * Permet de retirer toutes les salles d'un examen
+     */
+    public void reinitiliserLesSalles(){
+        ArrayList<Salle> copyListeSalle = new ArrayList<>();
+        copyListeSalle.addAll(this.salles);
+        for(Salle salle : copyListeSalle){
+            retirerSalle(salle);
+        }
+    }
+
+    /**
+     * Permet de vérifier si une salle à été selectionné plusieurs fois
+     */
+    public boolean verificationDoublonSalle(){
+        boolean res = false;
+        int compteur=0;
+        for(int i = 0; i < salles.size();i++){
+            Salle salle = salles.get(i);
+            for(int j = 0; j < salles.size();j++){
+                if(salle.getNom().equals(salles.get(j))){
+                    compteur++;
+                }
+            }
+            if(compteur>1){
+                res=true;
+                JOptionPane jop = new JOptionPane();
+                jop.showMessageDialog(null,"Une même salle à été ajouté plusieurs fois ! \n Veuillez changer les salles ou enlever des priorités.","Message Informatif",JOptionPane.INFORMATION_MESSAGE);
+                break;
+            }
+        }
+        return res;
     }
 
 
@@ -103,27 +158,33 @@ import javax.swing.*;
      * @param groupe
      */
     public void enleverDesGroupesDeExamen(Groupe groupe){
+
         ArrayList<Etudiant> etudiants = groupe.getListeEtudiants();
         this.enleverDesEtudiantsDeExamen(etudiants);
-    }
+        setChanged();
+		notifyObservers(VueExamen.VUE_ETU);
+	}
 
-    /**
-     * Permet d'ajouter un groupe, seuls les étudiants sont ajoutés et pas le groupe en lui-même
-     * @param groupe
-     */
-    public void ajouterGroupe(Groupe groupe){
+	/**
+	 * Permet d'ajouter un groupe, seuls les étudiants sont ajoutés et pas le groupe en lui-même
+	 * @param groupe
+	 */
+	public void ajouterGroupe(Groupe groupe){
 
-        ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
-        try {
-            etudiants = EtudiantGroupe.recupererEtudiantDansGroupe(groupe.getIdGroupe());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+		ArrayList<Etudiant> etudiants = new ArrayList<Etudiant>();
+		try {
+			etudiants = EtudiantGroupe.recupererEtudiantDansGroupe(groupe.getIdGroupe());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 
-        for(modele.BDD.Etudiant etu : etudiants){
-            this.etudiants.put(etu,groupe.getNom());
-        }
+		for(modele.BDD.Etudiant etu : etudiants){
+			this.etudiants.put(etu,groupe.getNom());
+		}
+
+        setChanged();
+		notifyObservers(VueExamen.VUE_ETU);
     }
 
     /**
@@ -143,22 +204,24 @@ import javax.swing.*;
 
         int margeErreur = 0;
 
-        if(!this.verifierLesParametresExamen()){
-            /*
-            To do ouverture fenetre exception
-             */
-        }
-
-        while(resultat !=margeErreur){
-            placerEleve();
-            resultat = this.verifierSolution();
-            nbTentative++;
-            if(nbTentative== 20000){
-                margeErreur++;
-                nbTentative = 0;
+        if(!this.verificationDoublonSalle()){
+            if(!this.verifierLesParametresExamen()){
+                JOptionPane jop = new JOptionPane();
+                jop.showMessageDialog(null,"Les paramétres de l'examen ont mal été renseignés.","Erreur",JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                while(resultat !=margeErreur){
+                    placerEleve();
+                    resultat = this.verifierSolution();
+                    nbTentative++;
+                    if(nbTentative == 30000){
+                        margeErreur++;
+                        nbTentative = 0;
+                    }
+                }
+                this.fini=true;
             }
+            System.out.println("Le placement générer contient une marge d'erreur de :"+margeErreur+" cela peut être du à la présence d'élève ayant un placement spéccifique.");
         }
-        System.out.println("Le placement générer contient une marge d'erreur de :"+margeErreur+" cela peut être du à la présence d'élève ayant un placement spéccifique.");
     }
 
 
@@ -166,7 +229,7 @@ import javax.swing.*;
      * Méthode permettant de vérifier si le nombre de places sélectionnées est suffisant pour le nombre d'éléve sélectionnés
      * @return boolean
      */
-    public boolean vérifierLeNombreDePlace(){
+    public boolean verifierLeNombreDePlace(){
         boolean res = false;
         int nombreDePlacesTotales = 0;
 
@@ -182,10 +245,28 @@ import javax.swing.*;
                 nombreDePlacesTotales+=salle.compterLeNombreDePlaceDisponible();
             }
 
+            int test = nombreDePlacesTotales;
+
+            //On prend en compte le pas
 
 
+            int nbPlace=1;
+
+            try{
+                for(int i = 1; i < nombreDePlacesTotales;i++){
+                    if(i%this.pas == 0){
+                        nbPlace++;
+                    }
+                }
+            }catch(ArithmeticException e){
+                nbPlace=nombreDePlacesTotales;
+
+            }
+
+
+            System.out.println("Verification du nombre de place : \n Pas = "+pas+"\nNombre de place totales = "+test+"\n Resultat = "+nbPlace);
             //On compare
-            if(nombreDePlacesTotales>= nombreEtudiants){
+            if(nbPlace>= nombreEtudiants){
                 res=true;
             }
         }
@@ -200,8 +281,28 @@ import javax.swing.*;
     public boolean verifierLesParametresExamen(){
         boolean res=true;
 
-        if(this.nom.equals("") || this.date.equals("") || this.matiere.equals("")){
+        if(this.etudiants.keySet().size() == 0){
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Veuillez ajouter des étudiants à l'examen","Erreur",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+       if(this.nom.isEmpty() || this.matiere.isEmpty() || this.date.isEmpty()){
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Veuillez renseigner les champs : Nom, Matiére et Date","Erreur",JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+      if(this.salles.isEmpty()){
+          JOptionPane jop = new JOptionPane();
+          jop.showMessageDialog(null,"Veuillez ajouter des salles à l'examen","Erreur",JOptionPane.ERROR_MESSAGE);
+          return false;
+      }
+
+        if(!verifierLeNombreDePlace()){
             res=false;
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Il y trop d'étudiants pour les salles selectionnées.\n Veuillez ajouter des salles ou enlever des étudiant.","Erreur",JOptionPane.ERROR_MESSAGE);
         }
 
         return res;
@@ -230,6 +331,7 @@ import javax.swing.*;
         int nombreEssai = 0;
         modele.BDD.Etudiant etudiantTeste=null;
         modele.BDD.Salle salle = salles.get(iterateurChangementSalle);
+        salle.getTableauPlaces(salle.getIdSalle());
         Iterateur iterateurSalle = salle.getIterateur(i,j,salle);
 
         //Tant qu'il y a des Etudiant non place
@@ -253,6 +355,10 @@ import javax.swing.*;
 
             //On vérifie si la place est disponible (chaise cassé,allée...) et qu'aucun n'autre étudiant n'a été placé dessus
             Place placeActuelle = (Place)iterateurSalle.actual();
+            Place place = placeActuelle;
+
+            boolean disponible = placeActuelle.getDisponnible();
+            boolean cleContenu = this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual());
 
             if(placeActuelle.getDisponnible() && !(this.placement.containsKey((modele.BDD.Place)iterateurSalle.actual()))){
 
@@ -434,9 +540,13 @@ import javax.swing.*;
     public boolean verifierGroupe(modele.BDD.Etudiant etudiantAPlacer, modele.BDD.Etudiant etudiantPlacer){
         boolean res = false;
 
-        if(this.etudiants.get(etudiantAPlacer).equals(this.etudiants.get(etudiantPlacer))){
-            return true;
+        if(!this.groupeSepare){
+            return false;
         }
+
+        if(this.etudiants.get(etudiantAPlacer).equals(this.etudiants.get(etudiantPlacer))){
+                res=true;
+            }
 
         return res;
     }
@@ -447,8 +557,9 @@ import javax.swing.*;
      * @return
      */
     public ArrayList<modele.BDD.Etudiant> filtrerEleveParticulier(ArrayList<modele.BDD.Etudiant> etu){
-        ArrayList<modele.BDD.Etudiant> res = etu;
-        for(modele.BDD.Etudiant etudiant : res){
+        ArrayList<Etudiant> res = etu;
+        ArrayList<Etudiant> resCPY = new ArrayList<>(res);
+        for(Etudiant etudiant : res){
 
             ArrayList<Particularite> particularites = new ArrayList<Particularite>();
             try {
@@ -459,20 +570,25 @@ import javax.swing.*;
 
             if(particularites.size()>0){
                 if(!(etudiant.verifierPriseEnCompte())){
-                    res.remove(etudiant);
+                    resCPY.remove(etudiant);
                 }
             }
         }
-        return res;
+        return resCPY;
     }
 
+    /**
+     * Permet de récupérer les informations de placement d'un étudiant
+     * @param cre
+     * @return
+     */
     public InformationsPlacementEtudiant trouverPlaceEtudiant(CritereRechercheEtudiant cre){
         InformationsPlacementEtudiant resultat= new InformationsPlacementEtudiant(null,new Place("Non trouve",-1,-1,-2,"Non trouve","Non trouve"),new Etudiant("Non trouve","Non trouve"));
         Set<Salle> clesSalle = this.placement.keySet();
 
         for(Salle salle : clesSalle){
             Set<Place> clesPlaces = this.placement.get(salle).keySet();
-
+            System.out.println("Boucle salle : "+salle.getNom());
             for(Place place : clesPlaces){
                 Etudiant etudiant = this.placement.get(salle).get(place);
                 if(etudiant.getNom().toLowerCase().equals(cre.getNom().toLowerCase())
@@ -507,11 +623,28 @@ import javax.swing.*;
                 data[iterateur][2] = etudiant.getNom();
                 data[iterateur][3] = etudiant.getPrenom();
                 data[iterateur][4] = salle.getNom();
-                data[iterateur][5] = place.getI()+"";
-                data[iterateur][6] = place.getJ()+"";
+                data[iterateur][5] = place.getNomRangee()+"";
+                data[iterateur][6] = place.getNomColonne()+"";
                 iterateur++;
             }
-            JTable tableau= new JTable(data,column);
+            DefaultTableModel model = new DefaultTableModel(data, column);
+            JTable tableau = new JTable(model){
+                private static final long serialVersionUID = 1L;
+
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            for(int i=0;i<tableau.getColumnCount();i++)
+            {
+                TableColumn column1 = tableau.getTableHeader().getColumnModel().getColumn(i);
+
+                column1.setHeaderValue(column[i]);
+                column1.setPreferredWidth(150);
+            }
+            tableau.setBounds(30,40,500,700);
+            tableau.setFont(new Font("Arial",Font.PLAIN,15));
+            tableau.setRowHeight(20);
             resultat.add(tableau);
         }
 
@@ -542,8 +675,8 @@ import javax.swing.*;
         return resultat;
     }
 	
-	
-	
+
+
 	public String getNom() {
 		return nom;
 	}
@@ -564,58 +697,128 @@ import javax.swing.*;
 		this.date = date;
 	}
 
-    public HashMap<Salle, HashMap<Place, Etudiant>> getPlacement() {
-        return placement;
-    }
+	public HashMap<Salle, HashMap<Place, Etudiant>> getPlacement() {
+		return placement;
+	}
 
-    public void setPlacement(HashMap<Salle, HashMap<Place, Etudiant>> placement) {
-        this.placement = placement;
-    }
+	public void setPlacement(HashMap<Salle, HashMap<Place, Etudiant>> placement) {
+		this.placement = placement;
+	}
 
-    public HashMap<Etudiant, String> getEtudiants() {
-        return etudiants;
-    }
+	public HashMap<Etudiant, String> getEtudiants() {
+		return etudiants;
+	}
 
-    public void setEtudiants(HashMap<Etudiant, String> etudiants) {
-        this.etudiants = etudiants;
-    }
+	public void setEtudiants(HashMap<Etudiant, String> etudiants) {
+		this.etudiants = etudiants;
+	}
 
-    public ArrayList<Salle> getSalles() {
-        return salles;
-    }
+	public ArrayList<Salle> getSalles() {
+		return salles;
+	}
 
-    public void setSalles(ArrayList<Salle> salles) {
-        this.salles = salles;
-    }
+	public void setSalles(ArrayList<Salle> salles) {
+		this.salles = salles;
+	}
 
-    public int getPas() {
-        return pas;
-    }
+	public int getPas() {
+		return pas;
+	}
 
-    public void setPas(int pas) {
-        this.pas = pas;
-    }
-    
-    public void refresh() {
-    	this.setChanged();
-    	this.notifyObservers();
-    }
-
-
-    //Groupe Participant
-
-	//Salle par Priorité
-
-	//Contrainte
-
-
-
-
-
-
-
-
+	public void setPas(int pas) {
+        if(pas == 0){
+            this.pas=0;
+        }else{
+            this.pas = pas+1;
+        }
+	}
 	
 	
-	
+
+	public boolean isGroupeSepare() {
+		return groupeSepare;
+	}
+
+	public void setGroupeSepare(boolean groupeSepare) {
+		this.groupeSepare = groupeSepare;
+	}
+
+	public void refresh() {
+		this.setChanged();
+		this.notifyObservers();
+	}
+
+    /**
+     * Permet d'échanger la place de deux étudiants
+     * @param etuA
+     * @param etuB
+     */
+    public void echangerPlaceEtudiants(Etudiant etuA, Etudiant etuB){
+        try{
+            CritereRechercheEtudiant creA = new CritereRechercheEtudiant(etuA.getNom(),etuA.getPrenom(),etuA.getGroupe());
+            CritereRechercheEtudiant creB = new CritereRechercheEtudiant(etuB.getNom(),etuB.getPrenom(),etuB.getGroupe());
+
+            InformationsPlacementEtudiant ifeA = this.trouverPlaceEtudiant(creA);
+            InformationsPlacementEtudiant ifeB = this.trouverPlaceEtudiant(creB);
+
+            Place placeA = ifeA.getPlace();
+            Place placeB = ifeB.getPlace();
+
+            if(ifeA.getSalle() == ifeB.getSalle()){
+                //L'échange s'effectue dans la même salle
+                System.out.println(placeA);
+                System.out.println(etuB.getNom());
+                System.out.println(ifeA.getSalle().getNom());
+                placement.get(ifeA.getSalle()).put(placeA,etuB);
+                placement.get(ifeB.getSalle()).put(placeB,etuA);
+            }else{
+                //L'échange s'effectue dans des salles différente
+                placement.get(ifeA.getSalle()).remove(ifeA.getPlace());
+                placement.get(ifeB.getSalle()).remove(ifeB.getPlace());
+
+                placement.get(ifeB.getSalle()).put(ifeB.getPlace(),etuA);
+                placement.get(ifeA.getSalle()).put(ifeA.getPlace(),etuB);
+            }
+        }catch(NullPointerException e){
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"L'échange n'a pu être effectué. \n Veuillez vérifier que les places sélectionné sont attribuer à des étudiants.","Erreur",JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+
+
+
+    /**
+     * Reinitisalise l'examen lorsque celui-ci est généré
+     */
+    public void reinitialiseExamen(){
+        this.nom = "";
+        this.date = "";
+        this.matiere = "";
+        this.groupeSepare = true;
+        this.placement = new HashMap<modele.BDD.Salle, HashMap<modele.BDD.Place, modele.BDD.Etudiant>>();
+        this.etudiants = new HashMap<modele.BDD.Etudiant, String>();
+        this.salles = new ArrayList<Salle>();
+    }
+
+
+    public boolean isFini() {
+        return fini;
+    }
+
+    public void setFini(boolean fini) {
+        this.fini = fini;
+    }
+
+
+
+
+
+
+
+
+
+
+
 }

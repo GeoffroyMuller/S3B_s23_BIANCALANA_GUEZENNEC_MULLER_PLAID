@@ -5,24 +5,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import modele.BDD.Salle;
-import modele.GestionFichiersExcel.ExportEtudiant;
-import vue_Etudiant.VueEtudiant;
 import vue_Examen.DialogVerificationPlacement;
-import vue_Examen.VueExamen;
-
-import org.apache.poi.ss.formula.eval.BoolEval;
-
 import modele.Examen;
 import modele.BDD.Categorie;
 import modele.BDD.Groupe;
@@ -39,23 +29,25 @@ public class ControleurExamen {
 	private JTextField jtf_matiere; //JTextField : gere la matiere de l'examen
 	private JTextField jtf_date;	//JTextField : gere la date de l'examen
 
-	private JButton chsalle;
-	private HashMap<JButton, Groupe> mapBoutton_groupe;
-	private HashMap<JButton, Categorie> mapButton_categorie;
+	private Checkbox checkboxc;
+	
+	private HashMap<JButton, Groupe> mapBouton_groupe;
+	private HashMap<JButton, Categorie> mapBouton_categorie;
 	private ArrayList<JComboBox<String>> listeComboSalle;
+	
+	private ArrayList<JButton> listeJBSuppr;
 
 	private JButton jb_creerExam;	//JButton : creer un Examen
 	
-	//private JButton jb_groupe;
-	//private JButton jb_categorie;
-	private ArrayList<ArrayList<Groupe>> liste_listegrp;
-
 	private String ancienneSelectionJComboBox;
 	
-
+	/**
+	 * Constructeur
+	 * @param examenp
+	 */
 	public ControleurExamen(Examen examenp)  {
 		listeComboSalle = new ArrayList<JComboBox<String>>();
-		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
+		new ArrayList<ArrayList<Groupe>>();
 
 		examen = examenp;
 		
@@ -64,45 +56,22 @@ public class ControleurExamen {
 		jtf_date = new JTextField();
 		
 		jb_creerExam = new JButton("Créer l'Examen");
-		jb_creerExam.setEnabled(false);
+		jb_creerExam.setEnabled(true);
 
-		liste_listegrp= new ArrayList<ArrayList<Groupe>>();
+		checkboxc = new Checkbox();
+		checkboxc.setState(true);
+		new ArrayList<ArrayList<Groupe>>();
 
-		//dev
-		chsalle = new JButton("Choisir Salle 1 (test)");
-		chsalle.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				System.out.println("Salle 1 (test) selectionner");
-				Salle salle = Salle.findById(1);
-				salle.getTableauPlaces(salle.getIdSalle());
-				System.out.println("Salle" + salle.getNom());
-				examen.ajouterSalle(salle);
-				if(!examen.vérifierLeNombreDePlace()){
-					jb_creerExam.setEnabled(false);
-				}else{
-					jb_creerExam.setEnabled(true);
-				}
-
-				chsalle.setText("Retirer Salle 1 (test) ");
-				chsalle.setBackground(Color.gray);
-			}
-		});
-		//findev
-
-
-		mapBoutton_groupe = new HashMap<>();
-		mapButton_categorie = new HashMap<>();
-		/**
+		mapBouton_groupe = new HashMap<>();
+		mapBouton_categorie = new HashMap<>();
+		/*
 		 * dimensionne les JTextFields 
 		 */
 		jtf_nom.setPreferredSize(new Dimension(150, 25));
 		jtf_matiere.setPreferredSize(new Dimension(150, 25));
 		jtf_date.setPreferredSize(new Dimension(150, 25));
 
-		/**
+		/*
 		 * ajout d'ActionListener sur les JTextFields
 		 */
 		jtf_nom.addActionListener(new ActionListener() {
@@ -129,11 +98,6 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				exam_date = ""+((JTextField)e.getSource()).getText();
-				if(examen.verifierLesParametresExamen() && examen.vérifierLeNombreDePlace()){
-					jb_creerExam.setEnabled(true);
-				}else{
-					jb_creerExam.setEnabled(false);
-				}
 				System.out.println("CtrlExam_jtf_Date: "+((JTextField)e.getSource()).getText());
 			}
 		});
@@ -148,15 +112,22 @@ public class ControleurExamen {
 				System.out.println(">CtrlExam_jtf_Nom: "+jtf_nom.getText());
 				System.out.println(">CtrlExam_jtf_Matiere: "+jtf_matiere.getText());
 				System.out.println(">CtrlExam_jtf_Date: "+jtf_date.getText());
+				System.out.println(">ContrGrp::"+checkboxc.getState());
 				System.out.println("==================");
-
+				
+				checkboxc.setEnabled(false);
+				examen.setGroupeSepare(checkboxc.getState());
 				examen.setDate(jtf_date.getText());
 				examen.setMatiere(jtf_matiere.getText());
 				examen.setNom(jtf_nom.getText());
 				examen.genererUnPlacement();
+				checkboxc.setEnabled(true);
 				//IMPORTANT ICI LANCER LE DIALOG
-				DialogVerificationPlacement dialog = new DialogVerificationPlacement(null,"Prévisualisation",true,examen);
-				dialog.afficherDialog();
+				
+				if(examen.isFini()){
+					DialogVerificationPlacement dialog = new DialogVerificationPlacement(null,"Prévisualisation",true,examen);
+					dialog.afficherDialog();
+				}
 
 			}
 		});
@@ -164,11 +135,15 @@ public class ControleurExamen {
 
 	}
 
-
+	/**
+	 * Creer/associe un bouton pour un Groupe
+	 * @param grp Groupe
+	 * @return JButton 
+	 */
 	public JButton creerBoutton_UnGroupe(Groupe grp) {
-		
-		JButton jbt = new JButton();
-		mapBoutton_groupe.put(jbt, grp);
+		final Groupe groupe = grp;
+		final JButton jbt = new JButton();
+		mapBouton_groupe.put(jbt, grp);
 		jbt.setText("Ajouter");
 		jbt.setBackground(Color.white);
 		jbt.addActionListener(new ActionListener() {
@@ -177,29 +152,26 @@ public class ControleurExamen {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				changeButtonGroupe(jbt, grp);
-
-				//On vérifie si le nombre de place est toujours suffisant
-				if(!examen.vérifierLeNombreDePlace()){
-					jb_creerExam.setEnabled(false);
-				}else{
-					jb_creerExam.setEnabled(true);
-				}
-				//VueExamen.paneldev.repaint();//dev
+				changeButtonGroupe(jbt, groupe);
 			}
 		});
 		
 		
 		return jbt;
 	}
-
+	
+	/**
+	 * Creer/associe un bouton pour une Categorie
+	 * @param categp Categorie
+	 * @return JButton
+	 */
 	public JButton creerBoutton_UneCategorie(Categorie categp) {
 
-		JButton jbt = new JButton();
-		mapButton_categorie.put(jbt, categp);
+		final JButton jbt = new JButton();
+		final Categorie cate = categp;
+		mapBouton_categorie.put(jbt, categp);
 		jbt.setPreferredSize(new Dimension(70, 20));
 		jbt.setText("Ajouter");
-		jbt.setBackground(Color.white);
 		jbt.addActionListener(new ActionListener() {
 
 			@SuppressWarnings("deprecation")
@@ -207,25 +179,21 @@ public class ControleurExamen {
 			public void actionPerformed(ActionEvent e) {
 
 				// TODO Auto-generated method stub
-				changeButtonGroupeCategorie(categp, jbt);
-				if(!examen.vérifierLeNombreDePlace()){
-					jb_creerExam.setEnabled(false);
-				}else{
-					jb_creerExam.setEnabled(true);
-				}
+				changeButtonGroupeCategorie(cate, jbt);
 			}
 		});
 		
-		//mapBoutton_groupe.put(jbt, grp);
-
 		return jbt;
 	}
 	
-	
+	/**
+	 * Change l'etat du bouton de Groupe et ajoute / retire en fonction de son etat
+	 * @param jbt
+	 * @param grp
+	 */
 	private void changeButtonGroupe(JButton jbt, Groupe grp) {
 		if(jbt.getText().equals("Ajouter")) {
 			jbt.setText("Retirer");
-			jbt.setBackground(Color.gray);
 
 			 examen.ajouterGroupe(grp);
 			System.out.println("Ajouter> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
@@ -233,7 +201,6 @@ public class ControleurExamen {
 		}else {
 			if(jbt.getText().equals("Retirer")) {
 				jbt.setText("Ajouter");
-				jbt.setBackground(Color.white);
 
 				examen.enleverDesGroupesDeExamen(grp);
 				System.out.println("Retirer> groupe : "+grp.getNom()+"  nb etudiant::"+examen.getEtudiants().size());
@@ -244,12 +211,16 @@ public class ControleurExamen {
 	
 	
 	
-	
+	/**
+	 * Change l'etat du bouton de Categorie et ajoute / retire en fonction de son etat
+	 * @param jbt
+	 * @param grp
+	 */
 	private void changeButtonGroupeCategorie(Categorie categp, JButton jbt) {
-		Categorie categcourante = mapButton_categorie.get(jbt);
+		Categorie categcourante = mapBouton_categorie.get(jbt);
 		HashMap<JButton, Groupe> mapBoutton_groupe_categorie = new HashMap<>();
 		ArrayList<Groupe> listegroupe_categorie = categcourante.getListGroupe();
-		for(Map.Entry<JButton, Groupe> mapgrp: mapBoutton_groupe.entrySet()) {
+		for(Map.Entry<JButton, Groupe> mapgrp: mapBouton_groupe.entrySet()) {
 			for(Groupe grp : listegroupe_categorie) {
 				if(grp.getIdGroupe() == mapgrp.getValue().getIdGroupe()) {
 					mapBoutton_groupe_categorie.put(mapgrp.getKey(), mapgrp.getValue());
@@ -258,36 +229,37 @@ public class ControleurExamen {
 		}
 		if(jbt.getText().equals("Ajouter")) {
 			jbt.setText("Retirer");
-			jbt.setBackground(Color.black);
-			//liste_grp.clear();
 			
 			for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
 				if(jb_grp.getKey().getText().equals("Ajouter")) {
 					jb_grp.getKey().setText("Retirer");
-					//liste_listegrp.add(jb_grp.getValue());
+
 					examen.ajouterGroupe(jb_grp.getValue());
 				}
 				
 			}
-			System.out.println("Ajouter> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
+			System.out.println("Ajouter> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size()+"  nb etudiant::"+examen.getEtudiants().size());
 		}else {
 			if(jbt.getText().equals("Retirer")) {
 				jbt.setText("Ajouter");
-				jbt.setBackground(Color.white);
-				//liste_grp.clear();
+
 				for(Map.Entry<JButton, Groupe> jb_grp : mapBoutton_groupe_categorie.entrySet()) {
 					if(jb_grp.getKey().getText().equals("Retirer")) {
 						jb_grp.getKey().setText("Ajouter");
-						liste_listegrp.remove(jb_grp.getValue());
+
 						examen.enleverDesGroupesDeExamen(jb_grp.getValue());
 					}
 					
 				}
-				System.out.println("Retirer> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size());
+				System.out.println("Retirer> Categorie : "+categp.getNom()+"  nb groupe::"+categp.getListGroupe().size()+"  nb etudiant::"+examen.getEtudiants().size());
 
 			}
 		}
 	}
+	
+	/**
+	 * Ajoute une Combobox
+	 */
 	public void ajouterComboSalle() {
 
 		try {
@@ -312,42 +284,67 @@ public class ControleurExamen {
 			});
 			this.listeComboSalle.add(combres);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			System.out.println("Erreur:: recuperation de Salle impossible");
+			JOptionPane jop = new JOptionPane();
+			jop.showMessageDialog(null,"Une erreur c'est produite : Recuperation de la salle impossible","Erreur",JOptionPane.INFORMATION_MESSAGE);
 			e1.printStackTrace();
 		}
 
 	}
 	
+	/**
+	 * Getter
+	 * @return
+	 */
+	public ArrayList<JButton> getListeJBSuppr() {
+		return listeJBSuppr;
+	}
 
+	/**
+	 * Getter
+	 * @return
+	 */
 	public ArrayList<JComboBox<String>> getListeComboSalle() {
 		return listeComboSalle;
 	}
 
-
+	/**
+	 * Getter
+	 * @return
+	 */
 	public JTextField getJtf_nom() {
 		return jtf_nom;
 	}
 
-
+	/**
+	 * Getter
+	 * @return
+	 */
 	public JTextField getJtf_matiere() {
 		return jtf_matiere;
 	}
 
-
+	/**
+	 * Getter
+	 * @return
+	 */
 	public JTextField getJtf_Date() {
 		return jtf_date;
 	}
 	
-
-
-
+	/**
+	 * Getter
+	 * @return
+	 */
 	public JButton getJb_creerExam() {
 		return jb_creerExam;
 	}
 
-
-
-
+	/**
+	 * Getter
+	 * @return
+	 */
+	public Checkbox getCheckboxc() {
+		return checkboxc;
+	}
 
 }

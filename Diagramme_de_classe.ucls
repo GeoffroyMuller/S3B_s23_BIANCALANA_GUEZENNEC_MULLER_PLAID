@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.2.2" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
+<class-diagram version="1.2.3" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
   associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="composante_graphique.PanelListeurCategorie" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
@@ -35,7 +35,7 @@
     </display>  
   </class>  
   <class id="4" language="java" name="javax.swing.JPanel" project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="C:/Program Files/Java/jre1.8.0_144/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
+    file="C:/Program Files/Java/jre1.8.0_201/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="769" y="66"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -55,7 +55,7 @@
     </display>  
   </class>  
   <class id="6" language="java" name="javax.swing.JButton" project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="C:/Program Files/Java/jre1.8.0_144/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
+    file="C:/Program Files/Java/jre1.8.0_201/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1101" y="73"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -63,19 +63,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="controleur_Etudiant.ControleurBouttonConfCreationCateg" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_Etudiant/ControleurBouttonConfCreationCateg.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1361" y="485"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <interface id="8" language="java" name="java.awt.event.ActionListener" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" file="C:/Program Files/Java/jre1.8.0_144/lib/rt.jar" 
+  <interface id="7" language="java" name="java.awt.event.ActionListener" 
+    project="s3b_s23_biancalana_guezennec_muller_plaid" file="C:/Program Files/Java/jre1.8.0_201/lib/rt.jar" 
     binary="true" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1408" y="66"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -84,62 +73,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </interface>  
-  <class id="9" language="java" name="controleur_Etudiant.ControleurConfirmerImportation" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_Etudiant/ControleurConfirmerImportation.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1651" y="486"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="10" language="java" name="controleur_Etudiant.ControleurCréerNouvelleCateg" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_Etudiant/ControleurCréerNouvelleCateg.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1066" y="480"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="11" language="java" name="controleur_Etudiant.ControleurImportationListe" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_Etudiant/ControleurImportationListe.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2303" y="481"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="12" language="java" name="controleur_Etudiant.ControleurListeDeroulanteCateg" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_Etudiant/ControleurListeDeroulanteCateg.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1262" y="587"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="13" language="java" name="controleur_Etudiant.DeroulOptionTriCateg" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_Etudiant/DeroulOptionTriCateg.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2082" y="483"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="14" language="java" name="controleur_Examen.ControleurExamen" 
+  <class id="8" language="java" name="controleur_Examen.ControleurExamen" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_Examen/ControleurExamen.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -150,51 +84,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="controleur_listeur.ConstructeurDataEtudiant" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_listeur/ConstructeurDataEtudiant.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1692" y="942"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="16" language="java" name="controleur_listeur.ConstructeurListeModelCategorie" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_listeur/ConstructeurListeModelCategorie.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2132" y="962"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="17" language="java" name="controleur_listeur.ControleurSuprListe" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_listeur/ControleurSuprListe.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1886" y="484"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="18" language="java" name="controleur_listeur.ListenerDeRefresh" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur_listeur/ListenerDeRefresh.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1741" y="687"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="19" language="java" name="controleur.ControleurModuleSalle.ControleurCaseSalle" 
+  <class id="9" language="java" name="controleur.ControleurModuleSalle.ControleurCaseSalle" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur/ControleurModuleSalle/ControleurCaseSalle.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -205,7 +95,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="20" language="java" name="controleur.ControleurModuleSalle.ControleurRadioBoutons" 
+  <class id="10" language="java" name="controleur.ControleurModuleSalle.ControleurRadioBoutons" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur/ControleurModuleSalle/ControleurRadioBoutons.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -216,7 +106,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="21" language="java" name="controleur.ControleurModuleSalle.ControleurSauvegardeSalle" 
+  <class id="11" language="java" name="controleur.ControleurModuleSalle.ControleurSauvegardeSalle" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/controleur/ControleurModuleSalle/ControleurSauvegardeSalle.java" 
     binary="false" corner="BOTTOM_RIGHT">    
@@ -227,30 +117,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="22" language="java" name="listeuretudiant.AfficheurTree" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/listeuretudiant/AfficheurTree.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2085" y="667"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="23" language="java" name="listeuretudiant.DifListeurEtu" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/listeuretudiant/DifListeurEtu.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1909" y="822"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="24" language="java" name="javax.swing.JSplitPane" project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="C:/Program Files/Java/jre1.8.0_144/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
+  <class id="12" language="java" name="javax.swing.JSplitPane" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="C:/Program Files/Java/jre1.8.0_201/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2127" y="825"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -258,8 +126,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="25" language="java" name="javax.swing.JTree" project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="C:/Program Files/Java/jre1.8.0_144/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
+  <class id="13" language="java" name="javax.swing.JTree" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="C:/Program Files/Java/jre1.8.0_201/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1880" y="176"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -267,7 +135,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="listeuretudiant.LigneEtudiant" 
+  <class id="14" language="java" name="listeuretudiant.LigneEtudiant" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/listeuretudiant/LigneEtudiant.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -278,7 +146,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="27" language="java" name="listeuretudiant.PanelCheckBox" 
+  <class id="15" language="java" name="listeuretudiant.PanelCheckBox" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/listeuretudiant/PanelCheckBox.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -289,18 +157,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="28" language="java" name="listeuretudiant.PanelListeurEtu" 
-    project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="/s3b_s23_biancalana_guezennec_muller_plaid/src/listeuretudiant/PanelListeurEtu.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1164" y="816"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
-      <operations public="false" package="false" protected="false" private="false" static="true"/>    
-    </display>  
-  </class>  
-  <class id="29" language="java" name="modele.Examen" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="16" language="java" name="modele.Examen" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/Examen.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="574" y="889"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -309,8 +166,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="30" language="java" name="java.util.Observable" project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="C:/Program Files/Java/jre1.8.0_144/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
+  <class id="17" language="java" name="java.util.Observable" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="C:/Program Files/Java/jre1.8.0_201/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="269" y="642"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -318,7 +175,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="31" language="java" name="modele.BDD.DBConnection" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="18" language="java" name="modele.BDD.DBConnection" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/DBConnection.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="60" width="128" x="198" y="835"/>    
@@ -328,7 +185,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="32" language="java" name="modele.BDD.Etudiant" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="19" language="java" name="modele.BDD.Etudiant" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/Etudiant.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="587" y="1166"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -337,8 +194,8 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <interface id="33" language="java" name="java.lang.Comparable" project="s3b_s23_biancalana_guezennec_muller_plaid" 
-    file="C:/Program Files/Java/jre1.8.0_144/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
+  <interface id="20" language="java" name="java.lang.Comparable" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+    file="C:/Program Files/Java/jre1.8.0_201/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="355" y="1157"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -346,7 +203,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </interface>  
-  <class id="34" language="java" name="modele.BDD.EtudiantGroupe" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="21" language="java" name="modele.BDD.EtudiantGroupe" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/EtudiantGroupe.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="71" y="993"/>    
@@ -356,7 +213,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="35" language="java" name="modele.BDD.Groupe" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="22" language="java" name="modele.BDD.Groupe" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/Groupe.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="476" y="1381"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -365,7 +222,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="36" language="java" name="modele.BDD.GroupeCategorie" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="23" language="java" name="modele.BDD.GroupeCategorie" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/GroupeCategorie.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="241" y="1318"/>    
@@ -375,7 +232,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="37" language="java" name="modele.BDD.Particularite" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="24" language="java" name="modele.BDD.Particularite" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/Particularite.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="643" y="999"/>    
@@ -385,7 +242,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="38" language="java" name="modele.BDD.ParticulariteEtudiant" 
+  <class id="25" language="java" name="modele.BDD.ParticulariteEtudiant" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/ParticulariteEtudiant.java" binary="false" 
     corner="BOTTOM_RIGHT">    
@@ -396,7 +253,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="39" language="java" name="modele.BDD.Place" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="26" language="java" name="modele.BDD.Place" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/Place.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1013" y="1362"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -405,7 +262,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="40" language="java" name="modele.BDD.Salle" project="s3b_s23_biancalana_guezennec_muller_plaid" 
+  <class id="27" language="java" name="modele.BDD.Salle" project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/Salle.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1428" y="1351"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -414,7 +271,7 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <class id="41" language="java" name="modele.BDD.Salle.SalleIterateur" 
+  <class id="28" language="java" name="modele.BDD.Salle.SalleIterateur" 
     project="s3b_s23_biancalana_guezennec_muller_plaid" 
     file="/s3b_s23_biancalana_guezennec_muller_plaid/src/modele/BDD/Salle.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1185" y="1151"/>    
@@ -424,524 +281,500 @@
       <operations public="false" package="false" protected="false" private="false" static="true"/>    
     </display>  
   </class>  
-  <association id="42">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="43" name="boutonSupprimerSalle"/>      
-      <multiplicity id="44" minimum="0" maximum="1"/>    
+  <dependency id="29">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="27"/>  
+  </dependency>  
+  <dependency id="30">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="21"/>  
+  </dependency>  
+  <dependency id="31">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <association id="32">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="33" name="prioriteSalle"/>      
+      <multiplicity id="34" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="35">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="36">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <generalization id="37">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="38">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="39" name="salle"/>      
+      <multiplicity id="40" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="41">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <realization id="42">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="20"/>  
+  </realization>  
+  <dependency id="43">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="19"/>  
+  </dependency>  
+  <association id="44">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="45" name="chsalle">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="46" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="45">    
-    <end type="SOURCE" refId="15"/>    
-    <end type="TARGET" refId="32"/>  
-  </dependency>  
-  <association id="46">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="47" name="pl_courant"/>      
-      <multiplicity id="48" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="49">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <dependency id="50">    
-    <end type="SOURCE" refId="35"/>    
-    <end type="TARGET" refId="34"/>  
-  </dependency>  
-  <dependency id="51">    
-    <end type="SOURCE" refId="29"/>    
-    <end type="TARGET" refId="35"/>  
-  </dependency>  
-  <dependency id="52">    
-    <end type="SOURCE" refId="22"/>    
-    <end type="TARGET" refId="35"/>  
-  </dependency>  
-  <association id="53">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="54" name="afftree"/>      
-      <multiplicity id="55" minimum="0" maximum="1"/>    
+  <association id="47">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="48" name="mapBouton_groupe">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="49" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="22" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <dependency id="56">    
-    <end type="SOURCE" refId="38"/>    
-    <end type="TARGET" refId="32"/>  
-  </dependency>  
-  <dependency id="57">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="35"/>  
-  </dependency>  
-  <association id="58">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="59" name="jp_all"/>      
-      <multiplicity id="60" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="61">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="8"/>  
-  </dependency>  
-  <association id="62">    
-    <end type="SOURCE" refId="15" navigable="false">      
-      <attribute id="63" name="lg"/>      
-      <multiplicity id="64" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="35" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="65">    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="66" name="tree"/>      
-      <multiplicity id="67" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="25" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="68">    
-    <end type="SOURCE" refId="27" navigable="false">      
-      <attribute id="69" name="tree"/>      
-      <multiplicity id="70" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="25" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="71">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <realization id="72">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <dependency id="73">    
-    <end type="SOURCE" refId="32"/>    
-    <end type="TARGET" refId="37"/>  
-  </dependency>  
-  <dependency id="74">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="29"/>  
-  </dependency>  
-  <realization id="75">    
-    <end type="SOURCE" refId="21"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <dependency id="76">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="35"/>  
-  </dependency>  
-  <realization id="77">    
-    <end type="SOURCE" refId="32"/>    
-    <end type="TARGET" refId="33"/>  
-  </realization>  
-  <association id="78">    
-    <end type="SOURCE" refId="40" navigable="false">      
-      <attribute id="79" name="places"/>      
-      <multiplicity id="80" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="39" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="81">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <dependency id="82">    
-    <end type="SOURCE" refId="29"/>    
-    <end type="TARGET" refId="39"/>  
-  </dependency>  
-  <dependency id="83">    
-    <end type="SOURCE" refId="32"/>    
-    <end type="TARGET" refId="31"/>  
-  </dependency>  
-  <association id="84">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="85" name="listeur"/>      
-      <multiplicity id="86" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="87">    
+  <realization id="50">    
     <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <association id="88">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="89" name="mapBoutton_groupe"/>      
-      <multiplicity id="90" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="35" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="91">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="39"/>  
-  </dependency>  
-  <association id="92">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="93" name="boutonAjouterSalle"/>      
-      <multiplicity id="94" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="95">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="35"/>  
-  </dependency>  
-  <association id="96">    
-    <end type="SOURCE" refId="19" navigable="false">      
-      <attribute id="97" name="salle"/>      
-      <multiplicity id="98" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="99">    
-    <end type="SOURCE" refId="18" navigable="false">      
-      <attribute id="100" name="dle"/>      
-      <multiplicity id="101" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="102">    
-    <end type="SOURCE" refId="35"/>    
-    <end type="TARGET" refId="32"/>  
-  </dependency>  
-  <association id="103">    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="104" name="dotc"/>      
-      <multiplicity id="105" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="13" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="106">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="107" name="controleur_Exam"/>      
-      <multiplicity id="108" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="109">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="8"/>  
+    <end type="TARGET" refId="7"/>  
   </realization>  
-  <dependency id="110">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="8"/>  
+  <dependency id="51">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="27"/>  
   </dependency>  
-  <dependency id="111">    
-    <end type="SOURCE" refId="35"/>    
-    <end type="TARGET" refId="31"/>  
-  </dependency>  
-  <realization id="112">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <dependency id="113">    
-    <end type="SOURCE" refId="36"/>    
-    <end type="TARGET" refId="35"/>  
-  </dependency>  
-  <dependency id="114">    
-    <end type="SOURCE" refId="14"/>    
-    <end type="TARGET" refId="40"/>  
-  </dependency>  
-  <dependency id="115">    
-    <end type="SOURCE" refId="41"/>    
-    <end type="TARGET" refId="39"/>  
-  </dependency>  
-  <association id="116">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="117" name="jb_creerExam"/>      
-      <multiplicity id="118" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="119">    
-    <end type="SOURCE" refId="37"/>    
-    <end type="TARGET" refId="31"/>  
-  </dependency>  
-  <generalization id="120">    
-    <end type="SOURCE" refId="29"/>    
-    <end type="TARGET" refId="30"/>  
-  </generalization>  
-  <dependency id="121">    
-    <end type="SOURCE" refId="34"/>    
-    <end type="TARGET" refId="32"/>  
-  </dependency>  
-  <association id="122">    
+  <association id="52">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="123" name="controleur_Exam"/>      
-      <multiplicity id="124" minimum="0" maximum="1"/>    
+      <attribute id="53" name="controleur_Exam">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="54" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
+    <end type="TARGET" refId="8" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="125">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="126" name="cldc"/>      
-      <multiplicity id="127" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="128">    
-    <end type="SOURCE" refId="13" navigable="false">      
-      <attribute id="129" name="dls"/>      
-      <multiplicity id="130" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="131">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="18"/>  
-  </dependency>  
-  <association id="132">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="133" name="examen"/>      
-      <multiplicity id="134" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="29" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="135">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="136" name="jp_all"/>      
-      <multiplicity id="137" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="138">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="139" name="constructeurDATACOL"/>      
-      <multiplicity id="140" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="141">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="24"/>  
-  </generalization>  
-  <dependency id="142">    
+  <dependency id="55">    
     <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="35"/>  
+    <end type="TARGET" refId="10"/>  
   </dependency>  
-  <dependency id="143">    
-    <end type="SOURCE" refId="1"/>    
-    <end type="TARGET" refId="6"/>  
-  </dependency>  
-  <association id="144">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="145" name="modele"/>      
-      <multiplicity id="146" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <realization id="147">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <dependency id="148">    
-    <end type="SOURCE" refId="29"/>    
-    <end type="TARGET" refId="32"/>  
-  </dependency>  
-  <association id="149">    
-    <end type="SOURCE" refId="22" navigable="false">      
-      <attribute id="150" name="lisetu"/>      
-      <multiplicity id="151" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="152">    
-    <end type="SOURCE" refId="22"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <dependency id="153">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="8"/>  
-  </dependency>  
-  <dependency id="154">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="18"/>  
-  </dependency>  
-  <realization id="155">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <association id="156">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="157" name="cldc"/>      
-      <multiplicity id="158" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="159">    
-    <end type="SOURCE" refId="39"/>    
-    <end type="TARGET" refId="31"/>  
-  </dependency>  
-  <nesting id="160">    
-    <end type="SOURCE" refId="40"/>    
-    <end type="TARGET" refId="41"/>  
+  <nesting id="56">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="28"/>  
   </nesting>  
-  <generalization id="161">    
-    <end type="SOURCE" refId="40"/>    
-    <end type="TARGET" refId="30"/>  
+  <generalization id="57">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="17"/>  
   </generalization>  
-  <dependency id="162">    
-    <end type="SOURCE" refId="38"/>    
-    <end type="TARGET" refId="37"/>  
-  </dependency>  
-  <association id="163">    
-    <end type="SOURCE" refId="29" navigable="false">      
-      <attribute id="164" name="salles"/>      
-      <multiplicity id="165" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="166">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="20"/>  
-  </dependency>  
-  <association id="167">    
-    <end type="SOURCE" refId="21" navigable="false">      
-      <attribute id="168" name="salle"/>      
-      <multiplicity id="169" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="170">    
-    <end type="SOURCE" refId="19"/>    
+  <dependency id="58">    
+    <end type="SOURCE" refId="22"/>    
     <end type="TARGET" refId="21"/>  
   </dependency>  
-  <realization id="171">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <generalization id="172">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <dependency id="173">    
-    <end type="SOURCE" refId="36"/>    
-    <end type="TARGET" refId="31"/>  
-  </dependency>  
-  <generalization id="174">    
-    <end type="SOURCE" refId="10"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <dependency id="175">    
-    <end type="SOURCE" refId="40"/>    
-    <end type="TARGET" refId="31"/>  
-  </dependency>  
-  <association id="176">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="177" name="controleur_Exam"/>      
-      <multiplicity id="178" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="14" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <dependency id="179">    
-    <end type="SOURCE" refId="38"/>    
-    <end type="TARGET" refId="31"/>  
-  </dependency>  
-  <generalization id="180">    
-    <end type="SOURCE" refId="26"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <dependency id="181">    
-    <end type="SOURCE" refId="34"/>    
-    <end type="TARGET" refId="31"/>  
-  </dependency>  
-  <generalization id="182">    
-    <end type="SOURCE" refId="27"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <association id="183">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="184" name="constructeurLMC"/>      
-      <multiplicity id="185" minimum="0" maximum="1"/>    
+  <association id="59">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="60" name="examen">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="61" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="16" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="186">    
-    <end type="SOURCE" refId="23" navigable="false">      
-      <attribute id="187" name="listeEtu"/>      
-      <multiplicity id="188" minimum="0" maximum="2147483647"/>    
+  <association id="62">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="63" name="places">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="64" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="32" navigable="true"/>    
+    <end type="TARGET" refId="26" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="189">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <dependency id="190">    
-    <end type="SOURCE" refId="9"/>    
+  <association id="65">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="66" name="pl_courant">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="67" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="68">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="69" name="listeur">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="70" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="71">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="72" name="salles">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="73" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="74">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="75" name="boutonAjouterSalle">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="76" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="77">    
+    <end type="SOURCE" refId="26"/>    
     <end type="TARGET" refId="18"/>  
   </dependency>  
-  <generalization id="191">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="6"/>  
-  </generalization>  
-  <association id="192">    
-    <end type="SOURCE" refId="26" navigable="false">      
-      <attribute id="193" name="e"/>      
-      <multiplicity id="194" minimum="0" maximum="1"/>    
+  <association id="78">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="79" name="salle"/>      
+      <multiplicity id="80" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="32" navigable="true"/>    
+    <end type="TARGET" refId="27" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="195">    
+  <dependency id="81">    
+    <end type="SOURCE" refId="24"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <generalization id="82">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <dependency id="83">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <dependency id="84">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <realization id="85">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <dependency id="86">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="87">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <generalization id="88">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <association id="89">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="90" name="salle">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="91" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="92">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="93" name="ctrlexam">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="94" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="95">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="96" name="listeJBSuppr">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="97" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="98">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="19"/>  
+  </dependency>  
+  <dependency id="99">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="24"/>  
+  </dependency>  
+  <dependency id="100">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <generalization id="101">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <generalization id="102">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <association id="103">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="104" name="jp_all">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="105" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="106">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="22"/>  
+  </dependency>  
+  <dependency id="107">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="25"/>  
+  </dependency>  
+  <association id="108">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="109" name="ctrlexam">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="110" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="111">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
+  <dependency id="112">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="19"/>  
+  </dependency>  
+  <dependency id="113">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="19"/>  
+  </dependency>  
+  <dependency id="114">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <dependency id="115">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <dependency id="116">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="26"/>  
+  </dependency>  
+  <association id="117">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="118" name="e">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="119" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="120">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="121" name="boutonSupprimerSalle">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="122" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="123">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <association id="124">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="125" name="tree">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="126" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="127">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="128" name="controleur_Exam">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="129" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="130">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="131" name="jb_creerExam">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="132" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="133">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="134" name="salle">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="135" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="136">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="137" name="modele">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="138" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="139">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="140" name="controleur_Exam">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="141" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <dependency id="142">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <generalization id="143">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="4"/>  
   </generalization>  
-  <generalization id="196">    
-    <end type="SOURCE" refId="20"/>    
+  <dependency id="144">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="18"/>  
+  </dependency>  
+  <dependency id="145">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="146">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <generalization id="147">    
+    <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="4"/>  
   </generalization>  
-  <association id="197">    
-    <end type="SOURCE" refId="17" navigable="false">      
-      <attribute id="198" name="tree"/>      
-      <multiplicity id="199" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="25" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="200">    
-    <end type="SOURCE" refId="28"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="201">    
-    <end type="SOURCE" refId="21"/>    
+  <generalization id="148">    
+    <end type="SOURCE" refId="9"/>    
     <end type="TARGET" refId="6"/>  
   </generalization>  
-  <association id="202">    
-    <end type="SOURCE" refId="28" navigable="false">      
-      <attribute id="203" name="dls"/>      
-      <multiplicity id="204" minimum="0" maximum="1"/>    
+  <association id="149">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="150" name="jp_all">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="151" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
-    <end type="TARGET" refId="23" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="152">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="153">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="154" name="examen">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="155" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

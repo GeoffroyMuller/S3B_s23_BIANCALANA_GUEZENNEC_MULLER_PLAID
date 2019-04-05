@@ -2,7 +2,9 @@ package modele.BDD;
 
 
 import modele.Iterateur;
+import module_etudiant.DialogTraitement;
 import vue.VueSalle;
+import vue_Examen.VueExamen;
 
 import javax.swing.*;
 import java.net.Proxy;
@@ -15,34 +17,31 @@ import java.util.Objects;
 import java.util.Observable;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class Salle.
+ *la Class Salle.
  */
 public class Salle extends Observable {
 
-	/** The nom. */
+	/** le nom. */
 	private String nom;
 	
-	/** The id salle. */
+	/** l' id salle. */
 	private int idSalle;
 
-	/** The nb case largeur. */
+	/** le nb case largeur. */
 	protected int nbCaseLargeur;
 	
-	/** The nb case hauteur. */
+	/** le nb case hauteur. */
 	protected int nbCaseHauteur;
 
-	/** The places. */
+	/** les places. */
 	protected Place[][] places;
 
-	/**
-	 * Définition de la largeur par défaut d'une salle dans la visualisation
-	 */
+	/** Définition de la largeur par défaut d'une salle dans la visualisation. */
 	public static int DEFAULT_SIZE_ROOM_WIDTH = 10;
-	/**
-	 * Définition de la hauteur par défaut d'une salle dans la visualisation
-	 */
+	
+	/** Définition de la hauteur par défaut d'une salle dans la visualisation. */
 	public static int DEFAULT_SIZE_ROOM_HEIGHT = 10;
 
 	/**
@@ -51,11 +50,11 @@ public class Salle extends Observable {
 	private int nbPlaces;
 
 	/**
-	 * Instantiates a new salle.
+	 * Instantiates une nouvelle salle.
 	 *
-	 * @param nom the nom
-	 * @param nbCaseHauteur the nb case hauteur
-	 * @param nbCaseLargeur the nb case largeur
+	 * @param nom le nom
+	 * @param nbCaseHauteur le nb case hauteur
+	 * @param nbCaseLargeur le nb case largeur
 	 */
 	public Salle(String nom, int nbCaseHauteur, int nbCaseLargeur) {
 		this.idSalle=-1;
@@ -75,6 +74,11 @@ public class Salle extends Observable {
 		}
 	}
 
+	/**
+	 * Instantiates une nouvelle salle.
+	 *
+	 * @param salle le salle
+	 */
 	public Salle(Salle salle){
 		this.nom = salle.getNom();
 		this.nbCaseLargeur = salle.getNbCaseLargeur();
@@ -83,13 +87,14 @@ public class Salle extends Observable {
 		this.idSalle = salle.getIdSalle();
 	}
 
+
 	/**
-	 * Instantiates a new salle.
+	 * Instantiates une nouvelle salle.
 	 *
-	 * @param nom the nom
-	 * @param idSalle the id salle
-	 * @param nbCaseHauteur the nb case hauteur
-	 * @param nbCaseLargeur the nb case largeur
+	 * @param nom le nom
+	 * @param idSalle le id salle
+	 * @param nbCaseHauteur le nb case hauteur
+	 * @param nbCaseLargeur le nb case largeur
 	 */
 	private Salle(String nom, int idSalle, int nbCaseHauteur, int nbCaseLargeur) {
 		this.nom=nom;
@@ -98,6 +103,15 @@ public class Salle extends Observable {
 		this.nbCaseLargeur=nbCaseLargeur;
 	}
 
+	/**
+	 * Modifier nom place.
+	 *
+	 * @param i le i
+	 * @param j le j
+	 * @param nomPlace le nom place
+	 * @param nomColonne le nom colonne
+	 * @param nomRangee le nom rangee
+	 */
 	public void modifierNomPlace(int i, int j, String nomPlace,String nomColonne,String nomRangee){
 		Place place = this.places[i][j];
 		this.places[i][j].setNom(nomPlace);
@@ -108,35 +122,41 @@ public class Salle extends Observable {
 		this.save();
 	}
 
+	
 	public String toString(){
 		return this.nom;
 	}
 
+	/**
+	 * Compter le nombre de place disponible.
+	 *
+	 * @return le int
+	 */
 	public int compterLeNombreDePlaceDisponible(){
 		int res = 0;
 		this.getTableauPlaces(this.getIdSalle());
 
 		for(int i = 0; i < this.getPlaces().length;i++){
-			for(int j = 0; j < this.getPlaces().length;j++){
+			for(int j = 0; j < this.getPlaces()[i].length;j++){
 				Place place = this.getPlaces()[i][j];
 				if(place.getDisponnible()){
 					res++;
 				}
 			}
 		}
-
 		return res;
 	}
 
 	/**
-	 * Gets the tableau places.
+	 * Gets le tableau places.
 	 *
-	 * @param idSalle the id salle
-	 * @return the tableau places
+	 * @param idSalle le id salle
+	 * @return le tableau places
 	 */
 	public void getTableauPlaces(int idSalle){
 		try {
-			this.places = new Place[this.nbCaseLargeur][this.nbCaseHauteur];
+			//this.places = new Place[this.nbCaseLargeur][this.nbCaseHauteur];
+			this.places = new Place[this.nbCaseHauteur][this.nbCaseLargeur];
 			this.places = Place.tableauPlace(idSalle);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -145,7 +165,7 @@ public class Salle extends Observable {
 
 
 	/**
-	 * Creates the table.
+	 * Creates le table.
 	 */
 	public static void createTable(){
 		try {
@@ -187,9 +207,8 @@ public class Salle extends Observable {
 	/**
 	 * Find by id.
 	 *
-	 * @param id the id
-	 * @return the salle
-	 * @throws SQLException the SQL exception
+	 * @param id le id
+	 * @return le salle
 	 */
 	public static Salle findById(int id){
 		Salle res = null;
@@ -216,9 +235,8 @@ public class Salle extends Observable {
 	/**
 	 * Find by nom.
 	 *
-	 * @param nom the nom
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @param nom le nom
+	 * @return le array list
 	 */
 	public static Salle findByNom(String nom){
 		Salle res = null;
@@ -251,8 +269,8 @@ public class Salle extends Observable {
 	/**
 	 * List salle.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @return le array list
+	 * @throws SQLException le SQL exception
 	 */
 	public static ArrayList<Salle> listSalle() throws SQLException {
 		Connection connect=DBConnection.getConnection();
@@ -282,26 +300,29 @@ public class Salle extends Observable {
 			String SQLPrep0 = "DELETE FROM Salle WHERE idSalle ='"+this.idSalle+"';";
 			PreparedStatement prep0 = connect.prepareStatement(SQLPrep0);
 			prep0.execute();
-			this.idSalle=-1;
+			//this.idSalle=-1;
+			VueSalle.partieAUpdate = VueSalle.DELETE_SALLE;
 		}
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+" Delete "+e.getErrorCode()+e.toString());
 		}
+		setChanged();
+		notifyObservers(VueExamen.VUE_ETU);
 	}
 
 	/**
 	 * Save.
 	 */
 	public void save() {
-
 		if(this.idSalle==-1) {
 			this.saveNew();
 		}
 		else {
+
 			this.update();
 		}
 		setChanged();
-		notifyObservers();
+		notifyObservers(VueExamen.VUE_ETU);
 	}
 
 	/**
@@ -337,6 +358,7 @@ public class Salle extends Observable {
 		catch(SQLException e) {
 			System.out.println(e.getMessage()+"new "+e.getErrorCode()+e.toString());
 		}
+		VueSalle.partieAUpdate = VueSalle.UPDATE_CREATION_SALLE;
 		setChanged();
 		notifyObservers();
 	}
@@ -356,11 +378,9 @@ public class Salle extends Observable {
 			//Mise a jour des places
 			for(int i = 0; i < this.places.length;i++){
 				for(int j = 0; j < this.places[i].length;j++){
-					System.out.println("Mise a jour de la plce");
 					String SQLPrep1 = "UPDATE Place " +
 							"SET NOM = '"+this.places[i][j].getNom()+"', IdTypePlace = '"+this.places[i][j].getIdTypePlace()+"', i = '"+this.places[i][j].getI()+"', j = '"+this.places[i][j].getJ()+"', Disponnible = '"+this.places[i][j].getDisponibleIntVersion()+"', idSalle = '"+this.places[i][j].getIdSalle()
 							+"'"+ "WHERE idPlace ='"+this.places[i][j].getIdPlace()+"';";
-					System.out.println(this.places[i][j].getIdPlace()+" - "+this.places[i][j].getNom());
 
 					PreparedStatement prep1 = connect.prepareStatement(SQLPrep1);
 					prep1.execute();
@@ -371,60 +391,73 @@ public class Salle extends Observable {
 			System.out.println(e.getMessage()+"update "+e.getErrorCode()+e.toString());
 		}
 		setChanged();
-		notifyObservers();
+		notifyObservers(VueExamen.VUE_ETU);
 	}
 
 	/**
-	 * Gets the iterateur.
+	 * Gets l' iterateur.
 	 *
-	 * @param i the i
-	 * @param j the j
-	 * @param salle the salle
-	 * @return the iterateur
+	 * @param i le i
+	 * @param j le j
+	 * @param salle le salle
+	 * @return le iterateur
 	 */
 	public Iterateur getIterateur(int i, int j, Salle salle){
 		return new SalleIterateur(i,j, salle);
 	}
 
 	/**
-	 * @return the nom
+	 * Gets le nom.
+	 *
+	 * @return le nom
 	 */
 	public String getNom() {
-		return nom;
+		return this.nom;
 	}
 
 	/**
-	 * @param nom the nom to set
+	 * Sets le nom.
+	 *
+	 * @param nom le nom to set
 	 */
 	public void setNom(String nom) {
 		this.nom = nom;
-		setChanged();
-		notifyObservers();
+		VueExamen.rechargerlisteurSalle();
+		/*setChanged();
+		notifyObservers();*/
 	}
 
 	/**
-	 * @return the idSalle
+	 * Gets le id salle.
+	 *
+	 * @return le idSalle
 	 */
 	public int getIdSalle() {
 		return idSalle;
 	}
 
 	/**
-	 * @param idSalle the idSalle to set
+	 * Sets le id salle.
+	 *
+	 * @param idSalle le idSalle to set
 	 */
 	public void setIdSalle(int idSalle) {
 		this.idSalle = idSalle;
 	}
 
 	/**
-	 * @return the nbCaseLargeur
+	 * Gets le nb case largeur.
+	 *
+	 * @return le nbCaseLargeur
 	 */
 	public int getNbCaseLargeur() {
 		return nbCaseLargeur;
 	}
 
 	/**
-	 * @param nbCaseLargeur the nbCaseLargeur to set
+	 * Sets le nb case largeur.
+	 *
+	 * @param nbCaseLargeur le nbCaseLargeur to set
 	 */
 	public void setNbCaseLargeur(int nbCaseLargeur) {
 		this.nbCaseLargeur = nbCaseLargeur;
@@ -433,14 +466,18 @@ public class Salle extends Observable {
 	}
 
 	/**
-	 * @return the nbCaseHauteur
+	 * Gets le nb case hauteur.
+	 *
+	 * @return le nbCaseHauteur
 	 */
 	public int getNbCaseHauteur() {
 		return nbCaseHauteur;
 	}
 
 	/**
-	 * @param nbCaseHauteur the nbCaseHauteur to set
+	 * Sets le nb case hauteur.
+	 *
+	 * @param nbCaseHauteur le nbCaseHauteur to set
 	 */
 	public void setNbCaseHauteur(int nbCaseHauteur) {
 		this.nbCaseHauteur = nbCaseHauteur;
@@ -449,14 +486,18 @@ public class Salle extends Observable {
 	}
 
 	/**
-	 * @return the places
+	 * Gets le places.
+	 *
+	 * @return le places
 	 */
 	public Place[][] getPlaces() {
 		return this.places;
 	}
 
 	/**
-	 * @param places the places to set
+	 * Sets la places.
+	 *
+	 * @param places le places to set
 	 */
 	public void setPlaces(Place[][] places) {
 		this.places = places;
@@ -466,10 +507,11 @@ public class Salle extends Observable {
 
 
 	/**
-	 * Permet de changer le Type d'une place de la salle
-	 * @param coordX
-	 * @param coordY
-	 * @param nouveauTypeId
+	 * Permet de changer le Type d'une place de la salle.
+	 *
+	 * @param coordX le coord X
+	 * @param coordY le coord Y
+	 * @param nouveauTypeId le nouveau type id
 	 */
 	public void changerLeTypePlace(int coordX, int coordY, int nouveauTypeId){
 		this.places[coordX][coordY].setTypePlace(nouveauTypeId);
@@ -478,32 +520,43 @@ public class Salle extends Observable {
 	}
 
 	/**
-	 * Permet de changer la salle actuel par une autre
-	 * @param salle
+	 * Permet de changer la salle actuel par une autre.
+	 *
+	 * @param salle le salle
 	 */
-	public void  changerSalle(Salle salle){
+	public void changerSalle(Salle salle){
 		this.nom = salle.getNom();
 		this.idSalle = salle.getIdSalle();
 		this.nbCaseLargeur = salle.getNbCaseLargeur();
 		this.nbCaseHauteur=salle.getNbCaseHauteur();
 		salle.getTableauPlaces(salle.idSalle);
 		this.places=salle.getPlaces();
+		VueExamen.rechargerlisteurSalle();
 		setChanged();
 		notifyObservers();
 	}
 
 
 	/**
-	 * Permet de changer les informations de la salle
-	 * @param nom
-	 * @param hauteur
-	 * @param largeur
+	 * Permet de changer les informations de la salle.
+	 *
+	 * @param nom le nom
+	 * @param hauteur le hauteur
+	 * @param largeur le largeur
+	 * @param nouvelleSalle le nouvelle salle
 	 */
-    public void changerInformation(String nom, int hauteur, int largeur) {
+    public void changerInformation(String nom, int hauteur, int largeur, boolean nouvelleSalle) {
     	boolean changementDimension = false;
-    	if(!this.nom.contains(nom)){
-			this.nom =nom;
-			VueSalle.partieAUpdate = VueSalle.UPDATE_NOTHING;
+    	boolean changementNom = false;
+
+    	if(nouvelleSalle){
+    		this.idSalle=-1;
+		}
+    	if(!this.nom.equals(nom)){
+			//this.nom =nom;
+			changementNom = true;
+			this.setNom(nom);
+			VueSalle.partieAUpdate = VueSalle.UPDATE_SALLE;
 		}
 		if(this.nbCaseHauteur != hauteur){
 			this.nbCaseHauteur = hauteur;
@@ -512,30 +565,72 @@ public class Salle extends Observable {
 		}
 		if(this.nbCaseLargeur!=largeur){
 			this.nbCaseLargeur = largeur;
-			 changementDimension = true;
+
+			changementDimension = true;
 
 			VueSalle.partieAUpdate = VueSalle.UPDATE_ALL;
 		}
-		this.idSalle = -1;
 
-		System.out.println("Création de la salle");
+		if(changementDimension && changementNom){
+			VueSalle.partieAUpdate = VueSalle.MODIFICATION_SALLE_TOTAL;
+		}
+
 		if(changementDimension){
-			this.places = new Place[hauteur][largeur];
+			//On supprime de la base les places
+			ArrayList<Place> temp = Place.findByIdSalle(this.idSalle);
+			for(Place place : temp){
+				place.delete();
+			}
 
+
+
+
+
+			this.places = new Place[hauteur][largeur];
 			for(int i = 0; i < hauteur; i++){
 				for(int j = 0; j < largeur; j++){
 					try {
-						this.places[i][j] = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle,j+"",i+"");
+						Place place = new Place(""+i+""+j+"", TypePlace.findByNom("Allee").getIdTypePlace(),i,j,1,this.idSalle,j+"",i+"");
+						this.places[i][j] = place;
+						place.save();
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 			}
+			this.getPlaces();
 		}
-		setChanged();
-		notifyObservers();
+		//Sauvegarde de la salle avec chargement
+		final DialogTraitement traitement = new DialogTraitement(null, "Traitement en cours...", true);
+		this.save();
+
+		final Thread tr = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				save();
+				traitement.close();
+				VueExamen.rechargerlisteurSalle();
+				setChanged();
+				notifyObservers(VueExamen.VUE_ETU);
+			}
+		});
+		Thread trLoader = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				traitement.afficherDialog();
+				try {
+					tr.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		tr.start();
+		trLoader.start();
+
     }
 
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -544,16 +639,23 @@ public class Salle extends Observable {
 		return idSalle == salle.idSalle;
 	}
 
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(idSalle);
 	}
 
+	/**
+	 * Renommer ligne alpha.
+	 *
+	 * @param bashaut le bashaut
+	 */
 	public void renommerLigneAlpha(boolean bashaut){
     	String[] alpha = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","X","Y","Z"};
     	int nbPassage=1;
     	String nom="";
     	int index=0;
+    	boolean utilise = false;
     	if(bashaut){
     		index = this.nbCaseHauteur-1;
 		}
@@ -562,50 +664,105 @@ public class Salle extends Observable {
 				for(int x = 0; x < nbPassage;x++){
 					nom+=alpha[index];
 				}
-				this.getPlaces()[i][j].setNomRangee(nom);
-				this.getPlaces()[i][j].setNom(nom+""+this.getPlaces()[i][j].getNomColonne());
+				String typePlace = TypePlace.findById(this.getPlaces()[i][j].getIdTypePlace()).getNom();
+				if(typePlace.equals("allee")){
+					this.getPlaces()[i][j].setNomRangee("Allee");
+					this.getPlaces()[i][j].setNomColonne("Allee");
+					this.getPlaces()[i][j].setNom("Allee");
+				}else{
+					this.getPlaces()[i][j].setNomRangee(nom);
+					this.getPlaces()[i][j].setNom(nom+""+this.getPlaces()[i][j].getNomColonne());
+					utilise=true;
+				}
 				this.getPlaces()[i][j].save();
 				nom="";
 				if(alpha.length-1==i){
 					nbPassage++;
 				}
 			}
-			if(bashaut){
-				index--;
-			}else{
-				index++;
+			if(utilise){
+				if(bashaut){
+					index--;
+				}else{
+					index++;
+				}
+				utilise=false;
 			}
+
 
 		}
     	this.save();
     	this.getTableauPlaces(this.idSalle);
 	}
 
-	public void renommerColonneNumerique(boolean reset){
+	/**
+	 * Renommer colonne numerique.
+	 *
+	 * @param reset le reset
+	 */
+	public void renommerColonneNumerique(boolean reset, boolean bas){
     	int numeric = 1;
-		for(int i = 0; i < this.getPlaces().length;i++){
-			for(int j = 0; j < this.getPlaces().length;j++){
-				this.getPlaces()[i][j].setNomColonne(numeric+"");
-				this.getPlaces()[i][j].setNom(this.getPlaces()[i][j].getNomRangee()+""+numeric);
-				this.getPlaces()[i][j].save();
-				numeric++;
+    	boolean utilise=false;
+
+    	if(bas){
+			int indexI = this.getPlaces().length-1;
+
+			for(int i = indexI; i >= 0;i--){
+				for(int j = 0; j < this.getPlaces()[i].length;j++){
+					String typePlace = TypePlace.findById(this.getPlaces()[i][j].getIdTypePlace()).getNom();
+
+					if(typePlace.equals("allee")){
+						this.getPlaces()[i][j].setNomColonne("Allee");
+						this.getPlaces()[i][j].setNomRangee("Allee");
+						this.getPlaces()[i][j].setNom("Allee");
+					}else{
+						this.getPlaces()[i][j].setNomColonne(numeric+"");
+						this.getPlaces()[i][j].setNom(this.getPlaces()[i][j].getNomRangee()+""+numeric);
+						numeric++;
+					}
+					this.getPlaces()[i][j].save();
+				}
+				if(reset){ numeric=1;}
 			}
-			if(reset){ numeric=1;}
+
+
+		}else{
+			for(int i = 0; i < this.getPlaces().length;i++){
+				for(int j = 0; j < this.getPlaces()[i].length;j++){
+					String typePlace = TypePlace.findById(this.getPlaces()[i][j].getIdTypePlace()).getNom();
+
+
+					if(typePlace.equals("allee")){
+						this.getPlaces()[i][j].setNomColonne("Allee");
+						this.getPlaces()[i][j].setNomRangee("Allee");
+						this.getPlaces()[i][j].setNom("Allee");
+					}else{
+						this.getPlaces()[i][j].setNomColonne(numeric+"");
+						this.getPlaces()[i][j].setNom(this.getPlaces()[i][j].getNomRangee()+""+numeric);
+						numeric++;
+					}
+					this.getPlaces()[i][j].save();
+				}
+				if(reset){ numeric=1;}
+			}
 		}
+
+
+
 		this.save();
 		this.getTableauPlaces(this.idSalle);
 	}
 
 
 	/**
-	 * The Class SalleIterateur.
+	 * le Class SalleIterateur.
 	 */
 	public class SalleIterateur implements Iterateur {
 
-		/** The j. */
+		/** le j. */
 		protected int i,j;
 
-		/** The salle. */
+		/** le salle. */
 		private Salle salle;
 
 		/** Coordonnées lors de la création de l'itérateur afin de pouvoir y retourner si besoin. */
@@ -614,9 +771,9 @@ public class Salle extends Observable {
 		/**
 		 * Instantiates a new salle iterateur.
 		 *
-		 * @param i the i
-		 * @param j the j
-		 * @param salle the salle
+		 * @param i le i
+		 * @param j le j
+		 * @param salle le salle
 		 */
 		public SalleIterateur(int i, int j, Salle salle){
 			this.firstI = this.i = i;
@@ -626,9 +783,7 @@ public class Salle extends Observable {
 		}
 
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#hasNext()
-		 */
+		
 		@Override
 		public boolean hasNext() {
 			if(i==nbCaseHauteur-1 && j==nbCaseLargeur-1){
@@ -637,9 +792,7 @@ public class Salle extends Observable {
 			return true;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#hasPrevious()
-		 */
+		
 		@Override
 		public boolean hasPrevious() {
 			if(i==0 && j==0){
@@ -648,9 +801,7 @@ public class Salle extends Observable {
 			return true;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#hasNext(int)
-		 */
+		
 		@Override
 		public boolean hasNext(int pas) {
 			if(j+pas>nbCaseLargeur-1){
@@ -661,9 +812,7 @@ public class Salle extends Observable {
 			return true;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#hasPrevious(int)
-		 */
+		
 		@Override
 		public boolean hasPrevious(int pas) {
 			if(j-pas<0){
@@ -675,9 +824,7 @@ public class Salle extends Observable {
 			return true;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#hasUp()
-		 */
+		
 		@Override
 		public boolean hasUp() {
 			if(!(this.i == 0)){
@@ -686,9 +833,7 @@ public class Salle extends Observable {
 			return false;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#hasDown()
-		 */
+		
 		@Override
 		public boolean hasDown() {
 			if(!(this.i == nbCaseHauteur-1)){
@@ -697,9 +842,7 @@ public class Salle extends Observable {
 			return false;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#next()
-		 */
+		
 		@Override
 		public Object next() {
 
@@ -713,9 +856,7 @@ public class Salle extends Observable {
 			return places[this.i][this.j];
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#previous()
-		 */
+		
 		@Override
 		public Object previous() {
 
@@ -728,9 +869,7 @@ public class Salle extends Observable {
 			return places[this.i][this.j];
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#next(int)
-		 */
+		
 		@Override
 		public Object next(int pas) {
 			Place place=null;
@@ -753,11 +892,10 @@ public class Salle extends Observable {
 			return place;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#previous(int)
-		 */
+		
 		@Override
 		public Object previous(int pas) {
+			if(pas==0)pas=1;
 			Place place=null;
 			if(j==0 || j-pas<0){
 				this.i--;
@@ -776,58 +914,46 @@ public class Salle extends Observable {
 			return place;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#up()
-		 */
+		
 		@Override
 		public Object up() {
 			this.i--;
 			return places[i][j];
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#down()
-		 */
+		
 		@Override
 		public Object down() {
 			this.i++;
 			return places[i][j];
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#actual()
-		 */
+		
 		@Override
 		public Object actual() {
 			Place place = null;
 			try {
 				place = salle.getPlaces()[i][j];
 			}catch(NullPointerException e){
-				System.out.println("TEST");
+				e.printStackTrace();
 			}
 			return place;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#reset()
-		 */
+		
 		@Override
 		public void reset() {
 			this.i = this.firstI;
 			this.j = this.firstJ;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#getCoordI()
-		 */
+		
 		@Override
 		public int getCoordI() {
 			return this.i;
 		}
 
-		/* (non-Javadoc)
-		 * @see modele.Iterateur#getCoordY()
-		 */
+		
 		@Override
 		public int getCoordY() {
 			return this.j;

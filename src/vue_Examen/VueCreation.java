@@ -28,19 +28,31 @@ public class VueCreation extends JPanel{
 	private VueInfoExamen vue_infoExam;
 	private VueGroupeParticipant vue_grpParticip;
 	private VueSallePriorite vue_sallePrio;
-	private VueContrainte vue_contrainte = new VueContrainte();
+	private VueContrainte vue_contrainte;
 	private JPanel jp_bouttonexam = new JPanel(new BorderLayout());
+	private Examen examen;
 	
-	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp) {
+	/**
+	 * Constructeur
+	 * @param ctrlexamp
+	 * @param listecategp
+	 * @param examen
+	 */
+	public VueCreation(ControleurExamen ctrlexamp, ArrayList<Categorie> listecategp, Examen examen) {
+		this.examen = examen;
 		controleur_Exam = ctrlexamp;
-		listecateg = listecategp; 
+		listecateg = listecategp;
+		vue_contrainte = new VueContrainte(this.examen,this.controleur_Exam);
 		vue_infoExam = new VueInfoExamen(controleur_Exam);
-		vue_sallePrio = new VueSallePriorite(controleur_Exam);
+		vue_sallePrio = new VueSallePriorite(controleur_Exam,examen);
 		vue_grpParticip = new VueGroupeParticipant(controleur_Exam, listecateg);
 		this.setBackground(color);
 		creerZoneCreation();
 	}
 	
+	/**
+	 * Creer/assemble la zone de Creation
+	 */
 	private void creerZoneCreation() {
 		Color colorp = Color.black;
 		vue_infoExam.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1, colorp));
@@ -68,10 +80,6 @@ public class VueCreation extends JPanel{
 		gbc.weighty = 0.5;
 		this.add(vue_sallePrio, gbc);
 		
-		/*JSplitPane jsp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, vue_grpParticip, vue_sallePrio);
-		jsp.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.black));
-		this.add(jsp, gbc);*/
-		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
 		gbc.fill = GridBagConstraints.BOTH;
@@ -87,31 +95,31 @@ public class VueCreation extends JPanel{
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 0;
 		gbc.weighty = 0.03;
-		//jp_bouttonexam.add(new JLabel("Veuillez selectionner les groupes participants et les Salles"));
+
 		this.add(jp_bouttonexam, gbc);
 	}
 	
+	/**
+	 * Getter Vue_grpParticip
+	 * @return VueGroupeParticipant vue_grpParticip
+	 */
 	public VueGroupeParticipant getVue_grpParticip() {
 		return vue_grpParticip;
 	}
 
-	
+	/**
+	 * Getter Vue_sallePrio
+	 * @return VueSallePriorite vue_sallePrio
+	 */
+	public VueSallePriorite getVue_sallePrio() {
+		return vue_sallePrio;
+	}
+
+	/**
+	 * paintComponent
+	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		//vue_infoExam.definirTaille(this.getWidth()-1000, 25);
-		//this.setVisible(false);
-		//this.setVisible(true);
 	}
-	/*public static void main(String arg[]) {
-		JFrame fenetre = new JFrame("EtuPlacement");
-
-		fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		fenetre.setMinimumSize(new Dimension(500,100));
-
-		VueCreation vuec = new VueCreation(new ControleurExamen(new Examen()), new ArrayList<Categorie>());
-		fenetre.add(vuec);
-		fenetre.setVisible(true);
-
-	}*/
 
 }

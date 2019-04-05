@@ -2,6 +2,7 @@ package vue;
 
 import modele.BDD.Salle;
 import modele.Examen;
+import module_etudiant.VueModuleEtudiant;
 import vue_Examen.VueExamen;
 
 import javax.swing.*;
@@ -12,7 +13,6 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-import vue_Etudiant.*;
 
 public class VueOngletModules extends JPanel implements Observer {
 	JTabbedPane onglets;
@@ -24,8 +24,7 @@ public class VueOngletModules extends JPanel implements Observer {
 		this.onglets = new JTabbedPane();
 		this.onglets.setFont(new Font("Serial",Font.BOLD,20));
 		this.onglets.setUI(new TabbedPanDesign());
-		//A supprimer
-		VueEtudiant moduleEtudiant = new VueEtudiant();
+
 		try {
 			moduleExamen = new VueExamen(examen);
 			examen.addObserver(moduleExamen);
@@ -39,11 +38,14 @@ public class VueOngletModules extends JPanel implements Observer {
 		this.setLayout(null);
 		this.onglets.setBounds(0,0,800,1000);
 		this.onglets.add("Examen", moduleExamen);
-		this.onglets.add("Etudiants",moduleEtudiant);
-
+		//this.onglets.add("Etudiants",moduleEtudiant);
+		VueModuleEtudiant vme = new VueModuleEtudiant();
+		this.onglets.add("Etudiants",vme.getJPanel());
+		vme.addObserver(moduleExamen);
 		this.moduleSalle = new VueSalle(salle);
 		//salle.addObserver(this);
 		salle.addObserver(this.moduleSalle);
+		salle.addObserver(moduleExamen);
 
 		this.onglets.add("Salles",this.moduleSalle);
 

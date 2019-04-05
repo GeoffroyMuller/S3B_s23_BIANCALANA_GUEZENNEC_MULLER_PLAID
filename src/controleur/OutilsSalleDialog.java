@@ -8,13 +8,22 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Boîte de dialogue permettant d'accéder aux différents outils du module Salle
+ */
 public class OutilsSalleDialog extends JDialog {
-    private boolean sendData;
     private JLabel labeldebut,labelExplication;
-    private JButton valider,annuler,alphabetique,numerique,numeriqueReset;
+    private JButton alphabetique,numerique,numeriqueReset;
     private JRadioButton haut,bas;
     private boolean commencerHaut,commencerBas;
 
+    /**
+     * Instancie la boîte de dialogue
+     * @param parent
+     * @param title
+     * @param modal
+     * @param salle
+     */
     public OutilsSalleDialog(JFrame parent, String title, boolean modal, Salle salle){
         super(parent,title,modal);
 
@@ -26,7 +35,7 @@ public class OutilsSalleDialog extends JDialog {
     }
 
     private void initComponent(Salle salle){
-
+        final Salle salleVar = salle;
         JPanel boite = new JPanel();
         boite.setLayout(new GridLayout(1,2));
 
@@ -44,6 +53,9 @@ public class OutilsSalleDialog extends JDialog {
         this.haut = new JRadioButton("Haut");
         this.bas = new JRadioButton("Bas");
         ButtonGroup bg = new ButtonGroup();
+
+        this.haut.setSelected(true);
+        commencerHaut=true;
         bg.add(this.haut);
         bg.add(this.bas);
 
@@ -92,7 +104,7 @@ public class OutilsSalleDialog extends JDialog {
         this.alphabetique.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                salle.renommerLigneAlpha(commencerBas);
+                salleVar.renommerLigneAlpha(commencerBas);
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,"Les rangées ont été renommé alphabétiquement","Outils Salle",JOptionPane.INFORMATION_MESSAGE);
             }
@@ -108,7 +120,7 @@ public class OutilsSalleDialog extends JDialog {
         this.numerique.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                salle.renommerColonneNumerique(false);
+                salleVar.renommerColonneNumerique(false, commencerBas);
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,"Les colonnes ont été renommé","Outils Salle",JOptionPane.INFORMATION_MESSAGE);
             }
@@ -122,7 +134,7 @@ public class OutilsSalleDialog extends JDialog {
         this.numeriqueReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                salle.renommerColonneNumerique(true);
+                salleVar.renommerColonneNumerique(true, commencerBas);
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,"Les colonnes ont été renommé","Outils Salle",JOptionPane.INFORMATION_MESSAGE);
             }
@@ -139,8 +151,10 @@ public class OutilsSalleDialog extends JDialog {
     }
 
 
+    /**
+     * Affiche la boîte de dialogue
+     */
     public void afficherDialog(){
-        this.sendData =false;
         this.setVisible(true);
     }
 }

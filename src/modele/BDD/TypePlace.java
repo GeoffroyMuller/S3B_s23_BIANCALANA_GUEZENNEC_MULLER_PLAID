@@ -9,9 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class ParticulariteEtudiant.
+ * La Class ParticulariteEtudiant.
  */
 public class TypePlace {
 
@@ -19,21 +19,21 @@ public class TypePlace {
 	public static Color couleurPlaceInutilisable = new Color(0xB11000);
 	public static Color couleurAllee = new Color(0xA99F00);
 
-	/** The id type place. */
+	/**le id type place. */
 	private int idTypePlace;
 	
-	/** The nom. */
+	/**le nom. */
 	private String nom;
 	
-	/** The disponnible. */
+	/**le disponnible. */
 	private int disponnible;
 	
 	
 	/**
-	 * Instantiates a new type place.
+	 * Instantiates un nouveau type place.
 	 *
-	 * @param nom the nom
-	 * @param disponnible the disponnible
+	 * @param nomle nom
+	 * @param disponniblele disponnible
 	 */
 	public TypePlace(String nom, int disponnible) {
 		this.disponnible=disponnible;
@@ -42,11 +42,11 @@ public class TypePlace {
 	}
 	
 	/**
-	 * Instantiates a new type place.
+	 * Instantiates un nouveau type place.
 	 *
-	 * @param nom the nom
-	 * @param idTypePlace the id type place
-	 * @param disponnible the disponnible
+	 * @param nomle nom
+	 * @param idTypePlacele id type place
+	 * @param disponniblele disponnible
 	 */
 	public TypePlace(String nom, int idTypePlace, int disponnible) {
 		this.disponnible=disponnible;
@@ -55,7 +55,7 @@ public class TypePlace {
 	}
 
 	/**
-	 * Creates the table.
+	 * Create la table.
 	 */
 	public static void createTable(){
 		try {
@@ -96,9 +96,9 @@ public class TypePlace {
 	/**
 	 * Find by id.
 	 *
-	 * @param id the id
-	 * @return the salle
-	 * @throws SQLException the SQL exception
+	 * @param idle id
+	 * @returnle salle
+	 * @throws SQLExceptionle SQL exception
 	 */
 	public static TypePlace findById(int id) {
 		TypePlace res = null;
@@ -142,9 +142,9 @@ public class TypePlace {
 	/**
 	 * Find by nom.
 	 *
-	 * @param nom the nom
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @param nomle nom
+	 * @returnle array list
+	 * @throws SQLExceptionle SQL exception
 	 */
 	public static TypePlace findByNom(String nom) throws SQLException {
 		Connection connect=DBConnection.getConnection();
@@ -165,10 +165,10 @@ public class TypePlace {
 	}
 	
 	/**
-	 * List salle.
+	 * rend la liste des types place.
 	 *
-	 * @return the array list
-	 * @throws SQLException the SQL exception
+	 * @returnle array list
+	 * @throws SQLExceptionle SQL exception
 	 */
 	public static ArrayList<TypePlace> listTypePlace() throws SQLException {
 		Connection connect=DBConnection.getConnection();

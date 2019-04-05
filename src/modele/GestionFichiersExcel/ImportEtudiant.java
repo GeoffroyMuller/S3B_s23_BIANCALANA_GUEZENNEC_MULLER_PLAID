@@ -10,8 +10,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import barre_chargement.VueChargement;
 
+import javax.swing.*;
 import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,7 +29,6 @@ public class ImportEtudiant extends Observable {
     private Categorie categorie;
     private String cheminFichier;
     private String nomDeLaFeuille;
-    private VueChargement vc;
 
 
     public ImportEtudiant(String cheminFichier, String nomDeLaFeuille, Categorie categorie){
@@ -42,7 +41,6 @@ public class ImportEtudiant extends Observable {
 
     public void importerEtudiant(){
         try {
-        	 vc = new VueChargement();
             //Importation du fichier excel
             FileInputStream fichier = new FileInputStream(cheminFichier);
             Workbook workbook = WorkbookFactory.create(fichier);
@@ -96,6 +94,11 @@ public class ImportEtudiant extends Observable {
         int indexPrenom = this.trouverIndex("prenom");
         int indexGroupe = this.trouverIndex("grp");
         int indexHandicap = indexGroupe+1;
+        int indexHandicapNonCompte = 4;
+        int indexTiersTemps = 5;
+        int indexTiersTempsNonCompte = 6;
+
+
         try{
             Etudiant etudiant = new Etudiant(ligne.getCell(indexNom).getStringCellValue().toUpperCase(),
                     ligne.getCell(indexPrenom).getStringCellValue().toLowerCase());
@@ -109,7 +112,6 @@ public class ImportEtudiant extends Observable {
             if(indexOfGroupe != -1){
                 int idGroupe =  this.groupeTrouveDansLeDernierFichier.get(indexOfGroupe).getIdGroupe();
                 int idEtudiant = etudiant.getIdEtu();
-                System.out.println("Ajout etudiant a un groupe");
                 EtudiantGroupe.ajouterEtudiantAUnGroupe(idEtudiant,idGroupe);
             }else{
                 Groupe gr = new Groupe(nomDuGroupe);
@@ -123,16 +125,44 @@ public class ImportEtudiant extends Observable {
                 this.groupeTrouveDansLeDernierFichier.add(gr);
             }
 
-            if(ligne.getCell(indexHandicap).getStringCellValue().toLowerCase().contains("x")){
+             if((null != ligne.getCell(indexHandicap)) && ligne.getCell(indexHandicap).getStringCellValue().toLowerCase().contains("x")){
+                System.out.println("HANDICAP");
                 ArrayList<Particularite> particularites = new ArrayList<Particularite>();
                 Particularite particularite = Particularite.findByNom("Situation de handicap (Prise en compte)");
                 particularites.add(particularite);
                 etudiant.ajouterParticularite(particularites);
             }
+
+
+         if((null != ligne.getCell(indexHandicapNonCompte)) && ligne.getCell(indexHandicapNonCompte).getStringCellValue().toLowerCase().contains("x")){
+
+                ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+                Particularite particularite = Particularite.findByNom("Situation de handicap (Non pris en compte)");
+                System.out.println("Handicap pas compte");
+
+                particularites.add(particularite);
+                etudiant.ajouterParticularite(particularites);
+            }
+
+            if((null != ligne.getCell(indexTiersTemps)) && ligne.getCell(indexTiersTemps).getStringCellValue().toLowerCase().contains("x")){
+                ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+                Particularite particularite = Particularite.findByNom("Tiers-Temps (Prendre en compte)");
+                System.out.println("Tiers temp");
+
+                particularites.add(particularite);
+                etudiant.ajouterParticularite(particularites);
+            }
+
+
+            if((null != ligne.getCell(indexTiersTempsNonCompte)) && ligne.getCell(indexTiersTempsNonCompte).getStringCellValue().toLowerCase().contains("x")){
+                ArrayList<Particularite> particularites = new ArrayList<Particularite>();
+                Particularite particularite = Particularite.findByNom("Tiers-Temps (Non pris en compte)");
+                System.out.println("Tiers temps pas compte");
+                particularites.add(particularite);
+                etudiant.ajouterParticularite(particularites);
+            }
         }catch(NullPointerException e){
-            /*
-            Fenetre fichier non conforme
-             */
+            e.printStackTrace();
         }
     }
 
@@ -173,17 +203,12 @@ public class ImportEtudiant extends Observable {
             indexColonne = tab.indexOf(label);
         }
         if(indexColonne == -1){
-            //Throw fenetre
+          JOptionPane jop = new JOptionPane();
+          jop.showMessageDialog(null,"Erreur, veuillez vérifier que le fichier Excel est conforme.","Erreur",JOptionPane.ERROR_MESSAGE);
         }
         return indexColonne;
     }
 
-    public boolean verifierConformite(){
-        /**
-         * To do
-         */
-        return true;
-    }
 
     public String[] getNomDesColonnes() {
         return nomDesColonnes;

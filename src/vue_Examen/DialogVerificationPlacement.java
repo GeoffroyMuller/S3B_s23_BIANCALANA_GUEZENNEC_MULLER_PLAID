@@ -1,6 +1,7 @@
 package vue_Examen;
 
 import controleur.ControleurModuleSalle.ControleurCaseSalle;
+import modele.BDD.Etudiant;
 import modele.BDD.Place;
 import modele.BDD.Salle;
 import modele.CritereRechercheEtudiant;
@@ -37,13 +38,24 @@ public class DialogVerificationPlacement extends JDialog {
     private ArrayList<JScrollPane> contenantSalle;
 
 
+    private ArrayList<ControleurCaseSalle> etudiantsSelectionne;
+    private JButton reinitialiseSelection;
+    private JButton swapPlace;
+    private JPanel contenant;
+    private JPanel vueFiche;
+    private ArrayList<JPanel> contenantsTableaux;
+    private JPanel contenantJTable;
+
+
 
     public DialogVerificationPlacement(JFrame parent, String title, boolean modal,Examen examen){
         super(parent,title,modal);
         this.proprietesSalle = new HashMap<Salle,ProprietesCaseSalle>();
         this.indexVersSalle = new HashMap<String, Integer>();
+        this.contenantsTableaux = new ArrayList<JPanel>();
         this.modele = examen;
-        this.setSize(new Dimension(1300,800));
+        this.etudiantsSelectionne = new ArrayList<ControleurCaseSalle>();
+        this.setSize(new Dimension(1500,800));
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -55,7 +67,7 @@ public class DialogVerificationPlacement extends JDialog {
 
         //PARTIE PREVISUALISATION SOUS FORME DE FICHE
 
-        JPanel contenant = new JPanel();
+        contenant = new JPanel();
         contenant.setLayout(new BorderLayout());
 
         this.labelTitre = new JLabel("Prévisualisation du placement");
@@ -73,19 +85,20 @@ public class DialogVerificationPlacement extends JDialog {
         this.placement = this.modele.genererPrevisualisationFiche();
 
         //Disposition des éléments
-        JPanel contenantJTable = new JPanel();
+        contenantJTable = new JPanel();
         contenantJTable.setLayout(new GridLayout(this.modele.getSalles().size(),1));
 
-        int index = this.labelNomSalles.size()-1;
+        //int index = this.labelNomSalles.size()-1;
+        int index = 0;
         System.out.println("INDEX : "+index);
         for(JTable tableau : this.placement) {
-            System.out.println("tourne");
             JPanel tableauAvecJLabel = new JPanel();
             tableauAvecJLabel.setLayout(new BorderLayout());
             tableauAvecJLabel.add(this.labelNomSalles.get(index),BorderLayout.NORTH);
             tableauAvecJLabel.add(tableau,BorderLayout.CENTER);
+            this.contenantsTableaux.add(tableauAvecJLabel);
             contenantJTable.add(tableauAvecJLabel);
-            index--;
+            index++;
         }
 
         this.scrollTableau = new JScrollPane(contenantJTable);
@@ -100,7 +113,9 @@ public class DialogVerificationPlacement extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 ExportEtudiant exportEtu = new ExportEtudiant();
                 exportEtu.exporterPlacement(modele.getPlacement(),modele);
+                modele.reinitialiseExamen();
                 setVisible(false);
+                VueExamen.rechargerAll();
             }
         });
 
@@ -117,7 +132,7 @@ public class DialogVerificationPlacement extends JDialog {
         boutons.add(this.annuler);
 
 
-        JPanel vueFiche = new JPanel();
+        vueFiche = new JPanel();
         vueFiche.setLayout(new BorderLayout());
         vueFiche.add(contenant,BorderLayout.CENTER);
 
@@ -195,20 +210,64 @@ public class DialogVerificationPlacement extends JDialog {
         this.labelPlace = new JLabel("Place : ");
         this.labelGroupe = new JLabel("Groupe : ");
 
+        this.reinitialiseSelection = new JButton("Reinitialiser la sélection");
+        this.swapPlace = new JButton("Echanger de place");
+
         JPanel panneauDroit = new JPanel();
+
+        JPanel contenantInfo = new JPanel();
+        contenantInfo.setLayout(new GridBagLayout());
+
         panneauDroit.setLayout(new GridBagLayout());
-        panneauDroit.setPreferredSize(new Dimension(150,600));
+        panneauDroit.setPreferredSize(new Dimension(200,600));
         gbc = new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=0;
         gbc.insets = new Insets(0,0,10,0);
-        panneauDroit.add(this.labelNom,gbc);
+        contenantInfo.add(this.labelNom,gbc);
         gbc.gridy=1;
-        panneauDroit.add(this.labelPrenom,gbc);
+        contenantInfo.add(this.labelPrenom,gbc);
         gbc.gridy=2;
-        panneauDroit.add(this.labelPlace,gbc);
+        contenantInfo.add(this.labelPlace,gbc);
         gbc.gridy=3;
-        panneauDroit.add(this.labelGroupe,gbc);
+        contenantInfo.add(this.labelGroupe,gbc);
+
+        gbc = new GridBagConstraints();
+        gbc.gridx=0;
+        gbc.gridy=0;
+        panneauDroit.add(contenantInfo,gbc);
+
+        gbc.gridy=1;
+        panneauDroit.add(this.reinitialiseSelection,gbc);
+        gbc.gridy=2;
+        panneauDroit.add(this.swapPlace,gbc);
+
+        this.reinitialiseSelection.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(ControleurCaseSalle etu : etudiantsSelectionne){
+                    etu.setCouleurCase(etu.getCouleurCaseBase());
+                }
+                etudiantsSelectionne = new ArrayList<ControleurCaseSalle>();
+            }
+        });
+
+        this.swapPlace.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(etudiantsSelectionne.size() != 2){
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null,"Deux étudiants doivent être sélectionnés pour pouvoir échanger leurs place.","Erreur",JOptionPane.ERROR_MESSAGE);
+                }else{
+                    Etudiant etudiant1 = etudiantsSelectionne.get(0).getEtudiant();
+                    Etudiant etudiant2 = etudiantsSelectionne.get(1).getEtudiant();
+                    modele.echangerPlaceEtudiants(etudiant1,etudiant2);
+                    JOptionPane jop = new JOptionPane();
+                    jop.showMessageDialog(null,"Les étudiants : "+etudiant1.getNom()+" "+etudiant1.getPrenom()+" et "+etudiant2.getNom()+" "+etudiant2.getPrenom()+" ont bien échangé leur place !","Succés",JOptionPane.INFORMATION_MESSAGE);
+                    updateTableau();
+                }
+            }
+        });
 
         //Ajouts des vues salles dans les onglets
         this.salles = new JTabbedPane();
@@ -291,6 +350,13 @@ public class DialogVerificationPlacement extends JDialog {
 
     }
 
+    public void updateTableau(){
+       ArrayList<JTable> nouveauxModeles = this.modele.genererPrevisualisationFiche();
+       for(int i = 0; i < nouveauxModeles.size();i++){
+           this.placement.get(i).setModel(nouveauxModeles.get(i).getModel());
+       }
+    }
+
     private void retablirVisualisation(){
             CritereRechercheEtudiant cre = new CritereRechercheEtudiant(rechercherEtudiantNom.getText(),rechercherEtudiantPrenom.getText(),groupes.getItemAt(groupes.getSelectedIndex()));
             InformationsPlacementEtudiant informationsPlacement = modele.trouverPlaceEtudiant(cre);
@@ -301,11 +367,68 @@ public class DialogVerificationPlacement extends JDialog {
             }
     }
 
+    /**
+     * Permet la modification des informations de l'étudiant affiché
+     * @param prenom
+     * @param nom
+     * @param place
+     * @param groupe
+     */
     public void modifierInformationEtudiant(String prenom,String nom, Place place,String groupe){
         this.labelPrenom.setText(" Prénom : "+prenom);
         this.labelNom.setText(" Nom : "+nom);
         this.labelPlace.setText(" Place : "+place.getNom());
         this.labelGroupe.setText(" Groupe : "+groupe);
+    }
+
+    /**
+     * Permet de vérifier si la case à déja été sélectionne
+     * @param etu
+     * @return
+     */
+    public boolean verifierSiDejaSelectionne(ControleurCaseSalle etu){
+        boolean res = false;
+        for(ControleurCaseSalle etudiant : this.etudiantsSelectionne){
+            if(etu == etudiant){
+                res=true;
+                System.out.println("Déja selectionné");
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Permet d'ajouter une selection à la liste des selections
+     * @param etudiant
+     */
+    public void ajouterSelection(ControleurCaseSalle etudiant){
+        if(!(this.etudiantsSelectionne.size() == 2)){
+            this.etudiantsSelectionne.add(etudiant);
+
+        }
+    }
+
+    /**
+     * Retire une selection de la liste
+     * @param etudiant
+     */
+    public void retirerSelection(ControleurCaseSalle etudiant){
+        this.etudiantsSelectionne.remove(etudiant);
+    }
+
+
+    /**
+     * Permet de savoir si l'on peut encore selectionner des étudiants
+     * @return
+     */
+    public boolean verifierSiSelectionPossible(){
+        boolean res = true;
+        if(this.etudiantsSelectionne.size()==2){
+            res=false;
+            JOptionPane jop = new JOptionPane();
+            jop.showMessageDialog(null,"Deux étudiants ont déja été selectionné. Veuillez en déselectionner un manuellement (En cliquant dessus) \n ou en pressant le bouton \"Reinitiliser la selection\" !","Erreur",JOptionPane.ERROR_MESSAGE);
+        }
+    return res;
     }
 }
 
