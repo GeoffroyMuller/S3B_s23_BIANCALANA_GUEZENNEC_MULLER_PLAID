@@ -13,6 +13,7 @@ import javax.swing.JTable;
 
 import modele.Examen;
 import modele.BDD.Etudiant;
+import modele.BDD.Particularite;
 
 public class VueEtudiantParticipant extends JPanel{
 	
@@ -52,7 +53,18 @@ public class VueEtudiantParticipant extends JPanel{
 			data[compte][0] = etul.getNom();
 			data[compte][1] = etul.getPrenom();
 			data[compte][2] = etul.getGroupe();
-			data[compte][3] = "TEST";
+			data[compte][3] = "OUI";
+			
+			ArrayList<Particularite> particularites = etul.getParticularites();
+
+            for(Particularite particularite : particularites){
+                if(particularite.getNom().equals("Tiers-Temps (Non pris en compte)")){
+                	data[compte][3] = "NON";
+                }
+                if(particularite.getNom().equals("Situation de handicap (Non pris en compte)")){
+                	data[compte][3] = "NON";
+                }
+            }
 			compte++;
 		}
 		jt=new JTable(data,column);    
