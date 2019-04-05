@@ -53,6 +53,9 @@ public class OutilsSalleDialog extends JDialog {
         this.haut = new JRadioButton("Haut");
         this.bas = new JRadioButton("Bas");
         ButtonGroup bg = new ButtonGroup();
+
+        this.haut.setSelected(true);
+        commencerHaut=true;
         bg.add(this.haut);
         bg.add(this.bas);
 
@@ -117,7 +120,7 @@ public class OutilsSalleDialog extends JDialog {
         this.numerique.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                salleVar.renommerColonneNumerique(false);
+                salleVar.renommerColonneNumerique(false, commencerBas);
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,"Les colonnes ont été renommé","Outils Salle",JOptionPane.INFORMATION_MESSAGE);
             }
@@ -131,7 +134,7 @@ public class OutilsSalleDialog extends JDialog {
         this.numeriqueReset.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                salleVar.renommerColonneNumerique(true);
+                salleVar.renommerColonneNumerique(true, commencerBas);
                 JOptionPane jop = new JOptionPane();
                 jop.showMessageDialog(null,"Les colonnes ont été renommé","Outils Salle",JOptionPane.INFORMATION_MESSAGE);
             }
