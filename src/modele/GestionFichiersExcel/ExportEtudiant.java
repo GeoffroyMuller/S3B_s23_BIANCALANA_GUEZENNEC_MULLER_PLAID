@@ -204,7 +204,7 @@ Convention de nommage des feuilles Excel, si vous devez choisir un nom de feuill
                 nbLignePlace++;
                 nbLigneSignature++;
             }
-            nbLigneSignature = 4;
+            nbLigneSignature = 5;
             feuilleSalle.autoSizeColumn(7);
         }
 
