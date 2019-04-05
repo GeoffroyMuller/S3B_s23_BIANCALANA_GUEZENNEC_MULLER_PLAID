@@ -1,6 +1,7 @@
 package modele.BDD;
 
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -139,6 +140,17 @@ public class Place extends Observable {
 	 *
 	 */
 	public void setTypePlace(int idTypePlace) {
+		int ancienTypePlace = this.idTypePlace;
+		if(TypePlace.findById(ancienTypePlace).getNom().equals("allee")){
+			this.setNomRangee(this.getI()+"");
+			this.setNomColonne(this.getJ()+"");
+		}
+
+		if(TypePlace.findById(idTypePlace).getNom().equals("allee")){
+			this.setNomColonne("Allee");
+			this.setNomRangee("Allee");
+		}
+
 		this.idTypePlace = idTypePlace;
 		save();
 	}
@@ -255,8 +267,14 @@ public class Place extends Observable {
 		}
 		this.idPlace=idPlace;
 		this.idSalle=idSalle;
-		this.nomRangee = nomRangee;
-		this.nomColonne = nomColonne;
+
+		if(TypePlace.findById(idTypePlace).getNom().equals("allee")){
+			this.nomRangee = "Allee";
+			this.nomColonne = "Allee";
+		}else{
+			this.nomRangee = nomRangee;
+			this.nomColonne = nomColonne;
+		}
 	}
 
 

@@ -655,6 +655,7 @@ public class Salle extends Observable {
     	int nbPassage=1;
     	String nom="";
     	int index=0;
+    	boolean utilise = false;
     	if(bashaut){
     		index = this.nbCaseHauteur-1;
 		}
@@ -663,19 +664,31 @@ public class Salle extends Observable {
 				for(int x = 0; x < nbPassage;x++){
 					nom+=alpha[index];
 				}
-				this.getPlaces()[i][j].setNomRangee(nom);
-				this.getPlaces()[i][j].setNom(nom+""+this.getPlaces()[i][j].getNomColonne());
+				String typePlace = TypePlace.findById(this.getPlaces()[i][j].getIdTypePlace()).getNom();
+				if(typePlace.equals("allee")){
+					this.getPlaces()[i][j].setNomRangee("Allee");
+					this.getPlaces()[i][j].setNomColonne("Allee");
+					this.getPlaces()[i][j].setNom("Allee");
+				}else{
+					this.getPlaces()[i][j].setNomRangee(nom);
+					this.getPlaces()[i][j].setNom(nom+""+this.getPlaces()[i][j].getNomColonne());
+					utilise=true;
+				}
 				this.getPlaces()[i][j].save();
 				nom="";
 				if(alpha.length-1==i){
 					nbPassage++;
 				}
 			}
-			if(bashaut){
-				index--;
-			}else{
-				index++;
+			if(utilise){
+				if(bashaut){
+					index--;
+				}else{
+					index++;
+				}
+				utilise=false;
 			}
+
 
 		}
     	this.save();
@@ -687,17 +700,55 @@ public class Salle extends Observable {
 	 *
 	 * @param reset le reset
 	 */
-	public void renommerColonneNumerique(boolean reset){
+	public void renommerColonneNumerique(boolean reset, boolean bas){
     	int numeric = 1;
-		for(int i = 0; i < this.getPlaces().length;i++){
-			for(int j = 0; j < this.getPlaces().length;j++){
-				this.getPlaces()[i][j].setNomColonne(numeric+"");
-				this.getPlaces()[i][j].setNom(this.getPlaces()[i][j].getNomRangee()+""+numeric);
-				this.getPlaces()[i][j].save();
-				numeric++;
+    	boolean utilise=false;
+
+    	if(bas){
+			int indexI = this.getPlaces().length-1;
+
+			for(int i = indexI; i >= 0;i--){
+				for(int j = 0; j < this.getPlaces()[i].length;j++){
+					String typePlace = TypePlace.findById(this.getPlaces()[i][j].getIdTypePlace()).getNom();
+
+					if(typePlace.equals("allee")){
+						this.getPlaces()[i][j].setNomColonne("Allee");
+						this.getPlaces()[i][j].setNomRangee("Allee");
+						this.getPlaces()[i][j].setNom("Allee");
+					}else{
+						this.getPlaces()[i][j].setNomColonne(numeric+"");
+						this.getPlaces()[i][j].setNom(this.getPlaces()[i][j].getNomRangee()+""+numeric);
+						numeric++;
+					}
+					this.getPlaces()[i][j].save();
+				}
+				if(reset){ numeric=1;}
 			}
-			if(reset){ numeric=1;}
+
+
+		}else{
+			for(int i = 0; i < this.getPlaces().length;i++){
+				for(int j = 0; j < this.getPlaces()[i].length;j++){
+					String typePlace = TypePlace.findById(this.getPlaces()[i][j].getIdTypePlace()).getNom();
+
+
+					if(typePlace.equals("allee")){
+						this.getPlaces()[i][j].setNomColonne("Allee");
+						this.getPlaces()[i][j].setNomRangee("Allee");
+						this.getPlaces()[i][j].setNom("Allee");
+					}else{
+						this.getPlaces()[i][j].setNomColonne(numeric+"");
+						this.getPlaces()[i][j].setNom(this.getPlaces()[i][j].getNomRangee()+""+numeric);
+						numeric++;
+					}
+					this.getPlaces()[i][j].save();
+				}
+				if(reset){ numeric=1;}
+			}
 		}
+
+
+
 		this.save();
 		this.getTableauPlaces(this.idSalle);
 	}
