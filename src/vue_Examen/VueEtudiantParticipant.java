@@ -17,6 +17,10 @@ import modele.BDD.Particularite;
 
 public class VueEtudiantParticipant extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable jt;
 	private JScrollPane sp;
 	private Examen examen;
